@@ -1,6 +1,6 @@
 ﻿# Paleoseismic Clustering — Документация
 
-> **Глобальные сейсмические серии:** статистический анализ 4267 землетрясений M≥6.5 (4418 записей CSV; 1900–2026, исторический хвост до 1900 г.)
+> **Глобальные сейсмические серии:** статистический анализ 4267 землетрясений M≥6.5 (4418 записей CSV; основное окно 1973–2026)
 
 **Демо:** [GitHub Pages](https://marshalkin-ux.github.io/paleoseismic-clustering/) · **Статья:** [RU](../paper/article_ru.pdf) · [EN](../paper/article_en.pdf) · **Автор:** [Ярослав Маршалкин](mailto:marshalkin@gmail.com) · Telegram [@MRSHLKN](https://t.me/MRSHLKN)
 

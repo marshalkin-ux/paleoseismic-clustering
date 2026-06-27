@@ -468,12 +468,12 @@ for T in [1day, 1week, 1month, 1year, 10years]:
     if (len(window) >= 4
         and unique_regions(window) >= 3
         and eta_connectivity(window) > threshold):
-        → кандидат на глобальную серию
+        → кандидат детектора (exploratory)
 
 for candidate in candidates:
     p_value = monte_carlo_test(candidate, N=10_000)
     if p_value < 0.01:
-        → ✓ значимая глобальная серия</code></pre>
+        → кандидат детектора (не «открытая серия»)</code></pre>
 
   <div class="fragment box-accent">
     <p><strong>Ключевой параметр:</strong> порог η разделяет «афтершоки» от «независимых» событий по бимодальному распределению (Zaliapin &amp; Ben-Zion, 2013).</p>
