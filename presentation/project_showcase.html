@@ -1386,7 +1386,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов глобальных серий (27 modern p=0.0001 (1/10,001 perm.)). Экстраполяция на 1900–1972; данные до 1900&nbsp;г. не значимы (p=0.46).
+      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern, p=0.0001 perm.). Экстраполяция на ранний инструментальный период 1900–1972.
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -1694,7 +1694,7 @@
         <div class="timeline-title"><span class="timeline-emoji">✅</span><a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="wiki-link" target="_blank" rel="noopener">FDR</a>-коррекция на множественные сравнения</div>
         <p class="timeline-desc">
           При поиске закономерностей в большом числе пар легко получить «ложные срабатывания».
-          Метод <span class="term-tip">FDR Benjamini–Hochberg<span class="term-tip-box">Коррекция на множественное тестирование: N=47 гипотез (объединённые серии), не 142 окна-кандидата. Результат: 45/47 значимы при q=0.05.<a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> — статистическая «коррекция» на количество проверяемых гипотез.
+          Метод <span class="term-tip">FDR Benjamini–Hochberg<span class="term-tip-box">Post-hoc демонстрация BH на N=47 merged-series p-values (45/47 при q=0.05). Не корректирует 142 окна-кандидата — Methods/sensitivity only, не discovery claim.<a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> — post-hoc чувствительность в Methods, не основной вывод.
           Скользящие окна (<strong>1, 2 и 5 лет</strong>, шаг 1 год) дают <strong>142 кандидата</strong> до merge перекрывающихся групп; после критериев серии (N≥4, M≥6.5, ≥3 зон FE) — <strong>47 гипотез</strong> (одна на объединённую серию).
           Перестановочный тест — <strong>глобальный</strong> (n=10 000, не per-window). FDR BH на N=47 series p-values, не на 142×регионы.
           После коррекции BH: <strong>45 из 47</strong> серий значимы (2 исторических кандидата не проходят порог).
@@ -1784,7 +1784,7 @@
           </table>
         </div>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">p<sub>ETAS</sub>=1,0</strong> (калибр.) &nbsp;|&nbsp; FPR=1000/1000 — детектор либерален; σ=0,0 потому что калибр. ETAS (~2001 фоновых соб./кат.) даёт детерминированные 27 ложных серий; permutation p=0.0001 сохраняется.
+          <strong style="color:var(--accent);">p<sub>ETAS</sub>=1,0</strong> (калибр.) &nbsp;|&nbsp; FPR=1000/1000 — см. §5.6 «Либеральность детектора»; σ=0,0 потому что калибр. ETAS (~2001 фоновых соб./кат.) даёт детерминированные 27 ложных серий; permutation p=0.0001 сохраняется.
         </div>
       </div>
 
@@ -1802,7 +1802,7 @@
             Процедура BH: p(i) ≤ i/M × q — мощнее Бонферрони при большом M
           </li>
           <li style="padding:5px 0; color:var(--purple); font-weight:600;">
-            ✅ 45 из 47 серий значимы (q от 9.7×10⁻⁵ до 0.047)
+            Post-hoc BH на N=47 (45/47 при q=0.05) — только Methods, не discovery claim
           </li>
         </ul>
         <div style="margin-top:12px; padding:10px; background:rgba(188,140,255,0.08); border-radius:8px; border:1px solid rgba(188,140,255,0.2); font-size:0.85rem; color:var(--text-muted);">
@@ -1941,7 +1941,8 @@
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
             <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
             <li><strong>ETAS (калибр.):</strong> mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong>, N<sub>obs</sub>=27, FPR 1000/1000 — <strong>нет избыточной глобальной структуры</strong></li>
-            <li><strong>Multiseed ETAS</strong> (seeds 42–51, n=1000/seed, калибр.): mean=27.0, σ=0.0, FPR=1.0 по всем seed (<code>results/etas_multiseed.json</code>)</li>
+            <li><strong>Либеральность детектора (§5.6):</strong> FPR=1000/1000; mean=27 на ETAS-null; 142 скользящих окна × merge — exploratory search, не «открытые серии»</li>
+            <li><strong>Multiseed ETAS</strong> (seeds 42–51, n=1000/seed): mean=27.0, σ=0.0, FPR=1.0 (<code>results/etas_multiseed.json</code>)</li>
             <li>Эвристика с тект. подсказкой: <strong>98%</strong> GC-фолбэк — отрицательный тест гипотезы</li>
           </ul>
           <div class="findings-kpi">
@@ -1956,7 +1957,7 @@
         <div class="findings-block findings-block--honest">
           <h4>Единый вывод (null/falsification)</h4>
           <p>
-            Применение калиброванной ETAS-модели показывает, что число мультирегиональных кластеров, обнаруживаемых нашим либеральным детектором,
+            Применение калиброванной ETAS-модели показывает, что число мультирегиональных кластеров, обнаруживаемых детектором (§5.6),
             <strong>не превышает</strong> ожидаемого от локальной афтершоковой активности. Таким образом,
             <strong>гипотеза о существовании глобальных сейсмических серий не подтверждается</strong>.
             Перестановочный тест отвергает лишь пуассоновскую нулевую гипотезу — тривиально для сейсмических каталогов.
@@ -2652,7 +2653,7 @@
         <div class="history-dot">12</div>
         <div class="history-date">27 июня 2026</div>
         <div class="history-title">FDR-коррекция множественных сравнений</div>
-        <div class="history-desc">Benjamini–Hochberg при q &lt; 0.05: <strong>45/47</strong> серий остаются значимыми (<code>scripts/apply_fdr_correction.py</code>). Две серии (исторические кандидаты) не проходят порог — согласуется с низким quality_score до 1900 г.</div>
+        <div class="history-desc">Benjamini–Hochberg post-hoc на N=47 merged series (<code>scripts/apply_fdr_correction.py</code>): 45/47 при q &lt; 0.05 — <strong>Methods/sensitivity only</strong>, не discovery claim.</div>
       </div>
 
       <div class="history-item history-item--viz">
@@ -2738,7 +2739,7 @@
         <h3>✅ Статистика — выполнено</h3>
         <ul class="plan-list">
           <li><strong>ETAS-валидация:</strong> 1000 каталогов → FPR 1000/1000; калибр. mean 27,0, p<sub>ETAS</sub>=1,0; лит. μ=0,008 → mean≈15,4, p≤0,001</li>
-          <li><strong>FDR BH (q=0.05):</strong> 45/47 серий значимы, 0 удалено коррекцией</li>
+          <li><strong>Множественные сравнения:</strong> BH post-hoc N=47 — Methods only (не discovery)</li>
           <li><strong>Декластеризация:</strong> GK 2017/2041 (24 афтершока) · ZBZ 2040/2041 (1 зависимое) — проверка чувствительности</li>
           <li><strong>Monte Carlo:</strong> n = 10 000, p = 0.0001 (1/10,001), z = −6.17</li>
           <li>Данные и артефакты: <a href="../docs/data_availability.md" style="color:var(--accent)">docs/data_availability.md</a></li>

@@ -24,7 +24,6 @@
 | ETAS-null (калибр.) | n = 1000 → **mean 27.0, p_ETAS=1.0**, FPR 1000/1000 |
 | Multiseed ETAS | seeds **42–51** (10 seeds), n=1000/seed, **mean=27.0, σ=0.0**, FPR=1.0 (`results/etas_multiseed.json`) |
 | Декластеризация | **GK primary** (24 афтерш.); ZBZ sensitivity only (1 завис.) — не равноправные методы |
-| FDR (q = 0.05) | 45/47 on **N=47 post-hoc** — Methods/sensitivity only |
 | Эвристика с тект. подсказкой | **98%** GC-фолбэк 1.5× — **failed hypothesis**, not innovation |
 
 ---
@@ -35,7 +34,7 @@
 
 **Вывод:** применение калиброванной ETAS показывает, что число мультирегиональных кластеров детектора **не превышает** ожидаемого от локальной афтершоковой активности; гипотеза о глобальных сейсмических сериях **не подтверждается**. Permutation отвергает лишь пуассоновский null — тривиально для сейсмических каталогов.
 
-**Методы (без marketing):** η Baiesi–Paczuski; эвристическая метрика с тектонической подсказкой Bird 2003 (98% ≈ scaled Euclidean); permutation test; ETAS validation; FDR sensitivity (Methods).
+**Методы (без marketing):** η Baiesi–Paczuski; эвристическая метрика с тектонической подсказкой Bird 2003 (98% ≈ scaled Euclidean); permutation test; ETAS validation; BH post-hoc (Methods §3.5 only).
 
 ---
 

@@ -41,8 +41,7 @@ $p = (k+1)/(n+1)$, $k=0$.}, $z = -6.17$) --- expected with aftershocks/local
 clustering; \textbf{not} a test of teleseismic/multi-regional series and
 \textbf{not} evidence for remote triggering.
 The detector yields \textbf{47 algorithmic candidates} (142 windows before merge;
-27 modern); Benjamini--Hochberg FDR (45/47 at $q=0.05$) \textbf{does not}
-correct the full search space.
+27 modern).
 Tectonic-path distance is \textbf{not validated} (98\% 1.5$\times$ GC fallback,
 $\sim$2\% Dijkstra). $\Delta$CFS/dynamic stress --- future work only;
 ``series'' are algorithmic constructs, not proven triggering chains.
@@ -54,8 +53,8 @@ $\sim$2\% Dijkstra). $\Delta$CFS/dynamic stress --- future work only;
         beyond local ETAS-like clustering (null/falsification result).
   \item Permutation test $p = 0.0001$ (1/10{,}001) rejects \textbf{temporal Poisson}
         null only --- \textbf{not} proof of multi-regional global series.
-  \item 47 detector candidates (45/47 FDR post-hoc) are indistinguishable from
-        ETAS null plus liberal search artifacts; tectonic distance failed as a
+  \item 47 detector candidates are indistinguishable from
+        ETAS null plus search-space artifacts (see \S\ref{sec:detector-liberal}); tectonic distance failed as a
         global metric (98\% GC fallback).
 \end{keypoints}
 
@@ -939,8 +938,8 @@ The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
         (mean~$= 27.0$, $p_\mathrm{ETAS} = 1.0$, FPR~$= 1000/1000$) ---
         \textbf{no excess global structure} beyond ETAS-like local clustering;
         the multi-regional global-series hypothesis is \textbf{falsified}.
-  \item 47 detector candidates (45/47 FDR post-hoc) are indistinguishable
-        from ETAS null plus liberal search artifacts; tectonic distance is
+  \item 47 detector candidates are indistinguishable
+        from ETAS null plus search-space artifacts (see \S\ref{sec:detector-liberal}); tectonic distance is
         not validated (98\% GC fallback); $\Delta$CFS/dynamic stress ---
         future work only.
 \end{enumerate}

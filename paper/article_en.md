@@ -1,6 +1,6 @@
 # Global Seismic Series: Statistical Analysis of Spatiotemporal Clustering in M≥6.5 Earthquake Catalogs, 1973–2026 CE
 
-*…with extrapolation to the early instrumental period (1900–1972); pre-1900 historical data are not statistically significant (p = 0.46). Merged NOAA+USGS catalog; 4,267 M≥6.5 events (4,418 CSV rows).*
+*…with extrapolation to the early instrumental period (1900–1972). Merged NOAA+USGS catalog; 4,267 M≥6.5 events (4,418 CSV rows).*
 
 **DOI:** pending registration
 
@@ -38,7 +38,7 @@ The [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) mode
 
 **Objective.** Test (and if warranted, **falsify**) the hypothesis that physically meaningful multi-regional “global series” exist, with **primary inference on the modern window (1973–2026)**, using complementary null tests (permutation vs ETAS) and explicit detector liberalness assessment.
 
-**Scope.** We combine nearest-neighbor clustering with a heuristic metric with tectonic hint, ETAS null-model validation, and FDR sensitivity analysis (§3.4); this extends prior global rate tests (Michael 2011; Shearer & Stark 2012) with a complementary η-linkage statistic but does not supersede their conclusions.
+**Scope.** We combine nearest-neighbor clustering with a heuristic metric with tectonic hint and ETAS null-model validation; this extends prior global rate tests (Michael 2011; Shearer & Stark 2012) with a complementary η-linkage statistic but does not supersede their conclusions.
 
 ---
 
@@ -75,6 +75,8 @@ Duplicate records were merged using ±30 days and ≤50 km spatial tolerance; so
 | Historical | 47 | pre-1900 (fragmentary paleoseismic records) |
 | Early instrumental | 2,179 | 1900–1972 |
 | Modern | 2,041 | 1973–2026 |
+
+**47 pre-1900 NOAA records** are retained for provenance; epoch test yields p = 0.46 — **not used for significance claims** (see §4.1).
 
 ### 2.2 Catalog completeness
 
@@ -176,21 +178,9 @@ GK applies conservative local window rules; ZBZ classifies only events with exce
 
 ### 3.5 Statistical validation
 
-#### Multiple comparisons (FDR decision tree)
+#### Multiple comparisons
 
-The pipeline from raw clustering to FDR-controlled inference follows these steps (see `results/analysis_summary.json`, `results/fdr_correction_results.csv`):
-
-1. **η NN forest** on Gardner–Knopoff mainshocks (full 4,267-event catalog).
-2. **Sliding temporal windows** — three window sizes (**1, 2, and 5 yr**), advanced in **1-yr steps** — scan for multi-event groups linked by η thresholds.
-3. **Window-level candidates** — each window passing N ≥ 4, M ≥ 6.5, ≥ 3 distinct [Flinn–Engdahl](https://en.wikipedia.org/wiki/Flinn%E2%80%93Engdahl_regions) regions counts as one candidate → **142 raw candidates** (`total_clusters_found` in `analysis_summary.json`).
-4. **Merge overlapping groups** — windows sharing ≥1 event are union-merged (greedy overlap merge in `global_series()`); duplicate event sets collapse to a single episode.
-5. **Final series list** — **47 merged global series** (one hypothesis per episode), each assigned a series-level p-value from epoch-appropriate permutation tests.
-6. **Global permutation test** — Monte Carlo (n = 10,000) shuffles event times while fixing coordinates; tests catalog-wide mean log₁₀(η_NN) for the modern window. **Not** a separate test per sliding window.
-7. **FDR** — [Benjamini–Hochberg](https://en.wikipedia.org/wiki/False_discovery_rate) at q = 0.05 applied to **N = 47 series-level p-values** (one test per merged series), **not** to 142 window candidates or individual η pairs. Result: **45/47** significant.
-
-**Critical limitation.** Sliding windows **explore** the search space (142 raw candidates × three window sizes × 1-yr step); 47 merged episodes are then treated as “N = 47 hypotheses” for FDR. **FDR on N = 47 does not correct the full search space** — 45/47 **does not** prove physical reality; this reports **detector sensitivity**, not discovery. The 142 window candidates are not independently corrected.
-
-**FDR procedure (summary).** Sliding windows (1, 2, and 5 yr; 1-yr step) over the η NN forest yield **142 cluster candidates** before merging overlapping groups. After merge and series criteria (N ≥ 4, M ≥ 6.5, ≥ 3 Flinn–Engdahl regions), **47 global series** remain. [Benjamini–Hochberg FDR](https://en.wikipedia.org/wiki/False_discovery_rate) (q = 0.05) is applied to **N = 47** series-level p-values (one hypothesis per merged series), not to individual window tests or NN pairs. Result: **45/47** significant. See `results/fdr_correction_results.csv`.
+Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wiki/False_discovery_rate) procedure on **N = 47** merged-series p-values (after sliding windows 1/2/5 yr, merge, and series criteria N ≥ 4, M ≥ 6.5, ≥ 3 FE regions; see `results/fdr_correction_results.csv`): **45/47** at q = 0.05. This **does not** correct the 142 window candidates × search parameters and is **not** a discovery claim — detector sensitivity only (see §5.6).
 
 **ETAS null model.** We generate synthetic catalogs with **catalog-calibrated** parameters (`results/etas_calibration.json`: μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36; GK+Omori MLE on 2,041 events). On the real modern catalog the algorithm finds **N_obs = 27** series.
 
@@ -211,18 +201,17 @@ The pipeline from raw clustering to FDR-controlled inference follows these steps
 | 50 | 27.0 | 0.0 | 1.0 | 1.0 |
 | 51 | 27.0 | 0.0 | 1.0 | 1.0 |
 
-**Overall:** mean = **27.0**, σ = **0.0** across all seeds — perfect stability because calibrated ETAS generates catalogs with ~2,001 background events and local-only triggering (>500 km cutoff), matching the event rate and clustering scale of the real catalog; the liberal detector then yields **exactly 27** spurious multi-regional series on every realization (deterministic count given similar catalog size, not RNG noise).
+**Overall:** mean = **27.0**, σ = **0.0** across all seeds — perfect stability because calibrated ETAS generates catalogs with ~2,001 background events and local-only triggering (>500 km cutoff), matching the event rate and clustering scale of the real catalog; the detector then yields **exactly 27** spurious multi-regional series on every realization (see §5.6).
 
-**Literature-default comparison only** (Helmstetter & Sornette 2003: μ=0.008, K=0.08; earlier exploratory runs with n=100 catalogs/seed): mean≈**15.5**, max=24, pETAS ≤ 0.001 — sensitive to parameter choice, **not** the primary null model. The detector is liberal (FPR = 1000/1000 under calibrated parameters); see §5.5.
+**Literature-default comparison only** (Helmstetter & Sornette 2003: μ=0.008, K=0.08; earlier exploratory runs with n=100 catalogs/seed): mean≈**15.5**, max=24, pETAS ≤ 0.001 — sensitive to parameter choice, **not** the primary null model.
 
 | Test | Parameters | Result |
 |------|------------|--------|
 | Permutation ([Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method)) | n = 10,000 | p = 0.0001 (1/10,001)[^mc-p], z = −6.17 (modern) |
 | ETAS null model | μ≈0.103, K≈0.495; 1000 cat.; N_obs=27 | FPR = 1000/1000; mean 27.0; pETAS = 1.0 |
-| FDR (Benjamini–Hochberg) | q = 0.05; N = 47 series | 45/47 significant |
 | Declustering (primary) | GK | 2,017/2,041 (24 aftersh.) |
 
-**Verified from code.** Series counts and epoch p-values: `results/analysis_full_historical.json`. Monte Carlo (p, z): `results/montecarlo_full.json`. ETAS (FPR, p_ETAS): `results/etas_validation.json`. FDR (45/47): `results/fdr_correction_results.csv`. GK/ZBZ counts: `scripts/run_declustering_comparison.py`. Tectonic diagnostic (median Δlog₁₀η = +0.28): `scripts/generate_grl_figures.py::fig_tectonic_vs_euclidean`.
+**Verified from code.** Series counts and epoch p-values: `results/analysis_full_historical.json`. Monte Carlo (p, z): `results/montecarlo_full.json`. ETAS (FPR, p_ETAS): `results/etas_validation.json`. GK/ZBZ counts: `scripts/run_declustering_comparison.py`. Tectonic diagnostic (median Δlog₁₀η = +0.28): `scripts/generate_grl_figures.py::fig_tectonic_vs_euclidean`.
 
 ---
 
@@ -230,7 +219,7 @@ The pipeline from raw clustering to FDR-controlled inference follows these steps
 
 ### 4.1 Detector candidates (not “discovered series”)
 
-**47 algorithmic candidates** after merge (142 window candidates before merging). These are **detector outputs**, not validated physical episodes:
+**47 algorithmic candidates** after merge (142 window candidates before merging). These are **detector outputs** (see §5.6), not validated physical episodes:
 
 | Epoch | N series | Events | p-value | z-score |
 |-------|----------|--------|---------|---------|
@@ -242,21 +231,19 @@ The pipeline from raw clustering to FDR-controlled inference follows these steps
 
 **Early instrumental period.** Fifteen series reach p = 0.007, but this result must be interpreted cautiously: most pre-1960 events have quality_score < 0.7, and catalog incompleteness inflates inter-event intervals, reducing detection power.
 
-**Historical period.** **No statistically significant historical series** were detected (p = 0.46). Only **47** M≥6.5 events pre-1900 — fragmentary paleoseismic records spanning ~4,000 years; the five candidate episodes do not survive the permutation null.
+**Historical period:** five candidates; see §2 (47 NOAA records, p = 0.46 — not used for significance claims).
 
 ### 4.2 Top five multi-regional detector candidates
 
 > **Disclaimer:** entries below are **detector candidates**, indistinguishable from ETAS-null noise; **do not interpret as physical series** or proven triggering chains.
 
-| Series | N | Regions | Mmax | Period | qBH* |
-|--------|---|---------|------|--------|-----|
-| 1905–1910 | 193 | 43 | 8.8 | 1905–1910 | — |
-| S047 | 53 | 5 | 8.0 | 1982–2024 | 9.7×10⁻⁵ |
-| S170 | 46 | 12 | 9.1 | 2002–2023 | 1.2×10⁻⁴ |
-| S095 | 25 | 4 | 7.9 | 1989–2017 | 3.4×10⁻³ |
-| S116 | 22 | 5 | 8.2 | 1993–2021 | 4.1×10⁻³ |
-
-\*qBH — post-hoc FDR on N = 47 (§3.4); not a discovery claim.
+| Series | N | Regions | Mmax | Period |
+|--------|---|---------|------|--------|
+| 1905–1910 | 193 | 43 | 8.8 | 1905–1910 |
+| S047 | 53 | 5 | 8.0 | 1982–2024 |
+| S170 | 46 | 12 | 9.1 | 2002–2023 |
+| S095 | 25 | 4 | 7.9 | 1989–2017 |
+| S116 | 22 | 5 | 8.2 | 1993–2021 |
 
 The **1905–1910** episode (193 events, 43 regions) is the **largest candidate in the early instrumental window**; catalog completeness before ~1960 is poor (quality_score < 0.7) — **not** “largest series of all time.” **S170** is a modern-window detector candidate (12 Flinn–Engdahl regions, including 2004 Sumatra M 9.1); a descriptive example, not a validated physical series (Figures 1–2 in the repository).
 
@@ -316,17 +303,28 @@ Correlative η links **do not prove** any single mechanism. Possible (unverified
 
 Co-occurrence within a series may reflect any of these (or other) processes, or catalog artifacts.
 
+### 5.6 Detector liberalism
+
+The global-series search is **liberal by construction**:
+
+1. **Sliding windows** — three sizes (1, 2, and 5 yr; 1-yr step) over the η NN forest yield **142 cluster candidates** before merging overlapping groups (`global_series()`).
+2. **Series criteria** — N ≥ 4, M ≥ 6.5, ≥ 3 [Flinn–Engdahl](https://en.wikipedia.org/wiki/Flinn%E2%80%93Engdahl_regions) regions — relatively permissive at global scale.
+3. **ETAS calibration** — on synthetic catalogs without long-range links (>500 km), the detector finds **mean = 27.0** “series” when **N_obs = 27** on the real modern window; **FPR = 1000/1000**, **pETAS = 1.0** (n = 1000, seed = 42). Multiseed (seeds 42–51): mean = 27.0, σ = 0.0, FPR = 1.0 stable (`results/etas_multiseed.json`).
+4. **Threshold sensitivity** — min_events = 5, min_regions = 4 (and stricter) **do not reduce** N = 27 on the modern window (`results/clustering_sensitivity_strict.json`): liberalness lies in **search space** (142 windows), not small N.
+
+**Conclusion:** 47 merged candidates and 27 on the modern window are **indistinguishable** from exploratory-search artifacts under ETAS-like local clustering — not validated physical episodes.
+
 ### 5.5 Limitations
 
-**(1) Historical period:** p = 0.46; only 47 M≥6.5 events pre-1900 — not used for significance claims.
+**(1) Historical period:** see §2 (47 NOAA records, p = 0.46 — not used for significance claims).
 
-**(2) ETAS parameters and detector calibration.** ETAS parameters are calibrated on 2,041 events (μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36). The detector is **liberal**: FPR = 1000/1000; with calibrated ETAS, mean = 27.0 and pETAS = 1.0 — the series count is **indistinguishable** from the local null. Literature defaults (μ=0.008) yielded mean≈15.4, p ≤ 0.001 — sensitive to parameter choice. **Tighter series criteria** (min_events, min_regions) is future work.
+**(2) ETAS.** Calibrated ETAS: mean = 27.0, pETAS = 1.0 — **negative result** for excess global structure. Detector liberalism — see §5.6.
 
 **(3) Heuristic metric with tectonic hint:** 500 km / 1.5× GC approximations; **98%** of audited pairs use GC fallback (4987 pairs, §3.1); real Dijkstra paths for **~2%** only; failed hypothesis test.
 
 **(4) Declustering asymmetry.** **GK is primary** for all inference; ZBZ (1 vs 24 dependent events) is sensitivity-only — different algorithms (window-based vs η-space clustering), not co-equal methods. Full-epoch `run_full_historical_analysis.py` does not pre-filter with GK; ZBZ-primary series count untested (likely negligible for N=27).
 
-**(5) FDR scope.** BH correction applies to N = 47 merged series, not 142 window candidates or individual η links.
+**(5) Multiple comparisons.** Post-hoc BH on N = 47 — see §3.5; not a discovery claim.
 
 **(6) Causality:** series ≠ direct triggering; shared loading and mantle coupling are alternative explanations.
 
@@ -336,9 +334,9 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 
 ## 6. Conclusions
 
-Catalog-calibrated ETAS shows that the number of multi-regional clusters flagged by our liberal detector **does not exceed** what is expected from local aftershock activity alone. The hypothesis of physically meaningful global seismic series is **therefore not supported**. The permutation test rejects only a temporal Poisson null (p = 0.0001, 1/10,001) — **trivial** for earthquake catalogs with aftershocks; **not** a test of the multi-regional global-series hypothesis.
+Catalog-calibrated ETAS shows that the number of multi-regional clusters flagged by the detector (see §5.6) **does not exceed** what is expected from local aftershock activity alone. The hypothesis of physically meaningful global seismic series is **therefore not supported**. The permutation test rejects only a temporal Poisson null (p = 0.0001, 1/10,001) — **trivial** for earthquake catalogs with aftershocks; **not** a test of the multi-regional global-series hypothesis.
 
-Additionally: the heuristic metric with tectonic hint **does not improve** global analysis (98% GC fallback); 47 detector candidates are **indistinguishable** from ETAS null and liberal exploratory search artifacts; **ΔCFS/dynamic stress — future work**; causal chains **not** established.
+Additionally: the heuristic metric with tectonic hint **does not improve** global analysis (98% GC fallback); 47 detector candidates are **indistinguishable** from ETAS null (§5.6); **ΔCFS/dynamic stress — future work**; causal chains **not** established.
 
 **Future work:** full ETAS MLE; ZBZ-primary declustering re-run; tightening **search space** (windows, η₀); ΔCFS/dynamic stress (S170, S047, S095). External DOI ([Zenodo](https://en.wikipedia.org/wiki/Zenodo)) deferred — GitHub only.
 

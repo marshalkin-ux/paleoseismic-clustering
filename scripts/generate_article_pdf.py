@@ -290,14 +290,13 @@ def build(s):
         "Whether large earthquakes cluster in space and time beyond chance is a "
         "foundational question in seismic hazard assessment. We analyse a merged "
         "catalog of <b>4,267 unique M&gt;=6.5 events</b> (from 4,418 CSV rows; "
-        "~151 NOAA M&lt;6.5 rows excluded from clustering; 47\u00a0historical NOAA records pre-1900), "
+        "~151 NOAA M&lt;6.5 rows excluded from clustering), "
         "identifying 47 global seismic series in three temporal windows. "
         "Significance is assessed by a three-level framework: permutation test "
         "(n=10,000, p=0.0001 (1/10,001), z=-6.17), ETAS null-model validation "
         "(1000 synthetic catalogs, FPR=1000/1000; catalog-calibrated null: mean 27.0, "
         "p_ETAS=1.0; literature defaults \u03bc=0.008: mean 15.4, p\u22640.001; "
-        "N_obs=27), "
-        "and Benjamini\u2013Hochberg FDR sensitivity (Methods only). "
+        "N_obs=27). "
         "Largest early-instrumental candidate: 1905\u20131910 (193 events, catalog incomplete before ~1960); "
         "modern detector candidate S170 "
         "(46 events, 12 Flinn\u2013Engdahl regions, 2002\u20132023, Mmax=9.1). "
@@ -364,7 +363,7 @@ def build(s):
         "<b>Цель работы</b>\u00a0\u2014 проверить гипотезу о наличии мультирегиональных серий "
         "в инструментальном каталоге 1973\u20132026\u00a0гг. с применением адаптированной "
         "метрики eta с тектоническим расстоянием вдоль границ плит Bird (2003). "
-        "<b>Охват</b>: кластеризация с тектоническим расстоянием, ETAS и FDR; "
+        "<b>Охват</b>: кластеризация с тектоническим расстоянием и ETAS; "
         "дополняет тесты частот Michael (2011) и Shearer &amp; Stark (2012), "
         "не отменяя их выводы.",
         s["body"]
@@ -531,8 +530,8 @@ def build(s):
         "mean=27,0, \u03c3=0,0, FPR=1,0, p_ETAS=1,0 по всем 10 seed \u2014 "
         "идеальная стабильность (калибр. ETAS ~2001 фоновых соб.; детектор детерминирован). "
         "Лит. \u03bc=0,008 \u2014 только сравнение (ранние n=100): mean\u224815,5, p_ETAS\u22640,001. "
-        "<b>Ограничение:</b> детектор либерален (FPR=1000/1000). "
-        "<b>FDR</b> (q=0.05): 45/47 значимы. "
+        "Либеральность детектора \u2014 см. \u00a75.6 (FPR=1000/1000). "
+        "<b>Множественные сравнения (Methods):</b> BH post-hoc на N=47, 45/47 при q=0.05 \u2014 не discovery. "
         "<b>Декластеризация:</b> GK 2017/2041 (основной); "
         "ZBZ 2040/2041 (только чувствительность).",
         s["body"]
@@ -616,7 +615,7 @@ def build(s):
         PAGE_W - LM - RM
     ))
     story.append(Paragraph(
-        "Коррекция FDR (q=0.05): 45 из 47 — post-hoc (Methods), не discovery. "
+        "Коррекция BH (q=0.05) на N=47 \u2014 post-hoc (Methods), не discovery. "
         "Permutation p=0,0001 (1/10 001) отвергает пуассоновские времена; "
         "ETAS mean=27,0, p_ETAS=1,0 — нет избыточной глобальной структуры. "
         "Multiseed ETAS (seeds 42–51, n=1000): mean≈27, FPR=1,0.",
@@ -645,7 +644,7 @@ def build(s):
     story += SEC("РЕЗУЛЬТАТЫ ИССЛЕДОВАНИЯ (ВЫВОДЫ)", s)
     story.append(Paragraph(
         "Применение калиброванной ETAS-модели показывает, что число мультирегиональных "
-        "кластеров, обнаруживаемых либеральным детектором, <b>не превышает</b> ожидаемого "
+        "кластеров, обнаруживаемых детектором (см. \u00a75.6), <b>не превышает</b> ожидаемого "
         "от локальной афтершоковой активности. Гипотеза о существовании глобальных "
         "сейсмических серий <b>не подтверждается</b>. Перестановочный тест отвергает "
         "лишь пуассоновскую нулевую гипотезу — тривиально для сейсмических каталогов.",

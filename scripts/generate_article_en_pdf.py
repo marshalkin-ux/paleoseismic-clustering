@@ -197,7 +197,7 @@ def build(s):
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
         "We analyse a merged catalog of <b>4,267 unique M\u22656.5 events</b> "
-        "(from 4,418 CSV rows; ~151 NOAA M&lt;6.5 excluded from clustering; 47 historical NOAA records pre-1900) "
+        "(from 4,418 CSV rows; ~151 NOAA M&lt;6.5 excluded from clustering) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "Primary result — <b>negative (null/falsification)</b>: catalog-calibrated ETAS "
         "reproduces N_obs=27 (mean 27.0, p_ETAS=1.0, FPR=1000/1000). Permutation "
@@ -246,8 +246,8 @@ def build(s):
         "<b>Objective.</b> We test the hypothesis that multi-regional seismic series "
         "exist in a four-millennium catalog of M&gt;=6.5 earthquakes, using an adapted "
         "eta metric with heuristic tectonic hint along Bird (2003) plate boundaries. "
-        "<b>Scope.</b> We combine nearest-neighbor clustering with heuristic tectonic hint, "
-        "ETAS validation, and FDR sensitivity (Methods); this complements global rate tests "
+        "<b>Scope.</b> We combine nearest-neighbor clustering with heuristic tectonic hint "
+        "and ETAS validation; this complements global rate tests "
         "(Michael 2011; Shearer &amp; Stark 2012) with a different \u03b7-linkage statistic "
         "but does not supersede their conclusions.",
         s["body"]
@@ -360,8 +360,8 @@ def build(s):
         "mean=27.0, \u03c3=0.0, FPR=1.0, p_ETAS=1.0 for all 10 seeds \u2014 perfect stability "
         "because calibrated ETAS matches catalog event rate (~2001 background events). "
         "Literature \u03bc=0.008 comparison only (earlier n=100 runs): mean\u224815.5, p_ETAS \u2264 0.001. "
-        "Detector is liberal; tighter series criteria is future work. "
-        "<b>FDR (q=0.05):</b> 45/47 \u2014 Methods/sensitivity only, not discovery. "
+        "Detector liberalism \u2014 see \u00a75.6 (FPR=1000/1000). "
+        "<b>Multiple comparisons (Methods):</b> BH post-hoc on N=47, 45/47 at q=0.05 \u2014 not discovery. "
         "<b>Declustering:</b> GK 2,017/2,041 (primary); ZBZ 2,040/2,041 (sensitivity only).",
         s["body"]
     ))
@@ -419,7 +419,7 @@ def build(s):
 
     story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
-        "Catalog-calibrated ETAS shows that multi-regional clusters flagged by our liberal "
+        "Catalog-calibrated ETAS shows that multi-regional clusters flagged by the detector (see \u00a75.6) "
         "detector <b>do not exceed</b> local aftershock expectations. The global-series "
         "hypothesis is <b>not supported</b>. The permutation test rejects only a temporal "
         "Poisson null \u2014 trivial for earthquake catalogs with aftershocks.",
