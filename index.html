@@ -2190,7 +2190,7 @@
   <div style="text-align:center; margin-top:2.5rem; padding-top:2rem; border-top:1px solid #21262d;">
     <p style="color:#8b949e; margin-bottom:1rem;">Полное описание методологии и результатов — в научной статье:</p>
     <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center;">
-      <a href="../paper/article_ru.pdf" target="_blank"
+      <a href="paper/article_ru.pdf" target="_blank"
          style="display:inline-flex; align-items:center; gap:10px; padding:14px 28px;
                 background:#161b22; border:1px solid #58a6ff; border-radius:10px;
                 color:#58a6ff; text-decoration:none; font-size:1rem; font-weight:500;
@@ -2199,7 +2199,7 @@
          onmouseout="this.style.background='#161b22'">
         📄 Статья PDF (RU)
       </a>
-      <a href="../paper/article_en.pdf" target="_blank"
+      <a href="paper/article_en.pdf" target="_blank"
          style="display:inline-flex; align-items:center; gap:10px; padding:14px 28px;
                 background:#161b22; border:1px solid #3fb950; border-radius:10px;
                 color:#3fb950; text-decoration:none; font-size:1rem; font-weight:500;
@@ -2285,7 +2285,7 @@
       <strong>детектор не специфичен для глобальных серий; отражает фоновую структуру каталога (§5.5–5.6).</strong>
       Permutation p=0.0001 (1/10,001) отвергает <em>пуассоновские времена</em>, не телесейсмические «серии».
     </p>
-    <img src="../figures/grl/fig02_etas_validation.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="ETAS null-model validation">
+    <img src="figures/grl/fig02_etas_validation.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="ETAS null-model validation">
   </div>
 
   <!-- GRL: Monte Carlo -->
@@ -2294,7 +2294,7 @@
     <p class="viz-block-desc">
       10 000 перестановок временны́х меток. p = 0,0001 (1/10,001) — отвергает <strong>глобальный пуассоновский нуль по временам</strong> (ожидаемо при афтершоках); <strong>не</strong> тест гипотезы о мультирегиональных сериях.
     </p>
-    <img src="../figures/grl/fig03_montecarlo_null.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Monte Carlo null distribution">
+    <img src="figures/grl/fig03_montecarlo_null.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Monte Carlo null distribution">
   </div>
 
   <!-- GRL: FDR + tectonic -->
@@ -2306,7 +2306,7 @@
         График показывает десять наиболее устойчивых серий: размер столбца — число событий, цвет — q-value.
         Это ответ рецензенту «47 тестов — где поправка на множественность?».
       </p>
-      <img src="../figures/grl/fig04_fdr_top_series.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="FDR top series">
+      <img src="figures/grl/fig04_fdr_top_series.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="FDR top series">
     </div>
     <div>
       <h3 style="color:#ffa657; font-size:1rem; margin-bottom:0.5rem;">Тектоническое vs евклидово расстояние</h3>
@@ -2316,7 +2316,7 @@
         прямое расстояние недооценивает реальный путь передачи энергии.
         Именно поэтому метод находит связи, невидимые при «линейке на глобусе».
       </p>
-      <img src="../figures/grl/fig05_tectonic_vs_euclidean.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Tectonic vs Euclidean">
+      <img src="figures/grl/fig05_tectonic_vs_euclidean.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Tectonic vs Euclidean">
     </div>
   </div>
 
@@ -2327,7 +2327,7 @@
       Предварительные расчёты Coulomb/динамического стресса (<span class="term-tip">Okada<span class="term-tip-box">Модель упругого полупространства для смещений на разломе; базовый инструмент расчёта ΔCFS.<a href="https://en.wikipedia.org/wiki/Okada_model" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>, elastic half-space) не достигли порогов триггеринга.
       Подробности: <code>results/cfs_s170_analysis.json</code>, <code>results/dynamic_stress_sumatra2004.json</code>.
     </p>
-    <img src="../figures/grl/fig06_cfs_s170.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Post-Sumatra static ΔCFS for S170">
+    <img src="figures/grl/fig06_cfs_s170.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Post-Sumatra static ΔCFS for S170">
   </div>
 
   <!-- GRL: Tectonic fallback audit -->
@@ -2339,7 +2339,7 @@
       95 пар с Dijkstra существенно отличаются от фолбэка (примеры: FE31 Япония, FE35 Филиппины).
       Тектоническая метрика добавляет ценность только для ~2% пар у границ плит.
     </p>
-    <img src="../figures/grl/fig07_tectonic_path_usage.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Tectonic path fallback usage">
+    <img src="figures/grl/fig07_tectonic_path_usage.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Tectonic path fallback usage">
   </div>
 
   <!-- GRL: Map -->
@@ -2350,7 +2350,7 @@
       Каждый цвет — отдельная серия, охватывающая три и более тектонических зоны.
       Видно, что кластеры не локализованы в одном регионе — они действительно глобальны.
     </p>
-    <img src="../figures/grl/fig06_modern_series_map.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Global series map">
+    <img src="figures/grl/fig06_modern_series_map.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Global series map">
   </div>
 
   <!-- VIZ 1 -->
@@ -2361,7 +2361,7 @@
       Размер кружка соответствует силе удара. Видно, что события не распределены равномерно —
       в отдельные периоды их явно больше, и они охватывают весь диапазон широт одновременно.
     </p>
-    <img src="../figures/viz1_spacetime.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Пространственно-временная диаграмма">
+    <img src="figures/viz1_spacetime.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Пространственно-временная диаграмма">
   </div>
 
   <!-- VIZ 2 -->
@@ -2373,7 +2373,7 @@
       Правый пик — случайный фон. Двугорбая структура — сигнал того, что в каталоге
       есть как связанные, так и независимые события.
     </p>
-    <img src="../figures/viz2_eta_distribution.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Распределение η">
+    <img src="figures/viz2_eta_distribution.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Распределение η">
   </div>
 
   <!-- VIZ 3 -->
@@ -2385,7 +2385,7 @@
       Она далеко за пределами случайного разброса. Вероятность такого совпадения случайно —
       менее 1 из 10 000.
     </p>
-    <img src="../figures/viz3_montecarlo.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Monte Carlo тест">
+    <img src="figures/viz3_montecarlo.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Monte Carlo тест">
   </div>
 
   <!-- VIZ 4 -->
@@ -2397,7 +2397,7 @@
       Прямая линия показывает теоретический закон. Наш каталог следует ему начиная
       с M=6.55 (линия Mc) — именно выше этого порога данные надёжны.
     </p>
-    <img src="../figures/viz4_gutenberg_richter.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Gutenberg-Richter">
+    <img src="figures/viz4_gutenberg_richter.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Gutenberg-Richter">
   </div>
 
   <!-- VIZ 5 -->
@@ -2411,7 +2411,7 @@
       Ось X — десятилетия 1900–2020-х (до 1900 исключены, чтобы метки не накладывались).
     </p>
     <div class="viz-figure-wrap">
-      <img src="../figures/viz5_heatmap_regions.png" alt="Тепловая карта регионов">
+      <img src="figures/viz5_heatmap_regions.png" alt="Тепловая карта регионов">
     </div>
   </div>
 
@@ -2424,7 +2424,7 @@
       Суматра 2004 (M9.1); корреляция ≠ причинность.
     </p>
     <div class="viz-figure-wrap">
-      <img src="../figures/viz6_series_s170.png" alt="Серия S170">
+      <img src="figures/viz6_series_s170.png" alt="Серия S170">
     </div>
   </div>
 </section>
@@ -2740,7 +2740,7 @@
           <li><strong>Множественные сравнения:</strong> BH post-hoc N=47 — Methods only (не discovery)</li>
           <li><strong>Декластеризация:</strong> GK 2017/2041 (24 афтершока) · ZBZ 2040/2041 (1 зависимое) — проверка чувствительности</li>
           <li><strong>Monte Carlo:</strong> n = 10 000, p = 0.0001 (1/10,001), z = −6.17</li>
-          <li>Данные и артефакты: <a href="../docs/data_availability.md" style="color:var(--accent)">docs/data_availability.md</a></li>
+          <li>Данные и артефакты: <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/docs/data_availability.md" target="_blank" rel="noopener" style="color:var(--accent)">docs/data_availability.md</a></li>
         </ul>
       </div>
 
@@ -2798,11 +2798,11 @@
           <span class="materials-group-count">5</span>
         </summary>
         <div class="materials-grid">
-          <a href="overview.pdf" class="mat-link mat-link--content">📄 Обзорный PDF (11 стр.)</a>
-          <a href="index.html" class="mat-link mat-link--content">🎬 Слайды reveal.js (17 сл.)</a>
-          <a href="slides.md" class="mat-link mat-link--content">📝 Marp-слайды</a>
-          <a href="../digest/дайджест_ru.md" class="mat-link mat-link--content">🗞️ Научпоп дайджест</a>
-          <a href="visualizations.html" class="mat-link mat-link--content">📈 Интерактивные графики (6 шт.)</a>
+          <a href="presentation/overview.pdf" class="mat-link mat-link--content">📄 Обзорный PDF (11 стр.)</a>
+          <a href="presentation/index.html" class="mat-link mat-link--content">🎬 Слайды reveal.js (17 сл.)</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/presentation/slides.md" target="_blank" rel="noopener" class="mat-link mat-link--content">📝 Marp-слайды</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/digest/%D0%B4%D0%B0%D0%B9%D0%B4%D0%B6%D0%B5%D1%81%D1%82_ru.md" target="_blank" rel="noopener" class="mat-link mat-link--content">🗞️ Научпоп дайджест</a>
+          <a href="presentation/visualizations.html" class="mat-link mat-link--content">📈 Интерактивные графики (6 шт.)</a>
         </div>
       </details>
 
@@ -2813,12 +2813,12 @@
           <span class="materials-group-count">6</span>
         </summary>
         <div class="materials-grid">
-          <a href="../paper/article_ru.pdf" class="mat-link mat-link--publication">📰 Статья PDF (RU)</a>
-          <a href="../paper/article_en.pdf" class="mat-link mat-link--publication">📰 Article PDF (EN)</a>
-          <a href="../paper/article_ru.md" class="mat-link mat-link--publication">✏️ Статья Markdown (RU)</a>
-          <a href="../paper/article_en.md" class="mat-link mat-link--publication">✏️ Article Markdown (EN)</a>
-          <a href="../paper/main.tex" class="mat-link mat-link--publication">📐 LaTeX (AGU/GRL)</a>
-          <a href="../paper/bibliography_extended.bib" class="mat-link mat-link--publication">📚 Библиография (79 источников)</a>
+          <a href="paper/article_ru.pdf" class="mat-link mat-link--publication">📰 Статья PDF (RU)</a>
+          <a href="paper/article_en.pdf" class="mat-link mat-link--publication">📰 Article PDF (EN)</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/paper/article_ru.md" target="_blank" rel="noopener" class="mat-link mat-link--publication">✏️ Статья Markdown (RU)</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/paper/article_en.md" target="_blank" rel="noopener" class="mat-link mat-link--publication">✏️ Article Markdown (EN)</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/paper/main.tex" target="_blank" rel="noopener" class="mat-link mat-link--publication">📐 LaTeX (AGU/GRL)</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/paper/bibliography_extended.bib" target="_blank" rel="noopener" class="mat-link mat-link--publication">📚 Библиография (79 источников)</a>
         </div>
       </details>
 
@@ -2829,9 +2829,9 @@
           <span class="materials-group-count">3</span>
         </summary>
         <div class="materials-grid">
-          <a href="../results/analysis_summary.json" class="mat-link mat-link--data">📊 JSON результатов</a>
-          <a href="map_data.json" class="mat-link mat-link--data">📋 Каталог для карты (JSON)</a>
-          <a href="../docs/data_availability.md" class="mat-link mat-link--data">📋 Data availability (paths)</a>
+          <a href="results/analysis_summary.json" class="mat-link mat-link--data">📊 JSON результатов</a>
+          <a href="presentation/map_data.json" class="mat-link mat-link--data">📋 Каталог для карты (JSON)</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/docs/data_availability.md" target="_blank" rel="noopener" class="mat-link mat-link--data">📋 Data availability (paths)</a>
         </div>
       </details>
 
@@ -2842,14 +2842,14 @@
           <span class="materials-group-count">8</span>
         </summary>
         <div class="materials-grid">
-          <a href="../notebooks/03_clustering_demo.ipynb" class="mat-link mat-link--technical">🔬 Demo-ноутбук</a>
-          <a href="../notebooks/05_improvements_demo.ipynb" class="mat-link mat-link--technical">🧪 Улучшения (ноутбук)</a>
-          <a href="../docs/index.md" class="mat-link mat-link--technical">📚 Документация (7 разделов)</a>
-          <a href="../docs/03_methodology.md" class="mat-link mat-link--technical">🔢 Методология</a>
-          <a href="../docs/04_api_reference.md" class="mat-link mat-link--technical">⚙️ API Reference</a>
-          <a href="../docs/05_quickstart.md" class="mat-link mat-link--technical">🚀 Быстрый старт</a>
-          <a href="../docs/research_improvements_consultation.md" class="mat-link mat-link--technical">🔬 Рекомендации для GRL (A–H)</a>
-          <a href="../docs/statistical_testing_plan.md" class="mat-link mat-link--technical">📊 План статистического тестирования</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/notebooks/03_clustering_demo.ipynb" target="_blank" rel="noopener" class="mat-link mat-link--technical">🔬 Demo-ноутбук</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/notebooks/05_improvements_demo.ipynb" target="_blank" rel="noopener" class="mat-link mat-link--technical">🧪 Улучшения (ноутбук)</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/docs/index.md" target="_blank" rel="noopener" class="mat-link mat-link--technical">📚 Документация (7 разделов)</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/docs/03_methodology.md" target="_blank" rel="noopener" class="mat-link mat-link--technical">🔢 Методология</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/docs/04_api_reference.md" target="_blank" rel="noopener" class="mat-link mat-link--technical">⚙️ API Reference</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/docs/05_quickstart.md" target="_blank" rel="noopener" class="mat-link mat-link--technical">🚀 Быстрый старт</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/docs/research_improvements_consultation.md" target="_blank" rel="noopener" class="mat-link mat-link--technical">🔬 Рекомендации для GRL (A–H)</a>
+          <a href="https://github.com/marshalkin-ux/paleoseismic-clustering/blob/master/docs/statistical_testing_plan.md" target="_blank" rel="noopener" class="mat-link mat-link--technical">📊 План статистического тестирования</a>
         </div>
       </details>
 
@@ -2860,8 +2860,8 @@
           <span class="materials-group-count">2</span>
         </summary>
         <div class="materials-grid">
-          <a href="../figures/grl/fig02_etas_validation.png" class="mat-link mat-link--viz">📊 ETAS-валидация (Fig. 2)</a>
-          <a href="../figures/grl/fig03_montecarlo_null.png" class="mat-link mat-link--viz">📊 Monte Carlo null (Fig. 3)</a>
+          <a href="figures/grl/fig02_etas_validation.png" class="mat-link mat-link--viz">📊 ETAS-валидация (Fig. 2)</a>
+          <a href="figures/grl/fig03_montecarlo_null.png" class="mat-link mat-link--viz">📊 Monte Carlo null (Fig. 3)</a>
         </div>
       </details>
 
