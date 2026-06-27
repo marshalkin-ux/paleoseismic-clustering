@@ -37,9 +37,9 @@ We present a systematic analysis of global seismic series spanning
 from 2150~BCE to 2026~CE, combining the NOAA~NGDC historical catalog,
 the USGS~ComCat instrumental catalog, and the ISC~Bulletin into a unified
 catalog of \textbf{4{,}267 unique $M \ge 6.5$ events} (from 4{,}418 saved
-CSV rows, including ${\sim}151$ NOAA records with $M < 6.5$ from an
-$M \ge 6.0$ fetch; 2{,}041 modern, 2{,}179 early instrumental,
-47 pre-1900).
+CSV rows; ${\sim}151$ NOAA records with $M < 6.5$ from an $M \ge 6.0$ fetch
+are \textbf{retained in CSV for provenance but excluded from all clustering
+analyses}; 2{,}041 modern, 2{,}179 early instrumental, 47 pre-1900).
 Using the nearest-neighbor metric of \citet{Baiesi2004}, extended with
 a tectonic-path distance derived from the \citet{Bird2003} plate-boundary
 graph, we identify 47 global seismic series in three temporal windows:
@@ -61,9 +61,10 @@ links $>500$~km) yields $p_\mathrm{ETAS} < 10^{-4}$ (FPR~=~0), confirming
 that observed series cannot be attributed to local aftershock clustering.
 After Benjamini--Hochberg FDR correction ($q = 0.05$), 45 of 47 series
 remain significant ($q$-values spanning $[9.7 \times 10^{-5},\, 0.047]$).
-Background seismicity is isolated using the \citet{ZaliapinBenZion2013}
-adaptive declustering, which exploits the bimodal distribution of
-nearest-neighbor distances to separate clustered from background events.
+Background seismicity is isolated using Gardner--Knopoff declustering
+as the \textbf{primary} pre-processing step (\texttt{pipeline\_v2.py});
+Zaliapin--Ben-Zion declustering is a \textbf{sensitivity check only},
+not a sequential filter.
 The largest series by event count is 1905--1910 (193 events, 43 regions,
 $M_\mathrm{max}=8.8$); the most spatially extensive is S170 (46 events,
 12 Flinn--Engdahl regions, 2002--2023, $M_\mathrm{max}=9.1$),
@@ -75,8 +76,9 @@ and for models of stress interaction at tectonic plate boundaries.
 \end{abstract}
 
 \begin{keypoints}
-  \item A unified catalog of 4{,}418 events ($M \ge 6.5$, 2150~BCE--2026) yields
-        47 global seismic series validated by a three-level statistical framework:
+  \item A unified catalog of \textbf{4{,}267 unique $M \ge 6.5$ events}
+        (4{,}418 CSV rows; ${\sim}151$ sub-threshold rows excluded from analysis)
+        yields 47 global seismic series validated by a three-level statistical framework:
         permutation test, ETAS-null validation, and Benjamini--Hochberg FDR correction.
   \item Modern period (1973--2026): $p < 0.0001$ ($z = -6.17$); early instrumental
         (1900--1972): $p = 0.007$ ($z = -2.43$); both survive FDR correction at $q = 0.05$
@@ -304,22 +306,28 @@ intraplate pairs rely entirely on the GC penalty, and sensitivity to
 these parameters is deferred to future work.
 Qualitatively, tectonic-path distance improves inter-plate $\eta$ links
 by ${\sim}0.3$~log$_{10}$~$\eta$ relative to Euclidean distance
-(Section~\ref{sec:results}); full validation without ground-truth data
-is not possible.
+(Figure~5 in \texttt{figures/grl/fig05\_tectonic\_vs\_euclidean.png});
+full validation without ground-truth data is not possible.
+A parameter sweep (300/500/700~km boundary threshold; Bird graph
+resolution) is planned but not yet executed.
 
 \subsection{Analysis Pipeline}
 \label{subsec:pipeline}
 
 The processing flow is:
 raw catalogs (USGS/ISC/NOAA) $\to$ deduplication ($\pm 30$~d, $\le 50$~km)
-$\to$ Gardner--Knopoff declustering (mainshocks for NN forest)
+$\to$ exclude $M < 6.5$ rows (${\sim}151$ NOAA; 4{,}267 unique $M \ge 6.5$)
+$\to$ Gardner--Knopoff declustering (\textbf{primary}; mainshocks for NN forest)
 $\to$ $\eta$ nearest-neighbor forest with tectonic distance
-$\to$ sliding windows (1/2/5~yr) $\to$ series criteria ($N \ge 4$,
-$\ge 3$ Flinn--Engdahl regions) $\to$ Monte~Carlo / ETAS / FDR validation.
-Gardner--Knopoff removes ${\sim}24$ local aftershocks before series search.
-Zaliapin--Ben-Zion declustering (100\% independent events) is a
-\textbf{sensitivity check}, not a sequential filter: GK and ZBZ answer
-different questions (local aftershocks vs.\ $\eta$ bimodality).
+$\to$ sliding windows (1/2/5~yr) $\to$ merge overlapping groups
+$\to$ series criteria ($N \ge 4$, $\ge 3$ Flinn--Engdahl regions)
+$\to$ Monte~Carlo / ETAS / FDR validation.
+Gardner--Knopoff removes ${\sim}24$ local aftershocks in the modern window.
+\texttt{run\_full\_historical\_analysis.py} applies \texttt{global\_series()}
+to all $M \ge 6.5$ events without an explicit GK pre-filter; GK/ZBZ counts
+in Table~\ref{tab:reconciliation} come from \texttt{run\_declustering\_comparison.py}.
+Zaliapin--Ben-Zion declustering is a \textbf{sensitivity check}, not a
+sequential filter: GK and ZBZ answer different questions.
 
 \subsection{Global Series Detection}
 
@@ -676,6 +684,25 @@ provides \textbf{qualitative plausibility} for long-range correlations
 but not proof of causality.
 $\Delta\mathrm{CFS}$ modelling and dynamic stress estimates are
 deferred to future work and are needed to strengthen causal claims.
+
+\subsection{Working Hypotheses (Not Claims)}
+\label{subsec:hypotheses}
+
+Correlative $\eta$ links do \textbf{not} prove any single mechanism.
+Possible (unverified) explanations include:
+(i)~viscoelastic mantle coupling \citep{Pollitz1998};
+(ii)~dynamic triggering by surface waves \citep{Hill1993,Brodsky2006};
+(iii)~shared tectonic loading and stress redistribution \citep{Freed2001}.
+
+\subsection{ETAS Seed Limitation}
+\label{subsec:etas_seed}
+
+\textbf{Critical limitation:} ETAS validation reports FPR~=~0/100 using
+100 synthetic catalogs at \textbf{fixed seed~=~42} only (discrete
+resolution 1/101). Multi-seed robustness (recommended: $\ge 1000$
+catalogs across multiple seeds) has not been run; see
+\texttt{scripts/run\_etas\_multiseed.py}. Rejecting the ETAS null does
+not prove a physical triggering mechanism.
 
 \paragraph{Plausible physical mechanisms (unverified).}
 Three physical mechanisms \emph{may} account for inter-event

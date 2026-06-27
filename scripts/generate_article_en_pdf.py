@@ -11,7 +11,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.lib.colors import HexColor, white
 from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
+    SimpleDocTemplate, Paragraph as _BaseParagraph, Spacer, Table, TableStyle,
     HRFlowable, PageBreak
 )
 from reportlab.lib.styles import ParagraphStyle
@@ -35,6 +35,28 @@ LM = RM = 2.5 * cm
 TM = BM = 2.5 * cm
 
 
+def safe_text(s: str) -> str:
+    _subs = {
+        '\u03b7': 'eta', '\u03bc': 'mu', '\u03b1': 'alpha', '\u0394': 'Delta',
+        '\u2212': '-', '\u2264': '<=', '\u2265': '>=', '\u00b1': '+/-',
+        '\u1d46': 'w', '\u1d62': 'i', '\u2c7c': 'j',
+        '\u2090': 'a', '\u209c': 't', '\u2098': 'm', '\u2093': 'x',
+        '\u2080': '0', '\u2081': '1', '\u2082': '2', '\u2083': '3',
+        '\u2084': '4', '\u2085': '5', '\u2086': '6', '\u2087': '7',
+        '\u2088': '8', '\u2089': '9',
+    }
+    for ch, rep in _subs.items():
+        s = s.replace(ch, rep)
+    return s
+
+
+class Paragraph(_BaseParagraph):
+    def __init__(self, text, style, *args, **kwargs):
+        if isinstance(text, str):
+            text = safe_text(text)
+        super().__init__(text, style, *args, **kwargs)
+
+
 class FormulaBox(Flowable):
     def __init__(self, text, width=None, height=2.0 * cm):
         super().__init__()
@@ -50,7 +72,7 @@ class FormulaBox(Flowable):
         c.roundRect(0, 0, self.box_w, self.height, 5, fill=1, stroke=1)
         c.setFillColor(DARK)
         c.setFont("MainBold", 13)
-        c.drawCentredString(self.box_w / 2, self.height / 2 - 5, self.text)
+        c.drawCentredString(self.box_w / 2, self.height / 2 - 5, safe_text(self.text))
 
 
 def on_page(canvas, doc):
@@ -152,14 +174,14 @@ def build(s):
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
         "We analyse a merged catalog of <b>4,267 unique M\u22656.5 events</b> "
-        "(from 4,418 CSV rows, incl. ~151 NOAA M&lt;6.5; 2150\u00a0BCE\u20132026\u00a0CE) "
-        "using the Baiesi\u2013Paczuski metric \u03b7 with tectonic-path distance (Bird\u00a02003). "
+        "(from 4,418 CSV rows; ~151 NOAA M&lt;6.5 excluded from clustering; 2150\u00a0BCE\u20132026\u00a0CE) "
+        "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "47 global seismic series are identified (27 modern, 15 early, 5 historical candidates). "
-        "Significance: permutation test (n=10,000, p&lt;0.0001, z=\u22126.17); ETAS validation "
+        "Significance: permutation test (n=10,000, p&lt;0.0001, z=-6.17); ETAS validation "
         "(FPR=0/100, seed=42); FDR (45/47 at q=0.05). Series detection is a "
         "<b>statistical anomaly</b>, not proof of causal triggering. "
         "Largest series: 1905\u20131910 (193 events, 43 regions); "
-        "most extensive modern: S170 (46 events, 12 regions, M<sub>max</sub>=9.1).",
+        "most extensive modern: S170 (46 events, 12 regions, Mmax=9.1).",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -200,8 +222,8 @@ def build(s):
     ))
     story.append(Paragraph(
         "<b>Objective.</b> We test the hypothesis that multi-regional seismic series "
-        "exist in a four-millennium catalog of M\u22656.5 earthquakes, using an adapted "
-        "\u03b7 metric with tectonic distance along Bird (2003) plate boundaries. "
+        "exist in a four-millennium catalog of M&gt;=6.5 earthquakes, using an adapted "
+        "eta metric with tectonic distance along Bird (2003) plate boundaries. "
         "<b>Novelty.</b> To our knowledge, this is the first global application of "
         "nearest-neighbor clustering with tectonic-path distance across historical, "
         "early instrumental, and modern catalogs, combined with ETAS validation and FDR correction.",
@@ -215,8 +237,9 @@ def build(s):
         "instrumental); <b>ISC Bulletin</b> (relocated hypocenters); and <b>NOAA NGDC</b> "
         "(historical and paleoseismic records from ~2150 BCE). Duplicates were merged "
         "using \u00b130 days and \u226450 km tolerance; source priority: ISC &gt; USGS &gt; NOAA. "
-        "After deduplication (\u00b130 days, \u226450 km), the catalog contains "
-        "<b>4,267</b> unique M\u22656.5 events (from <b>4,418</b> CSV rows, incl. ~151 M&lt;6.5 from NOAA). "
+        "After deduplication, the catalog contains "
+        "<b>4,267</b> unique M&gt;=6.5 events (from <b>4,418</b> CSV rows; ~151 M&lt;6.5 "
+        "excluded from clustering). "
         "USGS ComCat: <b>2,088</b> raw (1973\u20132026) \u2192 <b>2,041</b> after merge/ISC. "
         "GK: 24 aftershocks (2,017/2,041); ZBZ: 1 dependent (2,040/2,041). "
         "quality_score is metadata, not an inclusion filter. "
@@ -247,7 +270,7 @@ def build(s):
     ))
     story.append(Spacer(1, 0.15 * cm))
     story.append(FormulaBox(
-        "\u03b7\u1d62\u2c7c  =  t\u1d62\u2c7c  \u00b7  r\u1d62\u2c7c^1.6  \u00b7  10^(\u2212b\u00b7m\u1d62)",
+        "eta_ij  =  t_ij  *  r_ij^1.6  *  10^(-b*mi)",
         w
     ))
     story.append(Paragraph(
@@ -258,10 +281,11 @@ def build(s):
 
     story += SSEC("2.3 Analysis pipeline", s)
     story.append(Paragraph(
-        "Raw catalogs \u2192 dedup \u2192 GK declustering \u2192 \u03b7 NN forest "
-        "\u2192 sliding windows \u2192 series criteria \u2192 MC/ETAS/FDR. "
+        "Raw catalogs \u2192 dedup \u2192 exclude M&lt;6.5 (~151 NOAA) \u2192 "
+        "GK declustering (primary) \u2192 eta NN forest "
+        "\u2192 sliding windows \u2192 merge overlapping \u2192 series criteria \u2192 MC/ETAS/FDR. "
         "GK: 24 aftershocks (2,017/2,041); ZBZ: 1 dependent (2,040/2,041) \u2014 "
-        "sensitivity check, not sequential filter.",
+        "separate sensitivity check, not sequential filter.",
         s["body"]
     ))
 
@@ -282,11 +306,11 @@ def build(s):
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
     story += SSEC("2.5 Statistical validation", s)
     story.append(Paragraph(
-        "<b>Permutation test:</b> n = 10,000, p &lt; 0.0001, z = \u22126.17 (modern). "
-        "<b>ETAS validation:</b> \u03bc=0.008, K=0.08, \u03b1=1.0, c=0.005 d, p=1.1; "
-        "500 km cutoff; 100 catalogs (seed=42). FPR=0/100; p<sub>ETAS</sub>=0.0000. "
-        "<b>Limitation:</b> FPR=0/100 at seed=42 is discrete; multi-seed robustness "
-        "recommended; does not prove mechanism. "
+        "<b>Permutation test:</b> n = 10,000, p &lt; 0.0001, z = -6.17 (modern). "
+        "<b>ETAS validation:</b> mu=0.008, K=0.08, alpha=1.0, c=0.005 d, p=1.1; "
+        "500 km cutoff; 100 catalogs (seed=42). FPR=0/100; p_ETAS=0.0000. "
+        "<b>Limitation (see Discussion):</b> FPR=0/100 at seed=42 only; "
+        "multi-seed robustness recommended. "
         "<b>FDR (q=0.05):</b> 45/47 significant. "
         "<b>Declustering:</b> GK 2,017/2,041; ZBZ 2,040/2,041.",
         s["body"]
@@ -348,11 +372,11 @@ def build(s):
     story.append(Paragraph(
         "<b>Statistical anomaly (established):</b> series incompatible with Poisson "
         "and local-only ETAS nulls; FDR 45/47. Conclusion about \u03b7 links and "
-        "p-values, not causality. <b>Physical mechanism (not established):</b> "
-        "series detection does not imply direct triggering; shared loading or "
-        "mantle coupling are alternatives. <b>S170:</b> Hill [1993], Brodsky [2006] "
-        "provide qualitative plausibility; \u0394CFS deferred. "
-        "<b>Limitations:</b> ETAS FPR=0/100 at seed=42; tectonic distance approximations.",
+        "p-values, not causality. <b>Working hypotheses</b> (not claims): viscoelastic "
+        "mantle coupling (Pollitz 1998), dynamic triggering (Hill 1993; Brodsky 2006), "
+        "shared tectonic loading (Freed &amp; Lin 2001). "
+        "<b>ETAS seed limitation:</b> FPR=0/100 at seed=42 only; multiseed future work. "
+        "<b>Limitations:</b> tectonic distance approximations.",
         s["body"]
     ))
     for num, text in [
