@@ -1,7 +1,7 @@
 """Скрипт запуска ETAS-валидации на реальном каталоге.
 
 Оценивает частоту ложных открытий алгоритма кластеризации:
-генерирует 100 ETAS-каталогов, на каждом ищет «глобальные серии»
+генерирует 1000 ETAS-каталогов (по умолчанию), на каждом ищет «глобальные серии»
 и сравнивает с числом реально найденных серий.
 
 Использование:
@@ -71,7 +71,6 @@ try:
     real_series = analyzer.global_series(
         df,
         min_events=4,
-        min_regions=3,
         time_window_years=2.0,
     )
     n_observed = len(real_series)
@@ -82,16 +81,17 @@ except Exception as exc:
 logger.info("Реальных глобальных серий: %d", n_observed)
 
 # ---------------------------------------------------------------------------
-# ETAS-валидация (100 каталогов)
+# ETAS-валидация (1000 каталогов по умолчанию)
 # ---------------------------------------------------------------------------
 
-logger.info("Запуск ETAS-валидации (100 каталогов)...")
+N_CATALOGS = 1000
+
+logger.info("Запуск ETAS-валидации (%d каталогов)...", N_CATALOGS)
 
 results = generator.run_false_positive_analysis(
     cluster_analyzer=analyzer,
-    n_catalogs=100,
+    n_catalogs=N_CATALOGS,
     min_events=4,
-    min_regions=3,
     time_window_years=2.0,
     n_observed=n_observed,
     seed=42,

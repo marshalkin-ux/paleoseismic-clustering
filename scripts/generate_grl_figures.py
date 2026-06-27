@@ -68,16 +68,17 @@ def _save(fig: plt.Figure, name: str) -> Path:
 
 
 def fig_etas_validation() -> Path:
-    """Fig 2 — ETAS null distribution: 100 synthetic catalogs vs observed."""
+    """Fig 2 — ETAS null distribution vs observed (1000 catalogs)."""
     etas = json.loads((ROOT / "results" / "etas_validation.json").read_text(encoding="utf-8"))
     counts = np.array(etas["false_positive_rates"], dtype=int)
     n_obs = int(etas["n_observed"])
     p_etas = float(etas["p_value_empirical"])
+    max_count = int(max(counts.max(), n_obs))
+    x_hi = max_count + 2
 
     fig, ax = plt.subplots(figsize=(9, 5.5))
 
-    # Main panel: ETAS replicates (all at zero)
-    bins = np.arange(-0.5, 8.5, 1)
+    bins = np.arange(-0.5, x_hi + 0.5, 1)
     ax.hist(
         counts,
         bins=bins,
@@ -88,38 +89,21 @@ def fig_etas_validation() -> Path:
         label=f"ETAS null ($n={len(counts)}$ catalogs)",
     )
 
-    # Observed annotation (outside histogram range)
-    ax.annotate(
-        "",
-        xy=(7.2, len(counts) * 0.55),
-        xytext=(0.3, len(counts) * 0.85),
-        arrowprops=dict(arrowstyle="->", color=OBS_COLOR, lw=2.2),
-    )
-    ax.text(
-        7.25,
-        len(counts) * 0.52,
-        f"Observed catalog\n$n_{{series}} = {n_obs}$",
-        color=OBS_COLOR,
-        fontsize=11,
-        fontweight="bold",
-        va="center",
-    )
+    ax.axvline(n_obs, color=OBS_COLOR, lw=2.2, linestyle="--", label=f"Observed ($n={n_obs}$)")
 
     ax.set_xlabel("Number of global series per catalog ($N \\geq 4$, $\\geq 3$ FE regions)")
     ax.set_ylabel("Count")
-    ax.set_xlim(-0.5, 8.5)
-    ax.set_xticks(range(0, 8))
+    ax.set_xlim(-0.5, x_hi + 0.5)
     ax.set_title(
         "ETAS null-model validation\n"
         f"$\\bar{{N}}_{{ETAS}} = {counts.mean():.2f}$, "
         f"FPR = {int((counts >= 1).sum())}/{len(counts)}, "
-        f"$p_{{ETAS}} = {p_etas:.4f}$",
+        f"$p_{{ETAS}} \\leq {max(p_etas, 1 / (len(counts) + 1)):.4f}$",
         fontsize=12,
     )
     ax.legend(loc="upper right", frameon=True)
     ax.grid(axis="y", linestyle="--", alpha=0.5)
 
-    # Inset: conceptual contrast
     inset = ax.inset_axes([0.52, 0.08, 0.44, 0.38])
     inset.bar([0], [int(counts.max())], color=NULL_COLOR, width=0.6, label="ETAS (max)")
     inset.bar([1], [n_obs], color=OBS_COLOR, width=0.6, label="Observed")
@@ -127,7 +111,7 @@ def fig_etas_validation() -> Path:
     inset.set_xticklabels(["ETAS\n(max)", "Real\ncatalog"], fontsize=8)
     inset.set_ylabel("$N_{series}$", fontsize=9)
     inset.set_title("Contrast", fontsize=9)
-    inset.set_ylim(0, max(n_obs * 1.15, 10))
+    inset.set_ylim(0, max(n_obs * 1.15, counts.max() * 1.15, 10))
     inset.grid(axis="y", linestyle="--", alpha=0.4)
 
     return _save(fig, "fig02_etas_validation.png")
@@ -167,7 +151,7 @@ def fig_montecarlo_null() -> Path:
     ax.set_ylabel("Density")
     ax.set_title(
         f"Permutation test (modern period, 1973–2026)\n"
-        f"$p < 0.0001$, $z = {z:.2f}$ ({abs(z):.1f}$\\sigma$ below null mean)",
+        f"$p \\leq 0.0001$, $z = {z:.2f}$ ({abs(z):.1f}$\\sigma$ below null mean)",
         fontsize=12,
     )
     ax.legend(frameon=True)

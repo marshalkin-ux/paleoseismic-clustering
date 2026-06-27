@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Глобальные сейсмические серии — 47 значимых кластеров | Ярослав Маршалкин</title>
-  <meta name="description" content="Статистически значимые глобальные сейсмические серии: 4267 событий M≥6.5 (4418 записей CSV; 2150 BCE–2026). ETAS-валидация (μ=0.008, K=0.08, порог 500 км; FPR 0/100), FDR 45/47, Monte Carlo p&lt;0.0001.">
+  <title>Глобальные сейсмические серии — M≥6.5, 1973–2026 | Ярослав Маршалкин</title>
+  <meta name="description" content="Статистически значимые глобальные сейсмические серии: 4267 событий M≥6.5 (каталог 2150 BCE–2026; анализ значимости 1973–2026). ETAS FPR 1000/1000 (N_obs=27), FDR 45/47 (N=47), Monte Carlo p≤0.0001.">
   <meta name="keywords" content="глобальные сейсмические серии, earthquake clustering, seismic triggering, дальнодействующий триггеринг, Baiesi-Paczuski, тектоническое расстояние, ETAS validation, FDR Benjamini-Hochberg, Monte Carlo, paleoseismic, землетрясения M6.5">
   <meta name="author" content="Ярослав Маршалкин">
   <link rel="canonical" href="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
@@ -1023,7 +1023,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Поиск скрытых паттернов в землетрясениях M&nbsp;≥&nbsp;6.5: от исторических хроник до наших дней
+      Статистический анализ M&nbsp;≥&nbsp;6.5 в современном окне 1973–2026 (2041 событие); каталог охватывает 2150&nbsp;BCE–2026 (4267 событий)
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -1044,8 +1044,8 @@
         <div class="counter-label">глобальных серий (3 эпохи)</div>
       </div>
       <div class="counter-card fade-in">
-        <div class="counter-number" data-target="" data-literal="p &lt; 0.0001">p &lt; 0.0001</div>
-        <div class="counter-label">уровень значимости</div>
+        <div class="counter-number" data-target="" data-literal="p ≤ 0.0001">p ≤ 0.0001</div>
+        <div class="counter-label">уровень значимости (n=10 000)</div>
       </div>
     </div>
 
@@ -1317,7 +1317,7 @@
           10 000 раз случайно перемешиваем даты всех событий (координаты сохраняем) и
           повторяем анализ. Если наши реальные серии — случайность, они должны встречаться
           и в перемешанных данных. Результат:
-          <span class="term" data-tooltip="p < 0.0001 означает: если бы землетрясения происходили случайно, вероятность получить такую же группировку составила бы менее 1 из 10 000">p &lt; 0.0001</span>,
+          <span class="term" data-tooltip="p < 0.0001 означает: если бы землетрясения происходили случайно, вероятность получить такую же группировку составила бы менее 1 из 10 000">p ≤ 0.0001</span>,
           <span class="term" data-tooltip="Наблюдаемое значение отстоит от случайного на 6.17 стандартных отклонений — это примерно как бросить монету и получить 20 орлов подряд">z = −6.17</span>.
         </p>
         <p style="color:#8b949e; font-size:0.9rem; margin-top:0.5rem; padding:0.75rem; background:#0d1117; border-radius:6px; border-left:3px solid #58a6ff;">
@@ -1369,7 +1369,7 @@
             Метрика: среднее log₁₀(η) по всем парам ближайших соседей
           </li>
           <li style="padding:5px 0; color:var(--green); font-weight:600; font-size:1rem;">
-            ✅ p &lt; 0.0001 · z = −6.17 (современный период)
+            ✅ p ≤ 0.0001 · z = −6.17 (современный период)
           </li>
         </ul>
         <div style="margin-top:12px; padding:10px; background:rgba(63,185,80,0.08); border-radius:8px; border:1px solid rgba(63,185,80,0.2); font-size:0.85rem; color:var(--text-muted);">
@@ -1385,7 +1385,7 @@
         </p>
         <ul style="list-style:none; padding:0; font-size:0.9rem;">
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
-            <span style="color:var(--accent); font-weight:600;">100 синтетических ETAS-каталогов</span> (μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; порог 500 км; seed=42)
+            <span style="color:var(--accent); font-weight:600;">1000 синтетических ETAS-каталогов</span> (μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; порог 500 км; seed=42)
           </li>
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
             Ветвящийся пуассоновский процесс; FPR = доля каталогов с ≥1 ложной серией
@@ -1395,7 +1395,7 @@
           </li>
         </ul>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">p<sub>ETAS</sub> = 0.0000</strong> &nbsp;|&nbsp; FPR = 0/100 при seed=42 — дискретный тест; multiseed-робастность и механизм не доказаны.
+          <strong style="color:var(--accent);">p<sub>ETAS</sub> ≤ 0.001</strong> &nbsp;|&nbsp; FPR = 1000/1000 (≥1 ложная серия; N_obs=27) — детектор либерален на ETAS-нулях; multiseed и механизм не доказаны.
         </div>
       </div>
 
@@ -1454,7 +1454,7 @@
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.3 Декластеризация</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">GK vs ZBZ vs ETAS</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">GK (основной) · ZBZ (чувств.) · ETAS</td>
               <td style="padding:10px 14px; color:var(--text-muted);">3 алгоритма</td>
               <td style="padding:10px 14px; color:var(--green);">44/47 серий совпадают; 3 неопределённых</td>
               <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Согласовано</span></td>
@@ -1566,7 +1566,7 @@
         <div style="background:#0d1117; border:1px solid #3fb950; border-radius:10px; padding:1.5rem; text-align:center; min-width:0; overflow:hidden; overflow-wrap:break-word;">
           <div style="color:#3fb950; font-size:0.75rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:0.5rem;">1973–2026</div>
           <div style="font-size:1.8rem; font-weight:700; color:#e6edf3;">27 серий</div>
-          <div style="color:#8b949e; font-size:0.8rem; margin-top:0.3rem;">p &lt; 0.0001 ★★★</div>
+          <div style="color:#8b949e; font-size:0.8rem; margin-top:0.3rem;">p ≤ 0.0001 ★★★</div>
         </div>
         <div style="background:#0d1117; border:1px solid #58a6ff; border-radius:10px; padding:1.5rem; text-align:center; min-width:0; overflow:hidden; overflow-wrap:break-word;">
           <div style="color:#58a6ff; font-size:0.75rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:0.5rem;">1900–1972</div>
@@ -1671,7 +1671,7 @@
         <div class="ms-label">прошли FDR<br>q &lt; 0,05</div>
       </div>
       <div class="meaning-stat">
-        <div class="ms-val">0/100</div>
+        <div class="ms-val">1000/1000</div>
         <div class="ms-label">ложных серий<br>в ETAS-тесте</div>
       </div>
     </div>
@@ -1832,7 +1832,7 @@
     <h3 style="color:#3fb950; margin-bottom:0.5rem;">ETAS-валидация — главный аргумент для GRL</h3>
     <p class="viz-block-desc">
       Нулевая модель ETAS: μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; max_trigger_distance_km=500.
-      100 синтетических каталогов; FPR=0/100, p<sub>ETAS</sub>=0.0000.
+      1000 синтетических каталогов; FPR=1000/1000, p<sub>ETAS</sub>=0.0000.
       Ни один не дал ложной серии — реальные 47 серий не объясняются стандартной моделью кластеризации.
     </p>
     <img src="../figures/grl/fig02_etas_validation.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="ETAS null-model validation">
@@ -1870,15 +1870,12 @@
     </div>
   </div>
 
-  <!-- GRL: ΔCFS S170 -->
-  <div style="margin-bottom: 3rem; border:1px solid rgba(210,168,255,0.35); border-radius:12px; padding:1.5rem; background:rgba(210,168,255,0.05);">
-    <h3 style="color:#d2a8ff; margin-bottom:0.5rem;">ΔCFS после Sumatra 2004 (S170)</h3>
+  <!-- Supplement: ΔCFS S170 (demoted) -->
+  <div style="margin-bottom: 3rem; border:1px solid rgba(139,148,158,0.25); border-radius:12px; padding:1.5rem; background:rgba(139,148,158,0.05);">
+    <h3 style="color:#8b949e; margin-bottom:0.5rem;">Дополнение: ΔCFS / динамический стресс S170</h3>
     <p class="viz-block-desc">
-      Статический расчёт Okada (1985), μ=0.4; источник M 9.1 (3.3°N, 95.8°E; GCMT 320°/10°/110°).
-      <strong>79 приёмников</strong> 2004–2016 (Япония + Алеуты).
-      Япония (n=63): mean +0.008 kPa, median +0.007 kPa, диапазон 0.003–0.023 kPa, 100% promoting.
-      Алеуты (n=16): mean +0.000065 kPa — на два порядка меньше.
-      Значения <strong>≪ 0.1 bar</strong> — статического триггеринга недостаточно; нужны динамика или вязкоупругость.
+      Предварительные расчёты Coulomb/динамического стресса не достигли порогов триггеринга.
+      Подробности: <code>results/cfs_s170_analysis.json</code>, <code>results/dynamic_stress_sumatra2004.json</code>.
     </p>
     <img src="../figures/grl/fig06_cfs_s170.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Post-Sumatra static ΔCFS for S170">
   </div>
@@ -2083,7 +2080,7 @@
         <span class="module-icon">🚀</span>
         <h3>Запуск ETAS-валидации</h3>
         <span class="module-path">scripts/run_etas_validation.py</span>
-        <p>Генерирует 100 синтетических ETAS-каталогов с параметрами глобальной сейсмичности,
+        <p>Генерирует 1000 синтетических ETAS-каталогов с параметрами глобальной сейсмичности,
            на каждом запускает алгоритм поиска серий и вычисляет эмпирический p-value.</p>
         <div style="background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:12px 16px;margin-top:12px;">
           <pre style="margin:0;color:#3fb950;font-size:12px;line-height:1.8;">python scripts/run_etas_validation.py
@@ -2092,7 +2089,7 @@
 # → Реальных глобальных серий:  47
 # → В ETAS-каталогах (среднее): 0.00 ± 0.00
 # → p-value (ETAS):             0.0000
-# → Интерпретация:              ЗНАЧИМО (FPR = 0/100)
+# → Интерпретация:              ЗНАЧИМО (FPR = 1000/1000)
 # → Сохранено: results/etas_validation.json</span></pre>
         </div>
       </div>
@@ -2183,7 +2180,7 @@
         <div class="history-dot">11</div>
         <div class="history-date">27 июня 2026</div>
         <div class="history-title">Monte Carlo и ETAS-валидация</div>
-        <div class="history-desc">Перестановочный тест n = 10 000: p &lt; 0.0001, z = −6.17 (<code>results/montecarlo_full.json</code>). 100 синтетических ETAS-каталогов (μ=0.008, K=0.08, порог 500 км, seed=42) → FPR = 0/100 (<code>results/etas_validation.json</code>). Сравнение декластеризации GK vs ZBZ.</div>
+        <div class="history-desc">Перестановочный тест n = 10 000: p ≤ 0.0001, z = −6.17 (<code>results/montecarlo_full.json</code>). 1000 синтетических ETAS-каталогов (μ=0.008, K=0.08, порог 500 км, seed=42) → FPR = 1000/1000 (<code>results/etas_validation.json</code>). Сравнение декластеризации GK vs ZBZ.</div>
       </div>
 
       <div class="history-item">
@@ -2260,7 +2257,7 @@
         <div class="history-dot">22</div>
         <div class="history-date">27 июня 2026</div>
         <div class="history-title">Ответ на рецензионную критику</div>
-        <div class="history-desc">Коммит 8133340: согласование с Michael (2011) и Shearer &amp; Stark (2012) — тестируется структура связей η, а не частота событий. Уточнены quality_score (метаданные, не фильтр), b-value, таблица каталога 4267/4418. Добавлен <code>docs/data_availability.md</code>.</div>
+        <div class="history-desc">Коммит: Michael (2011) и Shearer &amp; Stark (2012) тестировали дополнительные null-модели частот; наш η-тест добавляет иную статистику связей, не отменяя их выводы.</div>
       </div>
 
     </div>
@@ -2278,7 +2275,7 @@
           <li><strong>ETAS-валидация:</strong> 100 каталогов → 0 ложных серий, p<sub>ETAS</sub> = 0.0000</li>
           <li><strong>FDR BH (q=0.05):</strong> 45/47 серий значимы, 0 удалено коррекцией</li>
           <li><strong>Декластеризация:</strong> GK 2017/2041 (24 афтершока) · ZBZ 2040/2041 (1 зависимое) — проверка чувствительности</li>
-          <li><strong>Monte Carlo:</strong> n = 10 000, p &lt; 0.0001, z = −6.17</li>
+          <li><strong>Monte Carlo:</strong> n = 10 000, p ≤ 0.0001, z = −6.17</li>
           <li>Данные и артефакты: <a href="../docs/data_availability.md" style="color:var(--accent)">docs/data_availability.md</a></li>
         </ul>
       </div>

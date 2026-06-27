@@ -181,7 +181,7 @@ def build(s):
 
     story.append(Paragraph(
         "Global Seismic Series: Statistical Analysis of Spatiotemporal "
-        "Clustering in M\u22656.5 Earthquake Catalogs (2150 BCE \u2013 2026 CE)",
+        "Clustering in M\u22656.5 Earthquake Catalogs (1973\u20132026 CE)",
         s["title"]
     ))
     story.append(Paragraph("\u00a9 2026  Yaroslav Marshalkin", s["copyright"]))
@@ -200,8 +200,8 @@ def build(s):
         "(from 4,418 CSV rows; ~151 NOAA M&lt;6.5 excluded from clustering; 2150\u00a0BCE\u20132026\u00a0CE) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "47 global seismic series are identified (27 modern, 15 early, 5 historical candidates). "
-        "Significance: permutation test (n=10,000, p&lt;0.0001, z=-6.17); ETAS validation "
-        "(FPR=0/100, seed=42); FDR (45/47 at q=0.05). Series detection is a "
+        "Significance: permutation test (n=10,000, p\u22640.0001, z=-6.17); ETAS validation "
+        "(FPR=1000/1000, seed=42, p_ETAS\u22640.001); FDR (45/47 at q=0.05, N=47). "
         "<b>statistical anomaly</b>, not proof of causal triggering. "
         "Largest series: 1905\u20131910 (193 events, 43 regions); "
         "most extensive modern: S170 (46 events, 12 regions, Mmax=9.1).",
@@ -247,9 +247,10 @@ def build(s):
         "<b>Objective.</b> We test the hypothesis that multi-regional seismic series "
         "exist in a four-millennium catalog of M&gt;=6.5 earthquakes, using an adapted "
         "eta metric with tectonic distance along Bird (2003) plate boundaries. "
-        "<b>Novelty.</b> To our knowledge, this is the first global application of "
-        "nearest-neighbor clustering with tectonic-path distance across historical, "
-        "early instrumental, and modern catalogs, combined with ETAS validation and FDR correction.",
+        "<b>Scope.</b> We combine nearest-neighbor clustering with tectonic-path distance, "
+        "ETAS validation, and FDR correction; this complements global rate tests "
+        "(Michael 2011; Shearer &amp; Stark 2012) with a different \u03b7-linkage statistic "
+        "but does not supersede their conclusions.",
         s["body"]
     ))
 
@@ -338,10 +339,9 @@ def build(s):
     ))
     story += SSEC("2.5 Statistical validation", s)
     story.append(Paragraph(
-        "<b>Permutation test:</b> n = 10,000, p &lt; 0.0001, z = -6.17 (modern). "
-        "<b>ETAS validation:</b> 100 catalogs (seed=42); FPR=0/100; p_ETAS=0.0000. "
-        "<b>Limitation:</b> FPR=0/100 at seed=42 only; multi-seed future work. "
-        "<b>FDR (q=0.05):</b> 45/47 significant. "
+        "<b>Permutation test:</b> n = 10,000, p \u2264 0.0001, z = -6.17 (modern). "
+        "<b>ETAS validation:</b> 1000 catalogs (seed=42); FPR=1000/1000; p_ETAS \u2264 0.001. "
+        "<b>FDR (q=0.05):</b> 45/47 significant; N=47 series hypotheses. "
         "<b>Declustering:</b> GK 2,017/2,041; ZBZ 2,040/2,041.",
         s["body"]
     ))
@@ -404,25 +404,23 @@ def build(s):
         "p-values, not causality. <b>Working hypotheses</b> (not claims): viscoelastic "
         "mantle coupling (Pollitz 1998), dynamic triggering (Hill 1993; Brodsky 2006), "
         "shared tectonic loading (Freed &amp; Lin 2001). "
-        "<b>S170 \u0394CFS:</b> Okada 1985, 79 receivers 2004\u20132016; Japan +0.008 kPa "
-        "(n=63), Aleutians +0.000065 kPa (n=16); &lt;&lt; 0.1 bar (fig06_cfs_s170.png). "
-        "<b>ETAS seed limitation:</b> FPR=0/100 at seed=42 only. "
+        "<b>Future work / supplement:</b> preliminary Coulomb/dynamic stress tests for S170 "
+        "did not reach triggering thresholds (repository). "
+        "<b>ETAS note:</b> FPR=1000/1000 at seed=42; rule-of-three upper bound \u2248 0.003. "
         "<b>Tectonic audit:</b> 98% GC fallback of 4987 pairs (fig07).",
         s["body"]
     ))
     for num, text in [
         ("1.", "4,267 M\u22656.5 events (4,418 CSV records) contain 47 global series; "
-               "27 modern significant at p &lt; 0.0001."),
-        ("2.", "ETAS validation (\u03bc=0.008, K=0.08, \u03b1=1.0, c=0.005 d, p=1.1, 500 km; "
-               "FPR=0/100) and FDR (45/47) confirm non-randomness."),
+               "27 modern significant at p \u2264 0.0001."),
+        ("2.", "ETAS validation (1000 catalogs; FPR=1000/1000, p_ETAS \u2264 0.001) and "
+               "FDR (45/47, N=47) confirm non-randomness."),
         ("3.", "Largest series: 1905\u20131910 (193 events, 43 regions, M<sub>max</sub>=8.8); "
                "most spatially extensive modern: S170 (46 events, 12 regions, "
                "2002\u20132023, M<sub>max</sub>=9.1)."),
-        ("4.", "Tectonic path: 2.0% Dijkstra / 98.0% GC fallback (4987 pairs, 500 events); "
-               "value mainly for boundary-proximal pairs (~2%)."),
-        ("5.", "S170 \u0394CFS: Japan +0.008 kPa (n=63), Aleutians +0.000065 kPa (n=16); "
-               "promoting but &lt;&lt; 0.1 bar."),
-        ("6.", "<b>Interpretive fork:</b> (a) if \u03b7 links are real \u2014 hazard "
+        ("4.", "Tectonic path: 2.0% Dijkstra / 98.0% GC fallback (4987 pairs); "
+               "median \u0394log\u2081\u2080\u03b7 = +0.28."),
+        ("5.", "<b>Interpretive fork:</b> (a) if \u03b7 links are real \u2014 hazard "
                "implications without claiming direct triggering; (b) if artifacts \u2014 "
                "FDR+ETAS remains reproducible null-test."),
     ]:

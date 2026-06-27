@@ -322,7 +322,7 @@ class ETASCatalogGenerator:
 
     def _run_one_catalog(self, args: tuple) -> int:
         """Запускает кластеризацию на одном ETAS-каталоге. Для Pool.map."""
-        i, seed_i, cluster_analyzer, min_events, min_regions, time_window_years = args
+        i, seed_i, cluster_analyzer, min_events, time_window_years = args
         try:
             df = self.generate(n_background=80, seed=seed_i)
             df["year"] = df["time_years"].astype(int)
@@ -338,7 +338,6 @@ class ETASCatalogGenerator:
             found = cluster_analyzer.global_series(
                 df,
                 min_events=min_events,
-                min_regions=min_regions,
                 time_window_years=time_window_years,
             )
             return len(found)
@@ -351,7 +350,6 @@ class ETASCatalogGenerator:
         cluster_analyzer: Any,
         n_catalogs: int = 100,
         min_events: int = 4,
-        min_regions: int = 3,
         time_window_years: float = 2.0,
         n_observed: int | None = None,
         n_workers: int | None = None,
@@ -372,7 +370,6 @@ class ETASCatalogGenerator:
             cluster_analyzer: ``SeismicClusterAnalyzer`` с методом ``global_series()``.
             n_catalogs: число синтетических каталогов.
             min_events: минимальное число событий в серии.
-            min_regions: минимальное число регионов в серии.
             time_window_years: временное окно (годы).
             n_observed: число серий в реальном каталоге (для p-value).
             n_workers: число рабочих процессов (None → cpu_count - 1).
@@ -393,7 +390,7 @@ class ETASCatalogGenerator:
         series_counts = np.zeros(n_catalogs, dtype=int)
 
         for i in range(n_catalogs):
-            args = (i, seed + i, cluster_analyzer, min_events, min_regions, time_window_years)
+            args = (i, seed + i, cluster_analyzer, min_events, time_window_years)
             series_counts[i] = self._run_one_catalog(args)
 
         false_positive_rates = series_counts.tolist()

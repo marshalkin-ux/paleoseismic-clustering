@@ -4,7 +4,7 @@
 [![GitHub Pages](https://img.shields.io/badge/demo-GitHub%20Pages-58a6ff)](https://marshalkin-ux.github.io/paleoseismic-clustering/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-green.svg)](https://www.python.org/)
 
-**Статистически значимые глобальные сейсмические серии** в объединённом каталоге **4267 событий M≥6.5** (4418 записей CSV; 2150 BCE – 2026): тектоническое расстояние, метрика Baiesi–Paczuski, ETAS-валидация (μ=0.008, K=0.08, порог 500 км), FDR и Monte Carlo.
+**Статистически значимые глобальные сейсмические серии** в четырёхтысячелетнем каталоге **4267 событий M≥6.5** (4418 записей CSV); **основной анализ значимости — современное окно 1973–2026** (2041 событие). Тектоническое расстояние, метрика Baiesi–Paczuski, ETAS-валидация (μ=0.008, K=0.08, порог 500 км, n=1000), FDR (N=47) и Monte Carlo.
 
 > **Живая демонстрация:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)  
 > **Научная статья (PDF):** [RU](paper/article_ru.pdf) · [EN](paper/article_en.pdf)  
@@ -20,9 +20,9 @@
 |---------|----------|
 | Каталог | **4267** событий M≥6.5 (4418 записей CSV; USGS + ISC + NOAA) |
 | Глобальные серии | **47** (27 современных · 15 ранних · 5 исторических, p=0.46) |
-| Monte Carlo | n = 10 000, **p < 0.0001**, z = −6.17 |
-| ETAS-валидация | μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; 500 км → **FPR 0/100** |
-| FDR (q = 0.05) | **45/47** серий значимы |
+| Monte Carlo | n = 10 000, **p ≤ 0.0001**, z = −6.17 |
+| ETAS-валидация | n = 1000 каталогов → **FPR 1000/1000** (N_obs=27; p_ETAS ≤ 0.001) |
+| FDR (q = 0.05) | **45/47** серий значимы (**N = 47** гипотез) |
 | Mc / b-value | 6.55 / 0.911 ± 0.018 |
 
 ---
@@ -36,7 +36,7 @@
 - **Тектоническое расстояние** (Bird 2003, граф границ плит) вместо евклидова
 - Метрика ближайшего соседа **η** (Baiesi & Paczuski 2004)
 - Трёхуровневая статистическая валидация: permutation test · ETAS null model · FDR Benjamini–Hochberg
-- Полный исторический охват: от **2150 BCE** до **2026**
+- Полный исторический охват каталога: **2150 BCE** – **2026**; заявления о значимости — для **1973–2026** и раннего инструментального периода
 
 **Ключевые слова (SEO):** global seismic series · earthquake clustering · remote triggering · tectonic distance · ETAS validation · paleoseismic catalog · Baiesi-Paczuski metric · Monte Carlo permutation test · FDR multiple testing · глобальные сейсмические серии · кластеризация землетрясений · дальнодействующий триггеринг
 

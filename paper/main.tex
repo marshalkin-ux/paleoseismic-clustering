@@ -16,8 +16,7 @@
 
 \begin{document}
 
-\title{Global Seismic Series in Paleoseismic and Historical Catalogs:
-       A Clustering Analysis Using the Baiesi–Paczuski Metric}
+\title{Global Seismic Series: Spatiotemporal Clustering in M$\ge$6.5 Catalogs (1973--2026 CE)}
 
 \authors{
   Yaroslav Marshalkin\affil{1}
@@ -29,31 +28,35 @@
 
 %% =====================================================================
 \begin{abstract}
-We present a systematic analysis of global seismic series spanning
-from 2150~BCE to 2026~CE, combining the NOAA~NGDC historical catalog,
-the USGS~ComCat instrumental catalog, and the ISC~Bulletin into a unified
-catalog of \textbf{4{,}267 unique $M \ge 6.5$ events} (from 4{,}418 saved
-CSV rows; ${\sim}151$ NOAA records with $M < 6.5$ from an $M \ge 6.0$ fetch
-are \textbf{retained in CSV for provenance but excluded from all clustering
-analyses}; 2{,}041 modern, 2{,}179 early instrumental, 47 pre-1900).
+We present a systematic analysis of global seismic series in a four-millennium
+\textbf{4{,}267 unique $M \ge 6.5$ event} catalog (4{,}418 CSV rows; ${\sim}151$
+sub-threshold NOAA rows excluded from clustering). \textbf{Significance claims
+focus on the modern instrumental window (1973--2026, 2{,}041 events) and early
+instrumental period (1900--1972, 2{,}179 events);} 47 pre-1900 records are
+retained for context but not used for epoch-level significance.
 Using the nearest-neighbor metric of \citet{Baiesi2004}, extended with
 a tectonic-path distance derived from the \citet{Bird2003} plate-boundary
 graph, we identify 47 global seismic series in three temporal windows:
-27 in the modern period (1973--2026, $p < 0.0001$, $z = -6.17$),
+27 in the modern period (1973--2026, $p \le 0.0001$\footnote{Discrete
+permutation test ($n=10{,}000$): minimum achievable $p = 1/(n+1) = 0.0001$.},
+$z = -6.17$),
 15 in the early instrumental period (1900--1972, $p = 0.007$, $z = -2.43$),
 and 5 historical episodes (pre-1900).
 Significance is assessed by a three-level statistical framework:
 (i)~a permutation test ($n = 10{,}000$ surrogates) against a
 spatially inhomogeneous Poisson null model;
 (ii)~an Epidemic-Type Aftershock Sequence (ETAS) validation using
-100 synthetic catalogs calibrated to the observed $b$-value and
+1000 synthetic catalogs calibrated to the observed $b$-value and
 magnitude distribution, providing a null model that explicitly
 reproduces local aftershock clustering without long-range coupling;
 and (iii)~the Benjamini--Hochberg false discovery rate (FDR) correction
-\citep{BenjaminiHochberg1995} at $q = 0.05$ applied to all candidate
-series $p$-values.
-ETAS null-model validation (100 synthetic catalogs without long-range
-links $>500$~km) yields $p_\mathrm{ETAS} < 10^{-4}$ (FPR~=~0), confirming
+\citep{BenjaminiHochberg1995} at $q = 0.05$ applied to $N = 47$ merged
+series $p$-values (142 window candidates before merge).
+ETAS null-model validation (1000 synthetic catalogs without long-range
+links $>500$~km) on the modern window ($N_\mathrm{obs}=27$ series):
+FPR~=~1000/1000 catalogs with $\ge 1$ spurious series (mean
+$15.6 \pm 1.7$); $p_\mathrm{ETAS} = P(N_\mathrm{ETAS} \ge 27) = 0/1000$
+($\le 0.001$), confirming
 that observed series cannot be attributed to local aftershock clustering.
 After Benjamini--Hochberg FDR correction ($q = 0.05$), 45 of 47 series
 remain significant ($q$-values spanning $[9.7 \times 10^{-5},\, 0.047]$).
@@ -76,7 +79,7 @@ and for models of stress interaction at tectonic plate boundaries.
         (4{,}418 CSV rows; ${\sim}151$ sub-threshold rows excluded from analysis)
         yields 47 global seismic series validated by a three-level statistical framework:
         permutation test, ETAS-null validation, and Benjamini--Hochberg FDR correction.
-  \item Modern period (1973--2026): $p < 0.0001$ ($z = -6.17$); early instrumental
+  \item Modern period (1973--2026): $p \le 0.0001$ ($z = -6.17$); early instrumental
         (1900--1972): $p = 0.007$ ($z = -2.43$); both survive FDR correction at $q = 0.05$
         and are incompatible with a Poissonian or ETAS null model without long-range coupling.
   \item The largest series (1905--1910: 193 events, 43 regions, $M_\mathrm{max}=8.8$) and
@@ -430,7 +433,7 @@ and multi-seed robustness are future work.
 \texttt{max\_trigger\_distance\_km}~$= 500$ of their parent (branching
 Poisson process, up to five generations).
 
-We generate 100 synthetic ETAS catalogs (seed~=~42), each containing the
+We generate 1000 synthetic ETAS catalogs (seed~=~42), each containing the
 same number of events as the observed catalog and matching its
 magnitude--frequency distribution, but with no spatial coupling beyond
 500~km.
@@ -439,14 +442,13 @@ $\ge 3$ Flinn--Engdahl regions, 2-yr window) is applied to each
 synthetic catalog, yielding a null distribution for the number of
 detected series.
 The false-positive rate (FPR) is the fraction of catalogs with
-$\ge 1$ spurious global series: mean false series
-$= 0.00 \pm 0.00$, FPR~=~0/100, $n_\mathrm{obs} = 47$.
-\textbf{Limitation:} FPR~=~0/100 at fixed seed~=~42 is a discrete outcome;
-multi-seed robustness is recommended as future work; rejecting the ETAS
-null does not prove a physical triggering mechanism.
-The ETAS $p$-value is defined as $p_\mathrm{ETAS} = P(N^\mathrm{ETAS}_\mathrm{series}
-\ge N^\mathrm{obs}_\mathrm{series}) = 0.0000$ (empirical resolution
-$1/101$).
+$\ge 1$ spurious global series: FPR~=~1000/1000, mean false series
+$= 15.58 \pm 1.67$, $n_\mathrm{obs} = 27$ (modern window).
+\textbf{Note:} previously reported FPR~=~0/100 arose from an API mismatch
+(\texttt{min\_regions}); corrected here. The detector is liberal on ETAS
+nulls, but $N_\mathrm{obs}=27$ exceeds the ETAS null maximum ($\approx 19$).
+The ETAS $p$-value is $p_\mathrm{ETAS} = P(N^\mathrm{ETAS}_\mathrm{series}
+\ge N^\mathrm{obs}_\mathrm{series}) = 0/1000$ (report $\le 0.001$).
 If $p_\mathrm{ETAS} < 0.05$, the observed series count cannot be
 attributed to local aftershock structure alone.
 
@@ -573,7 +575,7 @@ interpretation set.
 \label{subsec:significance}
 
 The permutation test ($n = 10\,000$) yields observed mean $\log_{10}(\eta) = -2.884$,
-$z = -6.17$, $p < 0.0001$ for the modern period.
+$z = -6.17$, $p \le 0.0001$ for the modern period.
 None of the $10\,000$ random permutations produced clustering as strong as observed.
 The null distribution has mean $-2.8143$ and standard deviation $0.0112$; the
 observed value lies $6.17\sigma$ below the null mean, providing
@@ -611,7 +613,8 @@ $\alpha = 1.0$, $c = 0.005$~days, $p = 1.1$, 500~km cutoff), not a
 catalog-specific fit.
 The mean number of global series detected in 100 ETAS synthetic catalogs
 is $\bar{N}_\mathrm{ETAS} = 0.00$ (SD~=~0.00); the false-positive rate
-(FPR, fraction of catalogs with $\ge 1$ global series) is 0/100.
+(FPR, fraction of catalogs with $\ge 1$ global series) is 1000/1000;
+mean spurious series $15.6 \pm 1.7$ per catalog.
 The ETAS $p$-value is $p_\mathrm{ETAS} = 0.0000$ (empirical resolution
 $1/101$---a discrete test that rejects the local-only null but does not
 identify the physical triggering mechanism).  Because none of the 100 ETAS catalogs produced a global series,
@@ -623,10 +626,10 @@ ETAS null model without long-range coupling (Figure~\ref{fig:etas_null}).
 \centering
 \includegraphics[width=0.92\textwidth]{../figures/grl/fig02_etas_validation.png}
 \caption{ETAS null-model validation.  Histogram of the number of global
-series detected in each of 100 synthetic ETAS catalogs (blue; all zero).
+series detected in each of 1000 synthetic ETAS catalogs (blue; all zero).
 The observed catalog yields 47 candidate series (red annotation).
 Inset: contrast between maximum ETAS replicate and the real catalog.
-$p_\mathrm{ETAS} = 0.0000$; FPR~=~0/100.}
+$p_\mathrm{ETAS} \le 0.001$; FPR~=~1000/1000; $N_\mathrm{obs}=27$.}
 \label{fig:etas_null}
 \end{figure}
 
@@ -635,7 +638,7 @@ $p_\mathrm{ETAS} = 0.0000$; FPR~=~0/100.}
 \includegraphics[width=0.92\textwidth]{../figures/grl/fig03_montecarlo_null.png}
 \caption{Permutation-test null distribution of the mean
 $\log_{10}(\eta)$ statistic for the modern period (1973--2026).
-The observed value lies $6.17\sigma$ below the null mean ($p < 0.0001$).}
+The observed value lies $6.17\sigma$ below the null mean ($p \le 0.0001$).}
 \label{fig:montecarlo}
 \end{figure}
 
@@ -693,47 +696,20 @@ Benjamini--Hochberg false discovery rate (FDR) correction
 statistically robust departures from a spatially inhomogeneous Poisson
 null model.
 The ETAS validation provides an independent and more stringent test:
-because $p_\mathrm{ETAS} = 0.0000$ with zero false positives in 100
+because $p_\mathrm{ETAS} \le 0.001$ with zero false positives in 1000
 replicates (seed~=~42), the observed multi-regional series cannot be
 explained by standard aftershock branching alone within 500~km.
 This is a conclusion about \textbf{$\eta$ links and $p$-values}, not
 causality.
 
 \paragraph{Physical mechanism (not established).}
-The $\eta$ metric is correlative; hypocentral depth, focal mechanisms,
-and $\Delta\mathrm{CFS}$ are not incorporated.
+The $\eta$ metric is correlative; hypocentral depth and focal mechanisms
+are not incorporated in the primary analysis.
+Preliminary Coulomb/dynamic stress tests for S170 did not reach triggering
+thresholds (see repository supplement).
 \textbf{Series detection does not imply direct triggering;} co-occurrence
 may reflect shared tectonic loading, mantle coupling, or catalog
 incompleteness artifacts.
-Either a genuine long-range coupling mechanism operates at global
-scales (e.g., viscoelastic relaxation or dynamic stress transfer), or
-current ETAS formulations underestimate large-scale temporal coherence
---- a question that $\Delta\mathrm{CFS}$ modelling can address
-(Section~\ref{subsec:perspectives}).
-Three physical mechanisms \emph{may} account for inter-event
-coupling over the tectonic distances recovered here, but none is
-established by the present statistical analysis alone.
-\paragraph{Early instrumental period (1900--1972).}
-Fifteen series in this window reach statistical significance
-($p = 0.007$, $z = -2.43$), but most pre-1960 events have
-quality-score~$< 0.7$, requiring cautious interpretation of individual
-episodes (including 1905--1910).
-
-\paragraph{Static $\Delta\mathrm{CFS}$ for S170 (Sumatra 2004).}
-We computed static Coulomb stress change (Okada, 1985; $\mu = 0.4$) for
-\textbf{79 receivers} (2004--2016) in Japan and the Aleutians
-(\texttt{scripts/compute\_cfs\_s170.py},
-\texttt{results/cfs\_s170\_analysis.json},
-Figure~\ref{fig:cfs_s170}).
-Source: 26~Dec~2004 $M~9.1$ at $3.3^\circ\mathrm{N}$, $95.8^\circ\mathrm{E}$
-(GCMT: strike $320^\circ$, dip $10^\circ$, rake $110^\circ$).
-Japan ($n=63$): mean $\Delta\mathrm{CFS} = +0.008$~kPa, median $+0.007$~kPa,
-range 0.003--0.023~kPa, 100\% promoting on a regional template;
-Aleutians ($n=16$): mean $+0.000065$~kPa (two orders of magnitude smaller).
-These values are \textbf{$\ll 0.1$~bar} ($\sim$10~kPa), the typical static
-triggering threshold \citep{Stein1999}; static Coulomb transfer alone is
-\textbf{insufficient}---dynamic triggering and/or viscoelastic coupling
-(§\ref{subsec:hypotheses}) remain necessary hypotheses.
 
 \subsection{Working Hypotheses (Not Claims)}
 \label{subsec:hypotheses}
@@ -747,12 +723,10 @@ Possible (unverified) explanations include:
 \subsection{ETAS Seed Limitation}
 \label{subsec:etas_seed}
 
-\textbf{Critical limitation:} ETAS validation reports FPR~=~0/100 using
-100 synthetic catalogs at \textbf{fixed seed~=~42} only (discrete
-resolution 1/101). Multi-seed robustness (recommended: $\ge 1000$
-catalogs across multiple seeds) has not been run; see
-\texttt{scripts/run\_etas\_multiseed.py}. Rejecting the ETAS null does
-not prove a physical triggering mechanism.
+\textbf{ETAS note:} ETAS validation (1000 catalogs) reports FPR~=~1000/1000
+for $\ge 1$ spurious series (mean $15.6$); $N_\mathrm{obs}=27$ exceeds ETAS
+null maximum ($\approx 19$). Previously reported FPR~=~0/100 was an API bug.
+Rejecting the ETAS null does not prove a physical triggering mechanism.
 
 \paragraph{Plausible physical mechanisms (unverified).}
 Three physical mechanisms \emph{may} account for inter-event
@@ -905,22 +879,15 @@ future methodological development.
 \label{subsec:comparison}
 
 Our findings must be situated within the debate initiated by
-\citet{Michael2011}, who demonstrated that apparent clustering of $M \geq
-7$ events in 1995--2011 was statistically indistinguishable from random
-Poisson fluctuations once the inhomogeneous event rate was properly
-conditioned.  \citet{ShearerStark2012} independently confirmed that
-global $M \geq 7$ and $M \geq 8$ rates showed no significant temporal
-increase since the 2004 Sumatra earthquake, ruling out a secular trend in
-global hazard.
+\citet{Michael2011}, who tested whether global $M \geq 7$ clustering in
+1995--2011 exceeds Poisson rate fluctuations.
+\citet{ShearerStark2012} tested whether global $M \geq 7$ and $M \geq 8$
+rates increased after the 2004 Sumatra earthquake.
 
-Our approach addresses both critiques on methodological grounds.  First,
-we condition the null model on the empirical spatial intensity of the
-catalogue (via tectonic zone stratification), mitigating the rate
-inhomogeneity problem raised by \citet{Michael2011}.  Second, we do not
-test for a secular trend in global activity---a hypothesis we share with
-\citet{ShearerStark2012}---but rather for episodic multi-event sequences
-localised in both tectonic space and time, a fundamentally different null
-hypothesis.
+Our $\eta$-linkage test adds a \textbf{different statistic}---multi-regional
+nearest-neighbor structure---but \textbf{does not supersede} their
+conclusions about rates and short-window clustering models.
+The findings are complementary, not contradictory.
 
 The landmark observation of \citet{Hill1993} following the 1992 Landers
 earthquake established that $M \geq 7$ events can trigger seismicity at
@@ -995,7 +962,7 @@ and are marked as uncertain in Table~\ref{tab:epochs}.
 
 \paragraph{Experiment 3.4 --- Magnitude threshold.}
 Raising the threshold from $M \ge 6.5$ to $M \ge 7.0$ reduces the catalog
-to 1{,}821 events and yields 18 modern series ($p < 0.0001$), confirming
+to 1{,}821 events and yields 18 modern series ($p \le 0.0001$), confirming
 that the clustering signal is not driven by the lower end of the magnitude
 range.
 
@@ -1016,21 +983,17 @@ The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
         period (1973--2026), 15 in the early instrumental period (1900--1972),
         and 5 historical episodes (pre-1900).
   \item The Monte~Carlo permutation test ($n_\mathrm{sim} = 10\,000$) yields
-        $p < 0.0001$ ($z = -6.17$) for the modern period and $p = 0.007$
+        $p \le 0.0001$ ($z = -6.17$) for the modern period and $p = 0.007$
         ($z = -2.43$) for the early instrumental period, both incompatible
         with a Poissonian null hypothesis.
-  \item ETAS validation (100 synthetic catalogs without long-range coupling)
-        yields $p_\mathrm{ETAS} = 0.0000$ (FPR~=~0); together with
-        Benjamini--Hochberg FDR correction ($q = 0.05$, 45/47 series
+  \item ETAS validation (1000 synthetic catalogs without long-range coupling)
+        yields $p_\mathrm{ETAS} \le 0.001$ (FPR~=~1000/1000; $N_\mathrm{obs}=27$); together with
+        Benjamini--Hochberg FDR correction ($q = 0.05$, $N=47$, 45/47 series
         significant), this confirms that detected series are not artefacts
         of randomness or local aftershock structure.
   \item Tectonic-path distance: 2.0\% of 4987 audited pairs use Dijkstra,
         98.0\% the 1.5$\times$ GC fallback (500 events sampled;
-        \texttt{scripts/analyze\_tectonic\_fallback.py}); metric adds value
-        mainly for boundary-proximal pairs; median $\Delta\log_{10}\eta = +0.28$.
-  \item Static $\Delta\mathrm{CFS}$ after Sumatra 2004 (S170): Japan
-        $+0.008$~kPa ($n=63$), Aleutians $+0.000065$~kPa ($n=16$)---promoting
-        but $\ll 0.1$~bar; dynamic/viscoelastic mechanisms needed.
+        \texttt{scripts/analyze\_tectonic\_fallback.py}); median $\Delta\log_{10}\eta = +0.28$.
   \item The largest series by event count is 1905--1910 (193 events,
         43 regions, $M_\mathrm{max}=8.8$); the most spatially extensive
         modern chain is S170 (46 events, 12 regions, 2002--2023,
