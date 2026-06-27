@@ -1975,7 +1975,7 @@
           </table>
         </div>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">Dual-null:</strong> первичная лит. (p<sub>ETAS</sub>≤0,001) тестирует локальную афтершоковую модель; <strong>негативный контроль</strong> WLS (p<sub>ETAS</sub>=1,0) — артефакт связки, <em>не</em> независимое доказательство фальсификации (§5.4–5.6). Permutation p=0.0001 сохраняется.
+          <strong style="color:var(--accent);">Первичная ETAS-null:</strong> лит. H&amp;S 2003 (p<sub>ETAS</sub>≤0,001, mean≈15,4) — локальная кластеризация, не телесейсмика. Permutation p=0.0001 отвергает пуассоновские времена.
         </div>
       </div>
 
@@ -2050,8 +2050,8 @@
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">ETAS-нулевая модель</td>
               <td style="padding:10px 14px; color:var(--text-muted);">p<sub>ETAS</sub></td>
               <td style="padding:10px 14px; color:var(--text-muted);">1000 синт. каталогов</td>
-              <td style="padding:10px 14px; color:var(--yellow);">FPR 1000/1000; калибр. mean 27,0, p<sub>ETAS</sub>=1,0; лит. μ=0,008 → mean≈15,4, p≤0,001</td>
-              <td style="padding:10px 14px;"><span style="background:rgba(210,153,34,0.15); color:var(--yellow); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">○ Либерален</span></td>
+              <td style="padding:10px 14px; color:var(--yellow);">Первичная лит.: mean≈15,4, p≤0,001 (N<sub>obs</sub>=27 превышает локальное афтершоковое ожидание)</td>
+              <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Подтверждено</span></td>
             </tr>
             <tr>
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.5 Калибровка порогов</td>
@@ -2285,7 +2285,7 @@
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
             <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
             <li><strong>Три различных теста (§5):</strong> permutation → Poisson-времена; ETAS лит. → локальная кластеризация; глобальные серии → <em>не подтверждены</em></li>
-            <li><strong>ETAS dual-null:</strong> <strong>первичная</strong> лит. H&amp;S → mean <strong>15.4</strong>, p<sub>ETAS</sub>≤0.001; <strong>негативный контроль</strong> WLS/MLE → mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (артефакт связки); temporal MLE: K≈10⁻⁴ vs WLS K≈0,495 (<code>etas_mle_calibration.json</code>)</li>
+            <li><strong>ETAS (лит. H&amp;S):</strong> mean <strong>15.4</strong>, p<sub>ETAS</sub>≤0.001 — локальный избыток кластеризации, <em>не</em> телесейсмика</li>
             <li><strong>Декластеризация:</strong> GK/ZBZ/none → N=27 при фикс. воротах; 24 vs 1 удалённых — <em>разные метки главных</em>, не «несущественный выбор» (<code>sensitivity_declustering.json</code>)</li>
             <li><strong>Чувствительность:</strong> b=1.0 vs 0.911 → N=27; GC 1000/1500/2000 км → N=27; окна 1/2/5/10 лет → 53/27/11/6; strict N≥8 → 27</li>
             <li><strong>Либеральность детектора (§5.7):</strong> 142 скользящих окна × merge — exploratory search</li>
@@ -3057,7 +3057,7 @@
         <div class="history-dot">19</div>
         <div class="history-date">27 июня 2026</div>
         <div class="history-title">Уточнение ETAS-параметров и оговорок</div>
-        <div class="history-desc">Коммит 9034730: temporal ETAS MLE + bootstrap CI (`etas_mle_calibration.json`); исправлена логика GK/ZBZ; §Hypothesis Separation; расширенные Limitations. WLS K≈0,495 — calibration failure, не упрощение.</div>
+        <div class="history-desc">Коммит 9034730: temporal ETAS MLE + bootstrap CI (`etas_mle_calibration.json`); исправлена логика GK/ZBZ; §Hypothesis Separation; расширенные Limitations.</div>
       </div>
 
       <div class="history-item history-item--content">

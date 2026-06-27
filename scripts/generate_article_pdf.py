@@ -8,7 +8,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _pdf_fonts import register_pdf_fonts
+from _pdf_fonts import register_pdf_fonts, pdf_math_text, build_pdf_table
 
 register_pdf_fonts()
 from reportlab.lib.pagesizes import A4
@@ -21,68 +21,6 @@ from reportlab.platypus import (
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY, TA_RIGHT
 from reportlab.platypus.flowables import Flowable
-# ── Unicode → ASCII safety filter (Arial TTF lacks many specialty glyphs) ────
-def safe_text(s: str) -> str:
-    """Replace chars unsupported by Arial with ASCII equivalents."""
-    import unicodedata
-
-    _phrase_subs = [
-        ("\u03b7\u2080", "eta_0"),
-        ("\u03b7\u1d62\u2c7c", "eta_ij"),
-        ("log\u2081\u2080", "log10"),
-        ("\u0394log\u2081\u2080\u03b7", "Delta log10 eta"),
-        ("\u0394CFS", "Delta CFS"),
-        ("M\u2098\u2090\u2093", "Mmax"),
-        ("n\u209b\u1d62\u2098", "n_sim"),
-        ("p\u2091\u209c\u2090\u209b", "p_ETAS"),
-        ("t\u1d62\u2c7c", "t_ij"),
-        ("r\u1d62\u2c7c", "r_ij"),
-        ("m\u1d62", "m_i"),
-        ("\u03bc", "mu"),
-        ("\u03b1", "alpha"),
-        ("\u03b7", "eta"),
-        ("\u0394", "Delta"),
-        ("\u00d7", "x"),
-        ("\u00b7", " "),
-        ("\u00a7", "Sec."),
-        ("\u2192", "->"),
-        ("\u2193", "v"),
-        ("\u2212", "-"),
-        ("\u2264", "<="),
-        ("\u2265", ">="),
-        ("\u00b1", "+/-"),
-        ("\u202f", " "),
-        ("\u2013", "-"),  # en dash
-        ("\u2014", "-"),  # em dash
-        ("GK\u2013ZBZ", "GK-ZBZ"),
-        ("GK\u2014ZBZ", "GK-ZBZ"),
-        ("\u0301", ""),
-        ("\u0305", ""),
-    ]
-    for old, new in _phrase_subs:
-        s = s.replace(old, new)
-
-    _sub_map = str.maketrans({
-        "\u2080": "0", "\u2081": "1", "\u2082": "2", "\u2083": "3",
-        "\u2084": "4", "\u2085": "5", "\u2086": "6", "\u2087": "7",
-        "\u2088": "8", "\u2089": "9",
-        "\u2090": "a", "\u2091": "e", "\u2092": "o", "\u2093": "x",
-        "\u2098": "m", "\u2099": "n", "\u209b": "s", "\u209c": "t",
-        "\u1d62": "i", "\u2c7c": "j",
-    })
-    s = s.translate(_sub_map)
-    s = "".join(ch for ch in s if unicodedata.category(ch) != "Mn")
-    return s
-
-
-_BaseParagraph = Paragraph
-
-
-class Paragraph(_BaseParagraph):  # type: ignore[misc]
-    def __init__(self, text, style, *args, **kwargs):
-        if isinstance(text, str):
-            text = safe_text(text)
-        super().__init__(text, style, *args, **kwargs)
 
 
 # ── Palette ───────────────────────────────────────────────────────────────────
@@ -113,7 +51,7 @@ class FormulaBox(Flowable):
         c.roundRect(0, 0, self.box_w, self.height, 5, fill=1, stroke=1)
         c.setFillColor(DARK)
         c.setFont("MainBold", 13)
-        c.drawCentredString(self.box_w / 2, self.height / 2 - 5, safe_text(self.text))
+        c.drawCentredString(self.box_w / 2, self.height / 2 - 5, pdf_math_text(self.text))
 
 
 # ── Page template ─────────────────────────────────────────────────────────────
@@ -126,7 +64,7 @@ def on_page(canvas, doc):
     canvas.setFillColor(MGREY)
     canvas.drawCentredString(
         PAGE_W / 2, BM - 0.9 * cm,
-        safe_text(f"Глобальные сейсмические серии  \u00b7  Yaroslav Marshalkin  \u00b7  {doc.page}")
+        f"Глобальные сейсмические серии  ·  Yaroslav Marshalkin  ·  {doc.page}"
     )
     canvas.restoreState()
 
@@ -184,8 +122,10 @@ def make_styles():
                                    spaceAfter=4)
     s["tbl_hdr"] = ParagraphStyle("tbl_hdr", fontName="MainBold", fontSize=9,
                                    textColor=white, alignment=TA_CENTER)
-    s["tbl_cell"] = ParagraphStyle("tbl_cell", fontName="Main", fontSize=9,
-                                    textColor=TEXT)
+    s["tbl_cell"] = ParagraphStyle("tbl_cell", fontName="Main", fontSize=8,
+                                    textColor=TEXT, wordWrap="CJK", leading=11)
+    s["tbl_wrap"] = ParagraphStyle("tbl_wrap", fontName="Main", fontSize=7,
+                                    textColor=TEXT, wordWrap="CJK", leading=10)
     return s
 
 
@@ -244,8 +184,6 @@ def build(s):
         "лит. H&amp;S 2003 (μ=0,008, K=0,08; не связана с детектором): mean\u224815,4, "
         "p_ETAS\u22640,001 — N_obs превышает локальное афтершоковое ожидание, "
         "<b>не доказывает</b> телесейсмические цепочки (§5.4). "
-        "<b>Вторичная диагностика:</b> WLS-калибровка (p_ETAS=1,0, mean=27,0=N_obs) — "
-        "связка детектор+калибровка; не единственная фальсификация. "
         "GK mainshocks only: N=27 без изменений. "
         "Гипотеза о глобальных сериях <b>не подтверждается</b> (§5.4\u20135.6). "
         "Permutation p=0.0001 (1/10,001) отвергает пуассоновские времена, "
@@ -295,8 +233,7 @@ def build(s):
         "The detector yields 47 algorithmic candidates (27 modern). "
         "<b>Primary ETAS null</b> (literature H&amp;S 2003, decoupled): mean\u224815.4, "
         "p_ETAS\u22640.001 — exceeds local aftershock expectation; <b>not</b> teleseismic proof "
-        "(Sec. 5.4). <b>Secondary diagnostic</b> (catalog WLS): p_ETAS=1.0, mean=27.0=N_obs — "
-        "detector--calibration coupling. GK mainshocks: N=27 unchanged. "
+        "(Sec. 5.4). GK mainshocks: N=27 unchanged. "
         "Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.6). "
         "Significance is assessed by permutation test "
         "(n=10,000, p=0.0001 (1/10,001), z=-6.17). "
@@ -415,22 +352,8 @@ def build(s):
     story += SSEC("2. Методология", s)
     story += SSSEC("2.1 Эвристическая метрика с тектонической подсказкой", s)
     story.append(Paragraph(
-        "Протестирована альтернатива евклидовому расстоянию (граф Bird 2003). "
-        "В 98% пар реализация сводится к 1,5× дуге большого круга — по сути масштабированное "
-        "евклидово; улучшения для глобального анализа нет (отрицательный тест гипотезы). "
-        "r_ij — кратчайший путь между гипоцентрами вдоль глобального графа границ плит "
-        "Bird (2003), включающего 20\u00a0сегментов (субдукционные зоны, трансформные "
-        "разломы, срединно-океанические хребты). Кратчайший путь находится алгоритмом "
-        "Дейкстры (пакет NetworkX). Если гипоцентр удалён &gt;500\u00a0км от ближайшего "
-        "узла границы или путь по графу отсутствует, применяется фолбэк: "
-        "r_ij = 1.5 x r_GC (дуга большого круга). "
-        "<b>Аудит фолбэка</b> (analyze_tectonic_fallback.py, fig07): "
-        "4987 пар из 500 событий; 98.0% GC-фолбэк 1.5×, 2.0% Dijkstra "
-        "(4015 snap&gt;500 km, 872 нет пути, 100 Dijkstra; 95 существенно "
-        "отличаются; примеры FE31 Япония, FE35 Филиппины). "
-        "Метрика значима только для ~2% пар у границ. "
-        "Диагностика (generate_grl_figures.py): "
-        "медиана Δlog₁₀η = +0.28 (~98% — GC-фолбэк 1.5×).",
+        "Эвристика Bird (2003) — устаревшая диагностика (только приложение); "
+        "первичный анализ использует <b>только great-circle</b> для η-связей и детектора.",
         s["body"]
     ))
     story += SSSEC("2.2 Метрика связности eta", s)
@@ -498,8 +421,7 @@ def build(s):
         "локальные фор/афтершоки в окнах; ZBZ помечает 1 событие с аномально низким \u03b7. "
         "Минимальное удаление ZBZ не доказывает декластеризацию несущественной: "
         "при фиксированных воротах GK/ZBZ/none дают N=27 (sensitivity_declustering.json), "
-        "но алгоритмы назначают разные метки главных толчков (24 vs 1), "
-        "что может влиять на кластерный анализ и ETAS WLS.",
+        "но алгоритмы назначают разные метки главных толчков (24 vs 1).",
         s["body"]
     ))
 
@@ -513,44 +435,22 @@ def build(s):
     ]:
         story.append(Paragraph(f"<b>{num}</b>\u00a0\u00a0{text}", s["enum"]))
 
-    story += SSSEC("2.5 Порог \u03b7\u2080 и калибровка ETAS", s)
+    story += SSSEC("2.5 Порог η₀ и ETAS-null", s)
     story.append(Paragraph(
-        "Порог \u03b7\u2080: KDE-долина log\u2081\u2080(\u03b7) (Zaliapin &amp; Ben-Zion 2013); "
-        "рис. figures/grl/fig_eta_threshold.png (scripts/plot_eta_threshold.py). "
-        "KDE-устойчивость при глобальном M\u22656.5 не верифицирована.",
+        "Порог η₀: KDE-долина log₁₀(η) (Zaliapin &amp; Ben-Zion 2013). "
+        "<b>Первичная ETAS-null</b> — лит. H&amp;S 2003 (μ=0,008, K=0,08), "
+        "не связана с детектором. Каталог-калибровка — Приложение B (воспроизводимость).",
         s["body"]
     ))
-    story.append(Paragraph(
-        "<b>Калибровка ETAS</b> (scripts/calibrate_etas.py, results/etas_calibration.json): "
-        "\u03bc=GK mainshocks/T (замкнутая форма); Omori c,p \u2014 scipy.minimize Nelder-Mead "
-        "(c=10\u207b\u2074 на нижней границе); K,\u03b1 \u2014 WLS (numpy.linalg.lstsq) по 24 афтершокам "
-        "(\u2264500\u00a0km). Все c в <b>сутках</b> (стандарт ETAS); нижняя граница 10\u207b\u2074\u00a0сут. "
-        "(\u22488,6\u00a0с) \u2014 численный пол; в литературе обычно c\u22480,001\u20130,01\u00a0сут. "
-        "K\u22480,495 vs лит. ~0,08 \u2014 упрощённый WLS, не Ogata MLE. "
-        "Доверительные интервалы <b>не оценивались</b>. Сравнение H&amp;S 2003: "
-        "\u03bc=0,008, K=0,08, \u03b1=1,0, c=0,005, p=1,1.",
-        s["body"]
-    ))
-
     story += SSSEC("2.6 Статистическая валидация", s)
     story.append(Paragraph(
-        "<b>Тест Монте-Карло.</b> n\u209b\u1d62\u2098=10\u202f000 перестановок: "
+        "<b>Тест Монте-Карло.</b> n=10\u202f000 перестановок: "
         "p=0.0001 (1/10,001), z=\u22126.17 для современного периода. "
-        "<b>ETAS-валидация.</b> Калиброванные параметры; 1000 синт. каталогов/seed. "
-        "Seed=42: FPR=1000/1000; mean 27,0; N_obs=27; p_ETAS=1,0. "
-        "<b>Multiseed</b> (seeds 42\u201351, n=1000, results/etas_multiseed.json): "
-        "mean=27,0, \u03c3=0,0, FPR=1,0, p_ETAS=1,0 по всем 10 seed \u2014 "
-        "идеальная стабильность (калибр. ETAS ~2001 фоновых соб.; детектор детерминирован). "
-        "Лит. H&amp;S 2003 (первичная null): mean≈15,4, p_ETAS≤0,001 — N_obs превышает "
-        "локальное афтершоковое ожидание; не доказательство телесейсмики. "
-        "<b>Двойная ETAS-null:</b> <b>первичная</b> лит. (μ=0,008, K=0,08) → mean≈15,4, p≤0,001; "
-        "<b>вторичная</b> WLS (μ≈0,103, K≈0,495) → mean=27,0, p=1,0 (связка). "
-        "GK mainshocks only: N=27 без изменений (sensitivity_aftershock_removed.json). "
-        "α=b=0,911 (results/etas_validation_b0911.json): p_ETAS=1,0, mean≈27. "
-        "Либеральность детектора \u2014 см. \u00a75.6 (FPR=1000/1000). "
-        "<b>Множественные сравнения (Methods):</b> BH post-hoc на N=47, 45/47 при q=0.05 \u2014 не discovery. "
-        "<b>Декластеризация:</b> GK 2017/2041 (основной); "
-        "ZBZ 2040/2041 (только чувствительность).",
+        "<b>ETAS-валидация (первичная).</b> Лит. H&amp;S 2003: mean≈15,4, p_ETAS≤0,001 — "
+        "N_obs=27 превышает локальное афтершоковое ожидание; не доказательство телесейсмики. "
+        "GK mainshocks only: N=27 без изменений. "
+        "α=b=0,911: p_ETAS≤0,001 при лит. null. "
+        "BH post-hoc на N=47 — не discovery. GK — основной; ZBZ — чувствительность.",
         s["body"]
     ))
 
@@ -567,7 +467,7 @@ def build(s):
         s["body"]
     ))
 
-    tbl_cols = [(PAGE_W - LM - RM) * f for f in [0.08, 0.06, 0.08, 0.07, 0.14, 0.12, 0.12, 0.33]]
+    tbl_cols = [(PAGE_W - LM - RM) * f for f in [0.07, 0.05, 0.07, 0.06, 0.12, 0.10, 0.10, 0.43]]
     tbl_data = [
         [Paragraph("<b>ID</b>", s["tbl_hdr"]),
          Paragraph("<b>N</b>", s["tbl_hdr"]),
@@ -631,19 +531,13 @@ def build(s):
         PAGE_W - LM - RM
     ))
     story.append(FormulaBox(
-        "p\u2091\u209c\u2090\u209b = 1,0   (ETAS калибр., 1000 кат., FPR=1000/1000, mean=27,0)",
-        PAGE_W - LM - RM
-    ))
-    story.append(FormulaBox(
-        "лит. \u03bc=0,008: mean 15,4, max 24, p\u2091\u209c\u2090\u209b \u2264 0,001   (сравнение)",
+        "lit. ETAS: mean 15,4, p_ETAS <= 0,001   (N_obs=27)",
         PAGE_W - LM - RM
     ))
     story.append(Paragraph(
-        "Коррекция BH (q=0.05) на N=47 \u2014 post-hoc (Methods), не discovery. "
-        "Permutation p=0,0001 (1/10 001) отвергает пуассоновские времена. "
-        "<b>Двойная ETAS-null:</b> калибр. mean=27,0, p_ETAS=1,0 (связка); "
-        "лит. mean≈15,4, p_ETAS≤0,001 (N_obs превышает, локальная кластеризация). "
-        "Multiseed ETAS (seeds 42–51, n=1000): mean≈27, FPR=1,0.",
+        "Коррекция BH (q=0.05) на N=47 — post-hoc, не discovery. "
+        "Permutation p=0,0001 отвергает пуассоновские времена. "
+        "Первичная лит. ETAS: mean≈15,4, p_ETAS≤0,001.",
         s["body_ni"]
     ))
 
@@ -657,12 +551,38 @@ def build(s):
         "на случайных парах (в основном GC-фолбэк 1.5\u00d7).",
         s["body"]
     ))
+
+    story += SSSEC("3.4 Сводная таблица чувствительности (современное окно)", s)
+    sens_w = PAGE_W - LM - RM
+    sens_rows = [
+        ["Параметр", "Значение", "N_series"],
+        ["GC-порог", "1000\u00a0км", "27"],
+        ["GC-порог", "1500\u00a0км (базовый)", "27"],
+        ["GC-порог", "2000\u00a0км", "27"],
+        ["Окно", "1\u00a0год", "53"],
+        ["Окно", "2\u00a0года (базовое)", "27"],
+        ["Окно", "5\u00a0лет", "11"],
+        ["Окно", "10\u00a0лет", "6"],
+        ["b в \u03b7", "1.0 (BP 2004)", "27"],
+        ["b в \u03b7", "0.911 (каталог)", "27"],
+        ["Декластеризация", "GK / ZBZ / none", "27 / 27 / 27"],
+        ["min_events (strict)", "5 / 6 / 8", "27 / 27 / 27"],
+        ["Каталог", "только GK-главные", "27"],
+        ["\u03b7\u2080 \u00b120%", "not_applied", "\u2014"],
+    ]
+    story.append(build_pdf_table(sens_rows, [0.30, 0.52, 0.18], sens_w, s))
+    story.append(Paragraph(
+        "Таблица 2. Чувствительность N_series при фиксированных воротах детектора "
+        "(mean GC&gt;1500\u00a0км, N\u22654). Источники: sensitivity_*.json.",
+        s["caption"]
+    ))
+    story.append(Spacer(1, 0.2 * cm))
+
     story += SEC("4. Обсуждение и выводы", s)
     story.append(Paragraph(
         "<b>Отрицательный результат (честная рамка):</b> детектор либерален; "
-        "p_ETAS=1,0 при согласованной калибровке — связка детектор+калибровка; "
-        "лит. ETAS: N_obs=27 превышает mean≈15,4 (локальная кластеризация). "
-        "Физика: \u0394CFS/динамический стресс — future work.",
+        "лит. ETAS: N_obs=27 превышает mean≈15,4 (p≤0,001) — локальная кластеризация, "
+        "не телесейсмика. Физика: ΔCFS/динамический стресс — future work.",
         s["body"]
     ))
     story.append(PageBreak())
@@ -670,15 +590,14 @@ def build(s):
     # === CONCLUSIONS ===========================================================
     story += SEC("5. Выводы", s)
     story.append(Paragraph(
-        "Детектор <b>либерален</b>: при согласованной калибровке ETAS mean=27,0=N_obs "
-        "(p_ETAS=1,0) — связка детектор+калибровка; при лит. H&amp;S 2003 mean≈15,4, "
-        "p_ETAS≤0,001 — N_obs превышает null (локальная афтершоковая кластеризация). "
-        "Гипотеза о глобальных сериях <b>не подтверждается</b> (§5.4–5.5). "
+        "Детектор <b>либерален</b>: при лит. H&amp;S 2003 mean≈15,4, "
+        "p_ETAS≤0,001 — N_obs превышает локальное афтершоковое ожидание. "
+        "Гипотеза о глобальных сериях <b>не подтверждается</b> (§5.4\u20135.6). "
         "Перестановочный тест отвергает лишь пуассоновскую нулевую гипотезу (Ogata, 1988).",
         s["body"]
     ))
     conclusions = [
-        ("1.", "Эвристическая метрика с тектонической подсказкой: 98% GC-фолбэк — "
+        ("1.", "Эвристическая метрика с tectonic hint: 98% GC-фолбэк — "
                "failed hypothesis test."),
         ("2.", "47 кандидатов детектора неотличимы от ETAS-null; "
                "\u0394CFS — future work."),
@@ -686,6 +605,58 @@ def build(s):
     for num, text in conclusions:
         story.append(Paragraph(f"<b>{num}</b>\u00a0\u00a0{text}", s["enum"]))
         story.append(Spacer(1, 0.1 * cm))
+
+    story += SSEC("5.5 Ограничения ETAS-null", s)
+    story.append(Paragraph(
+        "Первичная null \u2014 <b>только литература H&amp;S 2003</b>; spatial Ogata (1998) MLE "
+        "с доверительными интервалами не реализован. Каталог-калибровка \u2014 Приложение B "
+        "(воспроизводимость, не inference). Отрицательный итог опирается также на отсутствие "
+        "физического механизма, провал тектонической метрики (98% GC) и либеральность поиска "
+        "(142 окна).",
+        s["body"]
+    ))
+
+    story += SSEC("5.6 Ограничения", s)
+    lim_rows = [
+        ["Ограничение", "Затронутый шаг", "Влияние на главный вывод"],
+        [
+            "\u03b7\u2080 не верифицирована глобально",
+            "GK-декластеризация",
+            "N=27 без изменений (global_series не использует \u03b7\u2080)",
+        ],
+        [
+            "b=1.0 vs 0.911",
+            "\u03b7 upstream",
+            "N_series=27 оба; метки кластеров не пересчитаны",
+        ],
+        [
+            "Нет spatial Ogata MLE",
+            "ETAS-null",
+            "Только литературный null; не publication-grade catalog fit",
+        ],
+        [
+            "142 окна + merge",
+            "Детектор",
+            "Главный источник либеральности",
+        ],
+        [
+            "Лит. p\u22640,001",
+            "ETAS-тест",
+            "Локальный избыток кластеризации, не телесейсмика",
+        ],
+    ]
+    story.append(build_pdf_table(lim_rows, [0.24, 0.22, 0.54], sens_w, s, wrap_col=2))
+    story.append(Paragraph(
+        "Таблица 3. Ограничение \u2192 затронутый шаг \u2192 влияние на главный вывод (§5.6).",
+        s["caption"]
+    ))
+    story.append(Spacer(1, 0.15 * cm))
+    story.append(Paragraph(
+        "<b>Анализ влияния.</b> N=27 считается через global_series() без фильтра \u03b7\u2080; "
+        "b=1,0 vs 0,911 при фиксированных воротах \u2192 N=27 в обоих случаях, но upstream-кластеры "
+        "при b=0,911 не пересчитаны. 142 скользящих окна \u2014 главный источник либеральности.",
+        s["body_ni"]
+    ))
 
     story += SEC("ПРИЛОЖЕНИЕ A. ЗАПИСИ NOAA ДО 1900 Г.", s)
     story.append(Paragraph(

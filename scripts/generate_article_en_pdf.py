@@ -8,14 +8,14 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _pdf_fonts import register_pdf_fonts
+from _pdf_fonts import register_pdf_fonts, pdf_math_text, build_pdf_table
 
 register_pdf_fonts()
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.lib.colors import HexColor, white
 from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph as _BaseParagraph, Spacer, Table, TableStyle,
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
     HRFlowable, PageBreak
 )
 from reportlab.lib.styles import ParagraphStyle
@@ -30,53 +30,6 @@ RULE = HexColor("#cbd5e1")
 PAGE_W, PAGE_H = A4
 LM = RM = 2.5 * cm
 TM = BM = 2.5 * cm
-
-
-def safe_text(s: str) -> str:
-    import unicodedata
-
-    _phrase_subs = [
-        ("\u03b7\u2080", "eta_0"),
-        ("\u03b7\u1d62\u2c7c", "eta_ij"),
-        ("log\u2081\u2080", "log10"),
-        ("\u0394log\u2081\u2080\u03b7", "Delta log10 eta"),
-        ("\u0394CFS", "Delta CFS"),
-        ("M\u2098\u2090\u2093", "Mmax"),
-        ("n\u209b\u1d62\u2098", "n_sim"),
-        ("p\u2091\u209c\u2090\u209b", "p_ETAS"),
-        ("t\u1d62\u2c7c", "t_ij"),
-        ("r\u1d62\u2c7c", "r_ij"),
-        ("\u03bc", "mu"),
-        ("\u03b1", "alpha"),
-        ("\u03b7", "eta"),
-        ("\u0394", "Delta"),
-        ("\u00d7", "x"),
-        ("\u00a7", "Sec."),
-        ("\u2212", "-"),
-        ("\u2264", "<="),
-        ("\u2265", ">="),
-        ("\u00b1", "+/-"),
-        ("\u202f", " "),
-        ("\u0301", ""),
-    ]
-    for old, new in _phrase_subs:
-        s = s.replace(old, new)
-    _sub_map = str.maketrans({
-        "\u2080": "0", "\u2081": "1", "\u2082": "2", "\u2083": "3",
-        "\u2084": "4", "\u2085": "5", "\u2086": "6", "\u2087": "7",
-        "\u2088": "8", "\u2089": "9",
-        "\u1d62": "i", "\u2c7c": "j",
-    })
-    s = s.translate(_sub_map)
-    s = "".join(ch for ch in s if unicodedata.category(ch) != "Mn")
-    return s
-
-
-class Paragraph(_BaseParagraph):
-    def __init__(self, text, style, *args, **kwargs):
-        if isinstance(text, str):
-            text = safe_text(text)
-        super().__init__(text, style, *args, **kwargs)
 
 
 class FormulaBox(Flowable):
@@ -94,7 +47,7 @@ class FormulaBox(Flowable):
         c.roundRect(0, 0, self.box_w, self.height, 5, fill=1, stroke=1)
         c.setFillColor(DARK)
         c.setFont("MainBold", 13)
-        c.drawCentredString(self.box_w / 2, self.height / 2 - 5, safe_text(self.text))
+        c.drawCentredString(self.box_w / 2, self.height / 2 - 5, pdf_math_text(self.text))
 
 
 def on_page(canvas, doc):
@@ -152,7 +105,8 @@ def make_styles():
                                    textColor=MGREY, alignment=TA_CENTER, spaceAfter=4)
     s["tbl_hdr"] = ParagraphStyle("tbl_hdr", fontName="MainBold", fontSize=9,
                                    textColor=white, alignment=TA_CENTER)
-    s["tbl_cell"] = ParagraphStyle("tbl_cell", fontName="Main", fontSize=9, textColor=TEXT)
+    s["tbl_cell"] = ParagraphStyle("tbl_cell", fontName="Main", fontSize=8, textColor=TEXT, wordWrap="CJK", leading=11)
+    s["tbl_wrap"] = ParagraphStyle("tbl_wrap", fontName="Main", fontSize=7, textColor=TEXT, wordWrap="CJK", leading=10)
     return s
 
 
@@ -200,9 +154,8 @@ def build(s):
         "The detector yields <b>47 algorithmic candidates</b> (27 modern); historical NOAA records "
         "(n=47) reported in Appendix A only. <b>Primary ETAS null</b> (literature H&amp;S 2003, "
         "decoupled): mean\u224815.4, p_ETAS\u22640.001 — exceeds local aftershock expectation; "
-        "<b>not</b> teleseismic proof (Sec. 5.4). <b>Secondary diagnostic</b> (catalog WLS): "
-        "p_ETAS=1.0, mean=27.0=N_obs — detector--calibration coupling. GK mainshocks: N=27 "
-        "unchanged. Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.6). Permutation "
+        "<b>not</b> teleseismic proof (Sec. 5.4). GK mainshocks: N=27 unchanged. "
+        "Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.6). Permutation "
         "p=0.0001 (1/10,001) rejects temporal Poisson null only. Limitations \u2014 Sec. 5.6.",
         s["abstract"]
     ))
@@ -283,22 +236,10 @@ def build(s):
     story.append(FormulaBox("b = 0.911 \u00b1 0.018  (n = 1,688 events)", w))
     story.append(Spacer(1, 0.15 * cm))
 
-    story += SSEC("2.2 Heuristic metric with tectonic hint", s)
+    story += SSEC("2.2 Tectonic heuristic (deprecated)", s)
     story.append(Paragraph(
-        "We tested an alternative to Euclidean distance (Bird 2003 graph). In 98% of pairs "
-        "the implementation falls back to 1.5\u00d7 great-circle distance \u2014 effectively "
-        "scaled Euclidean; no improvement for global analysis (failed hypothesis test). "
-        "r<sub>ij</sub> is the shortest path between hypocenters "
-        "along the Bird (2003) plate-boundary graph (20 key segments). Paths are "
-        "computed with Dijkstra's algorithm (NetworkX). If either hypocenter lies "
-        "&gt;500 km from the nearest boundary node, or no graph path exists, "
-        "r<sub>ij</sub> = 1.5 \u00d7 r<sub>GC</sub> (great-circle Haversine). "
-        "<b>Fallback audit</b> (analyze_tectonic_fallback.py, fig07): "
-        "4987 pairs from 500 events; 98.0% GC fallback, 2.0% Dijkstra "
-        "(4015 snap&gt;500 km, 872 no path, 100 Dijkstra; 95 materially different; "
-        "examples FE31 Japan, FE35 Philippines). Metric adds value for ~2% "
-        "boundary-proximal pairs only. "
-        "Tectonic diagnostic: median \u0394log\u2081\u2080\u03b7 = +0.28.",
+        "The Bird (2003) tectonic-path heuristic is a <b>deprecated diagnostic only</b> "
+        "(Appendix); <b>primary analysis uses great-circle distance only</b>.",
         s["body"]
     ))
     story.append(Spacer(1, 0.15 * cm))
@@ -330,8 +271,7 @@ def build(s):
         "short-range fore/aftershocks via fixed windows; ZBZ classifies only 1 event with "
         "exceptionally low \u03b7 at global catalog scale. Under fixed gates GK/ZBZ/none "
         "all yield N=27 (sensitivity_declustering.json); different mainshock labels "
-        "(24 vs 1) could matter for cluster analysis and ETAS WLS \u2014 does not prove "
-        "declustering immaterial.",
+        "(24 vs 1) could matter for cluster analysis.",
         s["body"]
     ))
 
@@ -345,41 +285,20 @@ def build(s):
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
 
-    story += SSEC("2.5 Threshold \u03b7\u2080 and ETAS calibration", s)
+    story += SSEC("2.5 Primary ETAS null", s)
     story.append(Paragraph(
-        "\u03b7<sub>0</sub>: KDE valley in log<sub>10</sub>(\u03b7) (Zaliapin &amp; Ben-Zion 2013); "
-        "see figures/grl/fig_eta_threshold.png (scripts/plot_eta_threshold.py). "
-        "KDE stability at global M\u22656.5 not verified.",
-        s["body"]
-    ))
-    story.append(Paragraph(
-        "<b>ETAS calibration</b> (scripts/calibrate_etas.py, results/etas_calibration.json): "
-        "\u03bc = GK mainshocks/T (closed form); Omori c,p via scipy.minimize Nelder-Mead "
-        "(c=10\u207b\u2074 at lower bound); K,\u03b1 via WLS (numpy.linalg.lstsq) on 24 aftershocks "
-        "(\u2264500 km). All c in <b>days</b> (ETAS standard); lower bound 10\u207b\u2074\u00a0day "
-        "(\u22488.6\u00a0s) is a numerical floor; literature c typically 0.001\u20130.01\u00a0day. "
-        "K\u22480.495 vs literature ~0.08 \u2014 simplified WLS, not Ogata MLE. "
-        "<b>Parameter CIs not estimated.</b> H&amp;S 2003 comparison: "
-        "\u03bc=0.008, K=0.08, \u03b1=1.0, c=0.005, p=1.1.",
+        "<b>Primary ETAS null</b> uses literature H&amp;S 2003 parameters, decoupled "
+        "from detector output. Catalog calibration scripts are Appendix reproducibility only.",
         s["body"]
     ))
 
     story += SSEC("2.6 Statistical validation", s)
     story.append(Paragraph(
         "<b>Permutation test:</b> n = 10,000, p \u2264 0.0001, z = -6.17 (modern). "
-        "<b>ETAS validation:</b> calibrated params (\u03bc\u22480.103, K\u22480.495, "
-        "\u03b1\u22480.063, c\u224810\u207b\u2074 d, p\u22481.36); 1000 catalogs/seed. "
-        "Single seed=42: FPR=1000/1000; mean 27.0, p_ETAS = 1.0; N_obs=27. "
-        "<b>Multiseed ETAS</b> (seeds 42\u201351, n=1000 each, results/etas_multiseed.json): "
-        "mean=27.0, \u03c3=0.0, FPR=1.0, p_ETAS=1.0 for all 10 seeds \u2014 perfect stability "
-        "because calibrated ETAS matches catalog event rate (~2001 background events). "
-        "Literature H&amp;S 2003: mean\u224815.4, p_ETAS\u22640.001 — N_obs=27 exceeds null. "
-        "<b>Dual ETAS null:</b> lit. (\u03bc=0.008, K=0.08) \u2192 mean\u224815.4, p\u22640.001; "
-        "calibrated (\u03bc\u22480.103, K\u22480.495) \u2192 mean=27.0, p=1.0 (detector coupling). "
-        "\u03b1=b=0.911 (results/etas_validation_b0911.json): p_ETAS=1.0, mean\u224827. "
-        "Detector liberalism \u2014 see \u00a75.6 (FPR=1000/1000). "
-        "<b>Multiple comparisons (Methods):</b> BH post-hoc on N=47, 45/47 at q=0.05 \u2014 not discovery. "
-        "<b>Declustering:</b> GK 2,017/2,041 (primary); ZBZ 2,040/2,041 (sensitivity only).",
+        "<b>ETAS validation (primary):</b> literature H&amp;S 2003: mean \u2248 15.4, "
+        "p_ETAS \u2264 0.001 — N_obs = 27 exceeds local aftershock expectation; "
+        "not teleseismic proof. GK mainshocks only: N = 27 unchanged. "
+        "BH post-hoc on N = 47 — not discovery.",
         s["body"]
     ))
 
@@ -394,7 +313,7 @@ def build(s):
         s["body"]
     ))
 
-    tbl_cols = [w * f for f in [0.08, 0.06, 0.08, 0.07, 0.14, 0.12, 0.12, 0.33]]
+    tbl_cols = [w * f for f in [0.07, 0.05, 0.07, 0.06, 0.12, 0.10, 0.10, 0.43]]
     tbl_data = [
         [Paragraph("<b>ID</b>", s["tbl_hdr"]), Paragraph("<b>N</b>", s["tbl_hdr"]),
          Paragraph("<b>Reg.</b>", s["tbl_hdr"]), Paragraph("<b>Mmax</b>", s["tbl_hdr"]),
@@ -437,21 +356,45 @@ def build(s):
         s["body"]
     ))
 
+    story += SSEC("3.3 Consolidated sensitivity table (modern window)", s)
+    sens_rows = [
+        ["Parameter", "Setting", "N_series"],
+        ["GC gate", "1000 km", "27"],
+        ["GC gate", "1500 km (baseline)", "27"],
+        ["GC gate", "2000 km", "27"],
+        ["Window", "1 yr", "53"],
+        ["Window", "2 yr (baseline)", "27"],
+        ["Window", "5 yr", "11"],
+        ["Window", "10 yr", "6"],
+        ["b in \u03b7", "1.0 (BP 2004)", "27"],
+        ["b in \u03b7", "0.911 (catalog)", "27"],
+        ["Declustering", "GK / ZBZ / none", "27 / 27 / 27"],
+        ["min_events (strict)", "5 / 6 / 8", "27 / 27 / 27"],
+        ["Catalog", "GK mainshocks only", "27"],
+        ["\u03b7\u2080 \u00b120%", "not_applied", "\u2014"],
+    ]
+    story.append(build_pdf_table(sens_rows, [0.30, 0.52, 0.18], w, s))
+    story.append(Paragraph(
+        "Table 2. N_series sensitivity under fixed detector gates "
+        "(mean GC &gt; 1500 km, N \u2265 4). Sources: sensitivity_*.json.",
+        s["caption"]
+    ))
+    story.append(Spacer(1, 0.2 * cm))
+
     story += SEC("4. DISCUSSION", s)
     story.append(Paragraph(
-        "The detector is <b>liberal</b>: catalog-matched ETAS mean=27.0=N_obs (p_ETAS=1.0) "
-        "indicates detector--calibration coupling; literature ETAS mean\u224815.4, p_ETAS\u22640.001 "
-        "— N_obs exceeds local-clustering null. No physical mechanism; tectonic metric failed "
-        "(98% GC fallback). Compatible with Michael (2011) and Shearer &amp; Stark (2012).",
+        "The detector is <b>liberal</b>: under literature ETAS (mean \u2248 15.4, "
+        "p_ETAS \u2264 0.001) N_obs exceeds local-clustering null. No physical mechanism; "
+        "tectonic metric failed (98% GC fallback). Compatible with Michael (2011) and "
+        "Shearer &amp; Stark (2012).",
         s["body"]
     ))
 
     story += SEC("5. CONCLUSIONS", s)
     story.append(Paragraph(
-        "The detector is <b>liberal</b>: matched ETAS calibration yields p_ETAS=1.0 "
-        "(coupling); literature ETAS yields mean\u224815.4, p_ETAS\u22640.001. "
-        "Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.5); ETAS null "
-        "is parameter-sensitive. Permutation rejects Poisson times only (Ogata 1988).",
+        "The detector is <b>liberal</b>: literature ETAS yields mean \u2248 15.4, "
+        "p_ETAS \u2264 0.001. Global-series hypothesis <b>not supported</b> "
+        "(Sec. 5.4\u20135.6). Permutation rejects Poisson times only (Ogata 1988).",
         s["body"]
     ))
     for num, text in [
@@ -461,9 +404,56 @@ def build(s):
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
         story.append(Spacer(1, 0.1 * cm))
+
+    story += SSEC("5.5 ETAS null limitations", s)
     story.append(Paragraph(
-        "<b>Future work / supplement:</b> Static \u0394CFS and dynamic stress for "
-        "S170, S047, S095; full ETAS MLE and multi-seed robustness.",
+        "Primary null uses <b>literature H&amp;S 2003 only</b>; spatial Ogata (1998) MLE with "
+        "confidence intervals is not implemented. Catalog calibration \u2014 Appendix B "
+        "(reproducibility, not inference). The negative outcome also rests on no physical "
+        "mechanism, failed tectonic metric (98% GC fallback), and liberal search (142 windows).",
+        s["body"]
+    ))
+
+    story += SSEC("5.6 Limitations", s)
+    lim_rows = [
+        ["Limitation", "Affected step", "Impact on main conclusion"],
+        [
+            "\u03b7\u2080 unverified at global scale",
+            "GK declustering",
+            "N = 27 unchanged (global_series does not use \u03b7\u2080)",
+        ],
+        [
+            "b = 1.0 vs 0.911 in \u03b7",
+            "\u03b7 upstream",
+            "N_series = 27 both; cluster labels not re-run",
+        ],
+        [
+            "No spatial Ogata MLE",
+            "ETAS null",
+            "Literature null only; not publication-grade catalog fit",
+        ],
+        [
+            "142 windows + merge",
+            "Detector",
+            "Main source of liberalness",
+        ],
+        [
+            "Literature p \u2264 0.001",
+            "ETAS test",
+            "Local clustering excess, not teleseismic proof",
+        ],
+    ]
+    story.append(build_pdf_table(lim_rows, [0.24, 0.22, 0.54], w, s, wrap_col=2))
+    story.append(Paragraph(
+        "Table 3. Limitation \u2192 affected step \u2192 impact on main conclusion (Sec. 5.6).",
+        s["caption"]
+    ))
+    story.append(Spacer(1, 0.15 * cm))
+    story.append(Paragraph(
+        "<b>Impact analysis.</b> N = 27 is computed by global_series() without \u03b7\u2080 "
+        "filtering; b = 1.0 vs 0.911 leaves N_series = 27 under fixed gates, but upstream "
+        "clusters at b = 0.911 were not re-verified. 142 sliding windows dominate detector "
+        "liberalness.",
         s["body_ni"]
     ))
 
