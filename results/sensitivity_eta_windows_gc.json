@@ -1,0 +1,138 @@
+{
+  "catalog": "modern_1973_2026_M65",
+  "n_events": 2041,
+  "baseline": {
+    "time_window_years": 2.0,
+    "min_mean_gc_km": 1500.0,
+    "min_events": 4,
+    "n_series": 27
+  },
+  "gc_gate_sensitivity": [
+    {
+      "parameter": "min_mean_gc_km",
+      "value": 1000,
+      "time_window_years": 2.0,
+      "catalog": "full_modern",
+      "n_series": 27,
+      "baseline": false
+    },
+    {
+      "parameter": "min_mean_gc_km",
+      "value": 1500,
+      "time_window_years": 2.0,
+      "catalog": "full_modern",
+      "n_series": 27,
+      "baseline": true
+    },
+    {
+      "parameter": "min_mean_gc_km",
+      "value": 2000,
+      "time_window_years": 2.0,
+      "catalog": "full_modern",
+      "n_series": 27,
+      "baseline": false
+    }
+  ],
+  "window_sensitivity": [
+    {
+      "parameter": "time_window_years",
+      "label": "single_1yr",
+      "windows": [
+        1.0
+      ],
+      "n_series_per_window": {
+        "1.0": 53
+      },
+      "n_series_max_across_windows": 53,
+      "n_series_min_across_windows": 53,
+      "baseline": false
+    },
+    {
+      "parameter": "time_window_years",
+      "label": "single_2yr_baseline",
+      "windows": [
+        2.0
+      ],
+      "n_series_per_window": {
+        "2.0": 27
+      },
+      "n_series_max_across_windows": 27,
+      "n_series_min_across_windows": 27,
+      "baseline": true
+    },
+    {
+      "parameter": "time_window_years",
+      "label": "single_5yr",
+      "windows": [
+        5.0
+      ],
+      "n_series_per_window": {
+        "5.0": 11
+      },
+      "n_series_max_across_windows": 11,
+      "n_series_min_across_windows": 11,
+      "baseline": false
+    },
+    {
+      "parameter": "time_window_years",
+      "label": "single_10yr",
+      "windows": [
+        10.0
+      ],
+      "n_series_per_window": {
+        "10.0": 6
+      },
+      "n_series_max_across_windows": 6,
+      "n_series_min_across_windows": 6,
+      "baseline": false
+    },
+    {
+      "parameter": "time_window_years",
+      "label": "set_125_baseline",
+      "windows": [
+        1.0,
+        2.0,
+        5.0
+      ],
+      "n_series_per_window": {
+        "1.0": 53,
+        "2.0": 27,
+        "5.0": 11
+      },
+      "n_series_max_across_windows": 53,
+      "n_series_min_across_windows": 11,
+      "baseline": false
+    },
+    {
+      "parameter": "time_window_years",
+      "label": "set_2510",
+      "windows": [
+        2.0,
+        5.0,
+        10.0
+      ],
+      "n_series_per_window": {
+        "2.0": 27,
+        "5.0": 11,
+        "10.0": 6
+      },
+      "n_series_max_across_windows": 27,
+      "n_series_min_across_windows": 6,
+      "baseline": false
+    }
+  ],
+  "eta0_meta": {
+    "eta0_kde_valley_default": 7.107191077237056e-06,
+    "eta0_median_fallback": 0.0005840042548338349,
+    "log10_eta0": -5.148302008368724,
+    "plus_20pct": 8.528629292684467e-06,
+    "minus_20pct": 5.685752861789645e-06,
+    "n_series_at_default_eta0": "not_applied",
+    "note": "ETAS/modern n_observed uses global_series() on the full event list without identify_clusters(eta0) filtering. Eta0 ±20% would affect the upstream NN-forest cluster step only; not re-run here — future work: pipeline_v2 with varied eta_threshold."
+  },
+  "aftershock_removed_summary": {
+    "n_series_full": 27,
+    "n_series_gk_mainshocks": 27
+  },
+  "script": "scripts/run_clustering_sensitivity.py"
+}

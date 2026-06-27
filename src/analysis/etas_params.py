@@ -1,4 +1,4 @@
-"""Load ETAS parameters: catalog-calibrated (primary) vs literature (comparison only)."""
+"""Load ETAS parameters: literature (primary null for hypothesis test) vs catalog-calibrated (diagnostic)."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CALIBRATION_PATH = ROOT / "results" / "etas_calibration.json"
 B0911_CALIBRATION_PATH = ROOT / "results" / "etas_calibration_b0911.json"
 
-# Literature defaults (Helmstetter & Sornette 2003) — comparison only, NOT primary inference
+# Literature defaults (Helmstetter & Sornette 2003) — PRIMARY null for global-series hypothesis test
 LITERATURE_ETAS = {
     "mu": 0.008,
     "K": 0.08,
@@ -17,17 +17,18 @@ LITERATURE_ETAS = {
     "c": 0.005,
     "p": 1.1,
     "max_trigger_distance_km": 500.0,
-    "source": "Helmstetter & Sornette (2003) — literature comparison only",
+    "source": "Helmstetter & Sornette (2003) — primary hypothesis-test null",
 }
 
 
 def load_calibrated_etas_params(
     calibration_path: Path | None = None,
 ) -> dict[str, float]:
-    """Return catalog-calibrated ETAS params (primary null model).
+    """Return catalog-calibrated ETAS params (secondary / diagnostic null).
 
     Fits from ``scripts/calibrate_etas.py``: GK declustering on 2041 modern events,
     Omori MLE on aftershock delays, branching regression for K and alpha.
+    Not used as the sole falsification test (detector--calibration coupling).
     """
     path = calibration_path or DEFAULT_CALIBRATION_PATH
     if path.exists():
@@ -65,5 +66,5 @@ def load_b0911_etas_params(
 
 
 def load_literature_etas_params() -> dict[str, float]:
-    """Return literature ETAS defaults for sensitivity comparison only."""
+    """Return literature ETAS defaults — primary null for hypothesis test."""
     return dict(LITERATURE_ETAS)

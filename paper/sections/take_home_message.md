@@ -1,15 +1,13 @@
-# Take-Home Message — Negative Result (canonical)
+# Take-home message
 
-**Project:** paleoseismic-clustering  
-**Scope:** Global series hypothesis test, M≥6.5, modern window 1973–2026 (primary)  
-**Canonical conclusion (RU):**
+## RU
 
-Детектор либерален: при согласованной калибровке ETAS mean=27,0 совпадает с N_obs=27 (p_ETAS=1,0) — связка «детектор+калибровка», а не единоличное опровержение глобальной структуры; при литературных параметрах H&S 2003 mean≈15,4, p_ETAS≤0,001 — N_obs превышает null, но тест отражает локальную афтершоковую кластеризацию, не телесейсмические цепочки. Гипотеза о физически значимых глобальных сериях не подтверждается (§5.4–5.5): нет механизма, тектоника провалилась, ETAS-null чувствителен к параметрам. Перестановочный тест отвергает лишь пуассоновскую нулевую гипотезу — тривиально для сейсмических каталогов.
+**Первичная ETAS-null** для теста гипотезы о глобальных сериях — литература H&S 2003 (μ=0,008, K=0,08; **не связана** с детектором): mean≈15,4, p_ETAS≤0,001 — N_obs=27 превышает **локальное афтершоковое** ожидание (кластеризация сверх пуассоновских времён), но **не доказывает** телесейсмические цепочки. **Вторичная диагностика:** WLS-калибровка mean=27,0=N_obs (p_ETAS=1,0) — связка «детектор+калибровка»; **не адекватна** как единственная фальсификация (K завышен WLS на 24 афтершоках). GK mainshocks only: N_series=27 без изменений. Гипотеза о физически значимых глобальных сериях **не подтверждается** (§5.4–5.6). Перестановочный тест отвергает лишь пуассоновскую нулевую — тривиально для сейсмических каталогов.
 
-**English:**
+## EN
 
-The detector is liberal: under catalog-matched ETAS calibration, mean = 27.0 matches N_obs = 27 (p_ETAS = 1.0) — detector--calibration coupling, not sole proof of absent global structure; under literature H&S 2003 parameters, mean ≈ 15.4, p_ETAS ≤ 0.001 — N_obs exceeds that null, but the test reflects local aftershock clustering, not teleseismic chains. The global-series hypothesis is not supported (§5.4–5.5): no mechanism, tectonic metric failed, ETAS null is parameter-sensitive. The permutation test rejects only a temporal Poisson null — trivial for earthquake catalogs.
+**Primary ETAS null** for the global-series hypothesis test is literature H&S 2003 (μ = 0.008, K = 0.08; **decoupled** from detector output): mean ≈ 15.4, p_ETAS ≤ 0.001 — N_obs = 27 exceeds **local aftershock-only** expectation (clustering beyond Poisson times), but **does not prove** teleseismic chains. **Secondary diagnostic:** catalog WLS calibration mean = 27.0 = N_obs (p_ETAS = 1.0) — detector--calibration coupling; **not adequate** as sole falsification (K likely inflated by 24-event WLS). GK mainshocks only: N_series = 27 unchanged. The global-series hypothesis is **not supported** (§5.4–5.6). The permutation test rejects only a temporal Poisson null — trivial for earthquake catalogs.
 
-**Do not claim:** “47 global series discovered”; tectonic metric as innovation/novelty; permutation “confirms structure” while ETAS is indistinguishable; FDR 45/47 as physical discovery (Methods/sensitivity only); prominent FPR=1000/1000 in abstract/hero (Methods §5.6 only); p_ETAS=1.0 alone as falsification of global structure; η at b=0.911 without re-run.
+**Do not claim:** “47 global series discovered”; tectonic metric as innovation/novelty; permutation “confirms structure” while ETAS is indistinguishable; FDR 45/47 as physical discovery (Methods/sensitivity only); prominent FPR=1000/1000 in abstract/hero (Methods §5.7 only); p_ETAS=1.0 alone as falsification of global structure; η at b=0.911 without re-run; literature p_ETAS≤0.001 as proof of teleseismic global series.
 
-**Future work only:** ΔCFS, dynamic stress, full ETAS MLE, η sensitivity at catalog b=0.911, search-space tightening.
+**Future work only:** ΔCFS, dynamic stress, full ETAS MLE, η₀ sensitivity at catalog b=0.911, search-space tightening, pipeline_v2 with varied η₀.

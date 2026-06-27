@@ -1,0 +1,13 @@
+{
+  "catalog": "modern_1973_2026_M65",
+  "n_events_full": 2041,
+  "n_events_gk_mainshocks": 2017,
+  "n_gk_aftershocks_removed": 24,
+  "time_window_years": 2.0,
+  "min_mean_gc_km": 1500.0,
+  "min_events": 4,
+  "n_series_full_catalog": 27,
+  "n_series_gk_mainshocks_only": 27,
+  "delta_n_series": 0,
+  "note": "GK mainshock-only subset removes local aftershocks before series detection; same global_series() gate as ETAS n_observed baseline."
+}

@@ -35,7 +35,7 @@ CALIBRATION_PATH = Path("results/etas_calibration.json")
 
 
 def load_etas_params() -> dict:
-    """Load catalog-calibrated ETAS params (primary null model)."""
+    """Load catalog-calibrated ETAS params (diagnostic null; literature is primary for inference)."""
     params = load_calibrated_etas_params(CALIBRATION_PATH)
     clean = {k: v for k, v in params.items() if not k.startswith("_")}
     logger.info(

@@ -198,12 +198,12 @@ def build(s):
         "~151 NOAA M&lt;6.5 excluded from clustering) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "The detector yields <b>47 algorithmic candidates</b> (27 modern); historical NOAA records "
-        "(n=47) reported in Appendix A only. The detector is <b>liberal</b>: under "
-        "catalog-matched ETAS (p_ETAS=1.0, mean=27.0=N_obs) detector and calibration are "
-        "<b>coupled</b>; under literature H&amp;S 2003 (mean\u224815.4, p_ETAS\u22640.001) "
-        "N_obs exceeds that null but tests local aftershock clustering only (Sec. 5.4, dual-null). "
-        "Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.5). Permutation "
-        "p=0.0001 (1/10,001) rejects temporal Poisson null only. Limitations \u2014 Sec. 5.5.",
+        "(n=47) reported in Appendix A only. <b>Primary ETAS null</b> (literature H&amp;S 2003, "
+        "decoupled): mean\u224815.4, p_ETAS\u22640.001 — exceeds local aftershock expectation; "
+        "<b>not</b> teleseismic proof (Sec. 5.4). <b>Secondary diagnostic</b> (catalog WLS): "
+        "p_ETAS=1.0, mean=27.0=N_obs — detector--calibration coupling. GK mainshocks: N=27 "
+        "unchanged. Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.6). Permutation "
+        "p=0.0001 (1/10,001) rejects temporal Poisson null only. Limitations \u2014 Sec. 5.6.",
         s["abstract"]
     ))
     story.append(Paragraph(
