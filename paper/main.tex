@@ -133,7 +133,7 @@ to show that the bimodal distribution of $\eta$ values separates
 background seismicity from clustered (fore-/aftershock) sequences.
 
 Here we apply the Baiesi--Paczuski metric to a merged global catalog
-spanning from 2150~BCE to 2024~CE, with events $M \ge 6.5$,
+(pre-1900 historical plus instrumental 1900--2026), with events $M \ge 6.5$,
 and search for \emph{global} series---episodes in which $\ge 4$
 events occur in $\ge 3$ distinct Flinn--Engdahl regions within a
 1-year window.
@@ -161,7 +161,7 @@ We use events with $M \ge 6.5$ reviewed by USGS analysts.
 
 \paragraph{NOAA NGDC} The NOAA National Geophysical Data Center significant
 earthquake database \citep{NOAA2023} contains historical and paleoseismic
-events from approximately 2150~BCE, based on documentary sources
+events from pre-1900 historical records (47 events),
 \citep{Ambraseys1988,Guidoboni2010} and paleoseismic field surveys.
 
 \paragraph{ISC Bulletin} The International Seismological Centre bulletin
@@ -187,8 +187,8 @@ each event.
 
 Table~\ref{tab:catalog} summarises the merged catalog.
 After $M \ge 6.5$ filtering and deduplication ($\pm 30$~days, $\le 50$~km),
-4{,}267 unique events remain from 4{,}418 saved CSV rows spanning 2150~BCE to
-2026~CE: 2{,}041 modern (1973--2026), 2{,}179 early instrumental
+4{,}267 unique events remain from 4{,}418 saved CSV rows (pre-1900 historical
+plus instrumental 1900--2026): 2{,}041 modern (1973--2026), 2{,}179 early instrumental
 (1900--1972), and 47 pre-1900 historical events (fragmentary paleoseismic
 records over $\sim$4{,}000~years).
 For the modern window, USGS~ComCat provides 2{,}088 raw $M \ge 6.5$ records;
@@ -234,15 +234,15 @@ ZBZ independent (modern) & 2{,}040 & 1 dependent event (100.0\%); sensitivity ch
 \hline
 Source / Window & Events ($M \ge 6.5$) & Year range & Quality ($q$) \\
 \hline
-NOAA NGDC (historical)        & 47              & 2150~BCE -- 1899~CE & 0.3 -- 0.6 \\
+NOAA NGDC (historical)        & 47              & pre-1900            & 0.3 -- 0.6 \\
 USGS ComCat (instrumental)    & 2{,}041         & 1973 -- 2026        & $\ge 0.90$ \\
 ISC Bulletin (relocated)      & $\sim$2{,}600   & 1904 -- 2023        & $\ge 0.80$ \\
 \hline
-Unified ($M \ge 6.5$)         & \textbf{4{,}267} & 2150~BCE -- 2026   & mixed \\
+Unified ($M \ge 6.5$)         & \textbf{4{,}267} & pre-1900 + 1900--2026 & mixed \\
 \quad CSV records             & 4{,}418          & ---                 & --- \\
 \quad Modern (1973--2026)     & 2{,}041          & 1973 -- 2026        & $\ge 0.90$ \\
 \quad Early instr.\ (1900--1972) & 2{,}179       & 1900 -- 1972        & 0.70 -- 0.90 \\
-\quad Historical ($<$1900)    & 47               & 2150~BCE -- 1899    & 0.30 -- 0.60 \\
+\quad Historical ($<$1900)    & 47               & pre-1900            & 0.30 -- 0.60 \\
 $M \ge M_c = 6.55$ complete   & 1{,}688          & 1973 -- 2026        & $\ge 0.90$ \\
 \hline
 \end{tabular}

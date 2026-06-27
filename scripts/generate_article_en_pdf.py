@@ -197,7 +197,7 @@ def build(s):
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
         "We analyse a merged catalog of <b>4,267 unique M\u22656.5 events</b> "
-        "(from 4,418 CSV rows; ~151 NOAA M&lt;6.5 excluded from clustering; 2150\u00a0BCE\u20132026\u00a0CE) "
+        "(from 4,418 CSV rows; ~151 NOAA M&lt;6.5 excluded from clustering; 47 historical NOAA records pre-1900) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "47 global seismic series are identified (27 modern, 15 early, 5 historical candidates). "
         "Significance: permutation test (n=10,000, p\u22640.0001, z=-6.17); ETAS validation "
@@ -260,7 +260,7 @@ def build(s):
     story.append(Paragraph(
         "Three catalogs were merged: <b>USGS ComCat</b> (1900\u20132026, primary "
         "instrumental); <b>ISC Bulletin</b> (relocated hypocenters); and <b>NOAA NGDC</b> "
-        "(historical and paleoseismic records from ~2150 BCE). Duplicates were merged "
+        "(historical and paleoseismic records pre-1900, 47 events). Duplicates were merged "
         "using \u00b130 days and \u226450 km tolerance; source priority: ISC &gt; USGS &gt; NOAA. "
         "After deduplication, the catalog contains "
         "<b>4,267</b> unique M&gt;=6.5 events (from <b>4,418</b> CSV rows; ~151 M&lt;6.5 "

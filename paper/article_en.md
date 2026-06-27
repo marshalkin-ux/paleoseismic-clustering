@@ -1,6 +1,6 @@
 # Global Seismic Series: Statistical Analysis of Spatiotemporal Clustering in M≥6.5 Earthquake Catalogs (1973–2026 CE)
 
-*Four-millennium catalog (2150 BCE–2026; 4,267 M≥6.5 events); robust significance analysis on 2,041 modern + 2,179 early instrumental events; 47 pre-1900 records not used for significance claims.*
+*Merged NOAA+USGS catalog; primary analysis 1973–2026 (4,267 M≥6.5 events; 47 pre-1900 historical records not used for significance claims).*
 
 **DOI:** pending registration
 
@@ -20,7 +20,7 @@
 
 ## Abstract
 
-We analyse a merged catalog of **4,267 unique M≥6.5 events** (from 4,418 saved CSV rows; ~151 NOAA records with M<6.5 from an M≥6.0 fetch **retained in CSV for provenance but excluded from all clustering analyses**) using the Baiesi–Paczuski metric η with tectonic-path distance on the Bird (2003) graph. **Significance claims focus on the modern instrumental window (1973–2026, 2,041 events) and early instrumental period (1900–1972, 2,179 events);** 47 pre-1900 records are retained for context but not used for epoch-level significance. **47 global seismic series** are identified (27 modern, 15 early instrumental, 5 historical candidates). Significance: permutation test (n = 10,000, **p ≤ 0.0001**[^mc-p], z = −6.17); ETAS validation on modern window (**n = 1000** synthetic catalogs, **FPR = 1000/1000** catalogs with ≥1 spurious series, mean **15.4 ± 1.7**; max **24**; **pETAS = 0/1000** for N_obs = 27); FDR correction (45/47 at q = 0.05, **N = 47** hypotheses). Fifteen early-instrumental series reach p = 0.007, but pre-1960 catalog incompleteness (quality_score < 0.7) limits interpretation. **No historical series are statistically significant** (p = 0.46). The largest series by event count is **1905–1910** (193 events, 43 regions, Mmax = 8.8); the most spatially extensive modern series is **S170** (46 events, 12 Flinn–Engdahl regions, Mmax = 9.1, 2002–2023). Tectonic-path distance applies a real Dijkstra path for **~2%** of audited pairs (98% GC fallback). Series detection is a **statistical anomaly** (η links, p-values); causal mechanism is not established.
+We analyse a merged catalog of **4,267 unique M≥6.5 events** (from 4,418 saved CSV rows; ~151 NOAA records with M<6.5 from an M≥6.0 fetch **retained in CSV for provenance but excluded from all clustering analyses**) using the Baiesi–Paczuski metric η with tectonic-path distance on the Bird (2003) graph. **Significance claims focus on the modern instrumental window (1973–2026, 2,041 events) and early instrumental period (1900–1972, 2,179 events);** 47 pre-1900 records are retained for context but not used for epoch-level significance. **47 global seismic series** are identified (27 modern, 15 early instrumental, 5 historical candidates). Significance: [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p ≤ 0.0001**[^mc-p], z = −6.17); [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) validation on modern window (**n = 1000** synthetic catalogs, **FPR = 1000/1000** catalogs with ≥1 spurious series, mean **15.4 ± 1.7**; max **24**; **pETAS = 0/1000** for N_obs = 27); [FDR](https://en.wikipedia.org/wiki/False_discovery_rate) correction (45/47 at q = 0.05, **N = 47** hypotheses). Fifteen early-instrumental series reach p = 0.007, but pre-1960 catalog incompleteness (quality_score < 0.7) limits interpretation. **No historical series are statistically significant** (p = 0.46). The largest series by event count is **1905–1910** (193 events, 43 regions, Mmax = 8.8); the most spatially extensive modern series is **S170** (46 events, 12 Flinn–Engdahl regions, Mmax = 9.1, 2002–2023). Tectonic-path distance applies a real Dijkstra path for **~2%** of audited pairs (98% GC fallback). Series detection is a **statistical anomaly** (η links, p-values); causal mechanism is not established.
 
 [^mc-p]: Discrete permutation test with n = 10,000 yields minimum achievable p = 1/(n+1) = 0.0001; we report p ≤ 0.0001 rather than p < 0.0001.
 
@@ -30,11 +30,11 @@ We analyse a merged catalog of **4,267 unique M≥6.5 events** (from 4,418 saved
 
 ## 1. Introduction
 
-Large earthquakes do not occur as independent Poisson events. Following the 1992 Landers earthquake (Mw 7.3), Hill et al. (1993) documented remotely triggered seismicity at distances exceeding 1,000 km. Brodsky & Prejean (2006) showed that surface waves can initiate swarms in volcanic systems thousands of kilometres away. The 2004 Sumatra–Andaman earthquake (Mw 9.1) was followed by elevated activity in distant regions (Pollitz et al., 1998; Freed & Lin, 2001).
+Large earthquakes do not occur as independent [Poisson](https://en.wikipedia.org/wiki/Poisson_point_process) events. Following the 1992 Landers earthquake (Mw 7.3), Hill et al. (1993) documented remotely triggered seismicity at distances exceeding 1,000 km. Brodsky & Prejean (2006) showed that surface waves can initiate swarms in volcanic systems thousands of kilometres away. After the 2004 Sumatra–Andaman earthquake (Mw 9.1), elevated activity was reported in distant regions; possible mechanisms were discussed earlier (Pollitz et al., 1998; Freed & Lin, 2001) — **correlation within series S170 does not establish causality**.
 
 However, the systematic nature of such correlations remains debated. Michael (2011) tested whether global M≥7 clustering in 1995–2011 exceeds Poisson rate fluctuations. Shearer & Stark (2012) tested whether global M≥7 and M≥8 rates increased after the 2004 Sumatra event. Kagan & Jackson (1999) confirmed elevated probability of paired events at short separation without resolving long-range links.
 
-The ETAS model (Ogata, 1988) reproduces regional aftershock clustering but does not encode inter-plate correlations. The Baiesi–Paczuski (2004) metric and Zaliapin–Ben-Zion extensions (2008, 2013) provide objective cluster detection but typically use Euclidean distance, ignoring lithospheric connectivity.
+The [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) model (Ogata, 1988) reproduces regional aftershock clustering but does not encode inter-plate correlations. The [Baiesi–Paczuski](https://en.wikipedia.org/wiki/Earthquake_clustering) (2004) metric and Zaliapin–Ben-Zion extensions (2008, 2013) provide objective cluster detection but typically use Euclidean distance, ignoring lithospheric connectivity.
 
 **Objective.** We test the hypothesis that multi-regional seismic series exist in a four-millennium M≥6.5 catalog, with **primary significance claims on the modern instrumental window (1973–2026)**, using an adapted η metric with tectonic distance along Bird (2003) plate boundaries.
 
@@ -50,7 +50,7 @@ The ETAS model (Ogata, 1988) reproduces regional aftershock clustering but does 
 |--------|--------|------|
 | USGS ComCat | 1900–2026 | Primary instrumental catalog |
 | ISC Bulletin | 1900–2023 | Relocated hypocenters for verification |
-| NOAA NGDC | ~2150 BCE–2026 | Historical and paleoseismic records |
+| NOAA NGDC | pre-1900 (47 events) | Historical and paleoseismic records |
 
 Duplicate records were merged using ±30 days and ≤50 km spatial tolerance; source priority: ISC > USGS > NOAA. After deduplication, the catalog contains **4,267** unique M≥6.5 events (from **4,418** saved CSV rows). **151 sub-threshold rows** (NOAA, M<6.5 from the M≥6.0 fetch) **are retained in CSV for provenance but excluded from all clustering and series-detection steps**.
 
@@ -68,7 +68,7 @@ Duplicate records were merged using ±30 days and ≤50 km spatial tolerance; so
 
 **Quality scoring (metadata).** Each event receives a quality_score in [0.30, 0.95] based on epoch, phase readings, and cross-catalog overlap (Woessner & Wiemer, 2005); this is interpretive metadata, **not** an inclusion filter. Instrumental events after 1960 typically score ≥0.90; pre-1900 documentary records score 0.30–0.60.
 
-**Final catalog:** 4,267 events M≥6.5 (4,418 CSV records; 2150 BCE – 2026 CE)
+**Final catalog:** 4,267 events M≥6.5 (4,418 CSV records; M≥6.5 analysis set)
 
 | Epoch | Events M≥6.5 | Period |
 |-------|---------------|--------|
@@ -82,7 +82,7 @@ Maximum-curvature analysis yields Mc = 6.55. Maximum-likelihood b-value from 1,6
 
 **b = 0.911 ± 0.018**
 
-The Gutenberg–Richter relation is satisfied above Mc. **b-value consistency:** clustering η uses **b = 1.0** per the Baiesi & Paczuski (2004) convention for cross-catalog comparability; the Monte Carlo null and completeness analysis use the fitted **b = 0.911 ± 0.018**. This difference is intentional: η is a relative connectivity measure, not a rate forecast.
+The [Gutenberg–Richter](https://en.wikipedia.org/wiki/Gutenberg%E2%80%93Richter_law) relation is satisfied above Mc. **b-value consistency:** clustering η uses **b = 1.0** per the Baiesi & Paczuski (2004) convention for cross-catalog comparability; the Monte Carlo null and completeness analysis use the fitted **b = 0.911 ± 0.018**. This difference is intentional: η is a relative connectivity measure, not a rate forecast.
 
 ---
 
@@ -154,24 +154,24 @@ Raw catalogs (USGS / ISC / NOAA)
 
 ### 3.4 Threshold η0, series detection, and ETAS parameters
 
-1. **Declustering** via Gardner–Knopoff (1974) — mainshocks for NN search.
+1. **Declustering** via [Gardner–Knopoff](https://en.wikipedia.org/wiki/Aftershock) (1974) — mainshocks for NN search.
 2. **Nearest-neighbor forest:** for each event j, parent i* = argmin ηij.
 3. **Threshold η0:** automatic selection from the distribution of nearest-neighbor η values. Primary method: KDE valley detection between bimodal modes in log10(η) (Zaliapin & Ben-Zion, 2013). Default cluster cut when unspecified: η0 = 10^(median log10 η). The threshold is validated against a Poisson temporal-permutation null (Monte Carlo, n = 10,000).
-4. **Global series criterion:** N ≥ 4 events; M ≥ 6.5; ≥ 3 Flinn–Engdahl regions.
+4. **Global series criterion:** N ≥ 4 events; M ≥ 6.5; ≥ 3 [Flinn–Engdahl](https://en.wikipedia.org/wiki/Flinn%E2%80%93Engdahl_regions) regions.
 5. **Sliding windows** (1, 2, 5 yr; 1-yr step); overlapping groups merged.
 
 **ETAS null-model parameters (not catalog-calibrated).** ETAS validation uses **default global parameters** (μ = 0.008, K = 0.08, α = 1.0, c = 0.005 d, p = 1.1; Helmstetter & Sornette, 2003), **not** values re-calibrated on the 2,041-event modern catalog (`results/etas_calibration_note.md`, `scripts/calibrate_etas.py`). Rejecting the ETAS null therefore tests whether our series exceed a **literature-standard** local-aftershock model, not a catalog-specific fit. Optional homogeneous Poisson MLE on catalog event times yields **μ ≈ 0.105 events/day** vs the default 0.008 — full spatial ETAS MLE and multi-seed robustness (`scripts/run_etas_multiseed.py`) are future work.
 
 ### 3.5 Statistical validation
 
-**FDR procedure.** Sliding windows (1, 2, and 5 yr; 1-yr step) over the η NN forest yield **142 cluster candidates** before merging overlapping groups. After merge and series criteria (N ≥ 4, M ≥ 6.5, ≥ 3 Flinn–Engdahl regions), **47 global series** remain. Benjamini–Hochberg FDR (q = 0.05) is applied to **N = 47** series-level p-values (one hypothesis per merged series), not to individual window tests or NN pairs. Result: **45/47** significant. See `results/fdr_correction_results.csv`.
+**FDR procedure.** Sliding windows (1, 2, and 5 yr; 1-yr step) over the η NN forest yield **142 cluster candidates** before merging overlapping groups. After merge and series criteria (N ≥ 4, M ≥ 6.5, ≥ 3 Flinn–Engdahl regions), **47 global series** remain. [Benjamini–Hochberg FDR](https://en.wikipedia.org/wiki/False_discovery_rate) (q = 0.05) is applied to **N = 47** series-level p-values (one hypothesis per merged series), not to individual window tests or NN pairs. Result: **45/47** significant. See `results/fdr_correction_results.csv`.
 
 **ETAS null model.** We generate **1000** synthetic catalogs (**seed = 42**; Flinn–Engdahl regions via KD-tree lookup). The same series-detection algorithm (N ≥ 4, ≥ 3 Flinn–Engdahl regions, 2-yr window) is applied to each catalog. On the real modern catalog the algorithm finds **N_obs = 27** series. On ETAS nulls: **1000/1000** catalogs contain ≥1 spurious series (**FPR = 1.0**); mean spurious count **15.4 ± 1.7** (max **24**). **pETAS = P(N_ETAS ≥ 27) = 0/1000** (report as **≤ 0.001**). Note: previously reported FPR = 0/100 arose from an API bug (`min_regions` kwarg caused TypeError → returned 0); corrected in this revision.
 
 | Test | Parameters | Result |
 |------|------------|--------|
-| Permutation (Monte Carlo) | n = 10,000 | p ≤ 0.0001[^mc-p], z = −6.17 (modern) |
-| ETAS null model | μ=0.008, K=0.08; 500 km; 1000 cat.; N_obs=27 | FPR = 1000/1000; mean 15.6 series; pETAS ≤ 0.001 |
+| Permutation ([Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method)) | n = 10,000 | p ≤ 0.0001[^mc-p], z = −6.17 (modern) |
+| ETAS null model | μ=0.008, K=0.08; 500 km; 1000 cat.; N_obs=27 | FPR = 1000/1000; mean 15.4 series; pETAS ≤ 0.001 |
 | FDR (Benjamini–Hochberg) | q = 0.05; N = 47 series | 45/47 significant |
 | Declustering (primary) | GK | 2,017/2,041 (24 aftersh.) |
 
@@ -259,13 +259,13 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 
 ## 6. Conclusions
 
-1. A unified catalog of 4,267 M≥6.5 events (4,418 CSV records; spans 2150 BCE–2026) contains 47 global seismic series; **27 modern series are significant at p ≤ 0.0001** (Monte Carlo, n = 10,000).
+1. A unified catalog of 4,267 M≥6.5 events (4,418 CSV records; M≥6.5 analysis set) contains 47 global seismic series; **27 modern series are significant at p ≤ 0.0001** (Monte Carlo, n = 10,000).
 2. ETAS validation (1000 catalogs; FPR = 1000/1000 for ≥1 spurious series; pETAS ≤ 0.001 for N_obs = 27) and FDR (45/47, N = 47) confirm that the modern series count exceeds the ETAS null envelope.
 3. The largest series by event count is 1905–1910 (193 events, 43 regions, Mmax = 8.8); the most spatially extensive modern series is S170 (46 events, 12 regions, 2002–2023, Mmax = 9.1).
 4. Tectonic-path distance: **2.0%** of 4987 audited pairs use a real Dijkstra path, **98.0%** the 1.5× GC fallback; median Δlog₁₀η = +0.28 (§3.1).
 5. **Interpretive fork** (statistics vs mechanism): **(a)** if η links reflect genuine spatiotemporal structure — hazard implications and long-range ETAS kernels (without claiming direct triggering); **(b)** if episodes prove artifactual — FDR + ETAS remains a reproducible null-test pipeline. **Series detection does not imply direct triggering;** co-occurrence may reflect shared tectonic loading or mantle coupling.
 
-**Future work / supplement:** Static ΔCFS and dynamic stress for S170, S047, S095 (`results/cfs_s170_analysis.json`, `results/dynamic_stress_sumatra2004.json`); full ETAS MLE and multi-seed robustness. External DOI deposition (Zenodo) deferred — GitHub only.
+**Future work / supplement:** Static [ΔCFS](https://en.wikipedia.org/wiki/Coulomb_stress_transfer) and dynamic stress for S170, S047, S095 (`results/cfs_s170_analysis.json`, `results/dynamic_stress_sumatra2004.json`); full ETAS MLE and multi-seed robustness. External DOI deposition ([Zenodo](https://en.wikipedia.org/wiki/Zenodo)) deferred — GitHub only.
 
 ---
 
