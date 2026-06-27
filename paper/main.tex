@@ -300,15 +300,22 @@ The 500~km boundary snap and 1.5$\times$ great-circle fallback are
 \textbf{approximations}, not verified against independent geodetic data;
 intraplate pairs rely entirely on the GC penalty, and sensitivity to
 these parameters is deferred to future work.
-Qualitatively, a diagnostic tectonic-vs-Euclidean comparison
-(Figure~5 in \texttt{figures/grl/fig05\_tectonic\_vs\_euclidean.png};
-\texttt{scripts/generate\_grl\_figures.py::fig\_tectonic\_vs\_euclidean})
-on random $M \ge 6.5$ pairs (1973+, $n = 249$) yields median
-$\Delta\log_{10}\eta = +0.28$ ($1.6[\log_{10} r_\mathrm{tect} - \log_{10} r_\mathrm{eucl}]$);
-${\sim}98\%$ of sampled pairs use the 1.5$\times$ GC fallback
-($1.6 \log_{10} 1.5 \approx 0.28$).
-This is a metric diagnostic, not a calibrated sensitivity gain;
-full validation without ground-truth data is not possible.
+A systematic audit (\texttt{scripts/analyze\_tectonic\_fallback.py},
+\texttt{results/tectonic\_fallback\_analysis.json},
+Figure~\ref{fig:tectonic_fallback}) of \textbf{4987 random $M \ge 6.5$ pairs}
+from 500 sampled events (1973+) shows \textbf{98.0\%} use the 1.5$\times$ GC
+fallback and only \textbf{2.0\%} a real Dijkstra path.
+Fallback reasons: 4015 pairs exceed the 500~km boundary snap, 872 have no
+graph path, 100 use Dijkstra; 95 Dijkstra pairs differ materially from the
+fallback (examples: Japan FE31, 365~km vs 10~km GC; Philippines FE35,
+495~km vs 42~km).
+\textbf{Reframing:} the tectonic metric adds lithospheric connectivity
+information only for boundary-proximal pairs (${\sim}2\%$); for the majority
+it reduces to a fixed 1.5$\times$ GC penalty.
+A diagnostic tectonic-vs-Euclidean comparison
+(Figure~\ref{fig:tectonic_eucl}; median $\Delta\log_{10}\eta = +0.28$,
+$1.6 \log_{10} 1.5 \approx 0.28$) is consistent with GC-fallback dominance.
+This is a metric diagnostic, not a calibrated sensitivity gain.
 A parameter sweep (300/500/700~km boundary threshold; Bird graph
 resolution) is planned but not yet executed.
 
@@ -411,10 +418,14 @@ Epidemic-Type Aftershock Sequence (ETAS) process
 
 \noindent where $\mu$ is the background rate and $\{K, \alpha, c, p\}$
 govern aftershock productivity.
-Implementation values in \texttt{ETASCatalogGenerator} are $\mu = 0.008$~day$^{-1}$,
-$K = 0.08$, $\alpha = 1.0$, $c = 0.005$~day, $p = 1.1$, Gutenberg--Richter
-$b = 1.0$, spatial kernel $d = 10$~km, $q = 1.5$
-\citep{Ogata1988, HelmstettterSornette2003}.
+Implementation values in \texttt{ETASCatalogGenerator} are \textbf{default
+global parameters} \citep{Ogata1988, HelmstettterSornette2003}:
+$\mu = 0.008$~day$^{-1}$, $K = 0.08$, $\alpha = 1.0$, $c = 0.005$~day,
+$p = 1.1$, Gutenberg--Richter $b = 1.0$---\textbf{not} re-calibrated on the
+2041-event modern catalog (\texttt{results/etas\_calibration\_note.md}).
+Optional homogeneous Poisson MLE on catalog times yields
+$\mu \approx 0.105$~events/day vs the default 0.008; full spatial ETAS MLE
+and multi-seed robustness are future work.
 \textbf{Long-range coupling is disabled:} offspring are placed only within
 \texttt{max\_trigger\_distance\_km}~$= 500$ of their parent (branching
 Poisson process, up to five generations).
@@ -595,11 +606,9 @@ magnitude--frequency distribution but restricts spatial triggering to
 distances $\le 500$~km, thereby excluding deliberate long-range links.
 The same global-series detection algorithm was applied to each catalog.
 
-Fitting ETAS parameters to the declustered catalog yields
-$\hat{\mu} = 0.009$~events/day, $\hat{K} = 0.082$, $\hat{\alpha} = 0.98$,
-$\hat{c} = 0.011$~yr, $\hat{p} = 1.08$; the validation run uses the
-code defaults above ($\mu = 0.008$, $K = 0.08$, $\alpha = 1.0$,
-$c = 0.005$~days, $p = 1.1$, 500~km cutoff).
+Validation uses the literature defaults above ($\mu = 0.008$, $K = 0.08$,
+$\alpha = 1.0$, $c = 0.005$~days, $p = 1.1$, 500~km cutoff), not a
+catalog-specific fit.
 The mean number of global series detected in 100 ETAS synthetic catalogs
 is $\bar{N}_\mathrm{ETAS} = 0.00$ (SD~=~0.00); the false-positive rate
 (FPR, fraction of catalogs with $\ge 1$ global series) is 0/100.
@@ -637,6 +646,29 @@ The observed value lies $6.17\sigma$ below the null mean ($p < 0.0001$).}
 series ($\geq 3$ Flinn--Engdahl regions).  Marker size is proportional
 to magnitude.}
 \label{fig:series_map}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{../figures/grl/fig06_cfs_s170.png}
+\caption{Post-Sumatra 2004 static $\Delta\mathrm{CFS}$ for S170 receivers
+(Japan and Aleutians, 2004--2016; Okada 1985, $\mu=0.4$).}
+\label{fig:cfs_s170}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{../figures/grl/fig07_tectonic_path_usage.png}
+\caption{Tectonic-path vs 1.5$\times$ GC fallback usage audit
+(4987 pairs, 500 events; 98.0\% fallback, 2.0\% Dijkstra).}
+\label{fig:tectonic_fallback}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{../figures/grl/fig05_tectonic_vs_euclidean.png}
+\caption{Tectonic vs great-circle diagnostic (median $\Delta\log_{10}\eta = +0.28$).}
+\label{fig:tectonic_eucl}
 \end{figure}
 
 \subsection{Temporal and Spatial Patterns}
@@ -687,13 +719,21 @@ Fifteen series in this window reach statistical significance
 quality-score~$< 0.7$, requiring cautious interpretation of individual
 episodes (including 1905--1910).
 
-\paragraph{Qualitative plausibility for S170.}
-For the post-Sumatra window 2002--2023 (S170, $M_\mathrm{max}=9.1$),
-surface-wave remote-triggering literature \citep{Hill1993, Brodsky2006}
-provides \textbf{qualitative plausibility} for long-range correlations
-but not proof of causality.
-$\Delta\mathrm{CFS}$ modelling and dynamic stress estimates are
-deferred to future work and are needed to strengthen causal claims.
+\paragraph{Static $\Delta\mathrm{CFS}$ for S170 (Sumatra 2004).}
+We computed static Coulomb stress change (Okada, 1985; $\mu = 0.4$) for
+\textbf{79 receivers} (2004--2016) in Japan and the Aleutians
+(\texttt{scripts/compute\_cfs\_s170.py},
+\texttt{results/cfs\_s170\_analysis.json},
+Figure~\ref{fig:cfs_s170}).
+Source: 26~Dec~2004 $M~9.1$ at $3.3^\circ\mathrm{N}$, $95.8^\circ\mathrm{E}$
+(GCMT: strike $320^\circ$, dip $10^\circ$, rake $110^\circ$).
+Japan ($n=63$): mean $\Delta\mathrm{CFS} = +0.008$~kPa, median $+0.007$~kPa,
+range 0.003--0.023~kPa, 100\% promoting on a regional template;
+Aleutians ($n=16$): mean $+0.000065$~kPa (two orders of magnitude smaller).
+These values are \textbf{$\ll 0.1$~bar} ($\sim$10~kPa), the typical static
+triggering threshold \citep{Stein1999}; static Coulomb transfer alone is
+\textbf{insufficient}---dynamic triggering and/or viscoelastic coupling
+(§\ref{subsec:hypotheses}) remain necessary hypotheses.
 
 \subsection{Working Hypotheses (Not Claims)}
 \label{subsec:hypotheses}
@@ -984,11 +1024,13 @@ The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
         Benjamini--Hochberg FDR correction ($q = 0.05$, 45/47 series
         significant), this confirms that detected series are not artefacts
         of randomness or local aftershock structure.
-  \item Tectonic-path distance along \citet{Bird2003} plate boundaries is
-        implemented with a documented diagnostic comparison to great-circle
-        distance (median $\Delta\log_{10}\eta = +0.28$ on $n = 249$ random
-        pairs; \texttt{scripts/generate\_grl\_figures.py}); formal parameter
-        sweeps remain future work.
+  \item Tectonic-path distance: 2.0\% of 4987 audited pairs use Dijkstra,
+        98.0\% the 1.5$\times$ GC fallback (500 events sampled;
+        \texttt{scripts/analyze\_tectonic\_fallback.py}); metric adds value
+        mainly for boundary-proximal pairs; median $\Delta\log_{10}\eta = +0.28$.
+  \item Static $\Delta\mathrm{CFS}$ after Sumatra 2004 (S170): Japan
+        $+0.008$~kPa ($n=63$), Aleutians $+0.000065$~kPa ($n=16$)---promoting
+        but $\ll 0.1$~bar; dynamic/viscoelastic mechanisms needed.
   \item The largest series by event count is 1905--1910 (193 events,
         43 regions, $M_\mathrm{max}=8.8$); the most spatially extensive
         modern chain is S170 (46 events, 12 regions, 2002--2023,

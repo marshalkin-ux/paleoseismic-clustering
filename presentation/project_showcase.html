@@ -1870,6 +1870,31 @@
     </div>
   </div>
 
+  <!-- GRL: ΔCFS S170 -->
+  <div style="margin-bottom: 3rem; border:1px solid rgba(210,168,255,0.35); border-radius:12px; padding:1.5rem; background:rgba(210,168,255,0.05);">
+    <h3 style="color:#d2a8ff; margin-bottom:0.5rem;">ΔCFS после Sumatra 2004 (S170)</h3>
+    <p class="viz-block-desc">
+      Статический расчёт Okada (1985), μ=0.4; источник M 9.1 (3.3°N, 95.8°E; GCMT 320°/10°/110°).
+      <strong>79 приёмников</strong> 2004–2016 (Япония + Алеуты).
+      Япония (n=63): mean +0.008 kPa, median +0.007 kPa, диапазон 0.003–0.023 kPa, 100% promoting.
+      Алеуты (n=16): mean +0.000065 kPa — на два порядка меньше.
+      Значения <strong>≪ 0.1 bar</strong> — статического триггеринга недостаточно; нужны динамика или вязкоупругость.
+    </p>
+    <img src="../figures/grl/fig06_cfs_s170.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Post-Sumatra static ΔCFS for S170">
+  </div>
+
+  <!-- GRL: Tectonic fallback audit -->
+  <div style="margin-bottom: 3rem;">
+    <h3 style="color:#ffa657; margin-bottom:0.5rem;">Аудит тектонического расстояния (4987 пар)</h3>
+    <p class="viz-block-desc">
+      Из 500 отобранных событий M≥6.5: <strong>98.0%</strong> пар используют GC-фолбэк 1.5×,
+      только <strong>2.0%</strong> — реальный путь Дейкстры (4015 snap&gt;500 km, 872 нет пути, 100 Dijkstra).
+      95 пар с Dijkstra существенно отличаются от фолбэка (примеры: FE31 Япония, FE35 Филиппины).
+      Тектоническая метрика добавляет ценность только для ~2% пар у границ плит.
+    </p>
+    <img src="../figures/grl/fig07_tectonic_path_usage.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Tectonic path fallback usage">
+  </div>
+
   <!-- GRL: Map -->
   <div style="margin-bottom: 3rem;">
     <h3 style="color:#79c0ff; margin-bottom:0.5rem;">Карта мультирегиональных серий (≥3 зон Флинна–Энгдала)</h3>
@@ -2261,11 +2286,10 @@
       <div class="plan-card">
         <h3>📐 ΔCFS — физическая валидация серий</h3>
         <ul class="plan-list">
-          <li>Вычислить изменение Кулоновского напряжения для <strong>S047</strong> (1982–2024), <strong>S170</strong> (2002–2023), <strong>S095</strong> (1989–2017)</li>
-          <li>Геометрия разрыва: масштабные соотношения Wells &amp; Coppersmith (1994) для M≥7.5</li>
-          <li>Порог: ΔCFS &gt; 0.01 МПа → физически значимый триггер (Stein 1999)</li>
-          <li>Механизм очага: взброс / сдвиг / сброс из GCMT-каталога (~70% событий post-1976)</li>
-          <li>Инструмент: Coulomb 3.3 (USGS, бесплатный) или pyCSEP</li>
+          <li><strong>S170 (выполнено):</strong> Sumatra 2004 → 79 приёмников 2004–2016; Япония +0.008 kPa (n=63), Алеуты +0.000065 kPa (n=16); fig06_cfs_s170.png</li>
+          <li>Значения promoting, но <strong>≪ 0.1 bar</strong> — статика недостаточна; динамика / вязкоупругость</li>
+          <li><strong>S047, S095:</strong> индивидуальные GCMT-механизмы (~70% post-1976)</li>
+          <li>Порог литературы: ΔCFS &gt; 0.01 МПа (Stein 1999) — S170 на три порядка ниже</li>
         </ul>
       </div>
 

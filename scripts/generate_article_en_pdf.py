@@ -286,10 +286,12 @@ def build(s):
         "computed with Dijkstra's algorithm (NetworkX). If either hypocenter lies "
         "&gt;500 km from the nearest boundary node, or no graph path exists, "
         "r<sub>ij</sub> = 1.5 \u00d7 r<sub>GC</sub> (great-circle Haversine). "
-        "<b>Limitations:</b> 500 km snap and 1.5\u00d7 GC are approximations; "
-        "intraplate pairs rely on GC penalty; sensitivity deferred to future work. "
-        "Tectonic diagnostic (generate_grl_figures.py): median \u0394log\u2081\u2080\u03b7 = +0.28 "
-        "on random pairs (~98% use 1.5\u00d7 GC fallback).",
+        "<b>Fallback audit</b> (analyze_tectonic_fallback.py, fig07): "
+        "4987 pairs from 500 events; 98.0% GC fallback, 2.0% Dijkstra "
+        "(4015 snap&gt;500 km, 872 no path, 100 Dijkstra; 95 materially different; "
+        "examples FE31 Japan, FE35 Philippines). Metric adds value for ~2% "
+        "boundary-proximal pairs only. "
+        "Tectonic diagnostic: median \u0394log\u2081\u2080\u03b7 = +0.28.",
         s["body"]
     ))
     story.append(Spacer(1, 0.15 * cm))
@@ -313,7 +315,7 @@ def build(s):
         s["body"]
     ))
 
-    story += SSEC("2.4 Threshold \u03b7\u2080 and series detection", s)
+    story += SSEC("2.4 Threshold \u03b7\u2080, series detection, and ETAS parameters", s)
     story.append(Paragraph(
         "Automatic \u03b7<sub>0</sub> from nearest-neighbor \u03b7 distribution: KDE valley "
         "between bimodal log<sub>10</sub>(\u03b7) modes (Zaliapin &amp; Ben-Zion 2013); "
@@ -328,13 +330,17 @@ def build(s):
         ("4.", "Sliding windows (1, 2, 5 yr); overlapping groups merged."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
+    story.append(Paragraph(
+        "<b>ETAS parameters (not catalog-calibrated):</b> Helmstetter &amp; Sornette 2003 "
+        "defaults (mu=0.008, K=0.08, alpha=1.0, c=0.005 d, p=1.1); not refit on 2041 events "
+        "(results/etas_calibration_note.md). Optional MLE mu ~0.105 events/day vs default 0.008.",
+        s["body"]
+    ))
     story += SSEC("2.5 Statistical validation", s)
     story.append(Paragraph(
         "<b>Permutation test:</b> n = 10,000, p &lt; 0.0001, z = -6.17 (modern). "
-        "<b>ETAS validation:</b> mu=0.008, K=0.08, alpha=1.0, c=0.005 d, p=1.1; "
-        "500 km cutoff; 100 catalogs (seed=42). FPR=0/100; p_ETAS=0.0000. "
-        "<b>Limitation (see Discussion):</b> FPR=0/100 at seed=42 only; "
-        "multi-seed robustness recommended. "
+        "<b>ETAS validation:</b> 100 catalogs (seed=42); FPR=0/100; p_ETAS=0.0000. "
+        "<b>Limitation:</b> FPR=0/100 at seed=42 only; multi-seed future work. "
         "<b>FDR (q=0.05):</b> 45/47 significant. "
         "<b>Declustering:</b> GK 2,017/2,041; ZBZ 2,040/2,041.",
         s["body"]
@@ -398,8 +404,10 @@ def build(s):
         "p-values, not causality. <b>Working hypotheses</b> (not claims): viscoelastic "
         "mantle coupling (Pollitz 1998), dynamic triggering (Hill 1993; Brodsky 2006), "
         "shared tectonic loading (Freed &amp; Lin 2001). "
-        "<b>ETAS seed limitation:</b> FPR=0/100 at seed=42 only; multiseed future work. "
-        "<b>Limitations:</b> tectonic distance approximations.",
+        "<b>S170 \u0394CFS:</b> Okada 1985, 79 receivers 2004\u20132016; Japan +0.008 kPa "
+        "(n=63), Aleutians +0.000065 kPa (n=16); &lt;&lt; 0.1 bar (fig06_cfs_s170.png). "
+        "<b>ETAS seed limitation:</b> FPR=0/100 at seed=42 only. "
+        "<b>Tectonic audit:</b> 98% GC fallback of 4987 pairs (fig07).",
         s["body"]
     ))
     for num, text in [
@@ -410,18 +418,18 @@ def build(s):
         ("3.", "Largest series: 1905\u20131910 (193 events, 43 regions, M<sub>max</sub>=8.8); "
                "most spatially extensive modern: S170 (46 events, 12 regions, "
                "2002\u20132023, M<sub>max</sub>=9.1)."),
-        ("4.", "Tectonic-path distance documented with diagnostic "
-               "(median \u0394log\u2081\u2080\u03b7 = +0.28 vs great-circle; "
-               "generate_grl_figures.py); formal parameter sweep planned."),
-        ("5.", "<b>Interpretive fork:</b> (a) if \u03b7 links are real \u2014 hazard "
+        ("4.", "Tectonic path: 2.0% Dijkstra / 98.0% GC fallback (4987 pairs, 500 events); "
+               "value mainly for boundary-proximal pairs (~2%)."),
+        ("5.", "S170 \u0394CFS: Japan +0.008 kPa (n=63), Aleutians +0.000065 kPa (n=16); "
+               "promoting but &lt;&lt; 0.1 bar."),
+        ("6.", "<b>Interpretive fork:</b> (a) if \u03b7 links are real \u2014 hazard "
                "implications without claiming direct triggering; (b) if artifacts \u2014 "
-               "FDR+ETAS remains reproducible null-test. Co-occurrence may reflect "
-               "shared tectonic loading."),
+               "FDR+ETAS remains reproducible null-test."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
         story.append(Spacer(1, 0.1 * cm))
     story.append(Paragraph(
-        "<b>Future work:</b> \u0394CFS for S047, S170, S095; multi-seed ETAS; Zenodo.",
+        "<b>Future work:</b> \u0394CFS for S047, S095 with GCMT; full ETAS MLE; multi-seed; Zenodo.",
         s["body_ni"]
     ))
 
