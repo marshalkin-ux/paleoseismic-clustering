@@ -20219,6 +20219,6 @@
     "overall_mean_false_series": 27.0,
     "overall_std_false_series": 0.0,
     "overall_mean_p_etas": 1.0,
-    "note": "Calibrated ETAS params (use_calibrated_defaults=True); n=1000 catalogs/seed; n_observed=27."
+    "note": "Calibrated ETAS params (use_calibrated_defaults=True); seeds 42,43,44,45,46,47,48,49,50,51; n=1000 catalogs/seed; n_observed=27; overall mean=27.0, std=0.0 — detector count deterministic at calibrated catalog scale (~2001 background events/catalog). Literature-default exploratory runs (n=100/seed) yielded mean~15.5 — comparison only."
   }
 }

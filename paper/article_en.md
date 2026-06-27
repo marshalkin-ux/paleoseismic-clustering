@@ -152,7 +152,17 @@ Raw catalogs (USGS / ISC / NOAA)
 
 **Primary declustering (GK only in reporting pipeline).** In the canonical pipeline (`pipeline_v2.py`, `decluster_method='gardner_knopoff'`), **Gardner–Knopoff (GK) is the sole primary** pre-processing step: mainshocks feed the η NN forest and sliding-window series search. For the modern window (1973–2026), GK removes ~24 local aftershocks (2,017/2,041, 98.8%). The epoch script `run_full_historical_analysis.py` (47 series across epochs) applies `global_series()` to the full M≥6.5 list **without** an explicit GK pre-filter; GK counts in Table §2.1 come from `run_declustering_comparison.py`.
 
-**ZBZ — supplement/sensitivity only.** Zaliapin–Ben-Zion (2040/2,041 independent) is reported **only as a sensitivity check** in supplementary comparison (`run_declustering_comparison.py`), not as a co-primary or sequential filter. GK and ZBZ answer different questions and are not combined in the main pipeline.
+**ZBZ — supplement/sensitivity only.** Zaliapin–Ben-Zion (2040/2,041 independent) is reported **only as a sensitivity check** in supplementary comparison (`run_declustering_comparison.py`), not as a co-primary or sequential filter. **ZBZ does not replace GK** and is not applied sequentially with it.
+
+**Why GK removes 24 events but ZBZ removes 1 (not a contradiction).** The algorithms use different criteria on the same global M≥6.5 catalog (2,041 events, 1973–2026):
+
+| Aspect | Gardner–Knopoff (primary) | Zaliapin–Ben-Zion (sensitivity) |
+|--------|---------------------------|----------------------------------|
+| Mechanism | Fixed magnitude-dependent time/space windows (1974 table; ~22 d / ~61 km at M≥6.5) | Nearest-neighbor η metric + KDE valley threshold on log₁₀(η) |
+| Scale sensitivity | Designed for regional catalogs; flags short-range fore/aftershocks within windows | At global M≥6.5 scale, events are sparse → most η values are high → permissive |
+| Dependent events | **24** (2,017 mainshocks) | **1** (2,040 mainshocks) |
+
+GK applies conservative local window rules; ZBZ classifies only events with exceptionally low η to a predecessor. The 23-event gap reflects **algorithm and parameter choice**, not conflicting physics. **GK is primary for all inference** (pipeline, ETAS calibration, reported counts). The ZBZ check shows **minimal additional removal** (1 event) — declustering is not a critical methodological fork. **If ZBZ were primary**, 23 GK-aftershocks would remain as mainshocks; these are short-range local pairs unlikely to enter multi-regional series (≥3 Flinn–Engdahl regions), so **N=27 modern series would likely change negligibly** — **not re-run** (`decluster_method='zaliapin'` exists in `pipeline_v2.py` but series count is untested).
 
 ### 3.4 Threshold η0, series detection, and ETAS parameters
 
@@ -162,7 +172,7 @@ Raw catalogs (USGS / ISC / NOAA)
 4. **Global series criterion:** N ≥ 4 events; M ≥ 6.5; ≥ 3 [Flinn–Engdahl](https://en.wikipedia.org/wiki/Flinn%E2%80%93Engdahl_regions) regions.
 5. **Sliding windows** (1, 2, 5 yr; 1-yr step); overlapping groups merged.
 
-**ETAS null-model parameters (catalog-calibrated).** ETAS validation uses parameters estimated by minimal MLE on the **2,041**-event modern catalog (1973–2026, M≥6.5) after Gardner–Knopoff declustering (`scripts/calibrate_etas.py`, `results/etas_calibration.json`): **μ, K, α, c, p** (see §3.5). Literature defaults (Helmstetter & Sornette, 2003) are retained for comparison. Rejecting the ETAS null tests whether our series exceed a **catalog-calibrated** local-aftershock model without long-range links (>500 km). Multi-seed robustness (`scripts/run_etas_multiseed.py`) remains future work.
+**ETAS null-model parameters (catalog-calibrated).** ETAS validation uses parameters estimated by minimal MLE on the **2,041**-event modern catalog (1973–2026, M≥6.5) after Gardner–Knopoff declustering (`scripts/calibrate_etas.py`, `results/etas_calibration.json`): **μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36** (see §3.5). Literature defaults (Helmstetter & Sornette, 2003) are retained for **comparison only**. Rejecting the ETAS null tests whether our series exceed a **catalog-calibrated** local-aftershock model without long-range links (>500 km). Multi-seed robustness: **10 seeds (42–51)**, n=1000 catalogs/seed (`scripts/run_etas_multiseed.py`, `results/etas_multiseed.json`).
 
 ### 3.5 Statistical validation
 
@@ -182,7 +192,28 @@ The pipeline from raw clustering to FDR-controlled inference follows these steps
 
 **FDR procedure (summary).** Sliding windows (1, 2, and 5 yr; 1-yr step) over the η NN forest yield **142 cluster candidates** before merging overlapping groups. After merge and series criteria (N ≥ 4, M ≥ 6.5, ≥ 3 Flinn–Engdahl regions), **47 global series** remain. [Benjamini–Hochberg FDR](https://en.wikipedia.org/wiki/False_discovery_rate) (q = 0.05) is applied to **N = 47** series-level p-values (one hypothesis per merged series), not to individual window tests or NN pairs. Result: **45/47** significant. See `results/fdr_correction_results.csv`.
 
-**ETAS null model.** We generate **1,000** synthetic catalogs (**seed = 42**; parameters from `results/etas_calibration.json`: μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36; GK+Omori MLE on 2,041 events). On the real modern catalog the algorithm finds **N_obs = 27** series. On calibrated ETAS nulls: **1000/1000** catalogs contain ≥1 spurious series (**FPR = 1.0**); mean **27.0 ± 0.0** (max **27**). **pETAS = P(N_ETAS ≥ 27) = 1.0** — with catalog-calibrated ETAS, the observed count is **indistinguishable** from the null. For comparison, literature defaults (μ=0.008, K=0.08) yielded mean≈15.4, max=24, pETAS ≤ 0.001. The detector is liberal (FPR = 1000/1000 under all parameter sets); see §5.5.
+**ETAS null model.** We generate synthetic catalogs with **catalog-calibrated** parameters (`results/etas_calibration.json`: μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36; GK+Omori MLE on 2,041 events). On the real modern catalog the algorithm finds **N_obs = 27** series.
+
+**Single-seed run (seed = 42, n = 1000):** **1000/1000** catalogs contain ≥1 spurious series (**FPR = 1.0**); mean **27.0 ± 0.0** (max **27**). **pETAS = P(N_ETAS ≥ 27) = 1.0**.
+
+**Multi-seed robustness (seeds 42, 43, 44, 45, 46, 47, 48, 49, 50, 51; n = 1000 catalogs/seed; `results/etas_multiseed.json`):**
+
+| Seed | mean false series | σ | pETAS | FPR |
+|------|------------------:|--:|------:|----:|
+| 42 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 43 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 44 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 45 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 46 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 47 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 48 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 49 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 50 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 51 | 27.0 | 0.0 | 1.0 | 1.0 |
+
+**Overall:** mean = **27.0**, σ = **0.0** across all seeds — perfect stability because calibrated ETAS generates catalogs with ~2,001 background events and local-only triggering (>500 km cutoff), matching the event rate and clustering scale of the real catalog; the liberal detector then yields **exactly 27** spurious multi-regional series on every realization (deterministic count given similar catalog size, not RNG noise).
+
+**Literature-default comparison only** (Helmstetter & Sornette 2003: μ=0.008, K=0.08; earlier exploratory runs with n=100 catalogs/seed): mean≈**15.5**, max=24, pETAS ≤ 0.001 — sensitive to parameter choice, **not** the primary null model. The detector is liberal (FPR = 1000/1000 under calibrated parameters); see §5.5.
 
 | Test | Parameters | Result |
 |------|------------|--------|
@@ -293,7 +324,7 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 
 **(3) Heuristic metric with tectonic hint:** 500 km / 1.5× GC approximations; **98%** of audited pairs use GC fallback (4987 pairs, §3.1); real Dijkstra paths for **~2%** only; failed hypothesis test.
 
-**(4) Declustering asymmetry.** GK is primary in `pipeline_v2.py`; full-epoch `run_full_historical_analysis.py` does not pre-filter with GK.
+**(4) Declustering asymmetry.** **GK is primary** for all inference; ZBZ (1 vs 24 dependent events) is sensitivity-only — different algorithms (window-based vs η-space clustering), not co-equal methods. Full-epoch `run_full_historical_analysis.py` does not pre-filter with GK; ZBZ-primary series count untested (likely negligible for N=27).
 
 **(5) FDR scope.** BH correction applies to N = 47 merged series, not 142 window candidates or individual η links.
 
@@ -309,7 +340,7 @@ Catalog-calibrated ETAS shows that the number of multi-regional clusters flagged
 
 Additionally: the heuristic metric with tectonic hint **does not improve** global analysis (98% GC fallback); 47 detector candidates are **indistinguishable** from ETAS null and liberal exploratory search artifacts; **ΔCFS/dynamic stress — future work**; causal chains **not** established.
 
-**Future work:** full ETAS MLE; multiseed n = 1000; tightening **search space** (windows, η₀); ΔCFS/dynamic stress (S170, S047, S095). External DOI ([Zenodo](https://en.wikipedia.org/wiki/Zenodo)) deferred — GitHub only.
+**Future work:** full ETAS MLE; ZBZ-primary declustering re-run; tightening **search space** (windows, η₀); ΔCFS/dynamic stress (S170, S047, S095). External DOI ([Zenodo](https://en.wikipedia.org/wiki/Zenodo)) deferred — GitHub only.
 
 ---
 

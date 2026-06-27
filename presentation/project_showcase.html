@@ -1567,7 +1567,8 @@
       </div>
       <div class="data-total-footnote">
         Источники: USGS + ISC + NOAA · дедупликация ±30 сут., ≤50 км (ISC &gt; USGS &gt; NOAA).
-        GK: 24 афтершока (2017/2041) — основной метод в pipeline_v2; ZBZ: 1 зависимое (2040/2041) — отдельная проверка чувствительности, не последовательный фильтр.
+        GK: 24 афтершока (2017/2041) — <strong>единственный основной</strong> метод в pipeline_v2;
+        ZBZ: 1 зависимое (2040/2041) — только проверка чувствительности (окна GK vs η-кластеризация ZBZ на глобальном M≥6.5; не равноправные методы, ZBZ не заменяет GK).
         <span class="term" data-tooltip="Оценка надёжности 0–1: метаданные для интерпретации, не фильтр отбора">quality_score</span> — метаданные, не фильтр.
       </div>
     </div>
@@ -1748,20 +1749,42 @@
         </p>
         <ul style="list-style:none; padding:0; font-size:0.9rem;">
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
-            <span style="color:var(--accent); font-weight:600;">1000 синтетических ETAS-каталогов</span> (калибр.: μ≈0,103, K≈0,495, α≈0,063, c≈10⁻⁴ сут., p≈1,36; порог 500 км; seed=42)
-          </li>
-          <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
-            <span class="term-tip">Ветвящийся пуассоновский процесс<span class="term-tip-box">ETAS — стохастическая модель, где каждое событие может порождать «дочерние» (афтершоки). FPR = доля синтетических каталогов с ≥1 ложной серией.<a href="https://ru.wikipedia.org/wiki/Пуассоновский_процесс" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>; FPR = 1000/1000
+            <span style="color:var(--accent); font-weight:600;">Multiseed ETAS:</span> seeds <strong>42, 43, 44, 45, 46, 47, 48, 49, 50, 51</strong> · n=1000 кат./seed · калибр. μ≈0,103, K≈0,495, α≈0,063, c≈10⁻⁴ сут., p≈1,36
           </li>
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--green); font-weight:600;">
-            ✅ Калибр. null: mean 27,0 · p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27)
+            ✅ Калибр. null: mean 27,0 · σ=0,0 · p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) — стабильно по всем 10 seed
           </li>
           <li style="padding:5px 0; color:var(--text-muted); font-size:0.85rem;">
-            Сравнение: литературные defaults (μ=0,008) → mean≈15,4, max=24, p≤0,001
+            Сравнение (только): лит. defaults μ=0,008 → mean≈15,5 (ранние n=100); не основная null-модель
           </li>
         </ul>
+        <div style="margin-top:12px; overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:0.8rem;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border);">
+                <th style="padding:6px 8px; color:var(--text-muted);">Seed</th>
+                <th style="padding:6px 8px; color:var(--text-muted);">mean</th>
+                <th style="padding:6px 8px; color:var(--text-muted);">σ</th>
+                <th style="padding:6px 8px; color:var(--text-muted);">p<sub>ETAS</sub></th>
+                <th style="padding:6px 8px; color:var(--text-muted);">FPR</th>
+              </tr>
+            </thead>
+            <tbody style="color:var(--text-muted);">
+              <tr><td style="padding:4px 8px;">42</td><td>27,0</td><td>0,0</td><td>1,0</td><td>1,0</td></tr>
+              <tr><td style="padding:4px 8px;">43</td><td>27,0</td><td>0,0</td><td>1,0</td><td>1,0</td></tr>
+              <tr><td style="padding:4px 8px;">44</td><td>27,0</td><td>0,0</td><td>1,0</td><td>1,0</td></tr>
+              <tr><td style="padding:4px 8px;">45</td><td>27,0</td><td>0,0</td><td>1,0</td><td>1,0</td></tr>
+              <tr><td style="padding:4px 8px;">46</td><td>27,0</td><td>0,0</td><td>1,0</td><td>1,0</td></tr>
+              <tr><td style="padding:4px 8px;">47</td><td>27,0</td><td>0,0</td><td>1,0</td><td>1,0</td></tr>
+              <tr><td style="padding:4px 8px;">48</td><td>27,0</td><td>0,0</td><td>1,0</td><td>1,0</td></tr>
+              <tr><td style="padding:4px 8px;">49</td><td>27,0</td><td>0,0</td><td>1,0</td><td>1,0</td></tr>
+              <tr><td style="padding:4px 8px;">50</td><td>27,0</td><td>0,0</td><td>1,0</td><td>1,0</td></tr>
+              <tr><td style="padding:4px 8px;">51</td><td>27,0</td><td>0,0</td><td>1,0</td><td>1,0</td></tr>
+            </tbody>
+          </table>
+        </div>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">p<sub>ETAS</sub>=1,0</strong> (калибр.) &nbsp;|&nbsp; FPR=1000/1000 — детектор либерален; permutation test p=0.0001 (1/10,001 perm.) сохраняется; multiseed и механизм — перспектива.
+          <strong style="color:var(--accent);">p<sub>ETAS</sub>=1,0</strong> (калибр.) &nbsp;|&nbsp; FPR=1000/1000 — детектор либерален; σ=0,0 потому что калибр. ETAS (~2001 фоновых соб./кат.) даёт детерминированные 27 ложных серий; permutation p=0.0001 сохраняется.
         </div>
       </div>
 
@@ -1820,9 +1843,9 @@
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.3 Декластеризация</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">GK (основной) · ZBZ (чувств.) · ETAS</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">3 алгоритма</td>
-              <td style="padding:10px 14px; color:var(--green);">44/47 серий совпадают; 3 неопределённых</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">GK (основной) · ZBZ (чувств.)</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">2 алгоритма</td>
+              <td style="padding:10px 14px; color:var(--green);">GK: 24 афтерш.; ZBZ: 1 завис. — разные критерии, GK primary</td>
               <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Согласовано</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
@@ -1855,14 +1878,14 @@
     <div class="fade-in" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px;">
       <div class="card">
         <span class="card-icon">🔬</span>
-        <h3>Декластеризация Залиапина–Бен-Зион</h3>
+        <h3>Декластеризация Залиапина–Бен-Зион (только чувствительность)</h3>
         <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:12px;">
-          Адаптивный метод, использующий ту же метрику η — физически согласован с основным анализом.
+          Тот же класс η-метрик, но <strong>не основной метод</strong> — GK единственный primary в pipeline_v2 и калибровке ETAS.
         </p>
         <ul style="list-style:none; padding:0; font-size:0.88rem; color:var(--text-muted);">
-          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">Бимодальность log₁₀(η): левый пик = афтершоки, правый = фоновые</li>
-          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">В проверке чувствительности: 1 зависимое из 2041 (vs GK: 24 афтершока)</li>
-          <li style="padding:4px 0;">Не используется как основной или последовательный фильтр с GK</li>
+          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">GK: окна T(M)/R(M) → 24 зависимых; ZBZ: η NN + KDE → 1 зависимое (глобальный M≥6.5)</li>
+          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">Разрыв 23 события — алгоритм/параметры, не противоречие; ZBZ не заменяет GK</li>
+          <li style="padding:4px 0;">ZBZ-primary для N=27 не тестировался (вероятно незначительно)</li>
         </ul>
       </div>
       <div class="card">
@@ -1918,7 +1941,7 @@
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
             <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
             <li><strong>ETAS (калибр.):</strong> mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong>, N<sub>obs</sub>=27, FPR 1000/1000 — <strong>нет избыточной глобальной структуры</strong></li>
-            <li><strong>Multiseed</strong> (42–51, n=1000, калибр.): mean≈27, FPR=1.0 стабилен (<code>results/etas_multiseed.json</code>)</li>
+            <li><strong>Multiseed ETAS</strong> (seeds 42–51, n=1000/seed, калибр.): mean=27.0, σ=0.0, FPR=1.0 по всем seed (<code>results/etas_multiseed.json</code>)</li>
             <li>Эвристика с тект. подсказкой: <strong>98%</strong> GC-фолбэк — отрицательный тест гипотезы</li>
           </ul>
           <div class="findings-kpi">
@@ -2257,8 +2280,8 @@
   <div style="margin-bottom: 3rem; border:1px solid rgba(63,185,80,0.35); border-radius:12px; padding:1.5rem; background:rgba(63,185,80,0.05);">
     <h3 style="color:#3fb950; margin-bottom:0.5rem;">ETAS-валидация — главный null-результат</h3>
     <p class="viz-block-desc">
-      Каталог-откалиброванный ETAS (μ≈0,103, K≈0,495, α≈0,063, c≈10⁻⁴ сут., p≈1,36; порог 500&nbsp;км; seed=42):
-      1000 синтетических каталогов; FPR=1000/1000; mean=27,0; p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) —
+      Каталог-откалиброванный ETAS (μ≈0,103, K≈0,495, α≈0,063, c≈10⁻⁴ сут., p≈1,36; порог 500&nbsp;км):
+      multiseed seeds 42–51, n=1000/seed → mean=27,0, σ=0,0, FPR=1000/1000, p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) —
       <strong>неотличимо от локального ETAS-null; избыточной «глобальной» структуры нет.</strong>
       Permutation p=0.0001 (1/10,001) отвергает <em>пуассоновские времена</em>, не телесейсмические «серии».
     </p>

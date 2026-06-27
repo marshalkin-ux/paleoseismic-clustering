@@ -22,7 +22,8 @@
 | Кандидаты детектора | **47** merged (27 modern; **не** физически доказанные «серии») |
 | Permutation (Poisson times) | n = 10 000, **p = 0.0001 (1/10 001)**, z = −6.17 — **≠** global-series proof |
 | ETAS-null (калибр.) | n = 1000 → **mean 27.0, p_ETAS=1.0**, FPR 1000/1000 |
-| Multiseed ETAS | seeds 42–51, n=1000, mean≈27, FPR=1.0 (`results/etas_multiseed.json`) |
+| Multiseed ETAS | seeds **42–51** (10 seeds), n=1000/seed, **mean=27.0, σ=0.0**, FPR=1.0 (`results/etas_multiseed.json`) |
+| Декластеризация | **GK primary** (24 афтерш.); ZBZ sensitivity only (1 завис.) — не равноправные методы |
 | FDR (q = 0.05) | 45/47 on **N=47 post-hoc** — Methods/sensitivity only |
 | Эвристика с тект. подсказкой | **98%** GC-фолбэк 1.5× — **failed hypothesis**, not innovation |
 
@@ -62,7 +63,7 @@ cd paleoseismic-clustering
 pip install -r requirements.txt
 
 python scripts/run_etas_validation.py
-python scripts/run_etas_multiseed.py --run --seeds 42,43,44,45,46
+python scripts/run_etas_multiseed.py --run --seeds 42,43,44,45,46,47,48,49,50,51 --n-catalogs 1000
 python scripts/apply_fdr_correction.py
 python scripts/generate_grl_figures.py
 python scripts/generate_article_pdf.py
