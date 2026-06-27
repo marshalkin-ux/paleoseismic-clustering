@@ -46,11 +46,19 @@
 
 Автоматизация выкладки статьи и данных на Zenodo, Figshare, arXiv, OSF и др.: см. **[publication/README.md](publication/README.md)**.
 
+| Артефакт | Ссылка |
+|----------|--------|
+| HTML-отчёт dry-run | [publication/output/report.html](publication/output/report.html) |
+| Статус публикации (RU) | [publication/output/PUBLICATION_STATUS.md](publication/output/PUBLICATION_STATUS.md) |
+| Метаданные | [publication/output/master_metadata.json](publication/output/master_metadata.json) |
+
 ```bash
 pip install -r publication/requirements.txt
 python publication/main.py --prepare-only
-python publication/main.py --dry-run
+python publication/main.py --dry-run --skip-social
 ```
+
+> **DOI:** placeholder `10.5281/zenodo.XXXXXXX` в [CITATION.cff](CITATION.cff) — замените после живого депозита на Zenodo (см. [PUBLICATION_STATUS.md](publication/output/PUBLICATION_STATUS.md)).
 
 ---
 

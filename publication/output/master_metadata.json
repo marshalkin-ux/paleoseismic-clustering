@@ -1,0 +1,108 @@
+{
+  "title_en": "Global Seismic Series: Statistical Analysis of Spatiotemporal Clustering in M≥6.5 Earthquake Catalogs (2150 BCE – 2026 CE)",
+  "title_ru": "Глобальные сейсмические серии: статистический анализ пространственно-временной кластеризации землетрясений M≥6.5 (2150 г. до н.э. – 2026 г.)",
+  "abstract_en": "We analyse a merged catalog of **4,267 unique M≥6.5 events** (from 4,418 saved CSV rows, including ~151 NOAA records with M<6.5 from an M≥6.0 fetch; 2150 BCE – 2026 CE) using the Baiesi–Paczuski metric η with tectonic-path distance on the Bird (2003) graph. **47 global seismic series** are identified (27 modern, 15 early instrumental, 5 historical candidates). Significance: permutation test (n = 10,000, p < 0.0001, z = −6.17); ETAS validation (FPR = 0/100, seed = 42); FDR correction (45/47 at q = 0.05). Fifteen early-instrumental series reach p = 0.007, but pre-1960 catalog incompleteness (quality_score < 0.7) limits interpretation. **No historical series are statistically significant** (p = 0.46). The largest series by event count is **1905–1910** (193 events, 43 regions, Mmax = 8.8); the most spatially extensive modern series is **S170** (46 events, 12 Flinn–Engdahl regions, Mmax = 9.1, 2002–2023). Series detection is a **statistical anomaly** (η links, p-values); causal mechanism is not established.",
+  "abstract_ru": "Проведён статистический анализ объединённого каталога **4267 уникальных событий M≥6.5** (из 4418 сохранённых CSV-строк, включая ~151 запись NOAA с M<6.5; 2150 г. до н.э. – 2026 г.) с метрикой Байеси–Пачуски η и тектоническим расстоянием (граф Bird 2003). Выявлено **47 глобальных серий** (27 современных, 15 ранних, 5 исторических кандидатов). Значимость: перестановочный тест ($n=10{,}000$, $p<0{,}0001$, $z=-6{,}17$); ETAS-валидация (FPR=0/100, seed=42); FDR ($q=0{,}05$, **45/47**). Пятнадцать ранних серий дают $p=0{,}007$, но неполнота каталога до 1960 г. ($\\mathrm{quality\\_score}<0{,}7$) ограничивает интерпретацию. **Исторические серии статистически не значимы** ($p=0{,}46$). Крупнейшая серия по числу событий — **1905–1910** (193 события, 43 региона, $M_{\\max}=8{,}8$); наиболее масштабная современная — **S170** (46 событий, 12 регионов Флинна–Энгдала, $M_{\\max}=9{,}1$, 2002–2023). Обнаружение серий — **статистическая аномалия** (η-связи, p-values); причинный механизм не установлен.\n\n**Ключевые слова:** глобальная сейсмичность; сейсмические серии; тектоническое расстояние; ETAS-валидация; FDR; кластеризация; Байеси–Пачуски; Monte Carlo; Флинн–Энгдал",
+  "keywords_en": [
+    "global seismicity",
+    "seismic series",
+    "earthquake clustering",
+    "tectonic distance",
+    "Baiesi–Paczuski metric",
+    "ETAS validation",
+    "false discovery rate",
+    "Monte Carlo",
+    "paleoseismology",
+    "Flinn–Engdahl"
+  ],
+  "keywords_ru": [
+    "глобальная сейсмичность",
+    "сейсмические серии",
+    "тектоническое расстояние",
+    "ETAS-валидация",
+    "FDR",
+    "кластеризация",
+    "Байеси–Пачуски",
+    "Monte Carlo",
+    "Флинн–Энгдал"
+  ],
+  "authors": [
+    {
+      "name_en": "Ярослав Маршалкин",
+      "name_ru": "Ярослав Маршалкин",
+      "email": "marshalkin@gmail.com",
+      "orcid": ""
+    }
+  ],
+  "affiliations": [],
+  "doi": "10.5281/zenodo.1234567",
+  "zenodo_url": "https://zenodo.org/record/1234567",
+  "figshare_doi": "10.6084/m9.figshare.9876543",
+  "arxiv_id": "2026.12345",
+  "osf_url": "https://osf.io/abc12/",
+  "eartharxiv_url": "https://eartharxiv.org/repository/view/1234/",
+  "pangaea_doi": "10.1594/PANGAEA.123456",
+  "gfz_doi": "10.5880/GFZ.2026.001",
+  "dryad_doi": "10.5061/dryad.abc123",
+  "researchgate_status": "pending",
+  "academia_status": "pending",
+  "github_url": "https://github.com/marshalkin-ux/paleoseismic-clustering",
+  "publication_date": "2026-06-27",
+  "version": "1.0.0",
+  "license": "MIT",
+  "project_url": "https://marshalkin-ux.github.io/paleoseismic-clustering/",
+  "files": {
+    "supplementary.zip": "C:\\Users\\marsh\\Projects\\paleoseismic-clustering\\publication\\output\\supplementary.zip",
+    "code.zip": "C:\\Users\\marsh\\Projects\\paleoseismic-clustering\\publication\\output\\code.zip",
+    "figures.zip": "C:\\Users\\marsh\\Projects\\paleoseismic-clustering\\publication\\output\\figures.zip"
+  },
+  "platform_status": {
+    "zenodo": {
+      "doi": "10.5281/zenodo.1234567",
+      "zenodo_url": "https://zenodo.org/record/1234567",
+      "status": "published",
+      "mock": true
+    },
+    "figshare": {
+      "figshare_doi": "10.6084/m9.figshare.9876543",
+      "url": "https://figshare.com/articles/dataset/mock/9876543",
+      "status": "published",
+      "mock": true
+    },
+    "osf": {
+      "osf_url": "https://osf.io/abc12/",
+      "eartharxiv_url": "https://eartharxiv.org/repository/view/1234/",
+      "status": "published",
+      "mock": true
+    },
+    "pangaea": {
+      "pangaea_doi": "10.1594/PANGAEA.123456",
+      "status": "published",
+      "mock": true,
+      "note": "PANGAEA moderation simulated in mock mode."
+    },
+    "gfz": {
+      "gfz_doi": "10.5880/GFZ.2026.001",
+      "status": "published",
+      "mock": true,
+      "note": "GFZ moderation simulated in mock mode."
+    },
+    "dryad": {
+      "dryad_doi": "10.5061/dryad.abc123",
+      "status": "published",
+      "mock": true,
+      "note": "DRYAD moderation simulated in mock mode."
+    },
+    "arxiv": {
+      "arxiv_id": "2026.12345",
+      "url": "https://arxiv.org/abs/2026.12345",
+      "status": "submitted",
+      "mock": true,
+      "note": "Manual endorser approval may be required for first submission."
+    },
+    "github": {
+      "status": "skipped_mock",
+      "note": "README DOI stub skipped in dry-run/mock mode."
+    }
+  }
+}

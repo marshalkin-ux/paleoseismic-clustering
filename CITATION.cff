@@ -17,3 +17,12 @@ keywords:
 license: MIT
 version: 1.0.0
 date-released: 2026-06-27
+# Placeholder DOI — replace with real Zenodo DOI after live deposit (dry-run mock: 10.5281/zenodo.1234567)
+doi: 10.5281/zenodo.XXXXXXX
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.XXXXXXX
+    description: "Pending — assign after Zenodo deposit; sandbox test at sandbox.zenodo.org"
+  - type: url
+    value: "https://zenodo.org/record/XXXXXXX"
+    description: "Zenodo landing page (pending)"

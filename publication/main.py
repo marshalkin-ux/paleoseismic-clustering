@@ -7,6 +7,10 @@ import argparse
 import sys
 from pathlib import Path
 
+_repo_root = Path(__file__).resolve().parents[1]
+if str(_repo_root) not in sys.path:
+    sys.path.insert(0, str(_repo_root))
+
 from publication.agents.orchestrator import Orchestrator
 from publication.utils.logging_config import setup_logging
 
