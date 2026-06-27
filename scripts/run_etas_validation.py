@@ -30,6 +30,29 @@ logger = logging.getLogger(__name__)
 from src.analysis.etas_validation import ETASCatalogGenerator
 from src.analysis.clustering import SeismicClusterAnalyzer
 
+CALIBRATION_PATH = Path("results/etas_calibration.json")
+DEFAULT_PARAMS = {
+    "mu": 0.008,
+    "K": 0.08,
+    "alpha": 1.0,
+    "c": 0.005,
+    "p": 1.1,
+    "max_trigger_distance_km": 500.0,
+}
+
+
+def load_etas_params() -> dict:
+    """Load calibrated ETAS params if available, else literature defaults."""
+    if CALIBRATION_PATH.exists():
+        with open(CALIBRATION_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        params = data.get("parameters_calibrated", DEFAULT_PARAMS)
+        logger.info("Loaded calibrated ETAS params from %s", CALIBRATION_PATH)
+        return params
+    logger.warning("No %s — using literature defaults", CALIBRATION_PATH)
+    return DEFAULT_PARAMS
+
+
 # ---------------------------------------------------------------------------
 # Загрузка каталога
 # ---------------------------------------------------------------------------
@@ -45,21 +68,38 @@ logger.info("Загружено событий: %d", len(df))
 # Оставляем только инструментальный период (с 1973)
 if "year" in df.columns:
     df = df[df["year"] >= 1973].copy()
-    logger.info("После фильтра 1973+: %d событий", len(df))
+    df = df[df["magnitude"] >= 6.5].copy()
+    logger.info("После фильтра 1973+ M>=6.5: %d событий", len(df))
 
 # ---------------------------------------------------------------------------
 # Инициализация
 # ---------------------------------------------------------------------------
 
+etas_params = load_etas_params()
+
 analyzer = SeismicClusterAnalyzer()
 
 generator = ETASCatalogGenerator(
-    mu=0.008,
-    K=0.08,
-    alpha=1.0,
-    c=0.005,
-    p=1.1,
-    max_trigger_distance_km=500,
+    mu=etas_params["mu"],
+    K=etas_params["K"],
+    alpha=etas_params["alpha"],
+    c=etas_params["c"],
+    p=etas_params["p"],
+    max_trigger_distance_km=etas_params.get("max_trigger_distance_km", 500.0),
+)
+
+# Background count scaled from calibrated mu (53 yr window ≈ catalog span)
+t_span_years = float(df["year"].max() - df["year"].min()) if len(df) else 53.0
+n_background = int(round(etas_params["mu"] * t_span_years * 365.25))
+n_background = max(n_background, 40)
+logger.info(
+    "ETAS generator: mu=%.6f K=%.4f alpha=%.3f c=%.5f p=%.3f n_bg=%d",
+    etas_params["mu"],
+    etas_params["K"],
+    etas_params["alpha"],
+    etas_params["c"],
+    etas_params["p"],
+    n_background,
 )
 
 # ---------------------------------------------------------------------------
@@ -76,7 +116,7 @@ try:
     n_observed = len(real_series)
 except Exception as exc:
     logger.warning("Не удалось запустить global_series: %s", exc)
-    n_observed = 47  # значение из результатов анализа
+    n_observed = 27
 
 logger.info("Реальных глобальных серий: %d", n_observed)
 
@@ -95,7 +135,13 @@ results = generator.run_false_positive_analysis(
     time_window_years=2.0,
     n_observed=n_observed,
     seed=42,
+    n_background=n_background,
+    t_span_years=t_span_years,
 )
+
+results["etas_parameters"] = etas_params
+results["n_background_per_catalog"] = n_background
+results["catalog_span_years"] = t_span_years
 
 # ---------------------------------------------------------------------------
 # Вывод результатов

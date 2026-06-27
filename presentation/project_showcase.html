@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Глобальные сейсмические серии — M≥6.5, 1973–2026 | Ярослав Маршалкин</title>
-  <meta name="description" content="47 глобальных серий (45/47 FDR; 27 modern p≤0.0001) · 2041 событие M≥6.5 (1973–2026) · ETAS FPR 1000/1000 (N_obs=27), Monte Carlo p≤0.0001. Каталог NOAA (исторические + инструментальные записи); анализ значимости на 1973+.">
+  <title>Глобальные сейсмические серии: M≥6.5 за 1973–2026 | Ярослав Маршалкин</title>
+  <meta name="description" content="47 глобальных серий (45/47 FDR; 27 modern p≤0.0001) · 2041 событие M≥6.5 (1973–2026). ETAS FPR 1000/1000. Экстраполяция 1900–1972; до 1900 г. p=0.46.">
   <meta name="keywords" content="глобальные сейсмические серии, earthquake clustering, seismic triggering, дальнодействующий триггеринг, Baiesi-Paczuski, тектоническое расстояние, ETAS validation, FDR Benjamini-Hochberg, Monte Carlo, paleoseismic, землетрясения M6.5">
   <meta name="author" content="Ярослав Маршалкин">
   <link rel="canonical" href="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
-  <meta property="og:title" content="Глобальные сейсмические серии — 1973–2026">
+  <meta property="og:title" content="Глобальные сейсмические серии: M≥6.5 за 1973–2026">
   <meta property="og:description" content="47 глобальных серий (45/47 FDR) · 2041 событий M≥6.5 (1973–2026) · интерактивная карта · научная статья PDF">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
@@ -1225,7 +1225,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 в современном окне 1973–2026: 2041 событие, 47 глобальных серий. Каталог NOAA (исторические + инструментальные записи). Полный merged CSV — 4418 строк; анализ M≥6.5: 4267.
+      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов глобальных серий (27 modern p≤0.0001). Экстраполяция на 1900–1972; данные до 1900&nbsp;г. не значимы (p=0.46).
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -1753,7 +1753,7 @@
             <li><strong>2041</strong> событие в современном окне <strong>1973–2026</strong> — основа заявлений о значимости</li>
             <li><strong>47</strong> глобальных серий (≥3 зон Флинна–Энгдала); <strong>27</strong> современных с <strong>p ≤ 0.0001</strong></li>
             <li><span class="term-tip">FDR<span class="term-tip-box">False Discovery Rate — поправка Benjamini–Hochberg на множественное тестирование.<a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>: <strong>45/47</strong> серий значимы при q &lt; 0.05</li>
-            <li><span class="term-tip">ETAS<span class="term-tip-box">Epidemic Type Aftershock Sequence — стандартная модель кластеризации Ogata (1988); n=1000 синтетических каталогов.<a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>: FPR <strong>1000/1000</strong>, среднее <strong>~15.4 ± 1.7</strong> ложных серий vs <strong>N<sub>obs</sub>=27</strong>; p<sub>ETAS</sub>≤0.001</li>
+            <li><span class="term-tip">ETAS<span class="term-tip-box">Epidemic Type Aftershock Sequence — Ogata (1988); n=1000 синтетических каталогов; параметры откалиброваны на 2041 событии.<a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>: FPR <strong>1000/1000</strong>, калибр. null mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (N<sub>obs</sub>=27)</li>
             <li>Monte Carlo (10 000 перестановок): <strong>z = −6.17</strong>, p ≤ 0.0001</li>
             <li>Декластеризация <span class="term-tip">Gardner–Knopoff<span class="term-tip-box">Основной метод отделения главных толчков от афтершоков; 98–100% событий — независимые M≥6.5.<a href="https://en.wikipedia.org/wiki/Leon_Knopoff" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> — первичный; тектоническое расстояние Bird (2003): <strong>98%</strong> пар на GC-фолбэке 1.5×, ~2% — реальный путь Дейкстры</li>
             <li>Предварительные тесты <span class="term-tip">ΔCFS<span class="term-tip-box">Coulomb failure stress change; порог триггеринга ~0.01 МПа (Stein 1999). S170: +0.008 kPa — на три порядка ниже.<a href="https://en.wikipedia.org/wiki/Coulomb_stress_transfer" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> и динамического стресса для S170 <strong>не достигают порогов</strong> на телесейсмических расстояниях</li>
@@ -1764,7 +1764,7 @@
             <span><strong>47</strong>глоб. серий</span>
             <span><strong>27</strong>p≤0.0001</span>
             <span><strong>45/47</strong>FDR</span>
-            <span><strong>15.4</strong>ETAS mean FPR</span>
+            <span><strong>27.0</strong>ETAS mean</span>
           </div>
         </div>
 
@@ -1772,11 +1772,10 @@
           <h4>Честные выводы</h4>
           <p>
             <strong>Глобальный дальнодействующий триггеринг не доказан.</strong>
-            Обнаружены статистически устойчивые пространственно-временные серии (η-метрика, permutation test, FDR, ETAS),
-            но физический механизм не установлен. Проект даёт <strong>воспроизводимый пайплайн</strong>
-            (curator → η + тектоническое расстояние → серии → null-тесты) и явно разделяет
+            Выявленные статистические аномалии (η-метрика, permutation test, FDR, ETAS) требуют дальнейшего изучения;
+            физический механизм не установлен. Тектоническое расстояние не подтверждено для глобального анализа (98% GC-фолбэк).
+            Проект даёт <strong>воспроизводимый пайплайн</strong> и явно разделяет
             <em>статистическую значимость</em> и <em>причинность</em>.
-            Совместное появление событий в серии S170 (12 регионов, 18 100 км) — корреляция, не доказанный механизм передачи стресса.
           </p>
         </div>
 
@@ -1819,7 +1818,7 @@
     <div class="fade-in" style="background:var(--card); border:1px solid rgba(63,185,80,0.35); border-radius:14px; padding:28px; margin-bottom:32px;">
       <h3 style="margin-bottom:16px; font-family:var(--heading-font); color:var(--green);">Статистический вывод</h3>
       <ul style="margin:0; padding-left:1.25rem; color:var(--text-muted); line-height:1.7;">
-        <li><strong style="color:var(--text-dim);">ETAS-тест:</strong> p ≤ 0.001 — N_obs=27 превышает максимум ETAS-нуля (24); детектор либерален (FPR 1000/1000)</li>
+        <li><strong style="color:var(--text-dim);">ETAS-тест:</strong> p<sub>ETAS</sub>=1.0 при калиброванном null (mean=27); детектор либерален (FPR 1000/1000)</li>
         <li><strong style="color:var(--text-dim);">FDR:</strong> 45/47 серий значимы после строгой коррекции на множественное тестирование (q = 0.05)</li>
         <li><strong style="color:var(--text-dim);">Декластеризация:</strong> 98.8–100% событий — независимые главные толчки, не афтершоки</li>
       </ul>
@@ -2561,7 +2560,7 @@
       </div>
 
       <div class="plan-card">
-        <h3>📐 ΔCFS — физическая валидация серий</h3>
+        <h3>📐 ΔCFS — Future Work (не основной результат)</h3>
         <ul class="plan-list">
           <li><strong>S170 (выполнено):</strong> Sumatra 2004 → 79 приёмников 2004–2016; Япония +0.008 kPa (n=63), Алеуты +0.000065 kPa (n=16); fig06_cfs_s170.png</li>
           <li>Значения promoting, но <strong>≪ 0.1 bar</strong> — статика недостаточна; динамика / вязкоупругость</li>

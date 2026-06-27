@@ -336,8 +336,8 @@ class ETASCatalogGenerator:
 
     def _run_one_catalog(self, args: tuple) -> int:
         """Запускает кластеризацию на одном ETAS-каталоге."""
-        i, seed_i, cluster_analyzer, min_events, time_window_years = args
-        df = self.generate(n_background=80, seed=seed_i)
+        i, seed_i, cluster_analyzer, min_events, time_window_years, n_background, t_end = args
+        df = self.generate(n_background=n_background, t_end=t_end, seed=seed_i)
         df["year"] = df["time_years"].astype(int)
         df["month"] = (
             ((df["time_years"] - df["year"]) * 12) + 1
@@ -360,6 +360,8 @@ class ETASCatalogGenerator:
         n_observed: int | None = None,
         n_workers: int | None = None,
         seed: int = 42,
+        n_background: int = 80,
+        t_span_years: float = 50.0,
     ) -> dict:
         """Параллельная ETAS-валидация: оценка частоты ложных открытий.
 
@@ -400,7 +402,15 @@ class ETASCatalogGenerator:
         series_counts = np.zeros(n_catalogs, dtype=int)
 
         for i in range(n_catalogs):
-            args = (i, seed + i, cluster_analyzer, min_events, time_window_years)
+            args = (
+                i,
+                seed + i,
+                cluster_analyzer,
+                min_events,
+                time_window_years,
+                n_background,
+                t_span_years,
+            )
             series_counts[i] = self._run_one_catalog(args)
 
         counts_list = series_counts.tolist()

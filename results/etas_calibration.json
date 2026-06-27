@@ -1,7 +1,28 @@
 {
-  "calibration_status": "hardcoded_global_defaults",
-  "source": "Helmstetter & Sornette (2003) via src/analysis/etas_validation.py",
-  "parameters_used_in_validation": {
+  "calibration_status": "catalog_mle_1973_2026",
+  "catalog_modern_n": 2041,
+  "catalog_modern_span_years": 53.43309377138946,
+  "gk_mainshocks": 2017,
+  "gk_aftershocks": 24,
+  "omori_fit": {
+    "c": 0.0001,
+    "p": 1.363250203658662,
+    "n_delays": 24,
+    "success": true
+  },
+  "branching_fit": {
+    "K": 0.4945527632119062,
+    "alpha": 0.06250066767034286
+  },
+  "parameters_calibrated": {
+    "mu": 0.1033487797145355,
+    "K": 0.4945527632119062,
+    "alpha": 0.06250066767034286,
+    "c": 0.0001,
+    "p": 1.363250203658662,
+    "max_trigger_distance_km": 500.0
+  },
+  "parameters_literature_defaults": {
     "mu": 0.008,
     "K": 0.08,
     "alpha": 1.0,
@@ -9,15 +30,8 @@
     "p": 1.1,
     "max_trigger_distance_km": 500.0
   },
-  "catalog_modern_n": 2041,
-  "catalog_modern_note": "2041 events after merge in paper; full CSV may differ slightly",
-  "config_yaml_etas_section": "none — ETAS params not in config.yaml",
-  "recommendation": "Report as default global ETAS parameters, not catalog-calibrated",
-  "mu_fit": {
-    "n_events": 2041,
-    "t_span_years": 53.0,
-    "mu_mle_homogeneous": 0.10543308408559658,
-    "mu_mle_optimized": 0.10543386771950161,
-    "note": "Homogeneous Poisson MLE only; K/alpha not fitted"
-  }
+  "mu_homogeneous_total_rate": 0.1045785123437615,
+  "n_background_synthetic": 2017,
+  "source": "scripts/calibrate_etas.py (GK + Omori MLE + branching regression)",
+  "note": "Minimal MLE on 2041 modern M>=6.5 events; spatial ETAS kernel approximated via 500 km trigger cap matching ETASCatalogGenerator."
 }

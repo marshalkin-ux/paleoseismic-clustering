@@ -216,7 +216,7 @@ def build(s):
     story.append(Paragraph(
         "Глобальные сейсмические серии: статистический анализ "
         "пространственно-временно\u0301й кластеризации землетрясений "
-        "M\u22656.5 (1973\u20132026\u00a0г.)",
+        "M\u22656.5 за 1973\u20132026\u00a0гг.",
         s["title_ru"]
     ))
     story.append(Paragraph("\u00a9 2026\u00a0г.\u00a0\u00a0Ярослав Маршалкин",
@@ -278,7 +278,7 @@ def build(s):
     # --- EN metadata ---
     story.append(Paragraph(
         "Global Seismic Series: Statistical Analysis of Spatiotemporal "
-        "Clustering of M\u22656.5 Earthquakes During 1973\u20132026",
+        "Clustering in M\u22656.5 Earthquake Catalogs, 1973\u20132026 CE",
         s["title_en"]
     ))
     story.append(Paragraph(

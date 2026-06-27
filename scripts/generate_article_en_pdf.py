@@ -181,7 +181,7 @@ def build(s):
 
     story.append(Paragraph(
         "Global Seismic Series: Statistical Analysis of Spatiotemporal "
-        "Clustering in M\u22656.5 Earthquake Catalogs (1973\u20132026 CE)",
+        "Clustering in M\u22656.5 Earthquake Catalogs, 1973\u20132026 CE",
         s["title"]
     ))
     story.append(Paragraph("\u00a9 2026  Yaroslav Marshalkin", s["copyright"]))
