@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Интерактивная карта землетрясений | Ярослав Маршалкин</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#0d1117; font-family:'Inter',sans-serif; color:#c9d1d9; }
+    
+    #map { height: 100vh; width: 100%; }
+    
+    .controls {
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+      z-index: 1000; display: flex; gap: 8px; align-items: center;
+      background: rgba(13,17,23,0.92); border:1px solid #30363d;
+      border-radius: 12px; padding: 10px 16px; backdrop-filter: blur(8px);
+      flex-wrap: wrap; justify-content: center; max-width: 95vw;
+    }
+    .controls label { color:#8b949e; font-size:0.8rem; white-space:nowrap; }
+    .controls select {
+      background:#161b22; color:#c9d1d9; border:1px solid #30363d;
+      border-radius:6px; padding:5px 10px; font-size:0.8rem; cursor:pointer;
+    }
+    .controls select:hover { border-color:#58a6ff; }
+    
+    .back-btn {
+      position: fixed; bottom: 20px; left: 20px; z-index: 1000;
+      background: rgba(13,17,23,0.92); border:1px solid #30363d;
+      border-radius:8px; padding:8px 16px; color:#58a6ff;
+      text-decoration:none; font-size:0.85rem; backdrop-filter:blur(8px);
+    }
+    .back-btn:hover { border-color:#58a6ff; background:#161b22; }
+    
+    .stats-panel {
+      position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+      background: rgba(13,17,23,0.92); border:1px solid #30363d;
+      border-radius:10px; padding:12px 16px; backdrop-filter:blur(8px);
+      min-width: 200px;
+    }
+    .stats-panel h4 { color:#58a6ff; font-size:0.8rem; letter-spacing:1px; 
+                      text-transform:uppercase; margin-bottom:8px; }
+    .stats-row { display:flex; justify-content:space-between; 
+                 font-size:0.8rem; margin-bottom:4px; }
+    .stats-val { color:#e6edf3; font-weight:600; }
+    
+    .legend {
+      position: fixed; top: 80px; right: 16px; z-index: 1000;
+      background: rgba(13,17,23,0.92); border:1px solid #30363d;
+      border-radius:10px; padding:12px 16px; backdrop-filter:blur(8px);
+    }
+    .legend h4 { color:#8b949e; font-size:0.75rem; letter-spacing:1px;
+                 text-transform:uppercase; margin-bottom:8px; }
+    .legend-item { display:flex; align-items:center; gap:8px; 
+                   margin-bottom:5px; font-size:0.8rem; color:#c9d1d9; }
+    .legend-dot { border-radius:50%; display:inline-block; }
+    
+    .leaflet-popup-content-wrapper {
+      background:#161b22 !important; border:1px solid #30363d !important;
+      border-radius:10px !important; color:#c9d1d9 !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+    }
+    .leaflet-popup-tip { background:#161b22 !important; }
+    .leaflet-popup-content { margin: 12px 16px !important; }
+    .popup-mag { font-size:1.4rem; font-weight:700; margin-bottom:4px; }
+    .popup-info { font-size:0.82rem; color:#8b949e; line-height:1.6; }
+    .popup-info strong { color:#c9d1d9; }
+  </style>
+</head>
+<body>
+
+<div class="controls">
+  <label>Период:</label>
+  <select id="period-filter">
+    <option value="all">Все (2150 BCE – 2026)</option>
+    <option value="hist">Исторические (до 1900)</option>
+    <option value="early">1900–1972</option>
+    <option value="modern">1973–2026</option>
+    <option value="1970s">1970-е</option>
+    <option value="1980s">1980-е</option>
+    <option value="1990s">1990-е</option>
+    <option value="2000s">2000-е</option>
+    <option value="2010s">2010-е</option>
+    <option value="2020s">2020-е</option>
+  </select>
+  
+  <label>Мин. магнитуда:</label>
+  <select id="mag-filter">
+    <option value="6.5">M ≥ 6.5</option>
+    <option value="7.0">M ≥ 7.0</option>
+    <option value="7.5">M ≥ 7.5</option>
+    <option value="8.0">M ≥ 8.0</option>
+  </select>
+  
+  <span id="count-display" style="color:#8b949e; font-size:0.8rem; white-space:nowrap;">
+    Показано: <strong id="count-val" style="color:#58a6ff;">—</strong>
+  </span>
+</div>
+
+<div id="map"></div>
+
+<a href="project_showcase.html" class="back-btn">← Назад к исследованию</a>
+
+<div style="position:fixed; bottom:70px; left:20px; z-index:1000; font-size:0.75rem; color:#8b949e; background:rgba(13,17,23,0.85); padding:6px 12px; border-radius:6px; border:1px solid #30363d;">
+  <a href="mailto:marshalkin@gmail.com" style="color:#58a6ff; text-decoration:none;">marshalkin@gmail.com</a>
+  · <a href="https://t.me/MRSHLKN" target="_blank" rel="noopener" style="color:#58a6ff; text-decoration:none;">@MRSHLKN</a>
+</div>
+
+<div class="legend">
+  <h4>Магнитуда</h4>
+  <div class="legend-item"><span class="legend-dot" style="width:8px;height:8px;background:#ffd68a;"></span> 6.5–7.0</div>
+  <div class="legend-item"><span class="legend-dot" style="width:12px;height:12px;background:#ffa657;"></span> 7.0–7.5</div>
+  <div class="legend-item"><span class="legend-dot" style="width:16px;height:16px;background:#f78166;"></span> 7.5–8.5</div>
+  <div class="legend-item"><span class="legend-dot" style="width:22px;height:22px;background:#ff7b72;"></span> ≥ 8.5</div>
+</div>
+
+<div class="stats-panel">
+  <h4>Статистика</h4>
+  <div class="stats-row"><span>В каталоге</span><span class="stats-val" id="stat-total">—</span></div>
+  <div class="stats-row"><span>M ≥ 8.5</span><span class="stats-val" id="stat-big">—</span></div>
+  <div class="stats-row"><span>Серий найдено</span><span class="stats-val">47</span></div>
+  <div class="stats-row"><span>p-value (совр.)</span><span class="stats-val">&lt; 0.0001</span></div>
+</div>
+
+<script src="map_events_embed.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ===== КАРТА =====
+const map = L.map('map', { center:[20,0], zoom:2, minZoom:1, maxZoom:10 });
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution:'© OpenStreetMap © CARTO', subdomains:'abcd', maxZoom:19
+}).addTo(map);
+
+function magColor(m) {
+  if (m >= 8.5) return '#ff7b72';
+  if (m >= 7.5) return '#f78166';
+  if (m >= 7.0) return '#ffa657';
+  return '#ffd68a';
+}
+function magRadius(m) { return Math.max(3, Math.pow(2, m-6.2)*1.8); }
+function magOpacity(m) { return m >= 7.5 ? 0.85 : 0.6; }
+
+let ALL_EVENTS = [];
+let markerLayer = L.layerGroup().addTo(map);
+
+function renderMarkers() {
+  markerLayer.clearLayers();
+  const period = document.getElementById('period-filter').value;
+  const minMag = parseFloat(document.getElementById('mag-filter').value);
+  
+  let filtered = ALL_EVENTS.filter(e => {
+    if (e.mag < minMag) return false;
+    if (period === 'hist') return e.year < 1900;
+    if (period === 'early') return e.year >= 1900 && e.year < 1973;
+    if (period === 'modern') return e.year >= 1973;
+    if (period === '1970s') return e.year >= 1970 && e.year < 1980;
+    if (period === '1980s') return e.year >= 1980 && e.year < 1990;
+    if (period === '1990s') return e.year >= 1990 && e.year < 2000;
+    if (period === '2000s') return e.year >= 2000 && e.year < 2010;
+    if (period === '2010s') return e.year >= 2010 && e.year < 2020;
+    if (period === '2020s') return e.year >= 2020;
+    return true;
+  });
+  
+  document.getElementById('count-val').textContent = filtered.length.toLocaleString('ru');
+  document.getElementById('stat-big').textContent = 
+    filtered.filter(e => e.mag >= 8.5).length;
+  
+  filtered.forEach(e => {
+    const c = L.circleMarker([e.lat, e.lon], {
+      radius: magRadius(e.mag),
+      fillColor: magColor(e.mag),
+      color: e.year < 1900 ? '#d2a8ff' : 'transparent',
+      weight: e.year < 1900 ? 1.5 : 0,
+      fillOpacity: magOpacity(e.mag),
+    });
+    
+    const yearStr = e.year < 0 ? `${Math.abs(e.year)} г. до н.э.` : `${e.year} г.`;
+    const histNote = e.year < 1900 ? '<br><em style="color:#d2a8ff;">📜 Исторические данные</em>' : '';
+    
+    c.bindPopup(`
+      <div class="popup-mag" style="color:${magColor(e.mag)}">M ${e.mag}</div>
+      <div class="popup-info">
+        <strong>Год:</strong> ${yearStr}${histNote}<br>
+        <strong>Регион:</strong> ${e.region || '—'}<br>
+        <strong>Координаты:</strong> ${e.lat}°, ${e.lon}°
+      </div>
+    `, { maxWidth: 240 });
+    
+    markerLayer.addLayer(c);
+  });
+}
+
+document.getElementById('period-filter').addEventListener('change', renderMarkers);
+document.getElementById('mag-filter').addEventListener('change', renderMarkers);
+
+ALL_EVENTS = window.MAP_EVENTS || [];
+if (ALL_EVENTS.length) {
+  document.getElementById('stat-total').textContent = ALL_EVENTS.length.toLocaleString('ru');
+  renderMarkers();
+} else {
+  document.getElementById('count-val').textContent = '0';
+  console.error('map_events_embed.js не загружен — запустите scripts/export_map_data.py');
+}
+</script>
+</body>
+</html>

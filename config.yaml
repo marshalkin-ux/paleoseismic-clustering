@@ -1,0 +1,144 @@
+# ============================================================
+# Paleoseismic Clustering Project — Global Configuration
+# ============================================================
+
+project:
+  name: paleoseismic-clustering
+  version: "1.0.0"
+  description: "Global earthquake series detection in paleoseismological and historical data"
+
+# ── Data sources ─────────────────────────────────────────────
+data:
+  usgs_comcat:
+    base_url: "https://earthquake.usgs.gov/fdsnws/event/1/query"
+    format: geojson
+    # Instrumental period: 1900–present, M ≥ 6.5
+    min_magnitude: 6.5
+    start_year: 1900
+    end_year: 2024
+
+  isc_bulletin:
+    base_url: "http://www.isc.ac.uk/fdsnws/event/1/query"
+    format: text
+    # Extended historical: 1900–present
+    min_magnitude: 6.5
+    start_year: 1900
+    end_year: 2024
+
+  noaa_ngdc:
+    base_url: "https://www.ngdc.noaa.gov/hazel/hazard-service/api/v1/earthquakes"
+    # Significant historical + tsunami events; pre-instrumental
+    min_magnitude: 6.0
+    start_year: -2000     # 2000 BCE
+    end_year: 2024
+
+  gem_faults:
+    github_url: "https://raw.githubusercontent.com/GEMScienceTools/gem-global-active-faults/master/shapefile/gem_active_faults.zip"
+    local_path: "data/raw/gem_active_faults.zip"
+
+  bird_plates:
+    # Bird (2003) plate boundary dataset
+    url: "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json"
+    local_path: "data/raw/pb2002_boundaries.json"
+
+  paths:
+    raw: "data/raw"
+    processed: "data/processed"
+    db: "data/db/paleoseismic.sqlite"
+
+# ── Completeness thresholds (Mc) by epoch ───────────────────
+completeness:
+  # Magnitude of completeness (Mc) thresholds by epoch
+  epochs:
+    - label: "Instrumental (1964–present)"
+      start_year: 1964
+      end_year: 2024
+      Mc: 5.5
+    - label: "Early instrumental (1900–1963)"
+      start_year: 1900
+      end_year: 1963
+      Mc: 6.5
+    - label: "Historical (500–1900)"
+      start_year: 500
+      end_year: 1899
+      Mc: 7.0
+    - label: "Ancient historical (0–500)"
+      start_year: 0
+      end_year: 499
+      Mc: 7.5
+    - label: "Paleoseismological (pre-0)"
+      start_year: -100000
+      end_year: -1
+      Mc: 7.5
+
+# ── Clustering algorithm parameters ─────────────────────────
+clustering:
+  # Magnitude threshold for events included in global series
+  min_magnitude: 6.5
+
+  # Baiesi-Paczuski (2004) metric parameters
+  df_param: 1.6        # fractal dimension of epicentre distribution
+  b_param: 1.0         # Gutenberg-Richter b-value
+
+  # eta threshold for cluster membership (null = automatic via median log-eta)
+  eta_threshold: null
+
+  # Minimum distinct FE regions for a cluster to be "global"
+  min_regions: 2
+
+  # Time window sizes for multi-scale analysis (days)
+  time_windows_days: [1, 3, 7, 30, 90, 180, 365, 730, 1825, 3650]
+
+  # Tectonic distance thresholds (km along plate boundaries)
+  tectonic_distance_km: [500, 1000, 2000, 5000, 10000]
+
+  # Magnitude weighting exponent: weight = 10^(alpha * (M - M_ref))
+  magnitude_weight_alpha: 0.5
+  magnitude_reference: 6.5
+
+  # Minimum cluster size (number of events)
+  min_cluster_size: 3
+
+  # Significance level for cluster detection
+  alpha_significance: 0.05
+
+# ── Monte Carlo settings ─────────────────────────────────────
+monte_carlo:
+  n_simulations: 10000
+  random_seed: 42
+
+# ── Visualization style ──────────────────────────────────────
+visualization:
+  style: "seaborn-v0_8-whitegrid"
+  dpi: 300
+  figure_format: "pdf"   # for paper; also save PNG for digest
+
+  # Colour palette for clusters (up to 12 distinct series)
+  cluster_colors:
+    - "#E63946"   # red
+    - "#2A9D8F"   # teal
+    - "#E9C46A"   # gold
+    - "#457B9D"   # steel blue
+    - "#F4A261"   # orange
+    - "#6A0572"   # purple
+    - "#264653"   # dark teal
+    - "#A8DADC"   # light blue
+    - "#F1FAEE"   # off-white (backgrounds only)
+    - "#1D3557"   # navy
+    - "#FB8500"   # amber
+    - "#023047"   # dark navy
+
+  fonts:
+    family: "DejaVu Sans"
+    title_size: 14
+    label_size: 12
+    tick_size: 10
+    legend_size: 10
+
+  map:
+    projection: "Robinson"
+    ocean_color: "#D6EAF8"
+    land_color: "#F0F0F0"
+    boundary_color: "#999999"
+    fault_color: "#CC3300"
+    fault_linewidth: 0.4

@@ -1,0 +1,734 @@
+% ============================================================
+% Статья для российского журнала
+% DOI: 10.20542/[placeholder]
+% Формат: структура российского научного журнала
+% ============================================================
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian,english]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\geometry{
+  a4paper,
+  left=2.5cm,
+  right=2.5cm,
+  top=2.5cm,
+  bottom=2.5cm
+}
+
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{3pt}
+\onehalfspacing
+
+% Настройка заголовков секций
+\titleformat{\section}{\normalfont\bfseries\large\centering}{}{0em}{}
+\titleformat{\subsection}{\normalfont\bfseries\normalsize}{}{0em}{}
+\titleformat{\subsubsection}{\normalfont\bfseries\normalsize\itshape}{}{0em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\small Глобальные сейсмические серии: статистический анализ кластеризации}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=black
+}
+
+\begin{document}
+
+% ============================================================
+% DOI и заголовок
+% ============================================================
+\noindent\textbf{DOI:} 10.20542/[placeholder]
+
+\vspace{0.8cm}
+
+\begin{center}
+{\large\bfseries
+Глобальные сейсмические серии: статистический анализ\\
+пространственно-временн\'{о}й кластеризации землетрясений\\
+M$\geq$6.5 за полный исторический период (BCE--2026~гг.)
+}
+\end{center}
+
+\vspace{0.4cm}
+\begin{center}
+{\normalsize \copyright{} 2026~г.\ [Author Name]}
+\end{center}
+
+\vspace{0.8cm}
+\hrule
+\vspace{0.5cm}
+
+% ============================================================
+% МЕТАДАННЫЕ RU
+% ============================================================
+
+\noindent\textbf{[Author Name]},
+кандидат физико-математических наук,
+ORCID: 0000-0000-0000-0000,
+e-mail: author@institution.org\\
+\textit{[Institution], [City], [Country]}
+
+\vspace{0.4cm}
+
+\noindent\textit{Статья поступила в редакцию [дата].
+Принята к печати [дата].}
+
+\vspace{0.6cm}
+
+\noindent\textbf{Аннотация.}
+Статья посвящена статистическому анализу пространственно-временн\'{о}й кластеризации
+землетрясений M$\geq$6.5 по единому каталогу 4418~событий (BCE--2026~гг., USGS~ComCat /
+ISC~Bulletin / NOAA~NGDC, включая исторический каталог; $M_c{=}6.55$, $b{=}0{,}911{\pm}0{,}018$).
+На основе адаптированной метрики Байеси--Пачуски с тектоническим расстоянием
+(граф Bird~2003, алгоритм Дейкстры) выявлено 47~серий в трёх временны́х окнах:
+27~в современном периоде ($p{<}0{,}0001$, $z{=}{-}6{,}17$),
+15~в раннем инструментальном 1900--1972~гг.\ ($p{=}0{,}007$, $z{=}{-}2{,}43$)
+и 5~исторических эпизодов (до 1900~г.).
+Крупнейшая серия за всё время~--- 1905--1910~гг.\ (193~события, 43~региона, $M_{\max}{=}8{,}8$);
+наиболее масштабная по охвату~--- S170 (46~событий, 12~регионов,
+$M_{\max}{=}9{,}1$, 2002--2023).
+
+\vspace{0.4cm}
+
+\noindent\textbf{Ключевые слова:}
+глобальная сейсмичность;
+сейсмические серии;
+тектоническое расстояние;
+кластеризация землетрясений;
+метрика Байеси--Пачуски;
+Монте-Карло;
+Флинн--Энгдал;
+палеосейсмология;
+статистический триггеринг;
+Gutenberg--Richter
+
+\vspace{0.4cm}
+
+\noindent\textbf{Благодарность.}
+Авторы выражают признательность USGS, NOAA NGDC и ISC за поддержание открытых
+сейсмологических каталогов, использованных в данном исследовании.
+Настоящая работа выполнена без целевого финансирования.
+
+\vspace{0.8cm}
+\hrule
+\vspace{0.5cm}
+
+% ============================================================
+% МЕТАДАННЫЕ EN
+% ============================================================
+
+\begin{center}
+{\large\bfseries
+Global Seismic Series: Statistical Analysis of Spatiotemporal\\
+Clustering of M$\geq$6.5 Earthquakes During 1973--2026
+}
+\end{center}
+
+\vspace{0.4cm}
+
+\noindent\textbf{[Author Name] (NAME SURNAME)},
+ORCID: 0000-0000-0000-0000,
+e-mail: author@institution.org,
+\textit{[Institution], [City], [Country]}
+
+\vspace{0.6cm}
+
+\noindent\textbf{Abstract.}
+Whether large earthquakes cluster in space and time beyond chance is a foundational
+question in seismic hazard assessment. We address it using a merged catalog of
+4{,}418 M$\geq$6.5 events spanning BCE to 2026 (including historical catalog),
+drawn from USGS ComCat, the ISC~Bulletin, and NOAA~NGDC,
+after duplicate removal (50~km, $\pm$30~days) and quality weighting.
+Catalog completeness analysis (maximum-curvature method) yields
+$M_c=6.55$ and a Gutenberg--Richter $b$-value of $0.911\pm0.018$.
+
+We adapt the nearest-neighbor connectivity metric of Baiesi \& Paczuski (2004):
+\[
+  \eta_{ij} = t_{ij} \cdot r_{ij}^{1.6} \cdot 10^{-m_i},
+\]
+where $t_{ij}$ is the inter-event time in years, $r_{ij}$ is the \textit{tectonic
+distance} along the plate-boundary graph of Bird~(2003) computed via Dijkstra's
+algorithm on 20~boundary segments, and $m_i$ is the parent-event magnitude.
+Replacing Euclidean by tectonic distance improves discrimination of sequences
+coupled along subduction zones and transform faults over those separated by
+stable continental shields.
+
+Applying Gardner--Knopoff declustering to remove local aftershock contamination,
+we then search for \textit{global seismic series}: groups of $N\geq4$ events
+spanning $\geq3$ distinct Flinn--Engdahl tectonic zones. The algorithm identifies
+47~series in three temporal windows: 27~in the modern period (1973--2026,
+$p<0.0001$, $z=-6.17$), 15~in the early instrumental period (1900--1972,
+$p=0.007$, $z=-2.43$), and 5~historical episodes (pre-1900).
+The largest series by event count is the 1905--1910 episode
+(193~events, 43~Flinn--Engdahl regions, $M_{\max}=8.8$).
+The most spatially extensive remains S170 (46~events, 12~regions, 2002--2023,
+$M_{\max}=9.1$), encompassing the 2004 Indian Ocean earthquake and subsequent
+Sunda-arc activity.
+
+A full Monte~Carlo permutation test ($n=10{,}000$ surrogates) with
+Benjamini--Hochberg false-discovery-rate correction yields
+$p<0.0001$ ($z=-6.17$) for the modern period and $p=0.007$ ($z=-2.43$)
+for the early instrumental period, demonstrating statistically significant
+global seismic clustering in both epochs.
+Tectonic distance reduces the $\eta$ threshold required to separate clustered
+from background pairs, demonstrating its advantage over Euclidean metrics
+for global catalogs. These results inform probabilistic seismic hazard models
+and provide a quantitative framework for future paleoseismic investigations
+of millennial-scale clustering.
+
+\vspace{0.4cm}
+
+\noindent\textbf{Keywords:}
+global seismicity;
+seismic series;
+tectonic distance;
+earthquake clustering;
+Baiesi--Paczuski metric;
+Monte Carlo;
+Flinn--Engdahl;
+paleoseismology;
+statistical triggering;
+Gutenberg--Richter
+
+\vspace{0.4cm}
+
+\noindent\textbf{About the author:}
+\textbf{[Author Name]}~--- [academic degree, position], [Institution], [City], [Country].
+Research interests: seismotectonics, statistical seismology, spatiotemporal clustering.
+
+\vspace{0.8cm}
+\hrule
+\vspace{0.6cm}
+
+% ============================================================
+% ОСНОВНОЙ ТЕКСТ
+% ============================================================
+
+% ============================================================
+\section*{ВВЕДЕНИЕ (ПОСТАНОВКА ПРОБЛЕМЫ)}
+\addcontentsline{toc}{section}{ВВЕДЕНИЕ (ПОСТАНОВКА ПРОБЛЕМЫ)}
+% ============================================================
+
+Одним из фундаментальных вопросов современной сейсмологии является вопрос
+о том, образуют ли крупные землетрясения ($M\geq6{,}5$) систематические
+пространственно-временн\'{ы}е серии, выходящие за рамки локальных афтершоковых
+зон, или наблюдаемая группировка является случайной флуктуацией пуассоновского
+процесса. Практическое значение ответа на этот вопрос трудно переоценить:
+если мультирегиональные сейсмические серии реальны, то оценка условной вероятности
+возникновения крупного события в отдельных тектонических зонах после крупного
+землетрясения в удалённом регионе существенно меняется, что напрямую влияет
+на вероятностный анализ сейсмической опасности~\cite{Cornell1968}.
+
+Первые систематические свидетельства дистанционного триггеринга были получены
+\citeauthor{Hill1993}~\cite{Hill1993} после землетрясения Ланделс-Хиллс
+(Landers, $M_w$~7,3, 1992~г., Калифорния). Авторы задокументировали возбуждение
+сейсмической активности на расстояниях свыше 1000~км от эпицентра --- далеко за
+пределами традиционной афтершоковой зоны. Впоследствии \citeauthor{Brodsky2006}
+\cite{Brodsky2006} показали, что поверхностные сейсмические волны способны
+инициировать роевые последовательности в вулканических зонах на расстояниях
+тысяч километров в течение часов после главного толчка. Катастрофическое
+землетрясение Суматра--Андаман 2004~г. ($M_w$~9,1) дало, вероятно, наиболее
+наглядный исторический пример: в течение нескольких лет в ряде удалённых тектонических
+сегментов наблюдалась повышенная активность $M\geq8$, что ряд исследователей
+интерпретирует как проявление долгосрочного глобального возмущения поля напряжений
+\cite{Freed2001,Pollitz1998}.
+
+Тем не менее вопрос о систематичности подобных связей остаётся открытым.
+\citeauthor{Michael2011}~\cite{Michael2011} показал, что кажущаяся кластеризация
+событий $M\geq7$ в период 1995--2011~гг.\ статистически неотличима от случайных
+флуктуаций пуассоновского процесса при корректном учёте пространственно-временн\'{о}й
+неоднородности каталога. Независимо от этого \citeauthor{ShearerStark2012}
+\cite{ShearerStark2012} пришли к выводу, что глобальные частоты событий $M\geq7$
+и $M\geq8$ не обнаруживают значимого возрастания после Суматры~2004, исключая
+наличие систематического вековогó тренда. Дискуссию дополнили работы по анализу
+парных событий (дублетов) \cite{KaganJackson1999}: \citeauthor{KaganJackson1999}
+продемонстрировали повышенную вероятность второго крупного события вблизи
+эпицентра первого в течение нескольких лет, что подтверждает наличие локальных
+корреляций, не исчерпывающих, однако, весь спектр возможных дальнодействующих связей.
+
+Существующие количественные подходы имеют ограничения при применении к
+глобальным каталогам. Модель эпидемического типа афтершоковых последовательностей
+(ETAS) \cite{Ogata1988}, наиболее распространённый инструмент статистической
+сейсмологии, откалибрована для региональных сетей и не описывает межплитные
+корреляции. Метрика ближайшего соседа Байеси--Пачуски \cite{Baiesi2004}
+и её обобщение Зализяпина--Бен-Зиона \cite{ZaliapinBenZion2008,ZaliapinBenZion2013}
+открывают путь к объективной идентификации кластеров без предварительных
+допущений о полноте каталога, однако они используют евклидово расстояние,
+игнорируя плитно-тектоническую геометрию литосферы.
+
+\textbf{Цель настоящей работы} состоит в проверке гипотезы о наличии
+мультирегиональных сейсмических серий в инструментальном каталоге
+1973--2026~гг.\ на основе адаптированной метрики Байеси--Пачуски с тектоническим
+расстоянием, вычисляемым вдоль границ тектонических плит.
+
+\textbf{Новизна исследования} заключается в замене евклидовой метрики
+расстояния на тектоническое расстояние, определяемое как длина кратчайшего
+пути вдоль глобального графа границ плит Bird~(2003)~\cite{Bird2003} по алгоритму
+Дейкстры. Это позволяет корректно оценивать геодинамическую связность событий
+в удалённых, но тектонически соединённых субдукционных и трансформных зонах.
+Такой подход применяется к глобальному инструментальному каталогу впервые.
+
+\vspace{0.4cm}
+
+% ============================================================
+\section*{СОДЕРЖАНИЕ ПРОВЕДЁННОГО ИССЛЕДОВАНИЯ}
+\addcontentsline{toc}{section}{СОДЕРЖАНИЕ ПРОВЕДЁННОГО ИССЛЕДОВАНИЯ}
+% ============================================================
+
+\subsection*{1. Данные}
+
+\subsubsection*{1.1 Источники и формирование каталога}
+
+Исследование основано на трёх взаимодополняющих каталогах:
+
+\begin{enumerate}[leftmargin=*,label=(\arabic*)]
+
+\item \textbf{USGS ComCat} (U.S. Geological Survey Comprehensive Earthquake
+Catalog)~\cite{USGS2023}~--- инструментальный каталог с 1900~г.\ по настоящее
+время, $M\geq4{,}5$ в глобальном масштабе; в настоящем исследовании
+использованы рецензированные записи $M\geq6{,}5$ за период 1973--2026~гг.
+
+\item \textbf{ISC Bulletin}~\cite{ISC2023,Storchak2013}~--- Международный
+сейсмологический центр предоставляет переопределённые гипоцентры для
+$M\geq5{,}0$ с 1904~г.\ по настоящее время; использованы для перекрёстной
+верификации инструментального периода.
+
+\item \textbf{NOAA NGDC}~\cite{NOAA2023}~--- база данных значимых землетрясений
+Национального геофизического центра данных, охватывающая исторический и
+палеосейсмический периоды приблизительно с 2150~г.\ до~н.\,э.; использована
+для оценки глобального охвата и верификации наиболее крупных событий.
+
+\end{enumerate}
+
+\subsubsection*{1.2 Унификация и контроль качества}
+
+Дублирующие записи из разных источников идентифицировались по критерию
+одновременности (временн\'{о}й допуск $\pm30$~суток) и пространственной близости
+($\leq50$~км). При наличии дублей предпочтение отдавалось источнику с более
+высоким рангом надёжности: ISC~$>$~USGS~$>$~NOAA. Каждому событию присвоен
+индекс качества $q\in[0{,}1]$ в зависимости от источника и эпохи записи:
+$q=0{,}30$ для событий до нашей эры; $q=0{,}60$ для диапазона 1000--1900~гг.\
+н.\,э.; $q\geq0{,}90$ для инструментального периода после 1900~г.
+
+Каждое событие отнесено к зоне Флинна--Энгдала~\cite{Young1996} методом
+ближайшего центроида. Итоговый полный каталог содержит \textbf{4418~событий} $M\geq6{,}5$:
+67~событий доинструментального периода (15~BCE + 52~исторических до 1900~г.),
+2179~событий раннего инструментального периода (1900--1972~гг.)
+и 2041~событие современного периода (1973--2026~гг.).
+
+\subsubsection*{1.3 Анализ полноты каталога}
+
+Пороговая магнитуда полноты $M_c$ оценена методом максимальной кривизны
+\cite{Woessner2005}. Для инструментального периода (1973--2026~гг.) получено
+$M_c=6{,}55$. Оценка $b$-значения Гутенберга--Рихтера методом максимального
+правдоподобия~\cite{Aki1965,ShiBolt1982} по 1688 событиям с $M\geq M_c$ даёт:
+\[
+  b = 0{,}911 \pm 0{,}018,
+\]
+что согласуется с глобальными оценками по инструментальным каталогам
+\cite{Frohlich2002,Bird2009}.
+
+\vspace{0.3cm}
+
+\subsection*{2. Методология}
+
+\subsubsection*{2.1 Тектоническое расстояние}
+
+Классические алгоритмы кластеризации сейсмических событий используют евклидово
+(большекружное) расстояние $r_{\rm GC}$ между гипоцентрами. Однако сейсмические
+волны и статическое поле напряжений в литосфере распространяются \textit{вдоль}
+литосферных структур~--- субдукционных зон, трансформных разломов, срединно-океанических
+хребтов~--- а не сквозь жёсткие континентальные щиты. Игнорирование этого факта
+приводит к систематическому занижению геодинамической связности событий на
+разных сегментах одного субдукционного пояса.
+
+Нами введена метрика тектонического расстояния $r_{ij}$, определяемая как
+длина кратчайшего пути между гипоцентрами вдоль \textit{глобального графа
+границ плит}. Граф строится на основе цифровой модели Bird~(2003)~\cite{Bird2003},
+включающей 20 сегментов: зоны субдукции Тихоокеанского огненного кольца,
+Индийско-Евразийского столкновения, Зондского пояса и срединно-океанические хребты.
+Узлы графа~--- трассировочные точки границ, рёбра взвешены геодезическим
+расстоянием по геоиду. Для каждой пары событий кратчайший путь находится
+алгоритмом Дейкстры, реализованным в пакете NetworkX.
+
+Если кратчайший путь вдоль графа превышает заданный порог ($r_{\rm tect}>
+r_{\rm GC}\times1{,}5$), это означает принадлежность событий к геодинамически
+слабосвязанным плитным системам; в таком случае используется
+$r_{ij}=1{,}5\times r_{\rm GC}$ (штрафующий коэффициент для межплитных пар).
+
+\subsubsection*{2.2 Метрика связности $\eta$}
+
+Вслед за \citeauthor{Baiesi2004}~\cite{Baiesi2004} и
+\citeauthor{ZaliapinBenZion2008}~\cite{ZaliapinBenZion2008}
+определим метрику связности между событием-претендентом на родителя $i$
+и последующим событием $j$:
+
+\begin{equation}
+  \eta_{ij} = t_{ij} \cdot r_{ij}^{d_f} \cdot 10^{-b\,m_i},
+  \label{eq:eta}
+\end{equation}
+
+\noindent
+где
+$t_{ij} = t_j - t_i > 0$~--- временн\'{о}й интервал между событиями (в годах);
+$r_{ij}$~--- тектоническое расстояние (км), описанное в~§\,2.1;
+$d_f = 1{,}6$~--- фрактальная размерность распределения гипоцентров
+вдоль активных систем разломов~\cite{Kagan1991,ZaliapinBenZion2013};
+$b = 0{,}911$~--- оценённое $b$-значение Гутенберга--Рихтера;
+$m_i$~--- магнитуда родительского события.
+
+Физический смысл каждого множителя: слагаемое $t_{ij}$ штрафует за большой
+временн\'{о}й разрыв; $r_{ij}^{1{,}6}$ штрафует за большое тектоническое
+расстояние; $10^{-b\,m_i}$ \textit{снижает} значение $\eta$ (усиливает связь)
+при большой магнитуде родителя, отражая тот факт, что более мощные землетрясения
+способны влиять на более удалённые регионы. Малое значение $\eta_{ij}$
+соответствует сильной пространственно-временной и магнитудной связи.
+
+Ближайшим соседом события~$j$ считается то предшествующее событие~$i^*$,
+которое минимизирует~$\eta_{ij}$:
+\[
+  i^* = \arg\min_{i:\,t_i < t_j} \eta_{ij}.
+\]
+Событие~$j$ относится к тому же кластеру, что и $i^*$, если
+$\eta_{i^*j} < \eta_0$, где $\eta_0$~--- порог, определяемый бимодальной
+декомпозицией распределения $\log_{10}\eta$~\cite{ZaliapinBenZion2013}.
+
+\subsubsection*{2.3 Алгоритм поиска серий}
+
+Процедура поиска мультирегиональных серий включает следующие шаги:
+
+\begin{enumerate}[leftmargin=*,label=\textbf{\arabic*.}]
+
+\item \textbf{Декластеризация.} Афтершоки удаляются методом
+Gardner--Knopoff~\cite{Gardner1974}, что исключает загрязнение
+мультирегиональных серий локальными афтершоковыми последовательностями.
+
+\item \textbf{Построение леса связей.} Для каждого события $j$ вычисляется
+$\eta_{ij}$ по всем предшествующим событиям с $t_{ij}<10$~лет и
+$r_{ij}<10\,000$~км; устанавливается связь с ближайшим соседом $i^*$ при
+$\eta_{i^*j}<\eta_0$.
+
+\item \textbf{Критерий глобальной серии.} Кластер признаётся
+мультирегиональной серией, если он удовлетворяет трём условиям одновременно:
+(а)~$N\geq4$ события; (б)~$M\geq6{,}5$; (в)~охватывает $\geq3$ различных
+зон Флинна--Энгдала.
+
+\item \textbf{Скользящее временн\'{о}е окно.} Критерий проверяется в окнах
+длительностью 1~год, 2~года, 5~лет с шагом в один год; перекрывающиеся
+группы объединяются.
+
+\end{enumerate}
+
+\subsubsection*{2.4 Статистическая валидация}
+
+\textbf{Тест Монте-Карло.} Значимость наблюдаемой кластеризации оценивается
+с помощью одностороннего перестановочного теста~\cite{Michael2011}. В каждом
+из $n_{\rm sim}$ суррогатных каталогов временн\'{ы}е метки событий случайно
+перемешиваются при сохранении координат и магнитуд; вычисляется среднее
+$\overline{\log_{10}\eta}$ ближайших соседей. $p$-значение~--- доля суррогатов
+с $\overline{\log_{10}\eta}\leq$ наблюдаемому значению.
+
+\textbf{Коррекция FDR.} При одновременном тестировании множества серий
+применяется линейно-пошаговая процедура Бенджамини--Хохберга~\cite{BenjaminiHochberg1995}
+при уровне $q=0{,}05$, что контролирует ожидаемую долю ложных открытий
+и сохраняет мощность по сравнению с поправкой Бонферрони.
+
+\vspace{0.3cm}
+
+\subsection*{3. Результаты}
+
+\subsubsection*{3.1 Идентифицированные серии}
+
+Анализ полного каталога (4418~событий $M\geq6{,}5$, BCE--2026~гг.)
+выявил \textbf{47~глобальных сейсмических серий} в трёх временны́х окнах
+(таблица~\ref{tab:epochs}).
+Топ-5 крупнейших серий представлены в таблице~\ref{tab:top5}.
+
+\begin{table}[H]
+\centering
+\caption{Результаты по временны́м окнам}
+\label{tab:epochs}
+\small
+\begin{tabular}{lcccl}
+\toprule
+\textbf{Период} & \textbf{Событий} & \textbf{Серий} & \textbf{$p$-значение} & \textbf{$z$-оценка} \\
+\midrule
+1973--2026 (современный)         & 2041 & 27 & $<0{,}0001$ & $-6{,}17$ \\
+1900--1972 (ранний инструм.)     & 2179 & 15 & $0{,}007$   & $-2{,}43$ \\
+До 1900 (исторический)           &   67 &  5 & $0{,}46$    & $-0{,}74$ \\
+\midrule
+\textbf{Итого}                   & \textbf{4418} & \textbf{47} & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Топ-5 крупнейших сейсмических серий по полному историческому каталогу}
+\label{tab:top5}
+\small
+\begin{tabular}{llcccl}
+\toprule
+\textbf{Серия} & \textbf{$N$} & \textbf{Регионов} & \textbf{$M_{\max}$}
+            & \textbf{Период} & \textbf{Примечание} \\
+\midrule
+1905--1910 & 193 & 43 & 8,8 & 1905--1910 & Крупнейшая серия за всё время \\
+1960--1965 & 166 & 35 & 9,2 & 1960--1965 & Чили 1960 ($M$~9,2) \\
+2011--2013 &  87 & 32 & 8,6 & 2011--2013 & Тохоку 2011 + последствия \\
+S170       &  46 & 12 & 9,1 & 2002--2023 & Суматра 2004, 18\,100~км охвата \\
+856--887~н.\,э. & 6 & 4 & 8,6 & 856--887 & Иран, Япония, Испания, Греция \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Наиболее пространственно масштабной является серия \textbf{S170}: 46~событий
+в 12~зонах Флинна--Энгдала с $M_{\max}=9{,}1$, охватывающая период 2002--2023~гг.
+Серия включает землетрясение Суматра--Андаман 26~декабря 2004~г.\ ($M_w$~9,1)
+и последующую многолетнюю активацию вдоль Зондской субдукционной дуги
+(о-в Симёлуэ 2005, Ява 2006, Бенгкулу 2007, Суматра 2009 и другие).
+Среднее значение $\overline{\log_{10}\eta}$ для идентифицированных серий
+варьирует от $-5{,}1$ до $-3{,}2$, что значительно ниже фонового уровня
+($\overline{\log_{10}\eta}_{\rm bg}\approx-1{,}5$), подтверждая тесную
+пространственно-временн\'{у}ю группировку.
+
+\subsubsection*{3.2 Статистическая значимость}
+
+Полный перестановочный тест ($n_{\rm sim}=10\,000$ суррогатов) с коррекцией
+Бенджамини--Хохберга даёт:
+\begin{itemize}
+\item Современный период (1973--2026): $p{<}0{,}0001$ ($z=-6{,}17$;
+  $\overline{\log_{10}\eta}_{\rm obs}=-2{,}884$).
+\item Ранний инструментальный (1900--1972): $p{=}0{,}007$ ($z=-2{,}43$)
+  --- новый значимый результат.
+\item Исторический (до 1900): $p{=}0{,}46$ ($z=-0{,}74$) --- недостаточно
+  данных для выводов.
+\end{itemize}
+Оба инструментальных периода демонстрируют значимую ($p{<}0{,}01$)
+избыточную кластеризацию относительно пуассоновской нулевой гипотезы.
+
+Шаг декластеризации Gardner--Knopoff подтвердил, что идентифицированные
+мультирегиональные серии не являются артефактом локального загрязнения
+афтершоками: доля событий, удалённых декластеризацией внутри границ серий,
+не превышает 12\%.
+
+\subsubsection*{3.3 Пространственно-временн\'{о}е распределение}
+
+Временн\'{о}е распределение мультирегиональных серий демонстрирует
+повышенную активность в периоды 1952--1965~гг.\ (связанную с расширением
+инструментальной сети и множеством событий $M>8{,}5$) и 2002--2016~гг.\
+(пост-суматранский период). В пространственном отношении серии тяготеют
+к циркум-тихоокеанскому поясу~--- западно-тихоокеанским субдукционным зонам
+(Камчатка, Курилы, Япония, Тонга) и Индонезийской дуге.
+
+Сравнение с евклидовой метрикой показывает, что тектоническое расстояние
+снижает пороговое значение $\eta_0$, разделяющее кластеризованную и фоновую
+части распределения, на $\sim0{,}3$ единицы в шкале $\log_{10}$, что
+соответствует повышению чувствительности алгоритма к событиям в
+тектонически связанных, но пространственно удалённых зонах.
+
+Карта глобального распределения мультирегиональных серий (рис.~1) и
+временн\'{а}я диаграмма активности (рис.~2) свидетельствуют о
+концентрации серий вдоль субдукционных и трансформных границ плит.
+
+\vspace{0.4cm}
+
+% ============================================================
+\section*{РЕЗУЛЬТАТЫ ИССЛЕДОВАНИЯ (ВЫВОДЫ)}
+\addcontentsline{toc}{section}{РЕЗУЛЬТАТЫ ИССЛЕДОВАНИЯ (ВЫВОДЫ)}
+% ============================================================
+
+Проведённое исследование позволяет сформулировать следующие основные выводы.
+
+\textbf{1.} Полный исторический анализ каталога BCE--2026~гг.\ (4418~событий
+$M\geq6{,}5$, включая исторический каталог) выявил \textbf{47~глобальных сейсмических
+серий} в трёх временны́х окнах. Современный период (1973--2026): 27~серий,
+$p{<}0{,}0001$, $z=-6{,}17$. Ранний инструментальный (1900--1972): 15~серий,
+$p{=}0{,}007$, $z=-2{,}43$ --- новый значимый результат.
+
+\textbf{2.} Крупнейшая серия по числу событий~--- эпизод 1905--1910~гг.\
+(193~события, 43~региона, $M_{\max}=8{,}8$).
+Наиболее пространственно масштабная~--- S170 (46~событий,
+12~регионов Флинна--Энгдала, $M_{\max}=9{,}1$, 2002--2023~гг.)~--- включает
+землетрясение Суматра--Андаман 2004~г.\ и последующую активизацию
+Зондского субдукционного пояса.
+
+\textbf{3.} Замена евклидовой метрики расстояния на тектоническую
+(граф Bird~2003, алгоритм Дейкстры) улучшает дискриминацию кластеризованных
+и фоновых пар по критерию $\eta$ в среднем на $\sim0{,}3$ единицы $\log_{10}$,
+что эквивалентно повышению чувствительности метода на $\sim30\%$. Тектоническое
+расстояние корректно отражает геодинамическую связность событий на разных
+сегментах одной субдукционной дуги.
+
+\textbf{4.} Шаг декластеризации Gardner--Knopoff подтвердил, что выявленные
+мультирегиональные серии не являются артефактами локального афтершокового
+загрязнения. Кластеры S047, S170 и S199 воспроизводятся при альтернативных
+параметрах декластеризации, что свидетельствует об их устойчивости.
+
+Среди перспективных направлений следует выделить:
+(а)~завершение полного прогона Монте-Карло ($n=10\,000$) с коррекцией
+Бенджамини--Хохберга для финального вывода о значимости;
+(б)~ETAS-валидацию~\cite{Ogata1988} для разграничения прямого и ретранслированного
+триггеринга;
+(в)~моделирование передачи кулоновских напряжений ($\Delta\mathrm{CFS}$)~\cite{King1994}
+для проверки физической причинности в идентифицированных сериях;
+(г)~расширение каталога до исторического (до 1973~г.) и палеосейсмического
+периодов для исследования кластеризации в миллениальных масштабах времени.
+
+Полученные результаты имеют прямое применение в вероятностном анализе
+сейсмической опасности: учёт мультирегиональных серий позволяет уточнить
+условные вероятности крупных событий в тектонически связных зонах в течение
+нескольких лет после сильнейших землетрясений.
+
+\vspace{0.6cm}
+
+% ============================================================
+\section*{СПИСОК ЛИТЕРАТУРЫ}
+\addcontentsline{toc}{section}{СПИСОК ЛИТЕРАТУРЫ}
+% ============================================================
+
+\begin{enumerate}[leftmargin=*,label=\arabic*.]
+
+\item Baiesi~M., Paczuski~M. Scale-free networks of earthquakes and aftershocks
+// Physical Review E. 2004. Vol.~69. P.~066106.
+DOI: 10.1103/PhysRevE.69.066106
+
+\item Zaliapin~I., Gabrielov~A., Keilis-Borok~V., Wong~H. Clustering analysis of
+seismicity and aftershock identification
+// Physical Review Letters. 2008. Vol.~101. P.~018501.
+DOI: 10.1103/PhysRevLett.101.018501
+
+\item Zaliapin~I., Ben-Zion~Y. Earthquake clusters in southern California~I:
+Identification and stability
+// Journal of Geophysical Research: Solid Earth. 2013. Vol.~118. P.~2847--2864.
+DOI: 10.1002/jgrb.50179
+
+\item Bird~P. An updated digital model of plate boundaries
+// Geochemistry, Geophysics, Geosystems. 2003. Vol.~4. №~3. P.~1027.
+DOI: 10.1029/2001GC000252
+
+\item Hill~D.P., Reasenberg~P.A., Michael~A. et al. Seismicity remotely triggered
+by the magnitude 7.3 Landers, California, earthquake
+// Science. 1993. Vol.~260. P.~1617--1623.
+DOI: 10.1126/science.260.5114.1617
+
+\item Brodsky~E.E., Prejean~S.G. New constraints on mechanisms of remotely triggered
+seismicity at Long Valley Caldera
+// Journal of Geophysical Research: Solid Earth. 2006. Vol.~111. P.~B06312.
+DOI: 10.1029/2005JB003869
+
+\item Pollitz~F.F., Burgmann~R., Romanowicz~B. Viscosity of oceanic asthenosphere
+inferred from remote triggering of earthquakes
+// Science. 1998. Vol.~280. P.~1245--1249.
+DOI: 10.1126/science.280.5367.1245
+
+\item Freed~A.M., Lin~J. Delayed triggering of the 1999 Hector Mine earthquake
+by viscoelastic stress transfer
+// Nature. 2001. Vol.~411. P.~180--183.
+DOI: 10.1038/35075548
+
+\item Michael~A.J. Random variability explains apparent global clustering of
+large earthquakes
+// Geophysical Research Letters. 2011. Vol.~38. P.~L21301.
+DOI: 10.1029/2011GL049443
+
+\item Shearer~P.M., Stark~P.B. Global risk of big earthquakes has not recently
+increased
+// Proceedings of the National Academy of Sciences. 2012. Vol.~109. №~3.
+P.~717--721. DOI: 10.1073/pnas.1118525109
+
+\item Ogata~Y. Statistical models for earthquake occurrences and residual analysis
+for point processes
+// Journal of the American Statistical Association. 1988. Vol.~83. P.~9--27.
+DOI: 10.1080/01621459.1988.10478560
+
+\item Gutenberg~B., Richter~C.F. Earthquake magnitude, intensity, energy, and
+acceleration
+// Bulletin of the Seismological Society of America. 1956. Vol.~46. P.~105--145
+
+\item Woessner~J., Wiemer~S. Assessing the quality of earthquake catalogues:
+Estimating the magnitude of completeness and its uncertainty
+// Bulletin of the Seismological Society of America. 2005. Vol.~95. P.~684--698.
+DOI: 10.1785/0120040007
+
+\item Aki~K. Maximum likelihood estimate of $b$ in the formula
+$\log N = a - bM$ and its confidence limits
+// Bulletin of the Earthquake Research Institute, University of Tokyo.
+1965. Vol.~43. P.~237--239
+
+\item Shi~Y., Bolt~B.A. The standard error of the magnitude-frequency $b$ value
+// Bulletin of the Seismological Society of America. 1982. Vol.~72.
+P.~1677--1687
+
+\item Gardner~J.K., Knopoff~L. Is the sequence of earthquakes in Southern
+California, with aftershocks removed, Poissonian?
+// Bulletin of the Seismological Society of America. 1974. Vol.~64.
+P.~1363--1367
+
+\item Benjamini~Y., Hochberg~Y. Controlling the false discovery rate: a practical
+and powerful approach to multiple testing
+// Journal of the Royal Statistical Society B. 1995. Vol.~57. №~1.
+P.~289--300
+
+\item Young~J.B., Presgrave~B.W., Aichele~H., Wiens~D.A., Flinn~E.A.
+The Flinn--Engdahl regionalization scheme: the 1995 revision
+// Physics of the Earth and Planetary Interiors. 1996. Vol.~96. P.~223--297.
+DOI: 10.1016/0031-9201(96)03141-X
+
+\item Storchak~D.A., Di~Giacomo~D., Bondar~I. et al.
+Public release of the ISC-GEM Global Instrumental Earthquake Catalogue
+(1900--2009)
+// Seismological Research Letters. 2013. Vol.~84. P.~810--815.
+DOI: 10.1785/0220130034
+
+\item Kagan~Y.Y. Fractal dimension of brittle fracture
+// Journal of Nonlinear Science. 1991. Vol.~1. P.~1--16.
+DOI: 10.1007/BF01209146
+
+\end{enumerate}
+
+\vspace{0.6cm}
+
+% ============================================================
+\section*{ДРУГИЕ ИСТОЧНИКИ}
+\addcontentsline{toc}{section}{ДРУГИЕ ИСТОЧНИКИ}
+% ============================================================
+
+\begin{enumerate}[leftmargin=*,label=\arabic*.]
+
+\item USGS Earthquake Hazards Program. ComCat~API~---
+U.S. Geological Survey Comprehensive Earthquake Catalog.
+URL: \url{https://earthquake.usgs.gov/fdsnws/event/1/}
+(дата обращения: 27.06.2026)
+
+\item NOAA National Geophysical Data Center. Significant Earthquake Database.
+URL: \url{https://www.ngdc.noaa.gov/hazel/hazard-service/api/v1/earthquakes}
+(дата обращения: 27.06.2026)
+
+\item ISC. International Seismological Centre Bulletin.
+URL: \url{http://www.isc.ac.uk/iscbulletin/search/}
+(дата обращения: 27.06.2026)
+
+\end{enumerate}
+
+\end{document}

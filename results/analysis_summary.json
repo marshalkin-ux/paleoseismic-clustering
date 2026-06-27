@@ -1,0 +1,80 @@
+{
+  "run_date": "2026-06-27",
+  "catalog": {
+    "sources": [
+      "USGS ComCat",
+      "NOAA NGDC"
+    ],
+    "total_events_raw": 2239,
+    "events_m65_plus": 2088,
+    "year_range": [
+      -2150,
+      2026
+    ],
+    "data_quality": "real_instrumental"
+  },
+  "analysis": {
+    "min_magnitude": 6.5,
+    "period": "1973-2026",
+    "clustering_method": "Baiesi-Paczuski nearest-neighbor (eta metric)",
+    "total_clusters_found": 142,
+    "multi_region_series_3plus_regions": 16
+  },
+  "monte_carlo": {
+    "n_simulations": 10000,
+    "p_value": 0.0,
+    "z_score": -6.174644393457767,
+    "observed_mean_log_eta": -2.8835052460518678,
+    "interpretation": "\u0412\u042b\u0421\u041e\u041a\u041e\u0417\u041d\u0410\u0427\u0418\u041c\u041e: p < 0.001"
+  },
+  "completeness": {
+    "Mc_global": 6.55,
+    "b_value": 0.911,
+    "b_value_stderr": 0.018,
+    "n_events_for_bvalue_fit": 1688
+  },
+  "top_5_series": [
+    {
+      "series_id": "S047",
+      "n_events": 53,
+      "n_regions": 5,
+      "period": "1982-2024",
+      "max_magnitude": 8.0
+    },
+    {
+      "series_id": "S170",
+      "n_events": 46,
+      "n_regions": 12,
+      "period": "2002-2023",
+      "max_magnitude": 9.1
+    },
+    {
+      "series_id": "S015",
+      "n_events": 27,
+      "n_regions": 2,
+      "period": "1975-2006",
+      "max_magnitude": 8.0
+    },
+    {
+      "series_id": "S095",
+      "n_events": 25,
+      "n_regions": 4,
+      "period": "1989-2017",
+      "max_magnitude": 7.9
+    },
+    {
+      "series_id": "S116",
+      "n_events": 22,
+      "n_regions": 5,
+      "period": "1993-2021",
+      "max_magnitude": 8.2
+    }
+  ],
+  "outputs": {
+    "catalog_csv": "data/processed/unified_catalogue.csv",
+    "cluster_summary": "results/cluster_summary.csv",
+    "clusters_json": "results/clusters.json",
+    "figures_dir": "figures/",
+    "figures_count": 8
+  }
+}

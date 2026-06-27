@@ -1,0 +1,17 @@
+{
+  "n_simulations": 10000,
+  "n_events": 2041,
+  "df_param": 1.6,
+  "b_param": 0.911,
+  "observed_statistic": -2.8835052460518678,
+  "null_mean": -2.8143496514138553,
+  "null_std": 0.011199931563878404,
+  "p_value": 0.0,
+  "z_score": -6.174644393457767,
+  "significant_global": true,
+  "significant_marginal": true,
+  "n_significant_series_fdr": 0,
+  "interpretation": "\u0412\u042b\u0421\u041e\u041a\u041e\u0417\u041d\u0410\u0427\u0418\u041c\u041e: p < 0.001",
+  "elapsed_minutes": 4.33,
+  "timestamp": "2026-06-27T08:40:01.278738"
+}

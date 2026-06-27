@@ -1,0 +1,577 @@
+{
+  "modern_1973_2026": {
+    "epoch": "modern_1973_2026",
+    "n_events": 2041,
+    "n_events_with_magnitude": 2041,
+    "year_min": 1973,
+    "year_max": 2026,
+    "time_window_years": 2.0,
+    "min_events": 4,
+    "min_regions": 3,
+    "n_series": 27,
+    "series": [
+      {
+        "n_events": 69,
+        "n_regions": 34,
+        "year_start": 1975,
+        "year_end": 1977,
+        "max_magnitude": 8.0,
+        "anchor_year": 1975
+      },
+      {
+        "n_events": 87,
+        "n_regions": 32,
+        "year_start": 2011,
+        "year_end": 2013,
+        "max_magnitude": 8.6,
+        "anchor_year": 2011
+      },
+      {
+        "n_events": 80,
+        "n_regions": 31,
+        "year_start": 1989,
+        "year_end": 1991,
+        "max_magnitude": 8.02,
+        "anchor_year": 1989
+      },
+      {
+        "n_events": 99,
+        "n_regions": 31,
+        "year_start": 1995,
+        "year_end": 1997,
+        "max_magnitude": 8.09,
+        "anchor_year": 1995
+      },
+      {
+        "n_events": 79,
+        "n_regions": 30,
+        "year_start": 1983,
+        "year_end": 1985,
+        "max_magnitude": 8.0,
+        "anchor_year": 1983
+      },
+      {
+        "n_events": 77,
+        "n_regions": 30,
+        "year_start": 2021,
+        "year_end": 2023,
+        "max_magnitude": 7.8,
+        "anchor_year": 2021
+      },
+      {
+        "n_events": 52,
+        "n_regions": 29,
+        "year_start": 1973,
+        "year_end": 1975,
+        "max_magnitude": 7.7,
+        "anchor_year": 1973
+      },
+      {
+        "n_events": 104,
+        "n_regions": 29,
+        "year_start": 2009,
+        "year_end": 2011,
+        "max_magnitude": 8.8,
+        "anchor_year": 2009
+      },
+      {
+        "n_events": 83,
+        "n_regions": 29,
+        "year_start": 2015,
+        "year_end": 2017,
+        "max_magnitude": 8.3,
+        "anchor_year": 2015
+      },
+      {
+        "n_events": 49,
+        "n_regions": 28,
+        "year_start": 1979,
+        "year_end": 1981,
+        "max_magnitude": 7.9,
+        "anchor_year": 1979
+      },
+      {
+        "n_events": 89,
+        "n_regions": 28,
+        "year_start": 1991,
+        "year_end": 1993,
+        "max_magnitude": 7.8,
+        "anchor_year": 1991
+      },
+      {
+        "n_events": 80,
+        "n_regions": 28,
+        "year_start": 1999,
+        "year_end": 2001,
+        "max_magnitude": 8.0,
+        "anchor_year": 1999
+      },
+      {
+        "n_events": 74,
+        "n_regions": 28,
+        "year_start": 2001,
+        "year_end": 2003,
+        "max_magnitude": 8.4,
+        "anchor_year": 2001
+      },
+      {
+        "n_events": 84,
+        "n_regions": 28,
+        "year_start": 2013,
+        "year_end": 2015,
+        "max_magnitude": 7.9,
+        "anchor_year": 2013
+      },
+      {
+        "n_events": 76,
+        "n_regions": 27,
+        "year_start": 1997,
+        "year_end": 1999,
+        "max_magnitude": 8.1,
+        "anchor_year": 1997
+      },
+      {
+        "n_events": 90,
+        "n_regions": 27,
+        "year_start": 2003,
+        "year_end": 2005,
+        "max_magnitude": 9.1,
+        "anchor_year": 2003
+      },
+      {
+        "n_events": 90,
+        "n_regions": 27,
+        "year_start": 2007,
+        "year_end": 2009,
+        "max_magnitude": 8.4,
+        "anchor_year": 2007
+      },
+      {
+        "n_events": 75,
+        "n_regions": 27,
+        "year_start": 2017,
+        "year_end": 2019,
+        "max_magnitude": 8.2,
+        "anchor_year": 2017
+      },
+      {
+        "n_events": 86,
+        "n_regions": 26,
+        "year_start": 1985,
+        "year_end": 1987,
+        "max_magnitude": 8.0,
+        "anchor_year": 1985
+      },
+      {
+        "n_events": 93,
+        "n_regions": 26,
+        "year_start": 1993,
+        "year_end": 1995,
+        "max_magnitude": 8.3,
+        "anchor_year": 1993
+      },
+      {
+        "n_events": 68,
+        "n_regions": 26,
+        "year_start": 2019,
+        "year_end": 2021,
+        "max_magnitude": 8.2,
+        "anchor_year": 2019
+      },
+      {
+        "n_events": 66,
+        "n_regions": 25,
+        "year_start": 2023,
+        "year_end": 2025,
+        "max_magnitude": 7.7,
+        "anchor_year": 2023
+      },
+      {
+        "n_events": 84,
+        "n_regions": 24,
+        "year_start": 1987,
+        "year_end": 1989,
+        "max_magnitude": 7.8,
+        "anchor_year": 1987
+      },
+      {
+        "n_events": 62,
+        "n_regions": 23,
+        "year_start": 1981,
+        "year_end": 1983,
+        "max_magnitude": 7.7,
+        "anchor_year": 1981
+      },
+      {
+        "n_events": 66,
+        "n_regions": 23,
+        "year_start": 2005,
+        "year_end": 2007,
+        "max_magnitude": 8.3,
+        "anchor_year": 2005
+      },
+      {
+        "n_events": 52,
+        "n_regions": 22,
+        "year_start": 1977,
+        "year_end": 1979,
+        "max_magnitude": 8.3,
+        "anchor_year": 1977
+      },
+      {
+        "n_events": 27,
+        "n_regions": 15,
+        "year_start": 2025,
+        "year_end": 2026,
+        "max_magnitude": 7.8,
+        "anchor_year": 2025
+      }
+    ],
+    "top5_series": [
+      {
+        "n_events": 69,
+        "n_regions": 34,
+        "year_start": 1975,
+        "year_end": 1977,
+        "max_magnitude": 8.0,
+        "anchor_year": 1975
+      },
+      {
+        "n_events": 87,
+        "n_regions": 32,
+        "year_start": 2011,
+        "year_end": 2013,
+        "max_magnitude": 8.6,
+        "anchor_year": 2011
+      },
+      {
+        "n_events": 80,
+        "n_regions": 31,
+        "year_start": 1989,
+        "year_end": 1991,
+        "max_magnitude": 8.02,
+        "anchor_year": 1989
+      },
+      {
+        "n_events": 99,
+        "n_regions": 31,
+        "year_start": 1995,
+        "year_end": 1997,
+        "max_magnitude": 8.09,
+        "anchor_year": 1995
+      },
+      {
+        "n_events": 79,
+        "n_regions": 30,
+        "year_start": 1983,
+        "year_end": 1985,
+        "max_magnitude": 8.0,
+        "anchor_year": 1983
+      }
+    ],
+    "monte_carlo": {
+      "observed_mean_log_eta": -2.7499658310739834,
+      "sim_mean": -2.707982716259015,
+      "sim_std": 0.02790361253630465,
+      "pvalue": 0.06,
+      "zscore": -1.5045763253895954,
+      "n_sim": 1000,
+      "n_events_used": 500
+    },
+    "monte_carlo_full_10k": {
+      "pvalue": 0.0,
+      "zscore": -6.174644393457767,
+      "observed_mean_log_eta": -2.8835052460518678,
+      "n_sim": 10000,
+      "note": "From prior full analysis (run_full_montecarlo.py)"
+    }
+  },
+  "early_instrumental_1900_1972": {
+    "epoch": "early_instrumental_1900_1972",
+    "n_events": 2179,
+    "n_events_with_magnitude": 2179,
+    "year_min": 1900,
+    "year_max": 1972,
+    "time_window_years": 5.0,
+    "min_events": 3,
+    "min_regions": 3,
+    "n_series": 15,
+    "series": [
+      {
+        "n_events": 193,
+        "n_regions": 43,
+        "year_start": 1905,
+        "year_end": 1910,
+        "max_magnitude": 8.8,
+        "anchor_year": 1905
+      },
+      {
+        "n_events": 186,
+        "n_regions": 41,
+        "year_start": 1965,
+        "year_end": 1970,
+        "max_magnitude": 8.2,
+        "anchor_year": 1965
+      },
+      {
+        "n_events": 152,
+        "n_regions": 39,
+        "year_start": 1915,
+        "year_end": 1920,
+        "max_magnitude": 8.3,
+        "anchor_year": 1915
+      },
+      {
+        "n_events": 133,
+        "n_regions": 38,
+        "year_start": 1945,
+        "year_end": 1950,
+        "max_magnitude": 8.6,
+        "anchor_year": 1945
+      },
+      {
+        "n_events": 159,
+        "n_regions": 37,
+        "year_start": 1920,
+        "year_end": 1925,
+        "max_magnitude": 8.5,
+        "anchor_year": 1920
+      },
+      {
+        "n_events": 152,
+        "n_regions": 37,
+        "year_start": 1940,
+        "year_end": 1945,
+        "max_magnitude": 8.2,
+        "anchor_year": 1940
+      },
+      {
+        "n_events": 141,
+        "n_regions": 36,
+        "year_start": 1925,
+        "year_end": 1929,
+        "max_magnitude": 8.1,
+        "anchor_year": 1925
+      },
+      {
+        "n_events": 152,
+        "n_regions": 36,
+        "year_start": 1935,
+        "year_end": 1940,
+        "max_magnitude": 8.5,
+        "anchor_year": 1935
+      },
+      {
+        "n_events": 176,
+        "n_regions": 35,
+        "year_start": 1910,
+        "year_end": 1915,
+        "max_magnitude": 8.15,
+        "anchor_year": 1910
+      },
+      {
+        "n_events": 137,
+        "n_regions": 35,
+        "year_start": 1930,
+        "year_end": 1935,
+        "max_magnitude": 8.4,
+        "anchor_year": 1930
+      },
+      {
+        "n_events": 166,
+        "n_regions": 35,
+        "year_start": 1960,
+        "year_end": 1965,
+        "max_magnitude": 9.2,
+        "anchor_year": 1960
+      },
+      {
+        "n_events": 142,
+        "n_regions": 34,
+        "year_start": 1950,
+        "year_end": 1955,
+        "max_magnitude": 9.0,
+        "anchor_year": 1950
+      },
+      {
+        "n_events": 119,
+        "n_regions": 31,
+        "year_start": 1955,
+        "year_end": 1960,
+        "max_magnitude": 8.6,
+        "anchor_year": 1955
+      },
+      {
+        "n_events": 105,
+        "n_regions": 29,
+        "year_start": 1970,
+        "year_end": 1972,
+        "max_magnitude": 8.0,
+        "anchor_year": 1970
+      },
+      {
+        "n_events": 66,
+        "n_regions": 26,
+        "year_start": 1900,
+        "year_end": 1904,
+        "max_magnitude": 8.0,
+        "anchor_year": 1900
+      }
+    ],
+    "top5_series": [
+      {
+        "n_events": 193,
+        "n_regions": 43,
+        "year_start": 1905,
+        "year_end": 1910,
+        "max_magnitude": 8.8,
+        "anchor_year": 1905
+      },
+      {
+        "n_events": 186,
+        "n_regions": 41,
+        "year_start": 1965,
+        "year_end": 1970,
+        "max_magnitude": 8.2,
+        "anchor_year": 1965
+      },
+      {
+        "n_events": 152,
+        "n_regions": 39,
+        "year_start": 1915,
+        "year_end": 1920,
+        "max_magnitude": 8.3,
+        "anchor_year": 1915
+      },
+      {
+        "n_events": 133,
+        "n_regions": 38,
+        "year_start": 1945,
+        "year_end": 1950,
+        "max_magnitude": 8.6,
+        "anchor_year": 1945
+      },
+      {
+        "n_events": 159,
+        "n_regions": 37,
+        "year_start": 1920,
+        "year_end": 1925,
+        "max_magnitude": 8.5,
+        "anchor_year": 1920
+      }
+    ],
+    "monte_carlo": {
+      "observed_mean_log_eta": -2.748873014237534,
+      "sim_mean": -2.6863017259267057,
+      "sim_std": 0.025722061062942076,
+      "pvalue": 0.007,
+      "zscore": -2.432592324453155,
+      "n_sim": 1000,
+      "n_events_used": 500
+    }
+  },
+  "historical_pre1900": {
+    "epoch": "historical_pre1900",
+    "n_events": 47,
+    "n_events_with_magnitude": 47,
+    "year_min": -2150,
+    "year_max": 887,
+    "time_window_years": 50.0,
+    "min_events": 3,
+    "min_regions": 2,
+    "n_series": 5,
+    "series": [
+      {
+        "n_events": 6,
+        "n_regions": 5,
+        "year_start": 734,
+        "year_end": 763,
+        "max_magnitude": 7.9,
+        "anchor_year": 734
+      },
+      {
+        "n_events": 6,
+        "n_regions": 4,
+        "year_start": 500,
+        "year_end": 528,
+        "max_magnitude": 7.5,
+        "anchor_year": 500
+      },
+      {
+        "n_events": 6,
+        "n_regions": 4,
+        "year_start": 856,
+        "year_end": 887,
+        "max_magnitude": 8.6,
+        "anchor_year": 856
+      },
+      {
+        "n_events": 3,
+        "n_regions": 3,
+        "year_start": 89,
+        "year_end": 138,
+        "max_magnitude": 7.5,
+        "anchor_year": 89
+      },
+      {
+        "n_events": 3,
+        "n_regions": 3,
+        "year_start": 788,
+        "year_end": 818,
+        "max_magnitude": 7.5,
+        "anchor_year": 788
+      }
+    ],
+    "top5_series": [
+      {
+        "n_events": 6,
+        "n_regions": 5,
+        "year_start": 734,
+        "year_end": 763,
+        "max_magnitude": 7.9,
+        "anchor_year": 734
+      },
+      {
+        "n_events": 6,
+        "n_regions": 4,
+        "year_start": 500,
+        "year_end": 528,
+        "max_magnitude": 7.5,
+        "anchor_year": 500
+      },
+      {
+        "n_events": 6,
+        "n_regions": 4,
+        "year_start": 856,
+        "year_end": 887,
+        "max_magnitude": 8.6,
+        "anchor_year": 856
+      },
+      {
+        "n_events": 3,
+        "n_regions": 3,
+        "year_start": 89,
+        "year_end": 138,
+        "max_magnitude": 7.5,
+        "anchor_year": 89
+      },
+      {
+        "n_events": 3,
+        "n_regions": 3,
+        "year_start": 788,
+        "year_end": 818,
+        "max_magnitude": 7.5,
+        "anchor_year": 788
+      }
+    ],
+    "monte_carlo": {
+      "observed_mean_log_eta": -0.9101691355142917,
+      "sim_mean": -0.9048563331826347,
+      "sim_std": 0.08440763370110256,
+      "pvalue": 0.464,
+      "zscore": -0.06294220201066468,
+      "n_sim": 500,
+      "n_events_used": 47
+    }
+  }
+}

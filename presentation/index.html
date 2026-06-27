@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Глобальные сейсмические серии — Июнь 2026</title>
+
+  <!-- reveal.js CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/theme/black.css" id="theme" />
+  <!-- Highlight.js for code blocks -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/plugin/highlight/monokai.css" />
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" defer></script>
+
+  <style>
+    :root {
+      --accent: #60a5fa;
+      --accent-dim: #93c5fd;
+      --accent-bright: #38bdf8;
+      --bg: #0f172a;
+      --bg2: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: #334155;
+      --green: #34d399;
+    }
+
+    .reveal-viewport { background: var(--bg); }
+    .reveal .slides { color: var(--text); }
+
+    .reveal h1 {
+      color: var(--accent);
+      font-size: 1.55em;
+      font-weight: 700;
+      line-height: 1.2;
+      text-shadow: 0 0 30px rgba(96,165,250,0.3);
+      font-family: 'Segoe UI', 'Inter', sans-serif;
+    }
+    .reveal h2 {
+      color: var(--accent-dim);
+      font-size: 1.1em;
+      font-weight: 600;
+      font-family: 'Segoe UI', 'Inter', sans-serif;
+    }
+    .reveal h3 {
+      color: #bfdbfe;
+      font-size: 0.95em;
+    }
+    .reveal p, .reveal li {
+      font-size: 0.82em;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .reveal strong { color: #7dd3fc; }
+    .reveal em { color: #a5b4fc; font-style: normal; }
+
+    /* Tables */
+    .reveal table {
+      font-size: 0.76em;
+      border-collapse: collapse;
+      width: 100%;
+      margin: 0.6em 0;
+    }
+    .reveal table th {
+      background: #1e3a5f;
+      color: var(--accent-dim);
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      font-weight: 600;
+    }
+    .reveal table td {
+      padding: 7px 14px;
+      border: 1px solid var(--border);
+      color: #cbd5e1;
+    }
+    .reveal table tr:nth-child(even) td { background: #1e293b; }
+    .reveal table tr:nth-child(odd) td { background: #0f172a; }
+
+    /* Code blocks */
+    .reveal pre {
+      background: var(--bg2) !important;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: none;
+      font-size: 0.7em;
+      width: 100%;
+      margin: 0.5em 0;
+    }
+    .reveal code {
+      background: var(--bg2);
+      color: #7dd3fc;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .reveal pre code { background: transparent; color: #e2e8f0; padding: 0; }
+
+    /* Blockquotes */
+    .reveal blockquote {
+      border-left: 4px solid var(--accent);
+      background: rgba(96,165,250,0.07);
+      padding: 10px 20px;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.8em;
+      color: var(--muted);
+      width: 100%;
+      box-shadow: none;
+    }
+    .reveal blockquote::before { content: none; }
+
+    /* Slides utility */
+    .reveal .slides section { padding: 20px 40px; }
+
+    /* Title slide */
+    .title-slide { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+    .title-slide h1 { font-size: 1.4em; margin-bottom: 0.3em; }
+    .title-slide .subtitle { color: var(--accent-dim); font-size: 0.9em; margin-bottom: 1.2em; }
+    .title-slide .meta { color: var(--muted); font-size: 0.72em; }
+
+    /* Three column layout */
+    .cols-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 0.5em; }
+    .col-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .col-box h3 { color: var(--accent); font-size: 0.85em; margin: 0 0 8px 0; }
+    .col-box p, .col-box li { font-size: 0.72em; color: #cbd5e1; margin: 4px 0; }
+
+    /* Two column layout */
+    .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 0.5em; }
+
+    /* Highlight boxes */
+    .box-accent {
+      background: rgba(96,165,250,0.1);
+      border: 1px solid rgba(96,165,250,0.4);
+      border-radius: 8px;
+      padding: 12px 18px;
+      margin: 0.5em 0;
+    }
+    .box-accent p { font-size: 0.78em; color: #e2e8f0; margin: 0; }
+
+    /* Formula display */
+    .formula-big {
+      text-align: center;
+      font-size: 1.1em;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      margin: 0.6em 0;
+    }
+
+    /* Pipeline flow */
+    .pipeline {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.7em;
+      color: #94a3b8;
+      line-height: 1.8;
+    }
+    .pipeline .node {
+      color: #e2e8f0;
+      background: #1e3a5f;
+      border-radius: 4px;
+      padding: 1px 8px;
+    }
+    .pipeline .arrow { color: var(--accent); }
+    .pipeline .label { color: var(--muted); }
+
+    /* Progress indicator */
+    .reveal .progress { color: var(--accent); }
+    .reveal .controls { color: var(--accent); }
+
+    /* Star rating */
+    .stars { color: #fbbf24; }
+    .stars-dim { color: #374151; }
+
+    /* Badge */
+    .badge {
+      display: inline-block;
+      background: rgba(96,165,250,0.15);
+      border: 1px solid rgba(96,165,250,0.4);
+      color: var(--accent);
+      border-radius: 20px;
+      padding: 2px 12px;
+      font-size: 0.7em;
+    }
+
+    /* Summary callout */
+    .summary-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--bg2);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 18px;
+      margin: 8px 0;
+    }
+    .summary-num {
+      color: var(--accent);
+      font-size: 1.5em;
+      font-weight: 800;
+      line-height: 1;
+      min-width: 28px;
+    }
+    .summary-text { color: #e2e8f0; font-size: 0.82em; line-height: 1.45; }
+  </style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================
+     SLIDE 1 — TITLE
+     ============================================================ -->
+<section class="title-slide">
+  <h1>Глобальные сейсмические серии:<br>поиск скрытых паттернов</h1>
+  <p class="subtitle">Комплексный анализ палеосейсмологических и инструментальных данных<br>от исторических хроник до наших дней</p>
+  <div class="meta">
+    <p>Группа сейсмологического анализа &nbsp;·&nbsp; Июнь 2026</p>
+    <p>Проект <em>paleoseismic-clustering</em></p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — MOTIVATION
+     ============================================================ -->
+<section>
+  <h1>Мотивация: случайность или закономерность?</h1>
+
+  <table>
+    <thead>
+      <tr><th>Кластер</th><th>Событие 1</th><th>Событие 2</th><th>Интервал</th></tr>
+    </thead>
+    <tbody>
+      <tr class="fragment">
+        <td>Тихоокеанский, 1960-е</td>
+        <td>Чили 1960 <strong>M 9.5</strong></td>
+        <td>Аляска 1964 <strong>M 9.2</strong></td>
+        <td>4 года</td>
+      </tr>
+      <tr class="fragment">
+        <td>Индо-Тихоокеанский</td>
+        <td>Суматра 2004 <strong>M 9.1</strong></td>
+        <td>Тонга 2006 <strong>M 8.0</strong></td>
+        <td>2 года</td>
+      </tr>
+      <tr class="fragment">
+        <td>Ближневосточный</td>
+        <td>Турция–Сирия 2023 <strong>M 7.8</strong></td>
+        <td>Япония 2024 <strong>M 7.6</strong></td>
+        <td>1 год</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="fragment">
+    <blockquote>
+      <strong>Ключевой вопрос:</strong> Пуассоновская нулевая гипотеза предсказывает независимые равновероятные события. Но наблюдаемые кластеры указывают на нечто иное — или это иллюзия?
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — SCIENTIFIC PROBLEM
+     ============================================================ -->
+<section>
+  <h1>Научная проблема</h1>
+
+  <h2>Почему это сложно?</h2>
+  <ul>
+    <li class="fragment"><strong>Неравномерность данных:</strong> каталог охватывает 4175 лет — от 2150 BCE до 2026 CE — с кардинально разной плотностью записей</li>
+    <li class="fragment"><strong>Проблема полноты:</strong> в древних записях зафиксированы только катастрофические события; мелкие землетрясения систематически пропущены</li>
+    <li class="fragment"><strong>Пространственная неоднородность:</strong> плотность сейсмических станций сильно варьируется по регионам</li>
+  </ul>
+
+  <div class="fragment cols-2" style="margin-top:0.8em">
+    <div class="col-box">
+      <h3>Предыдущие работы</h3>
+      <p>Hill et al. (1993)</p>
+      <p>Brodsky &amp; Prejean (2005)</p>
+      <p style="color:var(--muted)">→ только инструментальный период</p>
+    </div>
+    <div class="col-box">
+      <h3>Наш вклад</h3>
+      <p>4000+ лет данных</p>
+      <p>Тектоническое расстояние</p>
+      <p>Коррекция полноты каталога</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — DATA SOURCES
+     ============================================================ -->
+<section>
+  <h1>Источники данных</h1>
+
+  <table>
+    <thead>
+      <tr><th>Источник</th><th>Период</th><th>Событий (M≥6.5)</th><th>Качество</th></tr>
+    </thead>
+    <tbody>
+      <tr class="fragment">
+        <td><strong>USGS ComCat</strong></td>
+        <td>1900–2026</td>
+        <td>~80 000</td>
+        <td><span class="stars">★★★★★</span></td>
+      </tr>
+      <tr class="fragment">
+        <td><strong>ISC Bulletin</strong></td>
+        <td>1900–2023</td>
+        <td>~75 000</td>
+        <td><span class="stars">★★★★★</span></td>
+      </tr>
+      <tr class="fragment">
+        <td><strong>NOAA NGDC</strong></td>
+        <td>2150 BCE–2026</td>
+        <td>~6 000</td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span></td>
+      </tr>
+      <tr class="fragment">
+        <td>Исторические хроники</td>
+        <td>до 1900</td>
+        <td>~2 000</td>
+        <td><span class="stars">★★</span><span class="stars-dim">★★★</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="fragment box-accent" style="margin-top:0.8em">
+    <p><strong>Итого:</strong> ~163 000 записей до дедупликации → <strong>~85 000 уникальных событий M≥6.5</strong></p>
+    <p>Дедупликация: пространственно-временное окно ±50 км, ±60 сек | Приоритет: USGS > ISC > NOAA</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — COMPLETENESS
+     ============================================================ -->
+<section>
+  <h1>Проблема полноты каталога</h1>
+
+  <h2>Закон Гутенберга–Рихтера</h2>
+  <div class="formula-big">
+    \[ \log_{10} N = a - b \cdot M \]
+  </div>
+
+  <p style="font-size:0.75em;color:var(--muted);text-align:center">N — число событий с магнитудой ≥ M &nbsp;·&nbsp; b ≈ 1.0 (глобальная константа) &nbsp;·&nbsp; Mc — магнитуда полноты</p>
+
+  <div class="fragment">
+    <pre><code>Период           Mc (глобально)   Событий/год
+─────────────────────────────────────────────
+2000–2026             6.0           ~3 000
+1950–1999             6.5           ~800
+1900–1949             7.0           ~300
+1800–1899             7.5           ~80
+до 1800               8.0           ~15</code></pre>
+  </div>
+
+  <div class="fragment box-accent">
+    <p><strong>Решение:</strong> <code>completeness_weight</code> — взвешивание каждого события по обратной вероятности его обнаружения в данном регионе и эпохе.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — TECTONIC DISTANCE
+     ============================================================ -->
+<section>
+  <h1>Инновация №1: Тектоническое расстояние</h1>
+
+  <div class="cols-2">
+    <div>
+      <h2>Проблема</h2>
+      <p>Обычное евклидово расстояние игнорирует геологическую структуру Земли.</p>
+      <blockquote style="font-size:0.72em;margin-top:0.8em">
+        <strong>Аналогия:</strong> расстояние «напрямую через горы» vs. путь по реальному шоссе вдоль долин.
+      </blockquote>
+    </div>
+    <div class="fragment">
+      <h2>Решение: Bird (2003)</h2>
+      <p>Граф <strong>20 сегментов</strong> границ литосферных плит.</p>
+      <p>Алгоритм <strong>Дейкстры</strong> для кратчайшего пути.</p>
+    </div>
+  </div>
+
+  <div class="fragment" style="margin-top:0.8em">
+    <pre><code>Событие A ──→ граница A'
+                  │
+            Дейкстра: кратчайший путь по графу разломов
+                  │
+              граница B' ──→ Событие B
+
+r_tect(A,B) = dist(A, A') + path(A', B') + dist(B', B)</code></pre>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — ETA METRIC
+     ============================================================ -->
+<section>
+  <h1>Инновация №2: Метрика η (эта)</h1>
+
+  <div class="formula-big">
+    \[ \Large \eta_{ij} = t_{ij} \cdot r_{ij}^{\,1.6} \cdot 10^{-m_i} \]
+  </div>
+
+  <table class="fragment">
+    <thead>
+      <tr><th>Член формулы</th><th>Физический смысл</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>\( t_{ij} \)</td>
+        <td>«Насколько давно произошёл предыдущий толчок»</td>
+      </tr>
+      <tr>
+        <td>\( r_{ij}^{1.6} \)</td>
+        <td>«Как далеко (по разломам) он произошёл»</td>
+      </tr>
+      <tr>
+        <td>\( 10^{-m_i} \)</td>
+        <td>«Насколько мощным он был» (коррекция на магнитуду)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="fragment cols-2" style="margin-top:0.6em">
+    <div class="col-box" style="border-color:rgba(96,165,250,0.5)">
+      <h3>Малый η</h3>
+      <p>→ события <strong>связаны</strong><br>(близко, недавно, мощное)</p>
+    </div>
+    <div class="col-box" style="border-color:rgba(148,163,184,0.3)">
+      <h3>Большой η</h3>
+      <p>→ события <strong>случайны</strong>,<br>независимы</p>
+    </div>
+  </div>
+
+  <p class="fragment" style="font-size:0.68em;color:var(--muted);margin-top:0.5em">Источник: Baiesi &amp; Paczuski (2004) PRE — адаптировано с тектоническим расстоянием</p>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — ALGORITHM
+     ============================================================ -->
+<section>
+  <h1>Алгоритм поиска глобальных серий</h1>
+
+  <pre><code class="language-python">for j in events:
+    parent[j] = argmin_i η(i → j)  # ближайший «родитель»
+
+# Построить дерево связей (nearest-neighbour graph)
+
+for T in [1day, 1week, 1month, 1year, 10years]:
+    window = events in T with M ≥ 6.5
+    if (len(window) >= 4
+        and unique_regions(window) >= 3
+        and eta_connectivity(window) > threshold):
+        → кандидат на глобальную серию
+
+for candidate in candidates:
+    p_value = monte_carlo_test(candidate, N=10_000)
+    if p_value < 0.01:
+        → ✓ значимая глобальная серия</code></pre>
+
+  <div class="fragment box-accent">
+    <p><strong>Ключевой параметр:</strong> порог η разделяет «афтершоки» от «независимых» событий по бимодальному распределению (Zaliapin &amp; Ben-Zion, 2013).</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9 — STATISTICS
+     ============================================================ -->
+<section>
+  <h1>Статистическая проверка</h1>
+
+  <h2>Нулевая гипотеза (H₀)</h2>
+  <p>Сейсмические события образуют <strong>пуассоновский процесс</strong> — независимы, равномерно распределены во времени при фиксированной пространственной структуре.</p>
+
+  <h2 class="fragment" style="margin-top:0.8em">Монте-Карло тест (N = 10 000)</h2>
+  <ol class="fragment">
+    <li>Зафиксировать координаты и магнитуды</li>
+    <li><strong>Случайно переставить</strong> временны́е метки</li>
+    <li>Вычислить тестовую статистику кластеризации</li>
+    <li><strong>p-value</strong> = доля симуляций с более сильным кластером</li>
+  </ol>
+
+  <div class="fragment" style="margin-top:0.8em">
+    <pre><code>Наблюдаемая статистика: ──────────────────┤●
+Распределение H₀:       ████▓▓▒▒░░░░░░░░░│   (хвост < 1%)
+                                          ↑
+                                       p < 0.01  ✓</code></pre>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — ARCHITECTURE
+     ============================================================ -->
+<section>
+  <h1>Архитектура проекта</h1>
+
+  <div class="pipeline">
+    <div>┌─────────────────────────────────────────────┐</div>
+    <div>│ <span class="node">Источники данных:</span> <span class="label">USGS · ISC · NOAA</span>  │</div>
+    <div>└──────────────────┬──────────────────────────┘</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">↓</span></div>
+    <div>┌──────────────────────────────────────────────┐</div>
+    <div>│ <span class="node">CURATOR</span> — <span class="label">унификация + дедупликация</span>       │</div>
+    <div>│ <span class="label">usgs_fetcher · isc_fetcher · unifier</span>         │</div>
+    <div>└──────────────────┬───────────────────────────┘</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">↓</span></div>
+    <div>┌──────────────────────────────────────────────┐</div>
+    <div>│ <span class="node">Единый каталог</span> <span class="label">(SQLite + SQLAlchemy)</span>     │</div>
+    <div>└──────────────────┬───────────────────────────┘</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">↓</span></div>
+    <div>┌──────────────────────────────────────────────┐</div>
+    <div>│ <span class="node">ANALYSIS</span> — <span class="label">completeness · η · кластеры</span>  │</div>
+    <div>│ <span class="label">tectonic_distance · clustering · monte_carlo</span> │</div>
+    <div>└──────────────────┬───────────────────────────┘</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="arrow">↓</span></div>
+    <div>┌──────────────────────────────────────────────┐</div>
+    <div>│ <span class="node">VIZ</span> — <span class="label">глобальные карты + временны́е шкалы</span> │</div>
+    <div>│ <span class="label">global_map · timelines · style</span>               │</div>
+    <div>└──────────────────────────────────────────────┘</div>
+  </div>
+
+  <p class="fragment" style="font-size:0.72em;color:var(--muted);margin-top:0.5em">46 unit-тестов (pytest) | 4 Jupyter ноутбука | Воспроизводимый пайплайн</p>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — TECH STACK
+     ============================================================ -->
+<section>
+  <h1>Стек технологий</h1>
+
+  <table>
+    <thead>
+      <tr><th>Компонент</th><th>Технология</th><th>Назначение</th></tr>
+    </thead>
+    <tbody>
+      <tr class="fragment"><td><strong>Ядро</strong></td><td>Python 3.12, NumPy, SciPy</td><td>Численные вычисления</td></tr>
+      <tr class="fragment"><td><strong>Данные</strong></td><td>pandas, SQLAlchemy, SQLite</td><td>Хранение и обработка</td></tr>
+      <tr class="fragment"><td><strong>Граф разломов</strong></td><td>NetworkX</td><td>Тектоническое расстояние</td></tr>
+      <tr class="fragment"><td><strong>Картография</strong></td><td>Cartopy, Matplotlib</td><td>Глобальные карты</td></tr>
+      <tr class="fragment"><td><strong>Статистика</strong></td><td>statsmodels</td><td>Проверка гипотез</td></tr>
+      <tr class="fragment"><td><strong>Воспроизводимость</strong></td><td>Jupyter Notebooks</td><td>4 аналитические тетради</td></tr>
+      <tr class="fragment"><td><strong>Тесты</strong></td><td>pytest</td><td><strong>46 unit-тестов</strong></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 — EXPECTED RESULTS
+     ============================================================ -->
+<section>
+  <h1>Ожидаемые результаты</h1>
+
+  <div class="cols-2">
+    <div>
+      <ul>
+        <li class="fragment"><strong>Каталог глобальных серий</strong><br><span style="font-size:0.78em;color:var(--muted)">Таблица: ID, период, регионы, p-value, механизм</span></li>
+        <li class="fragment" style="margin-top:0.7em"><strong>Глобальная карта</strong><br><span style="font-size:0.78em;color:var(--muted)">Robinson projection, цветовое кодирование серий</span></li>
+        <li class="fragment" style="margin-top:0.7em"><strong>Временны́е шкалы</strong><br><span style="font-size:0.78em;color:var(--muted)">η-связи для каждой значимой серии</span></li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li class="fragment"><strong>Матрица полноты</strong><br><span style="font-size:0.78em;color:var(--muted)">Регионы × эпохи, Mc, completeness_weight</span></li>
+        <li class="fragment" style="margin-top:0.7em"><strong>Статистический отчёт</strong><br><span style="font-size:0.78em;color:var(--muted)">Распределения η, p-value, сравнение с H₀</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="fragment box-accent" style="margin-top:0.8em">
+    <p><strong>Ключевой вопрос:</strong> существуют ли статистически значимые (p &lt; 0.01) серии, объединяющие события на <em>разных</em> тектонических плитах?</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 13 — PHYSICAL MECHANISMS
+     ============================================================ -->
+<section>
+  <h1>Возможные физические механизмы</h1>
+
+  <div class="cols-3">
+    <div class="col-box fragment" style="border-top:3px solid #60a5fa">
+      <h3>Статический триггер</h3>
+      <p><em>Stein et al., 1992</em></p>
+      <p>Изменение напряжения Кулона</p>
+      <p style="color:var(--accent)">±0.1 бар</p>
+      <p>Радиус: <strong>~100–500 км</strong></p>
+      <p>Мгновенный эффект</p>
+    </div>
+    <div class="col-box fragment" style="border-top:3px solid #34d399">
+      <h3>Динамический триггер</h3>
+      <p><em>Hill et al., 1993</em></p>
+      <p>Поверхностные волны Рэлея и Лява</p>
+      <p style="color:#34d399">~3–4 км/с</p>
+      <p>Радиус: <strong>тысячи км</strong></p>
+      <p>Мгновенный эффект</p>
+    </div>
+    <div class="col-box fragment" style="border-top:3px solid #a78bfa">
+      <h3>Вязкоупругая релаксация</h3>
+      <p><em>Pollitz et al., 1998</em></p>
+      <p>Постсейсмическая деформация коры</p>
+      <p style="color:#a78bfa">нижняя кора + мантия</p>
+      <p>Радиус: <strong>~1000 км</strong></p>
+      <p>Задержка: месяцы–годы</p>
+    </div>
+  </div>
+
+  <blockquote class="fragment" style="margin-top:0.8em">
+    <strong>Важно:</strong> наш метод обнаруживает статистически значимые <em>корреляции</em>. Интерпретация механизма — следующий шаг исследования.
+  </blockquote>
+</section>
+
+<!-- ============================================================
+     SLIDE 14 — LIMITATIONS
+     ============================================================ -->
+<section>
+  <h1>Ограничения метода</h1>
+
+  <ul>
+    <li class="fragment">
+      <strong>Неполнота исторических данных</strong><br>
+      <span style="font-size:0.8em;color:var(--muted)">Систематическая недооценка числа событий в слабо задокументированных регионах до ~1900 CE (Центральная Азия, Африка, Тихий океан)</span>
+    </li>
+    <li class="fragment" style="margin-top:0.6em">
+      <strong>Корреляция ≠ причинность</strong><br>
+      <span style="font-size:0.8em;color:var(--muted)">Обнаружение серий не доказывает физическую связь между событиями</span>
+    </li>
+    <li class="fragment" style="margin-top:0.6em">
+      <strong>Чувствительность к параметрам</strong><br>
+      <span style="font-size:0.8em;color:var(--muted)">Показатель <code>df = 1.6</code> и <code>b = 1.0</code> требуют региональной калибровки; глобальные усреднения могут маскировать локальные аномалии</span>
+    </li>
+    <li class="fragment" style="margin-top:0.6em">
+      <strong>Неопределённость дат</strong><br>
+      <span style="font-size:0.8em;color:var(--muted)">Для событий BCE погрешность составляет ±10–100 лет, что существенно влияет на t<sub>ij</sub> и значение η</span>
+    </li>
+    <li class="fragment" style="margin-top:0.6em">
+      <strong>Статичная модель плит</strong><br>
+      <span style="font-size:0.8em;color:var(--muted)">Bird (2003) не учитывает эволюцию тектоники на исторических масштабах</span>
+    </li>
+  </ul>
+</section>
+
+<!-- ============================================================
+     SLIDE 15 — NEXT STEPS
+     ============================================================ -->
+<section>
+  <h1>Следующие этапы</h1>
+
+  <div style="display:flex;flex-direction:column;gap:10px;margin-top:0.3em">
+    <div class="summary-point fragment">
+      <div class="summary-num">1</div>
+      <div class="summary-text"><strong>Загрузка данных</strong> — обращение к API USGS, ISC, NOAA (~85 000 событий M≥6.5)</div>
+    </div>
+    <div class="summary-point fragment">
+      <div class="summary-num">2</div>
+      <div class="summary-text"><strong>Полный анализ</strong> — запуск пайплайна на реальном каталоге, калибровка параметров η</div>
+    </div>
+    <div class="summary-point fragment">
+      <div class="summary-num">3</div>
+      <div class="summary-text"><strong>Интерпретация</strong> — классификация серий по вероятному механизму, сравнение с литературой</div>
+    </div>
+    <div class="summary-point fragment">
+      <div class="summary-num">4</div>
+      <div class="summary-text"><strong>Публикация</strong> — подготовка рукописи для <em>Geophysical Research Letters</em> или <em>BSSA</em></div>
+    </div>
+    <div class="summary-point fragment">
+      <div class="summary-num">5</div>
+      <div class="summary-text"><strong>Открытые данные</strong> — код и каталог на GitHub, лицензия MIT (целевая дата: осень 2026)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 16 — REFERENCES
+     ============================================================ -->
+<section>
+  <h1>Ключевые публикации</h1>
+
+  <table>
+    <thead>
+      <tr><th>Работа</th><th>Журнал</th><th>Вклад</th></tr>
+    </thead>
+    <tbody>
+      <tr class="fragment"><td><strong>Baiesi &amp; Paczuski (2004)</strong></td><td>Phys. Rev. E</td><td>Метрика η для сейсмических серий</td></tr>
+      <tr class="fragment"><td><strong>Zaliapin &amp; Ben-Zion (2013)</strong></td><td>J. Geophys. Res.</td><td>Ближайший сосед, бимодальность η</td></tr>
+      <tr class="fragment"><td><strong>Hill et al. (1993)</strong></td><td>Science</td><td>Дистанционный динамический триггер</td></tr>
+      <tr class="fragment"><td><strong>Bird (2003)</strong></td><td>Geochem. Geophys.</td><td>Границы литосферных плит</td></tr>
+      <tr class="fragment"><td><strong>Brodsky &amp; Prejean (2005)</strong></td><td>J. Geophys. Res.</td><td>Обзор механизмов триггеринга</td></tr>
+      <tr class="fragment"><td><strong>Stein et al. (1992)</strong></td><td>Nature</td><td>Изменение напряжения Кулона</td></tr>
+      <tr class="fragment"><td><strong>Pollitz et al. (1998)</strong></td><td>Science</td><td>Вязкоупругая релаксация</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============================================================
+     SLIDE 17 — SUMMARY
+     ============================================================ -->
+<section>
+  <h1>Резюме</h1>
+
+  <div style="display:flex;flex-direction:column;gap:14px;margin:0.5em 0">
+    <div class="summary-point">
+      <div class="summary-num">I</div>
+      <div class="summary-text">Глобальные сейсмические серии <strong>наблюдаются эмпирически</strong> — вопрос в их статистической значимости, которую мы впервые тестируем на 4000-летнем каталоге</div>
+    </div>
+    <div class="summary-point">
+      <div class="summary-num">II</div>
+      <div class="summary-text">Тектоническое расстояние + метрика η позволяют <strong>количественно оценить связность</strong> событий через границы плит без субъективных пороговых значений</div>
+    </div>
+    <div class="summary-point">
+      <div class="summary-num">III</div>
+      <div class="summary-text">4000 лет данных дают уникальную возможность проверить — являются ли крупные серии <strong>повторяющимся явлением</strong> или единичным совпадением</div>
+    </div>
+  </div>
+
+  <div class="fragment" style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 24px;margin-top:1em;text-align:center">
+    <p style="color:var(--accent-dim);font-size:0.82em;margin:0 0 6px 0"><strong>Приглашаем к сотрудничеству</strong></p>
+    <p style="color:var(--muted);font-size:0.72em;margin:0">Региональные данные &nbsp;·&nbsp; Экспертиза по механизмам &nbsp;·&nbsp; Рецензирование методологии</p>
+    <p style="color:var(--muted);font-size:0.7em;margin:6px 0 0 0">Репозиторий: <code>github.com/paleoseismic-clustering</code> &nbsp;·&nbsp; Июнь 2026</p>
+  </div>
+</section>
+
+</div><!-- .slides -->
+</div><!-- .reveal -->
+
+<!-- reveal.js scripts via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4/plugin/zoom/zoom.js"></script>
+
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    backgroundTransition: 'fade',
+    progress: true,
+    controls: true,
+    center: false,
+    width: 1200,
+    height: 700,
+    margin: 0.04,
+    minScale: 0.2,
+    maxScale: 2.0,
+    plugins: [ RevealHighlight, RevealNotes, RevealZoom ]
+  });
+</script>
+</body>
+</html>

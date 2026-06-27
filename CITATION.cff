@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: "Paleoseismic Clustering — Global Seismic Series Detection"
+message: "If you use this software or dataset, please cite it as below."
+authors:
+  - family-names: Маршалкин
+    given-names: Ярослав
+    email: marshalkin@gmail.com
+repository-code: "https://github.com/marshalkin-ux/paleoseismic-clustering"
+url: "https://marshalkin-ux.github.io/paleoseismic-clustering/"
+keywords:
+  - earthquake clustering
+  - global seismic series
+  - Baiesi-Paczuski metric
+  - tectonic distance
+  - ETAS validation
+  - paleoseismology
+license: MIT
+version: 1.0.0
+date-released: 2026-06-27
