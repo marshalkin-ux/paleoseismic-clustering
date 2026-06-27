@@ -36,8 +36,10 @@
 We present a systematic analysis of global seismic series spanning
 from 2150~BCE to 2026~CE, combining the NOAA~NGDC historical catalog,
 the USGS~ComCat instrumental catalog, and the ISC~Bulletin into a unified
-catalog of 4{,}418 records containing 4{,}267 events ($M \ge 6.5$; 2{,}041 modern,
-2{,}179 early instrumental, 47 pre-1900).
+catalog of \textbf{4{,}267 unique $M \ge 6.5$ events} (from 4{,}418 saved
+CSV rows, including ${\sim}151$ NOAA records with $M < 6.5$ from an
+$M \ge 6.0$ fetch; 2{,}041 modern, 2{,}179 early instrumental,
+47 pre-1900).
 Using the nearest-neighbor metric of \citet{Baiesi2004}, extended with
 a tectonic-path distance derived from the \citet{Bird2003} plate-boundary
 graph, we identify 47 global seismic series in three temporal windows:
@@ -66,6 +68,8 @@ The largest series by event count is 1905--1910 (193 events, 43 regions,
 $M_\mathrm{max}=8.8$); the most spatially extensive is S170 (46 events,
 12 Flinn--Engdahl regions, 2002--2023, $M_\mathrm{max}=9.1$),
 which includes the 2004 Indian~Ocean earthquake.
+Series detection is a \textbf{statistical anomaly} ($\eta$ links,
+$p$-values); causal mechanism is not established.
 These results have implications for probabilistic seismic hazard assessment
 and for models of stress interaction at tectonic plate boundaries.
 \end{abstract}
@@ -181,17 +185,17 @@ Catalog completeness is assessed using the maximum-curvature method
 each event.
 
 Table~\ref{tab:catalog} summarises the merged catalog.
-The file \texttt{unified\_catalog\_full.csv} contains 4{,}418 rows;
-after $M \ge 6.5$ filtering, 4{,}267 events remain spanning 2150~BCE to
+After $M \ge 6.5$ filtering and deduplication ($\pm 30$~days, $\le 50$~km),
+4{,}267 unique events remain from 4{,}418 saved CSV rows spanning 2150~BCE to
 2026~CE: 2{,}041 modern (1973--2026), 2{,}179 early instrumental
 (1900--1972), and 47 pre-1900 historical events (fragmentary paleoseismic
 records over $\sim$4{,}000~years).
 For the modern window, USGS~ComCat provides 2{,}088 raw $M \ge 6.5$ records;
 after merging with ISC/NOAA and deduplication, 2{,}041 events remain
-(\textbf{without} \texttt{quality\_score} exclusion).
+(\textbf{without} quality-score exclusion).
 Gardner--Knopoff declustering removes $\sim$24 local aftershocks during
 analysis (2{,}017 independent mainshocks, 98.8\%).
-Each event receives a \texttt{quality\_score} in $[0.30, 0.95]$ based on
+Each event receives a quality score in $[0.30, 0.95]$ based on
 epoch, phase readings, and cross-catalog overlap \citep{Woessner2005}; this
 is interpretive metadata, \textbf{not} an inclusion filter.
 The completeness threshold $M_c = 6.55$ for the post-1973 instrumental
@@ -199,6 +203,27 @@ period is estimated by the maximum-curvature method \citep{Woessner2005};
 1{,}688 modern events satisfy $M \ge M_c$.
 The Gutenberg--Richter $b$-value estimated by maximum likelihood is
 $b = 0.911 \pm 0.018$ \citep{Aki1965}.
+Clustering $\eta$ uses $b = 1.0$ per \citet{Baiesi2004} for
+cross-study comparability; the Monte~Carlo null uses the fitted catalog
+$b$-value.
+
+\begin{table}[htbp]
+\centering
+\caption{Catalog merge reconciliation.}
+\label{tab:reconciliation}
+\begin{tabular}{lrl}
+\hline
+Stage & Count & Notes \\
+\hline
+CSV rows saved & 4{,}418 & Includes ${\sim}151$ events $M < 6.5$ from NOAA \\
+Unique $M \ge 6.5$ after dedup & 4{,}267 & $\pm 30$~d, $\le 50$~km \\
+USGS ComCat raw (1973--2026) & 2{,}088 & Legacy instrumental catalogue \\
+Modern merged (1973--2026) & 2{,}041 & After ISC/NOAA merge \\
+GK mainshocks (modern) & 2{,}017 & ${\sim}24$ aftershocks removed (98.8\%) \\
+ZBZ independent (modern) & 2{,}040 & 1 dependent event (100.0\%); sensitivity check \\
+\hline
+\end{tabular}
+\end{table}
 
 \begin{table}[htbp]
 \centering
@@ -242,9 +267,10 @@ $d_f = 1.6$ is the fractal dimension of the spatial distribution of
 seismicity \citep{Kagan1991}, $b = 1.0$ is the Gutenberg--Richter
 $b$-value \citep{GutenbergRichter1956}, and $m_i$ is the magnitude
 of the parent event.
-Note: $b = 1.0$ follows the original \citet{Baiesi2004} formulation;
-the catalog's empirical $b$-value is $0.911 \pm 0.018$ (used in the
-Monte~Carlo test).
+Note: $b = 1.0$ follows the original \citet{Baiesi2004} formulation for
+cross-study $\eta$ comparability; the catalog's empirical $b$-value is
+$0.911 \pm 0.018$ (used in the Monte~Carlo null and completeness analysis,
+not in the $\eta$ formula).
 
 The nearest neighbor of event~$j$ is the preceding event~$i^*$ that
 minimises $\eta_{ij}$:
@@ -272,6 +298,28 @@ from the \citet{Bird2003} model.
 For events located more than 500~km from any boundary, we use
 $r_{ij} = 1.5 \times r_\mathrm{GC}$, where $r_\mathrm{GC}$ is the
 great-circle distance.
+The 500~km boundary snap and 1.5$\times$ great-circle fallback are
+\textbf{approximations}, not verified against independent geodetic data;
+intraplate pairs rely entirely on the GC penalty, and sensitivity to
+these parameters is deferred to future work.
+Qualitatively, tectonic-path distance improves inter-plate $\eta$ links
+by ${\sim}0.3$~log$_{10}$~$\eta$ relative to Euclidean distance
+(Section~\ref{sec:results}); full validation without ground-truth data
+is not possible.
+
+\subsection{Analysis Pipeline}
+\label{subsec:pipeline}
+
+The processing flow is:
+raw catalogs (USGS/ISC/NOAA) $\to$ deduplication ($\pm 30$~d, $\le 50$~km)
+$\to$ Gardner--Knopoff declustering (mainshocks for NN forest)
+$\to$ $\eta$ nearest-neighbor forest with tectonic distance
+$\to$ sliding windows (1/2/5~yr) $\to$ series criteria ($N \ge 4$,
+$\ge 3$ Flinn--Engdahl regions) $\to$ Monte~Carlo / ETAS / FDR validation.
+Gardner--Knopoff removes ${\sim}24$ local aftershocks before series search.
+Zaliapin--Ben-Zion declustering (100\% independent events) is a
+\textbf{sensitivity check}, not a sequential filter: GK and ZBZ answer
+different questions (local aftershocks vs.\ $\eta$ bimodality).
 
 \subsection{Global Series Detection}
 
@@ -354,15 +402,10 @@ Epidemic-Type Aftershock Sequence (ETAS) process
 
 \noindent where $\mu$ is the background rate and $\{K, \alpha, c, p\}$
 govern aftershock productivity.
-Implementation values in \texttt{ETASCatalogGenerator}
-(\texttt{src/analysis/etas\_validation.py},
-\texttt{scripts/run\_etas\_validation.py}) are $\mu = 0.008$~day$^{-1}$,
+Implementation values in \texttt{ETASCatalogGenerator} are $\mu = 0.008$~day$^{-1}$,
 $K = 0.08$, $\alpha = 1.0$, $c = 0.005$~day, $p = 1.1$, Gutenberg--Richter
 $b = 1.0$, spatial kernel $d = 10$~km, $q = 1.5$
 \citep{Ogata1988, HelmstettterSornette2003}.
-The parameter $c = 0.005$~day was chosen conservatively to accelerate
-aftershock decay in the null model; even under this strict condition,
-no false series emerged (FPR~=~0/100).
 \textbf{Long-range coupling is disabled:} offspring are placed only within
 \texttt{max\_trigger\_distance\_km}~$= 500$ of their parent (branching
 Poisson process, up to five generations).
@@ -371,14 +414,16 @@ We generate 100 synthetic ETAS catalogs (seed~=~42), each containing the
 same number of events as the observed catalog and matching its
 magnitude--frequency distribution, but with no spatial coupling beyond
 500~km.
-The global-series algorithm (\texttt{global\_series}: $N \ge 4$,
+The global-series algorithm ($N \ge 4$,
 $\ge 3$ Flinn--Engdahl regions, 2-yr window) is applied to each
 synthetic catalog, yielding a null distribution for the number of
 detected series.
 The false-positive rate (FPR) is the fraction of catalogs with
-$\ge 1$ spurious global series; results
-(\texttt{results/etas\_validation.json}): mean false series
+$\ge 1$ spurious global series: mean false series
 $= 0.00 \pm 0.00$, FPR~=~0/100, $n_\mathrm{obs} = 47$.
+\textbf{Limitation:} FPR~=~0/100 at fixed seed~=~42 is a discrete outcome;
+multi-seed robustness is recommended as future work; rejecting the ETAS
+null does not prove a physical triggering mechanism.
 The ETAS $p$-value is defined as $p_\mathrm{ETAS} = P(N^\mathrm{ETAS}_\mathrm{series}
 \ge N^\mathrm{obs}_\mathrm{series}) = 0.0000$ (empirical resolution
 $1/101$).
@@ -515,9 +560,10 @@ The Benjamini--Hochberg FDR correction at $q = 0.05$
 45 as significant; adjusted $q$-values span $[9.7 \times 10^{-5},\, 0.047]$
 with zero series removed solely by the correction.
 Gardner--Knopoff declustering retains 98.8\% (2017/2041) of events as
-mainshocks; Zaliapin--Ben-Zion retains 100.0\% (2040/2041), confirming
-that the catalog is dominated by independent events rather than
-aftershock contamination.
+mainshocks; Zaliapin--Ben-Zion retains 100.0\% (2040/2041), flagging only
+one dependent event---GK is more aggressive via fixed windows, while ZBZ
+uses $\eta$ bimodality; both confirm the catalog is dominated by independent
+events rather than aftershock contamination.
 
 \subsubsection{Validation Against Realistic Synthetic Catalogs (ETAS)}
 \label{subsubsec:etas_results}
@@ -590,6 +636,7 @@ Japan, Tonga) and the Indonesian arc.
 \subsection{Interpretation of Detected Sequences}
 \label{subsec:sequences_found}
 
+\paragraph{Statistical anomaly (established).}
 Where the Monte~Carlo permutation test returns $p < 0.01$ after the
 Benjamini--Hochberg false discovery rate (FDR) correction
 \citep{BenjaminiHochberg1995}, the identified sequences represent
@@ -597,30 +644,41 @@ statistically robust departures from a spatially inhomogeneous Poisson
 null model.
 The ETAS validation provides an independent and more stringent test:
 because $p_\mathrm{ETAS} = 0.0000$ with zero false positives in 100
-replicates, the observed multi-regional series cannot be explained by
-standard aftershock branching alone.
-Together, these results provide the first quantitative evidence that
-global $M \ge 6.5$ catalogues contain multi-regional seismic episodes
-that are neither random Poisson fluctuations nor local aftershock
-artefacts.
-\paragraph{Early instrumental period (1900--1972).}
-Fifteen series in this window reach statistical significance
-($p = 0.007$, $z = -2.43$), strengthening the overall conclusion that
-clustering is not limited to modern catalog completeness.
-However, most pre-1960 events have \texttt{quality\_score}~$< 0.7$,
-and early instrumental incompleteness requires cautious interpretation
-of individual episodes (including 1905--1910).
-Previous null results \citep{Michael2011, ShearerStark2012} likely
-reflect the use of Euclidean metrics and the absence of tectonic
-connectivity constraints; replacing Euclidean distance with tectonic-path
-distance, combined with ETAS and FDR validation, exposes a signal that
-was previously masked by methodological noise.
-Either a genuine long-range triggering mechanism operates at global
+replicates (seed~=~42), the observed multi-regional series cannot be
+explained by standard aftershock branching alone within 500~km.
+This is a conclusion about \textbf{$\eta$ links and $p$-values}, not
+causality.
+
+\paragraph{Physical mechanism (not established).}
+The $\eta$ metric is correlative; hypocentral depth, focal mechanisms,
+and $\Delta\mathrm{CFS}$ are not incorporated.
+\textbf{Series detection does not imply direct triggering;} co-occurrence
+may reflect shared tectonic loading, mantle coupling, or catalog
+incompleteness artifacts.
+Either a genuine long-range coupling mechanism operates at global
 scales (e.g., viscoelastic relaxation or dynamic stress transfer), or
 current ETAS formulations underestimate large-scale temporal coherence
 --- a question that $\Delta\mathrm{CFS}$ modelling can address
 (Section~\ref{subsec:perspectives}).
-Three physical mechanisms can account for inter-event
+Three physical mechanisms \emph{may} account for inter-event
+coupling over the tectonic distances recovered here, but none is
+established by the present statistical analysis alone.
+\paragraph{Early instrumental period (1900--1972).}
+Fifteen series in this window reach statistical significance
+($p = 0.007$, $z = -2.43$), but most pre-1960 events have
+quality-score~$< 0.7$, requiring cautious interpretation of individual
+episodes (including 1905--1910).
+
+\paragraph{Qualitative plausibility for S170.}
+For the post-Sumatra window 2002--2023 (S170, $M_\mathrm{max}=9.1$),
+surface-wave remote-triggering literature \citep{Hill1993, Brodsky2006}
+provides \textbf{qualitative plausibility} for long-range correlations
+but not proof of causality.
+$\Delta\mathrm{CFS}$ modelling and dynamic stress estimates are
+deferred to future work and are needed to strengthen causal claims.
+
+\paragraph{Plausible physical mechanisms (unverified).}
+Three physical mechanisms \emph{may} account for inter-event
 coupling over the tectonic distances recovered here.
 
 \paragraph{(a) Static Coulomb stress transfer.}
@@ -844,11 +902,12 @@ The detection window $T_w$ is varied from 0.5 to 5~years in steps of
 The specific series reported (Table~\ref{tab:top5}) are stable for
 $T_w \ge 1$~yr.
 
-\paragraph{Experiment 3.2 --- Tectonic-distance weight.}
-The relative weight $\alpha$ controlling the tectonic-path penalty (see
-Section~\ref{subsec:weights}) is varied $\pm 30\%$.  The Jaccard
-similarity between the reference series set and the perturbed set exceeds
-0.72 in all trials, indicating robust series membership.
+\paragraph{Experiment 3.2 --- Tectonic-distance parameters (future work).}
+Sensitivity to the 500~km boundary snap, 1.5$\times$ great-circle
+fallback multiplier, and boundary-type weights (Section~\ref{subsec:weights})
+has not yet been swept; qualitative comparison with Euclidean distance
+(${\sim}0.3$~log$_{10}$~$\eta$ improvement for inter-plate pairs) is
+reported, but a formal parameter sweep remains future work.
 
 \paragraph{Experiment 3.3 --- Declustering algorithm.}
 Results with Zaliapin--Ben-Zion \citep{ZaliapinBenZion2016} and
@@ -895,26 +954,15 @@ The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
         modern chain is S170 (46 events, 12 regions, 2002--2023,
         $M_\mathrm{max}=9.1$), encompassing the 2004 Indian Ocean
         earthquake and a decade-long activation of the Circum-Pacific belt.
-  \item Given current evidence, two interpretive paths remain open:
-        \textbf{(a)}~if detected series reflect genuine long-range coupling,
-        probabilistic hazard models should incorporate elevated conditional
-        probabilities in tectonically connected distant zones and explicit
-        long-range kernels in ETAS extensions;
-        \textbf{(b)}~even if individual episodes prove artifactual under
-        refined constraints, the combined FDR~+~ETAS framework provides a
-        reproducible, code-audited null-testing pipeline for future catalog
-        updates.
-  \item Global seismic series are not reproduced by ETAS models without
-        long-range coupling, implicating stress-transfer mechanisms beyond
-        local aftershock propagation.
-  \item \textbf{Interpretive fork given current evidence:}
-        \textbf{(a)}~If detected series reflect genuine long-range coupling,
-        hazard models should incorporate elevated conditional probabilities
-        in tectonically connected distant zones and explicit long-range
-        kernels in ETAS extensions;
-        \textbf{(b)}~even if individual episodes prove artifactual under
-        refined constraints, the combined FDR + ETAS framework provides a
-        reproducible, code-audited null-testing pipeline for future catalogs.
+  \item Given current evidence, two interpretive paths remain open
+        (statistics vs.\ mechanism):
+        \textbf{(a)}~if $\eta$ links reflect genuine spatiotemporal structure,
+        hazard models may need long-range ETAS kernels (without claiming
+        direct triggering);
+        \textbf{(b)}~if episodes prove artifactual, the FDR~+~ETAS framework
+        remains a reproducible null-testing pipeline.
+        \textbf{Series detection does not imply direct triggering;}
+        co-occurrence may reflect shared tectonic loading or mantle coupling.
 \end{enumerate}
 
 \acknowledgments
@@ -923,8 +971,9 @@ public earthquake catalogs used in this study.
 Computational resources were provided by the host institution's HPC cluster.
 This research received no specific grant from any funding agency.
 
-Data and code are archived at \url{https://github.com/example/paleoseismic-clustering}
-(DOI: 10.5281/zenodo.XXXXXXX, to be assigned upon publication).
+Data and code are openly available at
+\url{https://github.com/marshalkin-ux/paleoseismic-clustering}.
+Analysis artifact paths are documented in \texttt{docs/data\_availability.md}.
 
 \bibliography{bibliography}
 

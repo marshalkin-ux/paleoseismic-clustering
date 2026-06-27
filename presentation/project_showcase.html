@@ -1161,7 +1161,7 @@
       <div class="data-total-header">
         <p>Итог после объединения и дедупликации</p>
         <strong>4 267 событий M ≥ 6.5</strong>
-        <span class="data-total-sub">4418 записей CSV · 2150 BCE – 2026 · весь земной шар</span>
+        <span class="data-total-sub">4418 CSV-строк (вкл. ~151 M&lt;6.5 из NOAA) → 4267 уникальных M≥6.5 · USGS 2088 → 2041 современных</span>
       </div>
       <div class="data-total-grid">
         <div class="data-total-card">
@@ -1181,7 +1181,8 @@
         </div>
       </div>
       <div class="data-total-footnote">
-        Источники: USGS + ISC + NOAA · дубликаты удалены по координатам (±50 км) и времени (±60 с).
+        Источники: USGS + ISC + NOAA · дедупликация ±30 сут., ≤50 км (ISC &gt; USGS &gt; NOAA).
+        GK: 24 афтершока (2017/2041); ZBZ: 1 зависимое (2040/2041) — разные критерии, не последовательный фильтр.
         <span class="term" data-tooltip="Оценка надёжности 0–1: метаданные для интерпретации, не фильтр отбора">quality_score</span> — метаданные, не фильтр.
       </div>
     </div>
@@ -1218,9 +1219,9 @@
         <div class="timeline-step">Шаг 2</div>
         <div class="timeline-title"><span class="timeline-emoji">🔗</span>Объединение и дедупликация</div>
         <p class="timeline-desc">
-          Одно и то же землетрясение часто встречается в нескольких каталогах под разными именами.
-          Ищем дубликаты по близости координат (±50 км) и времени (±60 сек). Оставляем наиболее
-          достоверную версию. На выходе — 4 418 уникальных событий M≥6.5 (2150 BCE – 2026).
+          Одно и то же землетрясение часто встречается в нескольких каталогах.
+          Дедупликация: ±30 сут., ≤50 км. Итог: <strong>4267 уникальных M≥6.5</strong>
+          из 4418 CSV-строк (~151 записей NOAA с M&lt;6.5).
         </p>
       </div>
 
@@ -1251,6 +1252,8 @@
           <span class="term" data-tooltip="Кратчайший путь по графу Bird (2003) (Dijkstra). Если гипоцентр &gt;500 км от границы плиты или пути нет — r = 1.5 × расстояние по дуге большого круга">Тектоническое расстояние</span>
           между точками измеряется вдоль разломов (граф Bird 2003, Dijkstra).
           При удалении &gt;500 км от границы или отсутствии пути: r = 1.5 × дуга большого круга.
+          <em>Ограничение:</em> это приближение; полная валидация и sweep параметров — будущая работа.
+          Качественно: ~0.3 log₁₀ η улучшение vs haversine для межплитных связей.
         </p>
       </div>
 
@@ -1360,7 +1363,7 @@
         </p>
         <ul style="list-style:none; padding:0; font-size:0.9rem;">
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
-            <span style="color:var(--accent); font-weight:600;">100 синтетических ETAS-каталогов</span> (μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; порог 500 км)
+            <span style="color:var(--accent); font-weight:600;">100 синтетических ETAS-каталогов</span> (μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; порог 500 км; seed=42)
           </li>
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
             Ветвящийся пуассоновский процесс; FPR = доля каталогов с ≥1 ложной серией
@@ -1370,7 +1373,7 @@
           </li>
         </ul>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">p<sub>ETAS</sub> = 0.0000</strong> &nbsp;|&nbsp; FPR = 0/100 — дискретный тест на 100 каталогах; локальный ETAS-нуль отвергнут (не доказывает механизм).
+          <strong style="color:var(--accent);">p<sub>ETAS</sub> = 0.0000</strong> &nbsp;|&nbsp; FPR = 0/100 при seed=42 — дискретный тест; multiseed-робастность и механизм не доказаны.
         </div>
       </div>
 
@@ -1422,10 +1425,10 @@
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.2 Тектон. расстояние</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">Вес α</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">±30% от опорного</td>
-              <td style="padding:10px 14px; color:var(--green);">Jaccard ≥ 0.72 — стабильный состав серий</td>
-              <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Стабильно</span></td>
+              <td style="padding:10px 14px; color:var(--text-muted);">500 км / 1.5× GC</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">—</td>
+              <td style="padding:10px 14px; color:var(--yellow);">Sweep не выполнялся; ~0.3 log₁₀ η vs haversine (качественно)</td>
+              <td style="padding:10px 14px;"><span style="background:rgba(210,153,34,0.15); color:var(--yellow); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">○ Будущая работа</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.3 Декластеризация</td>
@@ -2171,9 +2174,9 @@
         <ul class="plan-list">
           <li><strong>ETAS-валидация:</strong> 100 каталогов → 0 ложных серий, p<sub>ETAS</sub> = 0.0000</li>
           <li><strong>FDR BH (q=0.05):</strong> 45/47 серий значимы, 0 удалено коррекцией</li>
-          <li><strong>Декластеризация:</strong> GK 98.8% / ZBZ 100.0% независимых событий</li>
+          <li><strong>Декластеризация:</strong> GK 2017/2041 (24 афтершока) · ZBZ 2040/2041 (1 зависимое) — проверка чувствительности</li>
           <li><strong>Monte Carlo:</strong> n = 10 000, p &lt; 0.0001, z = −6.17</li>
-          <li>Результаты: <code style="font-size:11px;color:var(--accent)">results/etas_validation.json</code>, <code style="font-size:11px;color:var(--accent)">results/fdr_correction_results.csv</code></li>
+          <li>Данные и артефакты: <a href="../docs/data_availability.md" style="color:var(--accent)">docs/data_availability.md</a></li>
         </ul>
       </div>
 
@@ -2219,9 +2222,7 @@
       <a href="overview.pdf" class="mat-link">📄 Обзорный PDF (11 стр.)</a>
       <a href="../figures/grl/fig02_etas_validation.png" class="mat-link">📊 ETAS-валидация (Fig. 2)</a>
       <a href="../figures/grl/fig03_montecarlo_null.png" class="mat-link">📊 Monte Carlo null (Fig. 3)</a>
-      <a href="../results/etas_validation.json" class="mat-link">📋 ETAS results JSON</a>
-      <a href="../results/fdr_correction_results.csv" class="mat-link">📋 FDR correction CSV</a>
-      <a href="../results/analysis_status.md" class="mat-link">📋 Статус анализа</a>
+      <a href="../docs/data_availability.md" class="mat-link">📋 Data availability (paths)</a>
       <a href="index.html" class="mat-link">🎬 Слайды reveal.js (17 сл.)</a>
       <a href="slides.md" class="mat-link">📝 Marp-слайды</a>
       <a href="../digest/дайджест_ru.md" class="mat-link">🗞️ Научпоп дайджест</a>

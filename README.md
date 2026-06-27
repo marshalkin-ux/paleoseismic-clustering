@@ -132,6 +132,7 @@ USGS + ISC + NOAA  →  Curator (дедупликация)  →  Methodologist (
 | API | [docs/04_api_reference.md](docs/04_api_reference.md) |
 | Быстрый старт | [docs/05_quickstart.md](docs/05_quickstart.md) |
 | Интерпретация | [docs/06_results_interpretation.md](docs/06_results_interpretation.md) |
+| Доступность данных | [docs/data_availability.md](docs/data_availability.md) |
 | GRL/BSSA план | [docs/research_improvements_consultation.md](docs/research_improvements_consultation.md) |
 
 ---

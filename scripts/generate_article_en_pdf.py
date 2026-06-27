@@ -151,17 +151,15 @@ def build(s):
     story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
-        "We analyse a merged catalog (4,418 CSV records; 4,267 M\u22656.5 events; "
-        "2150\u00a0BCE\u20132026\u00a0CE) "
+        "We analyse a merged catalog of <b>4,267 unique M\u22656.5 events</b> "
+        "(from 4,418 CSV rows, incl. ~151 NOAA M&lt;6.5; 2150\u00a0BCE\u20132026\u00a0CE) "
         "using the Baiesi\u2013Paczuski metric \u03b7 with tectonic-path distance (Bird\u00a02003). "
         "47 global seismic series are identified (27 modern, 15 early, 5 historical candidates). "
         "Significance: permutation test (n=10,000, p&lt;0.0001, z=\u22126.17); ETAS validation "
-        "(FPR=0/100); FDR (45/47 at q=0.05). Fifteen early series reach p=0.007, but pre-1960 "
-        "incompleteness limits interpretation. "
-        "<b>No historical series are significant</b> (p=0.46). "
-        "Largest series by event count: 1905\u20131910 (193 events, 43 regions, "
-        "M<sub>max</sub>=8.8); most spatially extensive modern series: S170 "
-        "(46 events, 12 Flinn\u2013Engdahl regions, M<sub>max</sub>=9.1, 2002\u20132023).",
+        "(FPR=0/100, seed=42); FDR (45/47 at q=0.05). Series detection is a "
+        "<b>statistical anomaly</b>, not proof of causal triggering. "
+        "Largest series: 1905\u20131910 (193 events, 43 regions); "
+        "most extensive modern: S170 (46 events, 12 regions, M<sub>max</sub>=9.1).",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -218,15 +216,11 @@ def build(s):
         "(historical and paleoseismic records from ~2150 BCE). Duplicates were merged "
         "using \u00b130 days and \u226450 km tolerance; source priority: ISC &gt; USGS &gt; NOAA. "
         "After deduplication (\u00b130 days, \u226450 km), the catalog contains "
-        "<b>4,267</b> unique events (from <b>4,418</b> raw records). "
-        "USGS ComCat contains <b>2,088</b> raw M\u22656.5 events (1973\u20132026); after "
-        "merging and deduplication, <b>2,041</b> M\u22656.5 events remain "
-        "(no quality_score filter). "
-        "Gardner\u2013Knopoff declustering removes ~24 aftershocks (2,017 independent, 98.8\u00a0%). "
-        "quality_score 0.30\u20130.95 is interpretive metadata (Woessner &amp; Wiemer 2005), "
-        "not an inclusion filter. "
-        "<b>Final catalog:</b> 4,267 M\u22656.5 events (4,418 CSV rows): "
-        "2,041 modern, 2,179 early instrumental, 47 historical (fragmentary paleoseismic).",
+        "<b>4,267</b> unique M\u22656.5 events (from <b>4,418</b> CSV rows, incl. ~151 M&lt;6.5 from NOAA). "
+        "USGS ComCat: <b>2,088</b> raw (1973\u20132026) \u2192 <b>2,041</b> after merge/ISC. "
+        "GK: 24 aftershocks (2,017/2,041); ZBZ: 1 dependent (2,040/2,041). "
+        "quality_score is metadata, not an inclusion filter. "
+        "<b>Final catalog:</b> 4,267 M\u22656.5 events (4,418 CSV rows).",
         s["body"]
     ))
     story += SSSEC("2.1.1 Catalog completeness", s)
@@ -245,7 +239,10 @@ def build(s):
         "along the Bird (2003) plate-boundary graph (20 key segments). Paths are "
         "computed with Dijkstra's algorithm (NetworkX). If either hypocenter lies "
         "&gt;500 km from the nearest boundary node, or no graph path exists, "
-        "r<sub>ij</sub> = 1.5 \u00d7 r<sub>GC</sub> (great-circle Haversine).",
+        "r<sub>ij</sub> = 1.5 \u00d7 r<sub>GC</sub> (great-circle Haversine). "
+        "<b>Limitations:</b> 500 km snap and 1.5\u00d7 GC are approximations; "
+        "intraplate pairs rely on GC penalty; sensitivity deferred to future work. "
+        "Qualitatively improves inter-plate \u03b7 links by ~0.3 log<sub>10</sub>.",
         s["body"]
     ))
     story.append(Spacer(1, 0.15 * cm))
@@ -254,14 +251,21 @@ def build(s):
         w
     ))
     story.append(Paragraph(
-        "Baiesi &amp; Paczuski [2004]; d<sub>f</sub>=1.6; b=1.0 (code default); parent m<sub>i</sub> only. "
-        "b=1.0 follows Baiesi &amp; Paczuski (2004); catalog empirical b=0.911\u00b10.018 "
-        "(used in Monte Carlo test). "
-        "\u03b7 is a relative measure; \u03b7<sub>0</sub> is empirical from the NN distribution.",
+        "b=1.0 per Baiesi &amp; Paczuski (2004) for \u03b7 comparability; "
+        "catalog b=0.911\u00b10.018 in Monte Carlo null only.",
         s["caption"]
     ))
 
-    story += SSEC("2.3 Threshold \u03b7\u2080 and series detection", s)
+    story += SSEC("2.3 Analysis pipeline", s)
+    story.append(Paragraph(
+        "Raw catalogs \u2192 dedup \u2192 GK declustering \u2192 \u03b7 NN forest "
+        "\u2192 sliding windows \u2192 series criteria \u2192 MC/ETAS/FDR. "
+        "GK: 24 aftershocks (2,017/2,041); ZBZ: 1 dependent (2,040/2,041) \u2014 "
+        "sensitivity check, not sequential filter.",
+        s["body"]
+    ))
+
+    story += SSEC("2.4 Threshold \u03b7\u2080 and series detection", s)
     story.append(Paragraph(
         "Automatic \u03b7<sub>0</sub> from nearest-neighbor \u03b7 distribution: KDE valley "
         "between bimodal log<sub>10</sub>(\u03b7) modes (Zaliapin &amp; Ben-Zion 2013); "
@@ -276,19 +280,15 @@ def build(s):
         ("4.", "Sliding windows (1, 2, 5 yr); overlapping groups merged."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
-    story += SSEC("2.4 Statistical validation", s)
+    story += SSEC("2.5 Statistical validation", s)
     story.append(Paragraph(
         "<b>Permutation test:</b> n = 10,000, p &lt; 0.0001, z = \u22126.17 (modern). "
-        "<b>ETAS validation</b> (<code>ETASCatalogGenerator</code>): "
-        "\u03bc=0.008, K=0.08, \u03b1=1.0, c=0.005 days, p=1.1; "
-        "max_trigger_distance_km=500 (links &gt;500 km forbidden). "
-        "c=0.005 days was chosen conservatively to accelerate aftershock decay in the null model; "
-        "even under this strict condition, FPR=0/100. "
-        "100 synthetic catalogs (branching Poisson, seed=42); same global_series "
-        "algorithm on each. FPR = fraction with \u22651 false series = 0/100; "
-        "p<sub>ETAS</sub> = 0.0000 (discrete test, resolution 1/101). "
-        "<b>FDR (Benjamini\u2013Hochberg, q = 0.05):</b> 45/47 series significant. "
-        "<b>Declustering:</b> Gardner\u2013Knopoff 98.8%; Zaliapin\u2013Ben-Zion 100.0% independent.",
+        "<b>ETAS validation:</b> \u03bc=0.008, K=0.08, \u03b1=1.0, c=0.005 d, p=1.1; "
+        "500 km cutoff; 100 catalogs (seed=42). FPR=0/100; p<sub>ETAS</sub>=0.0000. "
+        "<b>Limitation:</b> FPR=0/100 at seed=42 is discrete; multi-seed robustness "
+        "recommended; does not prove mechanism. "
+        "<b>FDR (q=0.05):</b> 45/47 significant. "
+        "<b>Declustering:</b> GK 2,017/2,041; ZBZ 2,040/2,041.",
         s["body"]
     ))
 
@@ -329,8 +329,7 @@ def build(s):
     ]))
     story.append(tbl)
     story.append(Paragraph(
-        "Table 1. Top five multi-regional series (\u2265 3 Flinn\u2013Engdahl regions). "
-        "Fig. 1: figures/grl/fig01_global_map.png; Fig. 2: fig02_etas_validation.png.",
+        "Table 1. Top five multi-regional series (\u2265 3 Flinn\u2013Engdahl regions).",
         s["caption"]
     ))
     story.append(Spacer(1, 0.2 * cm))
@@ -347,15 +346,13 @@ def build(s):
 
     story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
-        "Observed global series are incompatible with Poisson and local-only ETAS nulls. "
-        "Michael [2011] and Shearer &amp; Stark [2012] tested global <i>event rates</i>, "
-        "not multi-regional <i>linkage structure</i>; our \u03b7-metric is complementary. "
-        "<b>Early instrumental (1900\u20131972):</b> 15 series significant at p=0.007 "
-        "(z=\u22122.43), strengthening the conclusion that clustering is not limited to "
-        "modern catalog completeness; pre-1960 quality_score&lt;0.7 requires caution. "
-        "<b>Limitations:</b> historical p=0.46 (47 M\u22656.5 events pre-1900); "
-        "p<sub>ETAS</sub>=0.0000 is a discrete 100-catalog test (does not prove mechanism); "
-        "correlative \u03b7-metric without depth or focal mechanisms.",
+        "<b>Statistical anomaly (established):</b> series incompatible with Poisson "
+        "and local-only ETAS nulls; FDR 45/47. Conclusion about \u03b7 links and "
+        "p-values, not causality. <b>Physical mechanism (not established):</b> "
+        "series detection does not imply direct triggering; shared loading or "
+        "mantle coupling are alternatives. <b>S170:</b> Hill [1993], Brodsky [2006] "
+        "provide qualitative plausibility; \u0394CFS deferred. "
+        "<b>Limitations:</b> ETAS FPR=0/100 at seed=42; tectonic distance approximations.",
         s["body"]
     ))
     for num, text in [
@@ -367,24 +364,22 @@ def build(s):
                "most spatially extensive modern: S170 (46 events, 12 regions, "
                "2002\u20132023, M<sub>max</sub>=9.1)."),
         ("4.", "Tectonic distance increases \u03b7 sensitivity by ~0.3 log<sub>10</sub>."),
-        ("5.", "<b>Interpretive fork:</b> (a) if series are real \u2014 hazard implications "
-               "and long-range ETAS kernels; (b) if artifacts \u2014 FDR+ETAS remains a "
-               "reproducible null-test pipeline."),
+        ("5.", "<b>Interpretive fork:</b> (a) if \u03b7 links are real \u2014 hazard "
+               "implications without claiming direct triggering; (b) if artifacts \u2014 "
+               "FDR+ETAS remains reproducible null-test. Co-occurrence may reflect "
+               "shared tectonic loading."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
         story.append(Spacer(1, 0.1 * cm))
     story.append(Paragraph(
-        "<b>Future work:</b> \u0394CFS for S047, S170, S095 with <b>depth and focal mechanisms</b> "
-        "(King et al. 1994; Stein 1999); ETAS long-range kernels; Zenodo DOI release.",
+        "<b>Future work:</b> \u0394CFS for S047, S170, S095; multi-seed ETAS; Zenodo.",
         s["body_ni"]
     ))
 
     story += SEC("DATA AND CODE AVAILABILITY", s)
     story.append(Paragraph(
-        "Interactive presentation: marshalkin-ux.github.io/paleoseismic-clustering/ "
-        "Source code: github.com/marshalkin-ux/paleoseismic-clustering. "
-        "Results: results/analysis_full_historical.json, results/etas_validation.json, "
-        "results/fdr_correction_results.csv.",
+        "Data and code: github.com/marshalkin-ux/paleoseismic-clustering "
+        "(docs/data_availability.md).",
         s["body_ni"]
     ))
 
