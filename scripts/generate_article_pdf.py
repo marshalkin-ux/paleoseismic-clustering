@@ -29,20 +29,51 @@ pdfmetrics.registerFont(TTFont("MainBI",     os.path.join(_FONT_DIR, "arialbi.tt
 # ── Unicode → ASCII safety filter (Arial TTF lacks many specialty glyphs) ────
 def safe_text(s: str) -> str:
     """Replace chars unsupported by Arial with ASCII equivalents."""
-    _subs = {
-        '\u03b7': 'eta', '\u03bc': 'mu', '\u03b1': 'alpha', '\u0394': 'Delta',
-        '\u2212': '-', '\u2264': '<=', '\u2265': '>=', '\u00b1': '+/-',
-        '\u1d46': 'w',  '\u1d62': 'i',  '\u2c7c': 'j',
-        '\u2090': 'a',  '\u209c': 't',  '\u2098': 'm', '\u2093': 'x',
-        '\u2091': 'e',  '\u2099': 'n',  '\u209b': 's',
-        '\u2080': '0',  '\u2081': '1',  '\u2082': '2',  '\u2083': '3',
-        '\u2084': '4',  '\u2085': '5',  '\u2086': '6',  '\u2087': '7',
-        '\u2088': '8',  '\u2089': '9',
-        '\u0305': '', '\u2047': '?', '\u202f': ' ',
-        '\u2605': '***', '\u2606': '*', '\u2713': 'OK', '\u2717': 'X',
-    }
-    for ch, rep in _subs.items():
-        s = s.replace(ch, rep)
+    import unicodedata
+
+    _phrase_subs = [
+        ("\u03b7\u2080", "eta_0"),
+        ("\u03b7\u1d62\u2c7c", "eta_ij"),
+        ("log\u2081\u2080", "log10"),
+        ("\u0394log\u2081\u2080\u03b7", "Delta log10 eta"),
+        ("\u0394CFS", "Delta CFS"),
+        ("M\u2098\u2090\u2093", "Mmax"),
+        ("n\u209b\u1d62\u2098", "n_sim"),
+        ("p\u2091\u209c\u2090\u209b", "p_ETAS"),
+        ("t\u1d62\u2c7c", "t_ij"),
+        ("r\u1d62\u2c7c", "r_ij"),
+        ("m\u1d62", "m_i"),
+        ("\u03bc", "mu"),
+        ("\u03b1", "alpha"),
+        ("\u03b7", "eta"),
+        ("\u0394", "Delta"),
+        ("\u00d7", "x"),
+        ("\u00b7", " "),
+        ("\u00a7", "Sec."),
+        ("\u2192", "->"),
+        ("\u2193", "v"),
+        ("\u2212", "-"),
+        ("\u2264", "<="),
+        ("\u2265", ">="),
+        ("\u00b1", "+/-"),
+        ("\u202f", " "),
+        ("\u2047", "?"),
+        ("\u0301", ""),
+        ("\u0305", ""),
+    ]
+    for old, new in _phrase_subs:
+        s = s.replace(old, new)
+
+    _sub_map = str.maketrans({
+        "\u2080": "0", "\u2081": "1", "\u2082": "2", "\u2083": "3",
+        "\u2084": "4", "\u2085": "5", "\u2086": "6", "\u2087": "7",
+        "\u2088": "8", "\u2089": "9",
+        "\u2090": "a", "\u2091": "e", "\u2092": "o", "\u2093": "x",
+        "\u2098": "m", "\u2099": "n", "\u209b": "s", "\u209c": "t",
+        "\u1d62": "i", "\u2c7c": "j",
+    })
+    s = s.translate(_sub_map)
+    s = "".join(ch for ch in s if unicodedata.category(ch) != "Mn")
     return s
 
 
@@ -478,7 +509,9 @@ def build(s):
         "mu=0.008, K=0.08, alpha=1.0, c=0.005 сут., p=1.1; "
         "порог 500 km. 100 синтетических каталогов (seed=42); "
         "FPR=0/100; p_ETAS=0.0000. "
-        "<b>Ограничение (§5.3):</b> FPR=0/100 только при seed=42; "
+        "<b>Примечание:</b> параметры ETAS — глобальные defaults (Helmstetter &amp; Sornette 2003), "
+        "не откалиброваны на 2041 событие (results/etas_calibration_note.md). "
+        "<b>Ограничение (Sec. 5.3):</b> FPR=0/100 только при seed=42; "
         "multiseed-анализ рекомендуется; не доказывает механизм. "
         "<b>FDR</b> (q=0.05): 45/47 значимы. "
         "<b>Декластеризация:</b> GK 2017/2041 (24 афтершока); "
@@ -582,11 +615,13 @@ def build(s):
         "и ETAS-нулём без дальних связей; FDR 45/47. Это вывод об \u03b7-связях и p-values, "
         "не о причинности. <b>Физический механизм (не установлен):</b> обнаружение серий "
         "не подразумевает прямой триггеринг; возможны общая нагрузка и мантийное сцепление. "
-        "<b>S170:</b> Hill [1993], Brodsky [2006] \u2014 качественная правдоподобность "
-        "пост-суматранских корреляций; \u0394CFS \u2014 будущая работа. "
+        "<b>S170:</b> Delta CFS после Sumatra 2004 (Okada 1985): Япония +0.008 kPa (n=63), "
+        "Алеуты +0.00006 kPa (n=16); fig06_cfs_s170.png. "
+        "Hill [1993], Brodsky [2006] — динамический триggering; статика — качественная "
+        "правдоподобность, не доказательство причинности. "
         "Michael [2011] и Shearer &amp; Stark [2012] тестировали частоты, не структуру связей. "
-        "<b>Ограничения:</b> ETAS FPR=0/100 при seed=42; тектоническое расстояние "
-        "(500\u00a0км, 1.5\u00d7 GC) \u2014 приближение без полной валидации.",
+        "<b>Ограничения:</b> ETAS FPR=0/100 при seed=42; тектоника: 98% GC-фолбэк "
+        "(analyze_tectonic_fallback.py).",
         s["body"]
     ))
     story.append(PageBreak())
@@ -619,7 +654,7 @@ def build(s):
     story.append(Paragraph(
         "<b>Доступность данных:</b> github.com/marshalkin-ux/paleoseismic-clustering "
         "(docs/data_availability.md). "
-        "<b>Перспективы:</b> \u0394CFS для S047, S170, S095; мультiseed ETAS; Zenodo.",
+        "<b>Перспективы:</b> Delta CFS для S047, S095; multiseed ETAS; Zenodo.",
         s["body_ni"]
     ))
 

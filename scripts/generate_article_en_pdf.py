@@ -36,17 +36,42 @@ TM = BM = 2.5 * cm
 
 
 def safe_text(s: str) -> str:
-    _subs = {
-        '\u03b7': 'eta', '\u03bc': 'mu', '\u03b1': 'alpha', '\u0394': 'Delta',
-        '\u2212': '-', '\u2264': '<=', '\u2265': '>=', '\u00b1': '+/-',
-        '\u1d46': 'w', '\u1d62': 'i', '\u2c7c': 'j',
-        '\u2090': 'a', '\u209c': 't', '\u2098': 'm', '\u2093': 'x',
-        '\u2080': '0', '\u2081': '1', '\u2082': '2', '\u2083': '3',
-        '\u2084': '4', '\u2085': '5', '\u2086': '6', '\u2087': '7',
-        '\u2088': '8', '\u2089': '9',
-    }
-    for ch, rep in _subs.items():
-        s = s.replace(ch, rep)
+    import unicodedata
+
+    _phrase_subs = [
+        ("\u03b7\u2080", "eta_0"),
+        ("\u03b7\u1d62\u2c7c", "eta_ij"),
+        ("log\u2081\u2080", "log10"),
+        ("\u0394log\u2081\u2080\u03b7", "Delta log10 eta"),
+        ("\u0394CFS", "Delta CFS"),
+        ("M\u2098\u2090\u2093", "Mmax"),
+        ("n\u209b\u1d62\u2098", "n_sim"),
+        ("p\u2091\u209c\u2090\u209b", "p_ETAS"),
+        ("t\u1d62\u2c7c", "t_ij"),
+        ("r\u1d62\u2c7c", "r_ij"),
+        ("\u03bc", "mu"),
+        ("\u03b1", "alpha"),
+        ("\u03b7", "eta"),
+        ("\u0394", "Delta"),
+        ("\u00d7", "x"),
+        ("\u00a7", "Sec."),
+        ("\u2212", "-"),
+        ("\u2264", "<="),
+        ("\u2265", ">="),
+        ("\u00b1", "+/-"),
+        ("\u202f", " "),
+        ("\u0301", ""),
+    ]
+    for old, new in _phrase_subs:
+        s = s.replace(old, new)
+    _sub_map = str.maketrans({
+        "\u2080": "0", "\u2081": "1", "\u2082": "2", "\u2083": "3",
+        "\u2084": "4", "\u2085": "5", "\u2086": "6", "\u2087": "7",
+        "\u2088": "8", "\u2089": "9",
+        "\u1d62": "i", "\u2c7c": "j",
+    })
+    s = s.translate(_sub_map)
+    s = "".join(ch for ch in s if unicodedata.category(ch) != "Mn")
     return s
 
 

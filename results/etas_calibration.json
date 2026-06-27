@@ -1,0 +1,23 @@
+{
+  "calibration_status": "hardcoded_global_defaults",
+  "source": "Helmstetter & Sornette (2003) via src/analysis/etas_validation.py",
+  "parameters_used_in_validation": {
+    "mu": 0.008,
+    "K": 0.08,
+    "alpha": 1.0,
+    "c": 0.005,
+    "p": 1.1,
+    "max_trigger_distance_km": 500.0
+  },
+  "catalog_modern_n": 2041,
+  "catalog_modern_note": "2041 events after merge in paper; full CSV may differ slightly",
+  "config_yaml_etas_section": "none — ETAS params not in config.yaml",
+  "recommendation": "Report as default global ETAS parameters, not catalog-calibrated",
+  "mu_fit": {
+    "n_events": 2041,
+    "t_span_years": 53.0,
+    "mu_mle_homogeneous": 0.10543308408559658,
+    "mu_mle_optimized": 0.10543386771950161,
+    "note": "Homogeneous Poisson MLE only; K/alpha not fitted"
+  }
+}

@@ -92,7 +92,7 @@ We define tectonic distance rij as the shortest path between hypocenters along t
 
 where rGC is the great-circle (Haversine) distance.
 
-**Limitations and validation.** The 500 km boundary snap and 1.5× great-circle fallback are **approximations**, not verified against independent geodetic data. Intraplate pairs rely entirely on the GC penalty. A diagnostic tectonic-vs-Euclidean comparison on random M≥6.5 pairs (1973+, n = 249; `scripts/generate_grl_figures.py::fig_tectonic_vs_euclidean`, `figures/grl/fig05_tectonic_vs_euclidean.png`) yields **median Δlog₁₀η = +0.28** (1.6×[log₁₀ r_tect − log₁₀ r_eucl]); ~98% of sampled pairs use the 1.5× GC fallback (1.6 log₁₀ 1.5 ≈ 0.28). This is a metric diagnostic, not a calibrated sensitivity gain; full validation without ground-truth data is not possible.
+**Limitations and validation.** The 500 km boundary snap and 1.5× great-circle fallback are **approximations**, not verified against independent geodetic data. Intraplate pairs rely entirely on the GC penalty. A systematic audit (`scripts/analyze_tectonic_fallback.py`, `results/tectonic_fallback_analysis.json`, `figures/grl/fig07_tectonic_path_usage.png`) on random M≥6.5 pairs (1973+) shows **~98% use the 1.5× GC fallback** and only **~2% a real Dijkstra path** on the Bird (2003) graph; pairs with materially different tectonic vs fallback distances cluster along well-represented subduction arcs. The tectonic diagnostic (`figures/grl/fig05_tectonic_vs_euclidean.png`) yields **median Δlog₁₀η = +0.28**, consistent with GC-fallback dominance (1.6 log₁₀ 1.5 ≈ 0.28). This is a metric diagnostic, not a calibrated sensitivity gain.
 
 **Sensitivity (planned, not yet run).** A full parameter sweep has not been conducted. Planned work:
 
@@ -158,7 +158,7 @@ Raw catalogs (USGS / ISC / NOAA)
 
 ### 3.5 Statistical validation
 
-**ETAS null model.** To test whether series arise from local aftershock structure alone, we use global ETAS parameters (Ogata, 1988; Helmstetter & Sornette, 2003): **μ = 0.008**, **K = 0.08**, **α = 1.0**, **c = 0.005** days, **p = 1.1**; spatial triggering cutoff **500 km** (links beyond 500 km forbidden). Generation follows a branching Poisson process (≤500 km, up to 5 generations), magnitudes from Gutenberg–Richter (b = 1.0). We generate **100** synthetic catalogs (**seed = 42**) and apply the same series-detection algorithm (N ≥ 4, ≥ 3 Flinn–Engdahl regions, 2-yr window) to each. **FPR = 0/100**; **pETAS = 0.0000** (discrete test, resolution 1/101). See §5.3 for the seed limitation.
+**ETAS null model.** To test whether series arise from local aftershock structure alone, we use **default global ETAS parameters** (Ogata, 1988; Helmstetter & Sornette, 2003), **not re-calibrated on the 2,041-event modern catalog** (see `results/etas_calibration_note.md`, `scripts/calibrate_etas.py`): **μ = 0.008**, **K = 0.08**, **α = 1.0**, **c = 0.005** days, **p = 1.1**; spatial triggering cutoff **500 km** (links beyond 500 km forbidden). Generation follows a branching Poisson process (≤500 km, up to 5 generations), magnitudes from Gutenberg–Richter (b = 1.0). We generate **100** synthetic catalogs (**seed = 42**) and apply the same series-detection algorithm (N ≥ 4, ≥ 3 Flinn–Engdahl regions, 2-yr window) to each. **FPR = 0/100**; **pETAS = 0.0000** (discrete test, resolution 1/101). See §5.3 for the seed limitation.
 
 | Test | Parameters | Result |
 |------|------------|--------|
@@ -219,7 +219,7 @@ Elevated series activity occurs in 1952–1965 and 2002–2016 (post-Sumatra per
 
 **Reconciliation with Michael (2011) and Shearer & Stark (2012).** Both tested **global event frequencies and rate trends**, not **multi-regional linkage structure**. Our η-metric detects clustering patterns largely independent of secular rate changes. The findings are complementary, not contradictory.
 
-**Qualitative plausibility for S170.** For the post-Sumatra window 2002–2023 (S170, Mmax = 9.1), surface-wave remote-triggering literature (Hill et al., 1993; Brodsky & Prejean, 2006) provides **qualitative plausibility** for long-range correlations but not proof of causality. ΔCFS modelling and dynamic stress estimates are deferred to future work and are needed to strengthen causal claims.
+**ΔCFS for S170 (Sumatra 2004).** Static ΔCFS (Okada, 1985; μ = 0.4) for Japan and Aleutian receivers after the 26 Dec 2004 M 9.1 event (`scripts/compute_cfs_s170.py`, `figures/grl/fig06_cfs_s170.png`): **Japan** — n = 63, mean ΔCFS = **+0.008 kPa** (median +0.007 kPa; 100% promoting); **Aleutians** — n = 16, mean ΔCFS = **+0.00006 kPa** (100% promoting, orders of magnitude smaller). This **qualitatively** supports post-megathrust static stress redistribution; magnitudes are too small for direct triggering without dynamic components.
 
 The tectonic diagnostic (§3.1; median Δlog₁₀η = +0.28) quantifies the GC-fallback penalty on random pairs; Euclidean metrics alone do not encode lithospheric connectivity along plate boundaries.
 
@@ -248,12 +248,12 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 ## 6. Conclusions
 
 1. A unified catalog of 4,267 M≥6.5 events (4,418 CSV records; 2150 BCE – 2026 CE) contains 47 global seismic series; 27 modern series are significant at p < 0.0001 (Monte Carlo, n = 10,000).
-2. ETAS validation (μ=0.008, K=0.08, α=1.0, c=0.005 d, p=1.1, 500 km cutoff; FPR = 0/100) and FDR correction (45/47 at q = 0.05) confirm that series are not explained by randomness or local aftershock clustering alone.
+2. ETAS validation uses **default global** parameters (μ=0.008, K=0.08, α=1.0 — not catalog-calibrated; FPR = 0/100, seed = 42) and FDR (45/47 at q = 0.05) confirm series are not explained by randomness or local aftershock clustering alone.
 3. The largest series by event count is 1905–1910 (193 events, 43 regions, Mmax = 8.8); the most spatially extensive modern series is S170 (46 events, 12 regions, 2002–2023, Mmax = 9.1).
-4. Tectonic-path distance is implemented with a documented diagnostic (median Δlog₁₀η = +0.28 vs great-circle on random pairs; §3.1); formal sensitivity sweeps remain planned.
+4. Tectonic-path distance: **2.0%** of pairs use a real Dijkstra path, **98.0%** the 1.5× GC fallback (`scripts/analyze_tectonic_fallback.py`); median Δlog₁₀η = +0.28 vs great-circle (§3.1).
 5. **Interpretive fork** (statistics vs mechanism): **(a)** if η links reflect genuine spatiotemporal structure — hazard implications and long-range ETAS kernels (without claiming direct triggering); **(b)** if episodes prove artifactual — FDR + ETAS remains a reproducible null-test pipeline. **Series detection does not imply direct triggering;** co-occurrence may reflect shared tectonic loading or mantle coupling.
 
-**Future work:** Coulomb stress change (ΔCFS) analysis for S047, S170, and S095 incorporating **hypocentral depth and focal mechanisms** (King et al., 1994; Stein, 1999); ETAS extensions with explicit long-range kernels; Zenodo DOI release.
+**Future work:** ΔCFS for S047 and S095 with individual focal mechanisms; ETAS multi-seed robustness; Zenodo DOI release.
 
 ---
 
