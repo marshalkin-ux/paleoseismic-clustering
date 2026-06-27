@@ -2301,15 +2301,16 @@
             <li><strong>4267</strong> событий M≥6.5; <strong>2041</strong> в окне 1973–2026</li>
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
             <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
-            <li><strong>ETAS dual-null:</strong> <strong>первичная</strong> лит. H&amp;S → mean <strong>15.4</strong>, p<sub>ETAS</sub>≤0.001 (локальное афтершоковое избыток; не телесейсмика); <strong>негативный контроль</strong> WLS → mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (артефакт связки); декластеризация GK/ZBZ/none → N=27 (§5.4)</li>
-            <li><strong>Либеральность детектора (§5.6):</strong> 142 скользящих окна × merge — exploratory search</li>
-            <li><strong>Чувствительность:</strong> GC 1000/1500/2000 км → N=27; окна 1/2/5/10 лет → 53/27/11/6 (<code>results/sensitivity_eta_windows_gc.json</code>)</li>
-            <li><strong>Multiseed ETAS</strong> (seeds 42–51, n=1000/seed): mean=27.0, σ=0.0, FPR=1.0 (<code>results/etas_multiseed.json</code>)</li>
-            <li>Эвристика с тект. подсказкой: <strong>98%</strong> GC-фолбэк — отрицательный тест гипотезы</li>
+            <li><strong>Три различных теста (§5):</strong> permutation → Poisson-времена; ETAS лит. → локальная кластеризация; глобальные серии → <em>не подтверждены</em></li>
+            <li><strong>ETAS dual-null:</strong> <strong>первичная</strong> лит. H&amp;S → mean <strong>15.4</strong>, p<sub>ETAS</sub>≤0.001; <strong>негативный контроль</strong> WLS/MLE → mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (артефакт связки); temporal MLE: K≈10⁻⁴ vs WLS K≈0,495 (<code>etas_mle_calibration.json</code>)</li>
+            <li><strong>Декластеризация:</strong> GK/ZBZ/none → N=27 при фикс. воротах; 24 vs 1 удалённых — <em>разные метки главных</em>, не «несущественный выбор» (<code>sensitivity_declustering.json</code>)</li>
+            <li><strong>Чувствительность:</strong> b=1.0 vs 0.911 → N=27; GC 1000/1500/2000 км → N=27; окна 1/2/5/10 лет → 53/27/11/6</li>
+            <li><strong>Либеральность детектора (§5.7):</strong> 142 скользящих окна × merge — exploratory search</li>
+            <li>Тектоническая метрика: <strong>98%</strong> GC-фолбэк — удалена из первичного конвейера (deprecated diagnostic)</li>
           </ul>
           <div class="findings-kpi">
-            <span><strong>27</strong>N<sub>obs</sub>=ETAS mean</span>
-            <span><strong>1.0</strong>p<sub>ETAS</sub></span>
+            <span><strong>≤0.001</strong>p<sub>ETAS</sub> (лит.)</span>
+            <span><strong>27</strong>N<sub>obs</sub></span>
             <span><strong>47</strong>кандидатов</span>
             <span><strong>0.0001</strong>perm. (Poisson)</span>
             <span><strong>98%</strong>GC fallback</span>
@@ -2656,7 +2657,7 @@
     <p class="viz-block-desc">
       Каталог-откалиброванный ETAS (μ≈0,103, K≈0,495, α≈0,063, c≈10⁻⁴ сут., p≈1,36; порог 500&nbsp;км):
       multiseed seeds 42–51, n=1000/seed → mean=27,0, σ=0,0, p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) —
-      <strong>детектор не специфичен для глобальных серий; отражает фоновую структуру каталога (§5.5–5.6).</strong>
+      <strong>детектор не специфичен для глобальных серий; отражает фоновую структуру каталога (§5.6–5.7).</strong>
       Permutation p=0.0001 (1/10,001) отвергает <em>пуассоновские времена</em>, не телесейсмические «серии».
     </p>
     <img src="figures/grl/fig02_etas_validation.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="ETAS null-model validation">
@@ -3074,7 +3075,7 @@
         <div class="history-dot">19</div>
         <div class="history-date">27 июня 2026</div>
         <div class="history-title">Уточнение ETAS-параметров и оговорок</div>
-        <div class="history-desc">Коммит 2dec0aa: раздел «interpretive fork» — обнаружение серий как статистическая аномалия, а не доказательство причинного механизма. ETAS-параметры позже переведены на каталог-калиброванный MLE (μ≈0,103); литературные μ=0,008 — только для сравнения.</div>
+        <div class="history-desc">Коммит 9034730: temporal ETAS MLE + bootstrap CI (`etas_mle_calibration.json`); исправлена логика GK/ZBZ; §Hypothesis Separation; расширенные Limitations. WLS K≈0,495 — calibration failure, не упрощение.</div>
       </div>
 
       <div class="history-item history-item--content">

@@ -101,7 +101,7 @@ Maximum-curvature analysis yields Mc = 6.55. Maximum-likelihood b-value from 1,6
 
 The [Gutenberg–Richter](https://en.wikipedia.org/wiki/Gutenberg%E2%80%93Richter_law) relation is satisfied above Mc. **b-value consistency:** clustering η uses **b = 1.0** per the Baiesi & Paczuski (2004) convention for cross-catalog comparability; the Monte Carlo null and completeness analysis use the fitted **b = 0.911 ± 0.018**. This difference is intentional: η is a relative connectivity measure, not a rate forecast.
 
-### 2.4 Clustering and detector criteria (canonical list)
+### 2.3 Clustering and detector criteria (canonical list)
 
 Single list for Methods and Results (`src/analysis/clustering.py`, `pipeline_v2.py`):
 
@@ -160,7 +160,7 @@ Here df = 1.6 (fractal dimension; Baiesi & Paczuski, 2004) and **b = 1.0** (code
 
 *Note:* b = 1.0 and df = 1.6 follow Baiesi & Paczuski (2004) for cross-study η comparability — a **deliberate simplification**, not calibrated to our catalog. The empirical b = 0.911 ± 0.018 (Mc, completeness, Monte Carlo null) is **not** used in the η formula. Zaliapin et al. (2008) use catalog b (D ≈ b); fixed 1.6 and 1.0 shift η values and may affect η₀ and cluster membership — **not sensitivity-tested** (no η re-run at b = 0.911).
 
-**Units note.** η is a relative connectivity measure without absolute physical units; only ratios and log10(η) statistics are interpreted. The threshold η₀ is determined by Zaliapin–Ben-Zion KDE valley detection between bimodal modes in log₁₀(η) (Zaliapin & Ben-Zion, 2013); default η₀ = 10^(median log₁₀ η). Visual verification of bimodality was limited at global M≥6.5 scale (§5.5).
+**Units note.** η is a relative connectivity measure without absolute physical units; only ratios and log10(η) statistics are interpreted. The threshold η₀ is determined by Zaliapin–Ben-Zion KDE valley detection between bimodal modes in log₁₀(η) (Zaliapin & Ben-Zion, 2013); default η₀ = 10^(median log₁₀ η). Visual verification of bimodality was limited at global M≥6.5 scale (§3.6).
 
 ### 3.4 Global-series detector algorithm
 
@@ -233,7 +233,7 @@ GK applies conservative local window rules; ZBZ classifies only events with exce
 1. **Declustering** via [Gardner–Knopoff](https://en.wikipedia.org/wiki/Aftershock) (1974) — mainshocks for NN search.
 2. **Nearest-neighbor forest:** for each event j, parent i* = argmin ηij.
 3. **Threshold η₀:** KDE valley detection between bimodal modes in log₁₀(η) (Zaliapin & Ben-Zion, 2013); fallback η₀ = 10^(median log₁₀ η). Distribution and threshold — `figures/grl/fig_eta_threshold.png` (`scripts/plot_eta_threshold.py`, `results/eta_threshold_meta.json`). **Limitation:** at global M≥6.5 scale bimodality is weak; KDE stability not verified — see figure caption.
-4. **Detector criteria** — §2.4 (N≥4, M≥6.5, mean GC>1500 km); FE counts diagnostic only.
+4. **Detector criteria** — §2.3 (N≥4, M≥6.5, mean GC>1500 km); FE counts diagnostic only.
 
 ### 3.7 ETAS calibration
 
@@ -278,7 +278,7 @@ Multi-seed ETAS: seeds 42–51, n=1000 catalogs/seed (`scripts/run_etas_multisee
 
 #### Multiple comparisons
 
-Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wiki/False_discovery_rate) procedure on **N = 47** merged-series p-values (after sliding windows 1/2/5 yr, merge, and series criteria N ≥ 4, M ≥ 6.5, mean GC > 1500 km; see `results/fdr_correction_results.csv`): **45/47** at q = 0.05. This **does not** correct the 142 window candidates × search parameters and is **not** a discovery claim — detector sensitivity only (see §5.6).
+Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wiki/False_discovery_rate) procedure on **N = 47** merged-series p-values (after sliding windows 1/2/5 yr, merge, and series criteria N ≥ 4, M ≥ 6.5, mean GC > 1500 km; see `results/fdr_correction_results.csv`): **45/47** at q = 0.05. This **does not** correct the 142 window candidates × search parameters and is **not** a discovery claim — detector sensitivity only (see §5.7).
 
 **ETAS null model.** We generate synthetic catalogs with **catalog-calibrated** parameters (`results/etas_calibration.json`: μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36; GK+Omori MLE on 2,041 events). On the real modern catalog the algorithm finds **N_obs = 27** series.
 
@@ -299,7 +299,7 @@ Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wi
 | 50 | 27.0 | 0.0 | 1.0 | 1.0 |
 | 51 | 27.0 | 0.0 | 1.0 | 1.0 |
 
-**Overall:** mean = **27.0**, σ = **0.0** across all seeds — perfect stability because calibrated ETAS generates catalogs with ~2,001 background events and local-only triggering (>500 km cutoff), matching the event rate and clustering scale of the real catalog; the detector then yields **exactly 27** spurious multi-regional series on every realization (see §5.6).
+**Overall:** mean = **27.0**, σ = **0.0** across all seeds — perfect stability because calibrated ETAS generates catalogs with ~2,001 background events and local-only triggering (>500 km cutoff), matching the event rate and clustering scale of the real catalog; the detector then yields **exactly 27** spurious multi-regional series on every realization (see §5.7).
 
 **Literature-default comparison** (Helmstetter & Sornette 2003: μ = 0.008, K = 0.08): mean ≈ **15.4**, max = 24, pETAS ≤ 0.001 — **N_obs = 27 exceeds** that null (local clustering).
 
@@ -326,7 +326,7 @@ Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wi
 
 ### 4.1 Detector candidates (not “discovered series”)
 
-**47 algorithmic candidates** after merge (142 window candidates before merging). These are **detector outputs** (see §5.6), not validated physical episodes:
+**47 algorithmic candidates** after merge (142 window candidates before merging). These are **detector outputs** (see §5.7), not validated physical episodes:
 
 | Epoch | N series | Events | p-value | z-score |
 |-------|----------|--------|---------|---------|
@@ -338,7 +338,7 @@ Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wi
 
 **Early instrumental period.** Fifteen series reach p = 0.007, but this result must be interpreted cautiously: most pre-1960 events have quality_score < 0.7, and catalog incompleteness inflates inter-event intervals, reducing detection power.
 
-**Historical period (pre-1900):** five candidates; p = 0.46 — **not used for significance claims**; see **Appendix A**. Detector criteria — §2.4.
+**Historical period (pre-1900):** five candidates; p = 0.46 — **not used for significance claims**; see **Appendix A**. Detector criteria — §2.3.
 
 ### 4.2 Top-5 detector candidates
 
@@ -358,7 +358,7 @@ The **1905–1910** episode (193 events, 43 regions) is the **largest candidate 
 
 Elevated **detector candidate frequency** (not validated physical series) occurs in 1952–1965 and 2002–2016 (post-Sumatra period). Spatially, candidates concentrate along the circum-Pacific belt (Kamchatka, Kuril Islands, Japan, Tonga, Indonesia). The tectonic-vs-Euclidean diagnostic (§3.2) reports median Δlog₁₀η = +0.28 on random pairs; this reflects the 1.5× GC fallback for most samples, not a validated η₀ shift.
 
-### 4.5 Parameter sensitivity (modern window)
+### 4.4 Parameter sensitivity (modern window)
 
 `scripts/run_clustering_sensitivity.py` → `results/sensitivity_eta_windows_gc.json`:
 
@@ -417,6 +417,16 @@ Multiseed ETAS (seeds 42–51, n = 1000 catalogs/seed, calibrated parameters, `r
 
 The tectonic diagnostic (§3.2; median Δlog₁₀η = +0.28) quantifies the GC-fallback penalty on random pairs; only **~2%** of audited boundary-proximal pairs use a real Dijkstra path (§3.2)—the metric adds limited value beyond Euclidean distance for most pairs.
 
+### 5.3 Working hypotheses (future work, not claims)
+
+Correlative η links **do not prove** any single mechanism. Possible (unverified) explanations for long-range coupling include:
+
+- **Viscoelastic mantle coupling** — stress redistribution over months to years after major ruptures (Pollitz et al., 1998).
+- **Dynamic triggering by surface waves** — short-lived activation at thousands of kilometres (Hill et al., 1993; Brodsky & Prejean, 2006).
+- **Shared tectonic loading / stress redistribution** — secular loading without direct triggering (Freed & Lin, 2001).
+
+Co-occurrence within a series may reflect any of these (or other) processes, or catalog artifacts.
+
 ### 5.4 Dual ETAS null interpretation
 
 **Primary null** for the global multi-regional series hypothesis test: **literature ETAS** (Helmstetter & Sornette 2003: μ = 0.008, K = 0.08) — standard regional/global comparison values, **not coupled** to detector output.
@@ -446,16 +456,6 @@ Dual null (§3.8, §5.4): **primary** literature → mean ≈ 15.4, p ≤ 0.001;
 
 Michael (2011) showed apparent global M≥7 clustering can arise from Poisson rate fluctuations; Shearer & Stark (2012) found no post-2004 increase in global M≥7/M≥8 rates. Our η-linkage statistic targets a different quantity (multi-regional nearest-neighbor structure), yet reaches a **compatible** conclusion: candidates match ETAS-like local clustering. A permutation rejection of Poisson event times (p = 0.0001) does **not** overturn the primary literature ETAS benchmark—it tests a weaker, different hypothesis expected to fail for aftershock catalogs (Ogata, 1988).
 
-### 5.3 Working hypotheses (future work, not claims)
-
-Correlative η links **do not prove** any single mechanism. Possible (unverified) explanations for long-range coupling include:
-
-- **Viscoelastic mantle coupling** — stress redistribution over months to years after major ruptures (Pollitz et al., 1998).
-- **Dynamic triggering by surface waves** — short-lived activation at thousands of kilometres (Hill et al., 1993; Brodsky & Prejean, 2006).
-- **Shared tectonic loading / stress redistribution** — secular loading without direct triggering (Freed & Lin, 2001).
-
-Co-occurrence within a series may reflect any of these (or other) processes, or catalog artifacts.
-
 ### 5.6 Limitations
 
 - **Paleoseismic and historical data** (~1% of catalog; 47 NOAA records pre-1900, p = 0.46) — **not significant**; not used for significance claims (see §2).
@@ -468,7 +468,7 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 - **Parameter sensitivity** (`results/sensitivity_eta_windows_gc.json`, `results/sensitivity_b_eta0.json`): GC 1000/1500/2000 km → N = 27; windows 1/2/5/10 yr → 53/27/11/6; b = 1.0 vs 0.911 in η — see `sensitivity_b_eta0.json`; η₀ **not applied** in `global_series()`.
 - **Declustering:** N = 27 stable under GK/ZBZ/none at fixed gates; 24 vs 1 removed — **principally different** mainshock sets for cluster analysis.
 
-Additionally: **GK is primary** for inference, ZBZ sensitivity-only; post-hoc BH on N = 47 (§3.6) — not a discovery claim; quality_score < 0.7 before 1960 limits early-instrumental interpretation.
+Additionally: **GK is primary** for inference, ZBZ sensitivity-only; post-hoc BH on N = 47 (§3.8) — not a discovery claim; quality_score < 0.7 before 1960 limits early-instrumental interpretation.
 
 ### 5.7 Detector liberalism
 
@@ -487,7 +487,7 @@ The global-series search is **liberal by construction**:
 
 **Primary ETAS null** (literature H&S 2003): mean ≈ **15.4**, p_ETAS ≤ 0.001 — N_obs exceeds local aftershock expectation, but **does not prove** teleseismic chains (§5.4). **Secondary diagnostic** (catalog WLS): mean **27.0** = N_obs (p_ETAS = 1.0) — detector--calibration coupling. The global-series hypothesis is **not supported** (§5.4–5.6). Permutation rejects only a temporal Poisson null (p = 0.0001) — **expected for aftershock catalogs** (Ogata, 1988).
 
-Additionally: the heuristic metric with tectonic hint **does not improve** global analysis (98% GC fallback); 47 detector candidates are **indistinguishable** from ETAS null (§5.6); **ΔCFS/dynamic stress — future work**; causal chains **not** established.
+Additionally: the heuristic metric with tectonic hint **does not improve** global analysis (98% GC fallback); 47 detector candidates are **indistinguishable** from ETAS null (§5.7); **ΔCFS/dynamic stress — future work**; causal chains **not** established.
 
 **Future work:** full ETAS MLE; ZBZ-primary declustering re-run; tightening **search space** (windows, η₀); ΔCFS/dynamic stress (S170, S047, S095). External DOI ([Zenodo](https://en.wikipedia.org/wiki/Zenodo)) deferred — GitHub only.
 
