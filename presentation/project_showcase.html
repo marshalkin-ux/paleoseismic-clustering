@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Глобальные сейсмические серии: M≥6.5 за 1973–2026 | Ярослав Маршалкин</title>
-  <meta name="description" content="47 глобальных серий (45/47 FDR; 27 modern p=0.0001 (1/10,001 perm.)) · 2041 событие M≥6.5 (1973–2026). ETAS FPR 1000/1000. Экстраполяция 1900–1972; до 1900 г. p=0.46.">
+  <meta name="description" content="Null result: ETAS p=1.0 (mean=27). Permutation rejects Poisson times only. 47 detector candidates — no evidence for physical global series.">
   <meta name="keywords" content="глобальные сейсмические серии, earthquake clustering, seismic triggering, дальнодействующий триггеринг, Baiesi-Paczuski, тектоническое расстояние, ETAS validation, FDR Benjamini-Hochberg, Monte Carlo, paleoseismic, землетрясения M6.5">
   <meta name="author" content="Ярослав Маршалкин">
   <link rel="canonical" href="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
   <meta property="og:title" content="Глобальные сейсмические серии: M≥6.5 за 1973–2026">
-  <meta property="og:description" content="47 глобальных серий (45/47 FDR) · 2041 событий M≥6.5 (1973–2026) · интерактивная карта · научная статья PDF">
+  <meta property="og:description" content="Null/falsification: ETAS-indistinguishable output. No multi-regional global series evidence.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
   <meta property="og:locale" content="ru_RU">
@@ -1890,8 +1890,8 @@
   <div class="container">
     <div class="section-header fade-in">
       <span class="section-tag">04 · Результаты</span>
-      <h2>Что нашли</h2>
-      <p>Главные числа исследования</p>
+      <h2>Итог: null-результат</h2>
+      <p>ETAS-validated falsification гипотезы о физических «глобальных сериях»</p>
     </div>
 
     <!-- Подробное резюме: проблематика / находки / выводы / рамки -->
@@ -1912,35 +1912,34 @@
         </div>
 
         <div class="findings-block findings-block--results">
-          <h4>Ключевые находки (канонические числа проекта)</h4>
+          <h4>Ключевые числа (канон проекта)</h4>
           <ul>
-            <li><strong>4267</strong> уникальных событий M≥6.5 в merged-каталоге (4418 CSV-строк; ~151 запись NOAA M&lt;6.5 сохранена для провенанса, исключена из кластеризации)</li>
-            <li><strong>2041</strong> событие в современном окне <strong>1973–2026</strong> — основа заявлений о значимости</li>
-            <li><strong>47</strong> глобальных серий (≥3 зон Флинна–Энгдала); <strong>27</strong> современных с <strong>p = 0.0001 (1/10,001)</strong></li>
-            <li><span class="term-tip">FDR<span class="term-tip-box">False Discovery Rate — поправка Benjamini–Hochberg на множественное тестирование.<a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>: <strong>45/47</strong> серий значимы при q &lt; 0.05</li>
-            <li><span class="term-tip">ETAS<span class="term-tip-box">Epidemic Type Aftershock Sequence — Ogata (1988); n=1000 синтетических каталогов; параметры откалиброваны на 2041 событии.<a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>: FPR <strong>1000/1000</strong>, калибр. null mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (N<sub>obs</sub>=27)</li>
-            <li>Monte Carlo (10 000 перестановок): <strong>z = −6.17</strong>, p = 0.0001 (1/10,001)</li>
-            <li>Декластеризация <span class="term-tip">Gardner–Knopoff<span class="term-tip-box">Основной метод отделения главных толчков от афтершоков; 98–100% событий — независимые M≥6.5.<a href="https://en.wikipedia.org/wiki/Leon_Knopoff" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> — первичный; тектоническое расстояние Bird (2003): <strong>98%</strong> пар на GC-фолбэке 1.5×, ~2% — реальный путь Дейкстры</li>
-            <li>Предварительные тесты <span class="term-tip">ΔCFS<span class="term-tip-box">Coulomb failure stress change; порог триггеринга ~0.01 МПа (Stein 1999). S170: +0.008 kPa — на три порядка ниже.<a href="https://en.wikipedia.org/wiki/Coulomb_stress_transfer" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> и динамического стресса для S170 <strong>не достигают порогов</strong> на телесейсмических расстояниях</li>
+            <li><strong>4267</strong> событий M≥6.5; <strong>2041</strong> в окне 1973–2026</li>
+            <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
+            <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
+            <li><strong>ETAS (калибр.):</strong> mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong>, N<sub>obs</sub>=27, FPR 1000/1000 — <strong>нет избыточной глобальной структуры</strong></li>
+            <li><strong>Multiseed</strong> (42–46): FPR=1.0 стабилен (<code>results/etas_multiseed.json</code>)</li>
+            <li><strong>FDR 45/47</strong> — post-hoc на N=47; <em>не</em> корректирует 142×окна</li>
+            <li>Тектоника: <strong>98%</strong> GC-фолбэк — отрицательный тест гипотезы, не innovation</li>
           </ul>
           <div class="findings-kpi">
-            <span><strong>4267</strong>M≥6.5 каталог</span>
-            <span><strong>2041</strong>1973–2026</span>
-            <span><strong>47</strong>глоб. серий</span>
-            <span><strong>27</strong> p=0.0001 (1/10,001 perm.)</span>
-            <span><strong>45/47</strong>FDR</span>
-            <span><strong>27.0</strong>ETAS mean</span>
+            <span><strong>27</strong>N<sub>obs</sub>=ETAS mean</span>
+            <span><strong>1.0</strong>p<sub>ETAS</sub></span>
+            <span><strong>47</strong>кандидатов</span>
+            <span><strong>0.0001</strong>perm. (Poisson)</span>
+            <span><strong>45/47</strong>FDR*</span>
+            <span><strong>98%</strong>GC fallback</span>
           </div>
         </div>
 
         <div class="findings-block findings-block--honest">
-          <h4>Честные выводы</h4>
+          <h4>Единый вывод (null/falsification)</h4>
           <p>
-            <strong>Глобальный дальнодействующий триггеринг не доказан.</strong>
-            Выявленные статистические аномалии (η-метрика, permutation test, FDR, ETAS) требуют дальнейшего изучения;
-            физический механизм не установлен. Тектоническое расстояние не подтверждено для глобального анализа (98% GC-фолбэк).
-            Проект даёт <strong>воспроизводимый пайплайн</strong> и явно разделяет
-            <em>статистическую значимость</em> и <em>причинность</em>.
+            <strong>Гипотеза о физически значимых мультирегиональных «глобальных сериях» не подтверждена.</strong>
+            Каталог-откалиброванный ETAS воспроизводит N<sub>obs</sub>=27 (p<sub>ETAS</sub>=1.0) — кандидаты детектора
+            <strong>неотличимы</strong> от локально-кластеризованного null. Permutation p=0.0001 отвергает только
+            пуассоновские <em>времена</em>, не телесейсмический триггеринг. FDR 45/47 не доказывает физическую реальность.
+            ΔCFS/динамический стресс — <strong>future work</strong>; «серии» — алгоритмические конструкты.
           </p>
         </div>
 
@@ -1981,11 +1980,12 @@
     </div>
 
     <div class="fade-in" style="background:var(--card); border:1px solid rgba(63,185,80,0.35); border-radius:14px; padding:28px; margin-bottom:32px;">
-      <h3 style="margin-bottom:16px; font-family:var(--heading-font); color:var(--green);">Статистический вывод</h3>
+      <h3 style="margin-bottom:16px; font-family:var(--heading-font); color:var(--green);">Согласование null-моделей</h3>
       <ul style="margin:0; padding-left:1.25rem; color:var(--text-muted); line-height:1.7;">
-        <li><strong style="color:var(--text-dim);">ETAS-тест:</strong> p<sub>ETAS</sub>=1.0 при калиброванном null (mean=27); детектор либерален (FPR 1000/1000)</li>
-        <li><strong style="color:var(--text-dim);">FDR:</strong> 45/47 серий значимы после строгой коррекции на множественное тестирование (q = 0.05)</li>
-        <li><strong style="color:var(--text-dim);">Декластеризация:</strong> 98.8–100% событий — независимые главные толчки, не афтершоки</li>
+        <li><strong style="color:var(--text-dim);">Permutation:</strong> p=0.0001 (1/10,001) — отвергает пуассоновские <em>времена</em> (ожидаемо при афтершоках)</li>
+        <li><strong style="color:var(--text-dim);">ETAS:</strong> p<sub>ETAS</sub>=1.0, mean=27 — <strong>нет</strong> избыточной структуры сверх локального null</li>
+        <li><strong style="color:var(--text-dim);">Вывод:</strong> отвержение Poisson ≠ доказательство глобальных серий; кандидаты ≈ ETAS-null + либеральный детектор</li>
+        <li><strong style="color:var(--text-dim);">FDR:</strong> 45/47 на N=47 post-hoc — не корректирует 142 окна поиска</li>
       </ul>
     </div>
 
@@ -2084,7 +2084,7 @@
   <div class="meaning-block">
     <h3>Что это означает</h3>
     <p class="meaning-lead">
-      Анализ 2041 современного события M≥6.5 (1973–2026) выявил <strong>47 глобальных серий</strong> в трёх временны́х окнах (каталог NOAA: исторические + инструментальные записи).
+      Анализ 2041 современного события M≥6.5 (1973–2026) даёт <strong>47 кандидатов детектора</strong> после merge (142 окна) — <em>не</em> доказанные физические «глобальные серии».
       Вероятность случайного возникновения такой кластеризации в современном и раннем инструментальном периодах — ничтожно мала.
     </p>
     <div class="meaning-stats">
@@ -2258,12 +2258,12 @@
 
   <!-- GRL: ETAS validation -->
   <div style="margin-bottom: 3rem; border:1px solid rgba(63,185,80,0.35); border-radius:12px; padding:1.5rem; background:rgba(63,185,80,0.05);">
-    <h3 style="color:#3fb950; margin-bottom:0.5rem;">ETAS-валидация — главный аргумент для GRL</h3>
+    <h3 style="color:#3fb950; margin-bottom:0.5rem;">ETAS-валидация — главный null-результат</h3>
     <p class="viz-block-desc">
       Каталог-откалиброванный ETAS (μ≈0,103, K≈0,495, α≈0,063, c≈10⁻⁴ сут., p≈1,36; порог 500&nbsp;км; seed=42):
-      1000 синтетических каталогов; FPR=1000/1000; mean=27,0; p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) — неотличимо от null.
-      Для сравнения, литературные defaults (μ=0,008) давали mean≈15,4, max=24, p≤0,001.
-      Детектор либерален; permutation test p=0.0001 (1/10,001 perm.) подтверждает структуру кластеризации.
+      1000 синтетических каталогов; FPR=1000/1000; mean=27,0; p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) —
+      <strong>неотличимо от локального ETAS-null; избыточной «глобальной» структуры нет.</strong>
+      Permutation p=0.0001 (1/10,001) отвергает <em>пуассоновские времена</em>, не телесейсмические «серии».
     </p>
     <img src="../figures/grl/fig02_etas_validation.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="ETAS null-model validation">
   </div>
@@ -2272,7 +2272,7 @@
   <div style="margin-bottom: 3rem;">
     <h3 style="color:#79c0ff; margin-bottom:0.5rem;">Permutation test (Monte Carlo n = 10 000)</h3>
     <p class="viz-block-desc">
-      10 000 перестановок временны́х меток событий. Наблюдаемая кластеризация (красная линия) лежит на 6,17σ ниже нулевого распределения — p &lt; 0,0001.
+      10 000 перестановок временны́х меток. p = 0,0001 (1/10,001) — отвергает <strong>глобальный пуассоновский нуль по временам</strong> (ожидаемо при афтершоках); <strong>не</strong> тест гипотезы о мультирегиональных сериях.
     </p>
     <img src="../figures/grl/fig03_montecarlo_null.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Monte Carlo null distribution">
   </div>
@@ -2442,7 +2442,7 @@
  │  • Ищет глобальные серии (≥3 регионов)  │
  │  • Monte Carlo 10 000 × FDR-коррекция   │
  └──────────────────┬──────────────────────┘
-<span class="arch-arrow">                    ↓  47 глобальных серий (45/47 FDR)</span>
+<span class="arch-arrow">                    ↓  47 кандидатов детектора (45/47 FDR post-hoc)</span>
  ┌─────────────────────────────────────────┐
  │  <span class="arch-box-title">✍️  АВТОР</span>                               │
  │  paper/  ·  presentation/  ·  figures/  │
@@ -2617,7 +2617,7 @@
       <div class="history-item history-item--technical">
         <div class="history-dot">10</div>
         <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Обнаружение 47 глобальных серий</div>
+        <div class="history-title">47 кандидатов детектора (null-интерпретация)</div>
         <div class="history-desc">Первичный анализ (<code>scripts/run_full_historical_analysis.py</code>): 47 серий в трёх эпохах — 27 современных, 15 ранних инструментальных, 5 исторических кандидатов. Результаты в <code>results/clusters.json</code> и <code>results/fdr_correction_results.csv</code>.</div>
       </div>
 

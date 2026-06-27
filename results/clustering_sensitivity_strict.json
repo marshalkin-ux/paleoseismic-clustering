@@ -1,0 +1,38 @@
+{
+  "modern_window_1973_2026": {
+    "n_events": 2041,
+    "n_obs_baseline": 27
+  },
+  "sensitivity_note": "Post-filter on modern detector output (time_window=2 yr, same algorithm as ETAS validation). All 27 episodes already satisfy tighter thresholds — modest min_events/min_regions tightening does not reduce N_obs.",
+  "configs": [
+    {
+      "label": "baseline",
+      "min_events": 4,
+      "min_regions": 3,
+      "time_window_years": 2.0,
+      "n_series_modern": 27
+    },
+    {
+      "label": "strict",
+      "min_events": 5,
+      "min_regions": 4,
+      "time_window_years": 2.0,
+      "n_series_modern": 27
+    },
+    {
+      "label": "stricter",
+      "min_events": 6,
+      "min_regions": 5,
+      "time_window_years": 2.0,
+      "n_series_modern": 27
+    },
+    {
+      "label": "very_strict",
+      "min_events": 8,
+      "min_regions": 6,
+      "time_window_years": 2.0,
+      "n_series_modern": 27
+    }
+  ],
+  "interpretation": "Liberal detection arises from exploratory sliding-window search (142 candidates) and merge, not from small-N episodes. FDR on N=47 does not correct the full search space."
+}

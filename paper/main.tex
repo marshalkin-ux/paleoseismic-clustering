@@ -28,69 +28,35 @@
 
 %% =====================================================================
 \begin{abstract}
-We present a systematic analysis of global seismic series in a four-millennium
-\textbf{4{,}267 unique $M \ge 6.5$ event} catalog (4{,}418 CSV rows; ${\sim}151$
-sub-threshold NOAA rows excluded from clustering). \textbf{Significance claims
-focus on the modern instrumental window (1973--2026, 2{,}041 events) and early
-instrumental period (1900--1972, 2{,}179 events);} 47 pre-1900 records are
-retained for context but not used for epoch-level significance.
-Using the nearest-neighbor metric of \citet{Baiesi2004}, extended with
-a tectonic-path distance derived from the \citet{Bird2003} plate-boundary
-graph, we identify 47 global seismic series in three temporal windows:
-27 in the modern period (1973--2026, $p = 0.0001$ (1/10{,}001 permutations)\footnote{Discrete
-permutation test ($n=10{,}000$): $p = (k+1)/(n+1)$ with $k=0$ null replicates
-at least as extreme as observed.},
-$z = -6.17$),
-15 in the early instrumental period (1900--1972, $p = 0.007$, $z = -2.43$),
-and 5 historical episodes (pre-1900).
-Significance is assessed by a three-level statistical framework:
-(i)~a permutation test ($n = 10{,}000$ surrogates) against a
-spatially inhomogeneous Poisson null model;
-(ii)~an Epidemic-Type Aftershock Sequence (ETAS) validation using
-1000 synthetic catalogs calibrated to the observed $b$-value and
-magnitude distribution, providing a null model that explicitly
-reproduces local aftershock clustering without long-range coupling;
-and (iii)~the Benjamini--Hochberg false discovery rate (FDR) correction
-\citep{BenjaminiHochberg1995} at $q = 0.05$ applied to $N = 47$ merged
-series $p$-values (142 window candidates before merge).
-ETAS null-model validation (1000 synthetic catalogs without long-range
-links $>500$~km) on the modern window ($N_\mathrm{obs}=27$ series) uses
-\textbf{catalog-calibrated} parameters from \texttt{scripts/calibrate\_etas.py}
-(GK declustering + Omori MLE on 2041 modern events):
-$\mu \approx 0.103$~day$^{-1}$, $K \approx 0.495$, $\alpha \approx 0.063$,
-$c \approx 10^{-4}$~day, $p \approx 1.36$.
-FPR~=~1000/1000; mean~=~27.0; $p_\mathrm{ETAS} = 1.0$ --- observed count
-\textbf{indistinguishable} from the calibrated local-aftershock null.
-Literature defaults ($\mu = 0.008$, $K = 0.08$) yield mean~$\approx 15.4$,
-$p_\mathrm{ETAS} \le 0.001$ --- \textbf{comparison only}, not primary inference.
-After Benjamini--Hochberg FDR correction ($q = 0.05$), 45 of 47 series
-remain significant ($q$-values spanning $[9.7 \times 10^{-5},\, 0.047]$).
-Background seismicity is isolated using Gardner--Knopoff declustering
-as the \textbf{primary} pre-processing step (\texttt{pipeline\_v2.py});
-Zaliapin--Ben-Zion declustering is a \textbf{sensitivity check only},
-not a sequential filter.
-The largest series by event count is 1905--1910 (193 events, 43 regions,
-$M_\mathrm{max}=8.8$); the most spatially extensive is S170 (46 events,
-12 Flinn--Engdahl regions, 2002--2023, $M_\mathrm{max}=9.1$),
-which includes the 2004 Indian~Ocean earthquake.
-Series detection is a \textbf{statistical anomaly} ($\eta$ links,
-$p$-values); causal mechanism is not established.
-These results have implications for probabilistic seismic hazard assessment
-and for models of stress interaction at tectonic plate boundaries.
+We test the hypothesis of physically meaningful multi-regional \textbf{global seismic series}
+in a catalog of \textbf{4{,}267 unique $M \ge 6.5$ events} (4{,}418 CSV rows).
+\textbf{Primary result --- negative (null/falsification):} on the modern window
+(1973--2026, 2{,}041 events), catalog-calibrated ETAS without long-range links
+($>500$~km) reproduces $N_\mathrm{obs}=27$ detector episodes
+(mean~$= 27.0$, $p_\mathrm{ETAS} = 1.0$, FPR~$= 1000/1000$, $n=1000$) ---
+\textbf{no excess ``global'' structure beyond ETAS-like local clustering}.
+A permutation test ($n = 10{,}000$) rejects a \textbf{global temporal Poisson null}
+($p = 0.0001$, 1/10{,}001 permutations\footnote{Discrete permutation test:
+$p = (k+1)/(n+1)$, $k=0$.}, $z = -6.17$) --- expected with aftershocks/local
+clustering; \textbf{not} a test of teleseismic/multi-regional series and
+\textbf{not} evidence for remote triggering.
+The detector yields \textbf{47 algorithmic candidates} (142 windows before merge;
+27 modern); Benjamini--Hochberg FDR (45/47 at $q=0.05$) \textbf{does not}
+correct the full search space.
+Tectonic-path distance is \textbf{not validated} (98\% 1.5$\times$ GC fallback,
+$\sim$2\% Dijkstra). $\Delta$CFS/dynamic stress --- future work only;
+``series'' are algorithmic constructs, not proven triggering chains.
 \end{abstract}
 
 \begin{keypoints}
-  \item A unified catalog of \textbf{4{,}267 unique $M \ge 6.5$ events}
-        (4{,}418 CSV rows; ${\sim}151$ sub-threshold rows excluded from analysis)
-        yields 47 global seismic series validated by a three-level statistical framework:
-        permutation test, ETAS-null validation, and Benjamini--Hochberg FDR correction.
-  \item Modern period (1973--2026): $p \le 0.0001$ ($z = -6.17$); early instrumental
-        (1900--1972): $p = 0.007$ ($z = -2.43$); both survive FDR correction at $q = 0.05$
-        and are incompatible with a Poissonian or ETAS null model without long-range coupling.
-  \item The largest series (1905--1910: 193 events, 43 regions, $M_\mathrm{max}=8.8$) and
-        most spatially extensive (S170: 12 regions, 18{,}100~km, $M_\mathrm{max}=9.1$,
-        2002--2023) indicate distinct clustering regimes driven by mechanisms beyond local
-        aftershock propagation.
+  \item Catalog-calibrated ETAS: $N_\mathrm{obs}=27$, mean~$= 27.0$,
+        $p_\mathrm{ETAS}=1.0$ --- \textbf{no evidence for excess global structure}
+        beyond local ETAS-like clustering (null/falsification result).
+  \item Permutation test $p = 0.0001$ (1/10{,}001) rejects \textbf{temporal Poisson}
+        null only --- \textbf{not} proof of multi-regional global series.
+  \item 47 detector candidates (45/47 FDR post-hoc) are indistinguishable from
+        ETAS null plus liberal search artifacts; tectonic distance failed as a
+        global metric (98\% GC fallback).
 \end{keypoints}
 
 %% =====================================================================
@@ -679,28 +645,19 @@ Japan, Tonga) and the Indonesian arc.
 \subsection{Interpretation of Detected Sequences}
 \label{subsec:sequences_found}
 
-\paragraph{Statistical anomaly (established).}
-Where the Monte~Carlo permutation test returns $p < 0.01$ after the
-Benjamini--Hochberg false discovery rate (FDR) correction
-\citep{BenjaminiHochberg1995}, the identified sequences represent
-statistically robust departures from a spatially inhomogeneous Poisson
-null model.
-The ETAS validation provides an independent test:
-because $p_\mathrm{ETAS} \le 0.001$ with $N_\mathrm{obs}=27$ exceeding
-the ETAS null maximum (24) across 1000 replicates (seed~=~42),
-the observed multi-regional series count cannot be explained by standard
-aftershock branching alone within 500~km.
-This is a conclusion about \textbf{$\eta$ links and $p$-values}, not
-causality.
+\paragraph{Null-model reconciliation (permutation vs ETAS).}
+The permutation test rejects a \textbf{global temporal Poisson null}
+($p = 0.0001$, 1/10{,}001); the ETAS test does \textbf{not} reject
+($p_\mathrm{ETAS} = 1.0$, mean~$= 27.0$, $N_\mathrm{obs}=27$).
+These test \textbf{different hypotheses}: non-Poissonian event times vs.\
+excess series count beyond locally clustered synthetic catalogs.
+Rejecting Poisson \textbf{$\neq$} evidence for teleseismic/global triggering.
 
 \paragraph{Physical mechanism (not established).}
-The $\eta$ metric is correlative; hypocentral depth and focal mechanisms
-are not incorporated in the primary analysis.
-Preliminary Coulomb/dynamic stress tests for S170 did not reach triggering
-thresholds (see repository supplement).
-\textbf{Series detection does not imply direct triggering;} co-occurrence
-may reflect shared tectonic loading, mantle coupling, or catalog
-incompleteness artifacts.
+The $\eta$ metric is correlative; \textbf{no physical mechanism} explains
+remote links in detector candidates. Preliminary Coulomb/dynamic stress tests
+for S170 did not reach triggering thresholds --- \textbf{future work only}.
+Candidates are \textbf{algorithmic constructs}, not proven triggering chains.
 
 \subsection{Working Hypotheses (Not Claims)}
 \label{subsec:hypotheses}
@@ -974,37 +931,18 @@ The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
 \label{sec:conclusions}
 
 \begin{enumerate}
-  \item Full historical analysis (4{,}267 events $M \ge 6.5$; 4{,}418 CSV
-        records; BCE--2026) identifies
-        47 global seismic series in three temporal windows: 27 in the modern
-        period (1973--2026), 15 in the early instrumental period (1900--1972),
-        and 5 historical episodes (pre-1900).
-  \item The Monte~Carlo permutation test ($n_\mathrm{sim} = 10\,000$) yields
-        $p \le 0.0001$ ($z = -6.17$) for the modern period and $p = 0.007$
-        ($z = -2.43$) for the early instrumental period, both incompatible
-        with a Poissonian null hypothesis.
-  \item ETAS validation (1000 synthetic catalogs without long-range coupling)
-        yields $p_\mathrm{ETAS} \le 0.001$ (FPR~=~1000/1000; $N_\mathrm{obs}=27$); together with
-        Benjamini--Hochberg FDR correction ($q = 0.05$, $N=47$, 45/47 series
-        significant), this confirms that detected series are not artefacts
-        of randomness or local aftershock structure.
-  \item Tectonic-path distance: 2.0\% of 4987 audited pairs use Dijkstra,
-        98.0\% the 1.5$\times$ GC fallback (500 events sampled;
-        \texttt{scripts/analyze\_tectonic\_fallback.py}); median $\Delta\log_{10}\eta = +0.28$.
-  \item The largest series by event count is 1905--1910 (193 events,
-        43 regions, $M_\mathrm{max}=8.8$); the most spatially extensive
-        modern chain is S170 (46 events, 12 regions, 2002--2023,
-        $M_\mathrm{max}=9.1$), encompassing the 2004 Indian Ocean
-        earthquake and a decade-long activation of the Circum-Pacific belt.
-  \item Given current evidence, two interpretive paths remain open
-        (statistics vs.\ mechanism):
-        \textbf{(a)}~if $\eta$ links reflect genuine spatiotemporal structure,
-        hazard models may need long-range ETAS kernels (without claiming
-        direct triggering);
-        \textbf{(b)}~if episodes prove artifactual, the FDR~+~ETAS framework
-        remains a reproducible null-testing pipeline.
-        \textbf{Series detection does not imply direct triggering;}
-        co-occurrence may reflect shared tectonic loading or mantle coupling.
+  \item The permutation test rejects a global temporal Poisson null
+        ($p = 0.0001$, 1/10{,}001; $z = -6.17$) --- expected with
+        aftershocks/local clustering; \textbf{not} a test of multi-regional
+        global series.
+  \item Catalog-calibrated ETAS reproduces $N_\mathrm{obs}=27$
+        (mean~$= 27.0$, $p_\mathrm{ETAS} = 1.0$, FPR~$= 1000/1000$) ---
+        \textbf{no excess global structure} beyond ETAS-like local clustering;
+        the multi-regional global-series hypothesis is \textbf{falsified}.
+  \item 47 detector candidates (45/47 FDR post-hoc) are indistinguishable
+        from ETAS null plus liberal search artifacts; tectonic distance is
+        not validated (98\% GC fallback); $\Delta$CFS/dynamic stress ---
+        future work only.
 \end{enumerate}
 
 \acknowledgments

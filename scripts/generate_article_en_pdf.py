@@ -199,14 +199,11 @@ def build(s):
         "We analyse a merged catalog of <b>4,267 unique M\u22656.5 events</b> "
         "(from 4,418 CSV rows; ~151 NOAA M&lt;6.5 excluded from clustering; 47 historical NOAA records pre-1900) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
-        "47 global seismic series are identified (27 modern, 15 early, 5 historical candidates). "
-        "Significance: permutation test (n=10,000, p=0.0001 (1/10,001), z=-6.17); ETAS validation "
-        "(n=1000 catalogs, FPR=1000/1000; catalog-calibrated null: mean 27.0, p_ETAS=1.0; "
-        "literature defaults \u03bc=0.008: mean 15.4, p\u22640.001; N_obs=27); "
-        "FDR (45/47 at q=0.05, N=47). "
-        "<b>statistical anomaly</b>, not proof of causal triggering. "
-        "Largest series: 1905\u20131910 (193 events, 43 regions); "
-        "most extensive modern: S170 (46 events, 12 regions, Mmax=9.1).",
+        "Primary result — <b>negative (null/falsification)</b>: catalog-calibrated ETAS "
+        "reproduces N_obs=27 (mean 27.0, p_ETAS=1.0, FPR=1000/1000). Permutation "
+        "p=0.0001 (1/10,001) rejects temporal Poisson null only — not teleseismic "
+        "triggering. 47 <b>detector candidates</b> (45/47 FDR post-hoc); "
+        "no evidence for physical multi-regional global series.",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -419,19 +416,12 @@ def build(s):
         s["body"]
     ))
     for num, text in [
-        ("1.", "4,267 M\u22656.5 events (4,418 CSV records) contain 47 global series; "
-               "27 modern significant at p \u2264 0.0001."),
-        ("2.", "ETAS validation (1000 catalogs; FPR=1000/1000; calibrated null: "
-               "mean=27.0, p_ETAS=1.0) and FDR (45/47, N=47) — permutation test "
-               "supports structure; calibrated ETAS is not rejected."),
-        ("3.", "Largest series: 1905\u20131910 (193 events, 43 regions, M<sub>max</sub>=8.8); "
-               "most spatially extensive modern: S170 (46 events, 12 regions, "
-               "2002\u20132023, M<sub>max</sub>=9.1)."),
-        ("4.", "Tectonic path: 2.0% Dijkstra / 98.0% GC fallback (4987 pairs); "
-               "median \u0394log\u2081\u2080\u03b7 = +0.28."),
-        ("5.", "<b>Interpretive fork:</b> (a) if \u03b7 links are real \u2014 hazard "
-               "implications without claiming direct triggering; (b) if artifacts \u2014 "
-               "FDR+ETAS remains reproducible null-test."),
+        ("1.", "Permutation test p=0.0001 (1/10,001) rejects temporal Poisson null — "
+               "not a test of multi-regional global series."),
+        ("2.", "ETAS: mean=27.0, p_ETAS=1.0, N_obs=27 — multi-regional global-series "
+               "hypothesis <b>falsified</b> (null contribution)."),
+        ("3.", "47 detector candidates indistinguishable from ETAS null; 98% GC "
+               "tectonic fallback; \u0394CFS/dynamic stress — future work only."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
         story.append(Spacer(1, 0.1 * cm))
