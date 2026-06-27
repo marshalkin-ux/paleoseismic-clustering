@@ -671,6 +671,64 @@
       color: var(--text);
       margin-bottom: 2px;
     }
+    .findings-plain {
+      max-width: 42rem;
+      margin: 0 auto 2.5rem;
+      padding: 1.75rem 2rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(13, 17, 23, 0.45);
+    }
+    .findings-plain-subtitle {
+      color: var(--accent);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0 0 0.85rem;
+      letter-spacing: 0.01em;
+    }
+    .findings-plain-lead {
+      color: var(--text-dim);
+      font-size: 0.98rem;
+      line-height: 1.8;
+      margin: 0 0 1.5rem;
+    }
+    .findings-plain-step {
+      margin-bottom: 1.35rem;
+    }
+    .findings-plain-step:last-child {
+      margin-bottom: 0;
+    }
+    .findings-plain-step h4 {
+      color: #e6edf3;
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin: 0 0 0.45rem;
+    }
+    .findings-plain-step p {
+      color: var(--text-dim);
+      font-size: 0.93rem;
+      line-height: 1.78;
+      margin: 0;
+    }
+    .findings-plain-step p + p {
+      margin-top: 0.55rem;
+    }
+    .findings-plain-footnote {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+    }
+    .findings-plain-conclusion {
+      margin-top: 1.25rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--border);
+    }
+    .findings-plain-conclusion p {
+      color: #e6edf3;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      margin: 0;
+    }
 
     /* ===== METHOD SECTION ===== */
     #method { background: #0a0e14; }
@@ -1915,6 +1973,79 @@
       <span class="section-tag">04 · Результаты</span>
       <h2>Итог: null-результат</h2>
       <p>ETAS-validated falsification гипотезы о физических «глобальных сериях»</p>
+    </div>
+
+    <div class="findings-plain fade-in">
+      <h3 class="findings-plain-subtitle">Итоги для чайников</h3>
+      <p class="findings-plain-lead">
+        Коротко и по шагам: какой вопрос мы задали, что увидели в данных, почему первое впечатление
+        обмануло — и чему на самом деле учит отрицательный результат.
+      </p>
+
+      <div class="findings-plain-step">
+        <h4>1. С чего начали</h4>
+        <p>
+          Вопрос простой и строгий: крупные землетрясения M≥6,5 по всей планете иногда
+          «собираются» в эпизоды плотнее, чем если бы события были независимыми?
+          После катастрофы у Суматры в 2004&nbsp;г. (M9,1) сейсмографы отметили всплеск активности
+          и в далёких регионах — интуиция подсказывает общую связь. Но одна заметная цепочка
+          в календаре ещё не доказывает глобальный закон: нужна проверка на фоне случайности
+          и локальных афтершоков.
+        </p>
+      </div>
+
+      <div class="findings-plain-step">
+        <h4>2. Что сделали</h4>
+        <p>
+          Объединили инструментальные и исторические каталоги: <strong>4267</strong> событий M≥6,5
+          для анализа. Алгоритм ищет группы событий, близких по времени и пространству
+          (метрика Baiesi–Paczuski, принятая в сейсмологии), и сравнивает результат с двумя
+          стандартными нулевыми моделями — перестановкой времён и синтетическими каталогами ETAS.
+        </p>
+        <p class="findings-plain-footnote">
+          В сыром CSV — 4418 строк; 151 запись NOAA с M&lt;6,5 исключены из кластеризации.
+        </p>
+      </div>
+
+      <div class="findings-plain-step">
+        <h4>3. «Ложное открытие»</h4>
+        <p>
+          На первый взгляд казалось, что «серии найдены»: детектор выдал <strong>47</strong> кандидатов
+          после объединения окон (<strong>27</strong> на современном окне 1973–2026).
+          Это выход алгоритма — список мест, где события выглядят необычно близко по η-метрике, —
+          а не доказательство, что одно землетрясение физически «толкнуло» другое через океан.
+        </p>
+      </div>
+
+      <div class="findings-plain-step">
+        <h4>4. Опровержение</h4>
+        <p>
+          Калиброванные синтетические каталоги ETAS (локальная кластеризация и афтершоки «как в жизни»)
+          дают в среднем те же <strong>~27</strong> групп; p<sub>ETAS</sub>=&nbsp;<strong>1,0</strong> —
+          наблюдаемое число неотличимо от такого фона.
+          Перестановочный тест (p&nbsp;=&nbsp;0,0001) отвергает лишь модель случайных пуассоновских
+          <em>времён</em> — ожидаемо для любого реального каталога с афтершоками.
+          Дополнительной глобальной структуры сверх локальной кластеризации данные не показывают.
+        </p>
+      </div>
+
+      <div class="findings-plain-step">
+        <h4>5. Почему это наука, а не провал</h4>
+        <p>
+          Отрицательный (null) результат — это фальсификация гипотезы: мы её сформулировали,
+          проверили и не подтвердили. Пайплайн воспроизводим — открытый код, фиксированные seeds,
+          JSON с числами в репозитории. Использованы те же инструменты, что и в сообществе:
+          ETAS, Monte Carlo, объединённые каталоги — не «своя математика ради красивой картинки».
+        </p>
+      </div>
+
+      <div class="findings-plain-step findings-plain-conclusion">
+        <h4>6. Честный вывод одной фразой</h4>
+        <p>
+          Данные согласуются с локальной кластеризацией и структурой каталога, а не с доказанными
+          телесейсмическими «глобальными цепочками» через весь мир.
+        </p>
+      </div>
     </div>
 
     <!-- Подробное резюме: проблематика / находки / выводы / рамки -->
