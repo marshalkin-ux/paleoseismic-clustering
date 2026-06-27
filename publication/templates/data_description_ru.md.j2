@@ -1,0 +1,23 @@
+# Описание данных — {{ metadata.title_ru }}
+
+**Автор:** {% for a in metadata.authors %}{{ a.name_ru or a.name_en }}{% if not loop.last %}; {% endif %}{% endfor %}  
+**Дата:** {{ metadata.publication_date }}  
+**Репозиторий:** {{ metadata.github_url }}
+
+## Аннотация
+
+{{ metadata.abstract_ru }}
+
+## Файлы
+
+{% for name, path in metadata.files.items() %}
+- **{{ name }}**: `{{ path }}`
+{% endfor %}
+
+## Ключевые слова
+
+{% for kw in metadata.keywords_ru %}{{ kw }}{% if not loop.last %}; {% endif %}{% endfor %}
+
+## Цитирование
+
+Маршалкин, Я. ({{ metadata.publication_date[:4] }}). {{ metadata.title_ru }}. DOI: {{ metadata.doi or 'ожидается' }}.

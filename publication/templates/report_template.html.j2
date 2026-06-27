@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Publication Report — {{ metadata.title_en[:60] }}</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.4rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+    th { background: #f5f5f5; }
+    .doi { font-family: monospace; color: #0366d6; }
+    .pending { color: #888; }
+  </style>
+</head>
+<body>
+  <h1>Publication Automation Report</h1>
+  <p><small>Generated: {{ generated_at }}</small></p>
+
+  <h2>Metadata</h2>
+  <p><strong>Title (EN):</strong> {{ metadata.title_en }}</p>
+  <p><strong>Title (RU):</strong> {{ metadata.title_ru }}</p>
+  <p><strong>DOI:</strong> <span class="doi">{{ metadata.doi or 'pending' }}</span></p>
+  <p><strong>GitHub:</strong> <a href="{{ metadata.github_url }}">{{ metadata.github_url }}</a></p>
+
+  <h2>Platform Status</h2>
+  <table>
+    <thead><tr><th>Platform</th><th>Status</th><th>Identifier</th></tr></thead>
+    <tbody>
+      <tr><td>Zenodo</td><td>{{ platforms.get('zenodo', {}).get('status', '—') }}</td><td class="doi">{{ metadata.doi or '—' }}</td></tr>
+      <tr><td>Figshare</td><td>{{ platforms.get('figshare', {}).get('status', '—') }}</td><td>{{ metadata.figshare_doi or '—' }}</td></tr>
+      <tr><td>arXiv</td><td>{{ platforms.get('arxiv', {}).get('status', '—') }}</td><td>{{ metadata.arxiv_id or '—' }}</td></tr>
+      <tr><td>OSF</td><td>{{ platforms.get('osf', {}).get('status', '—') }}</td><td>{{ metadata.osf_url or '—' }}</td></tr>
+      <tr><td>EarthArXiv</td><td>—</td><td>{{ metadata.eartharxiv_url or '—' }}</td></tr>
+      <tr><td>PANGAEA</td><td>{{ platforms.get('pangaea', {}).get('status', '—') }}</td><td>{{ metadata.pangaea_doi or '—' }}</td></tr>
+      <tr><td>GFZ</td><td>{{ platforms.get('gfz', {}).get('status', '—') }}</td><td>{{ metadata.gfz_doi or '—' }}</td></tr>
+      <tr><td>Dryad</td><td>{{ platforms.get('dryad', {}).get('status', '—') }}</td><td>{{ metadata.dryad_doi or '—' }}</td></tr>
+      <tr><td>ResearchGate</td><td>{{ metadata.researchgate_status }}</td><td>—</td></tr>
+      <tr><td>Academia.edu</td><td>{{ metadata.academia_status }}</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Files Manifest</h2>
+  <ul>
+  {% for name, path in metadata.files.items() %}
+    <li><code>{{ name }}</code> — {{ path }}</li>
+  {% endfor %}
+  </ul>
+</body>
+</html>

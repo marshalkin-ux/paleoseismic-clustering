@@ -1,0 +1,71 @@
+# Platform execution order and dependencies
+# Orchestrator: init -> zenodo -> parallel(figshare, osf, pangaea, gfz, dryad) -> arxiv -> social -> report
+
+platforms:
+  - id: zenodo
+    name: Zenodo
+    order: 1
+    enabled: true
+    requires: []
+    provides: [doi]
+
+  - id: figshare
+    name: Figshare
+    order: 2
+    enabled: true
+    requires: [zenodo]
+    parallel: true
+
+  - id: osf
+    name: OSF / EarthArXiv
+    order: 2
+    enabled: true
+    requires: []
+    parallel: true
+
+  - id: pangaea
+    name: PANGAEA
+    order: 2
+    enabled: true
+    requires: []
+    parallel: true
+    moderation: true
+
+  - id: gfz
+    name: GFZ Data Services
+    order: 2
+    enabled: true
+    requires: []
+    parallel: true
+    moderation: true
+
+  - id: dryad
+    name: Dryad
+    order: 2
+    enabled: true
+    requires: []
+    parallel: true
+    moderation: true
+
+  - id: arxiv
+    name: arXiv
+    order: 3
+    enabled: true
+    requires: [zenodo]
+    manual_notes:
+      - First-time submitters need an endorser
+
+  - id: social
+    name: ResearchGate / Academia.edu
+    order: 4
+    enabled: true
+    requires: [zenodo]
+    manual_notes:
+      - Selenium browser automation
+      - Manual CAPTCHA and login required
+
+  - id: github
+    name: GitHub README DOI stub
+    order: 5
+    enabled: true
+    requires: [zenodo]

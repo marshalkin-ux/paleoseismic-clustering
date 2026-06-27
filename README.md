@@ -42,6 +42,18 @@
 
 ---
 
+## Публикация и депонирование
+
+Автоматизация выкладки статьи и данных на Zenodo, Figshare, arXiv, OSF и др.: см. **[publication/README.md](publication/README.md)**.
+
+```bash
+pip install -r publication/requirements.txt
+python publication/main.py --prepare-only
+python publication/main.py --dry-run
+```
+
+---
+
 ## Быстрый старт
 
 ```bash

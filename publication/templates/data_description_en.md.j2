@@ -1,0 +1,23 @@
+# Data Description — {{ metadata.title_en }}
+
+**Author:** {% for a in metadata.authors %}{{ a.name_en }}{% if not loop.last %}; {% endif %}{% endfor %}  
+**Date:** {{ metadata.publication_date }}  
+**Repository:** {{ metadata.github_url }}
+
+## Abstract
+
+{{ metadata.abstract_en }}
+
+## Files
+
+{% for name, path in metadata.files.items() %}
+- **{{ name }}**: `{{ path }}`
+{% endfor %}
+
+## Keywords
+
+{% for kw in metadata.keywords_en %}{{ kw }}{% if not loop.last %}; {% endif %}{% endfor %}
+
+## Citation
+
+Marshalkin, Y. ({{ metadata.publication_date[:4] }}). {{ metadata.title_en }}. DOI: {{ metadata.doi or 'pending' }}.
