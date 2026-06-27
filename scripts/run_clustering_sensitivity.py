@@ -8,6 +8,7 @@ apply eta0 directly — see note in output JSON).
 Outputs:
     results/sensitivity_eta_windows_gc.json
     results/sensitivity_aftershock_removed.json  (GK mainshock-only subset)
+    results/sensitivity_b_eta0.json  (b in eta metric; eta0 documented)
 """
 
 from __future__ import annotations
@@ -28,6 +29,8 @@ from src.analysis.etas_validation import assign_fe_regions
 CATALOG = ROOT / "data" / "processed" / "unified_catalog_full.csv"
 OUT_MAIN = ROOT / "results" / "sensitivity_eta_windows_gc.json"
 OUT_AFTERSHOCK = ROOT / "results" / "sensitivity_aftershock_removed.json"
+OUT_B_ETA0 = ROOT / "results" / "sensitivity_b_eta0.json"
+B_CATALOG = 0.911
 ETA_META = ROOT / "results" / "eta_threshold_meta.json"
 
 BASELINE_WINDOW = 2.0
@@ -47,8 +50,9 @@ def _count_series(
     time_window_years: float = BASELINE_WINDOW,
     min_mean_gc_km: float = DEFAULT_MIN_MEAN_GC_KM,
     min_events: int = BASELINE_MIN_EVENTS,
+    b_param: float = 1.0,
 ) -> int:
-    analyzer = SeismicClusterAnalyzer()
+    analyzer = SeismicClusterAnalyzer(b_param=b_param)
     series = analyzer.global_series(
         df,
         time_window_years=time_window_years,
@@ -56,6 +60,22 @@ def _count_series(
         min_mean_gc_km=min_mean_gc_km,
     )
     return len(series)
+
+
+def run_b_sensitivity(df: pd.DataFrame) -> list[dict]:
+    rows = []
+    for b_val, label in ((1.0, "default_bp2004"), (B_CATALOG, "catalog_mle_0.911")):
+        rows.append({
+            "parameter": "b_param_eta",
+            "value": b_val,
+            "label": label,
+            "time_window_years": BASELINE_WINDOW,
+            "min_mean_gc_km": DEFAULT_MIN_MEAN_GC_KM,
+            "min_events": BASELINE_MIN_EVENTS,
+            "n_series": _count_series(df, b_param=b_val),
+            "baseline": b_val == 1.0,
+        })
+    return rows
 
 
 def _gk_mainshocks(df: pd.DataFrame) -> pd.DataFrame:
@@ -141,6 +161,7 @@ def main() -> None:
     gc_rows = run_gc_sensitivity(df)
     window_rows = run_window_sensitivity(df)
     aftershock = run_aftershock_removed(df)
+    b_rows = run_b_sensitivity(df)
 
     out = {
         "catalog": "modern_1973_2026_M65",
@@ -174,18 +195,48 @@ def main() -> None:
         "script": "scripts/run_clustering_sensitivity.py",
     }
 
+    b_eta0_out = {
+        "catalog": "modern_1973_2026_M65",
+        "n_events": len(df),
+        "baseline_gates": {
+            "time_window_years": BASELINE_WINDOW,
+            "min_mean_gc_km": DEFAULT_MIN_MEAN_GC_KM,
+            "min_events": BASELINE_MIN_EVENTS,
+        },
+        "b_param_sensitivity": b_rows,
+        "eta0_sensitivity": {
+            "eta0_kde_valley_default": eta0,
+            "plus_20pct": eta0 * 1.2,
+            "minus_20pct": eta0 * 0.8,
+            "n_series_at_default_eta0": "not_applied",
+            "n_series_at_plus_20pct": "not_applied",
+            "n_series_at_minus_20pct": "not_applied",
+            "note": (
+                "global_series() does not apply eta0 filtering; eta0 ±20% would "
+                "affect upstream identify_clusters() only — not re-run here."
+            ),
+        },
+        "window_sensitivity_ref": "results/sensitivity_eta_windows_gc.json",
+        "script": "scripts/run_clustering_sensitivity.py",
+    }
+
     OUT_MAIN.parent.mkdir(parents=True, exist_ok=True)
     with open(OUT_MAIN, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2, ensure_ascii=False)
     with open(OUT_AFTERSHOCK, "w", encoding="utf-8") as f:
         json.dump(aftershock, f, indent=2, ensure_ascii=False)
+    with open(OUT_B_ETA0, "w", encoding="utf-8") as f:
+        json.dump(b_eta0_out, f, indent=2, ensure_ascii=False)
 
     print(f"Baseline N_series (GC>{DEFAULT_MIN_MEAN_GC_KM:.0f} km, 2 yr): {out['baseline']['n_series']}")
     for row in gc_rows:
         print(f"  GC {row['value']} km -> N={row['n_series']}")
+    for row in b_rows:
+        print(f"  b={row['value']} ({row['label']}) -> N={row['n_series']}")
     print(f"GK mainshocks only: N={aftershock['n_series_gk_mainshocks_only']} (full={aftershock['n_series_full_catalog']})")
     print(f"Saved {OUT_MAIN}")
     print(f"Saved {OUT_AFTERSHOCK}")
+    print(f"Saved {OUT_B_ETA0}")
 
 
 if __name__ == "__main__":

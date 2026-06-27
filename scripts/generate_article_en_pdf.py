@@ -328,8 +328,10 @@ def build(s):
     story.append(Paragraph(
         "<b>Why GK\u2013ZBZ counts differ:</b> not contradictory methods \u2014 GK removes "
         "short-range fore/aftershocks via fixed windows; ZBZ classifies only 1 event with "
-        "exceptionally low \u03b7 at global catalog scale. Minimal ZBZ removal confirms "
-        "declustering is not a critical fork.",
+        "exceptionally low \u03b7 at global catalog scale. Under fixed gates GK/ZBZ/none "
+        "all yield N=27 (sensitivity_declustering.json); different mainshock labels "
+        "(24 vs 1) could matter for cluster analysis and ETAS WLS \u2014 does not prove "
+        "declustering immaterial.",
         s["body"]
     ))
 

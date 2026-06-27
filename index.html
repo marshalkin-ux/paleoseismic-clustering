@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Глобальные сейсмические серии: M≥6.5 за 1973–2026 | Ярослав Маршалкин</title>
-  <meta name="description" content="Null result: primary literature ETAS p≤0.001 (local clustering); secondary WLS p=1.0 (detector coupling). 47 detector candidates — no evidence for physical global series.">
+  <meta name="description" content="Null result: primary literature ETAS p≤0.001 (local clustering); WLS negative control p=1.0 (coupling artifact). Declustering GK/ZBZ/none N=27. No evidence for physical global series.">
   <meta name="keywords" content="глобальные сейсмические серии, earthquake clustering, seismic triggering, дальнодействующий триггеринг, Baiesi-Paczuski, тектоническое расстояние, ETAS validation, FDR Benjamini-Hochberg, Monte Carlo, paleoseismic, землетрясения M6.5">
   <meta name="author" content="Ярослав Маршалкин">
   <link rel="canonical" href="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
@@ -1577,7 +1577,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern). <strong>Первичная ETAS-null</strong> (лит. H&amp;S 2003): mean≈15,4, p<sub>ETAS</sub>≤0,001 — локальная кластеризация, не телесейсмика (§5.4). <strong>Негативный контроль</strong> WLS: mean=27,0, p<sub>ETAS</sub>=1,0 — артефакт связки «детектор+калибровка». GK vs ZBZ vs none: <strong>N=27</strong>. Тектоническая метрика удалена из первичного конвейера. Гипотеза не подтверждается.
+      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern). <strong>Первичная ETAS-null</strong> (лит. H&amp;S 2003): mean≈15,4, p<sub>ETAS</sub>≤0,001 — локальная кластеризация, не телесейсмика (§5.4). <strong>Негативный контроль</strong> WLS: mean=27,0, p<sub>ETAS</sub>=1,0 — артефакт связки «детектор+калибровка»; <strong>не</strong> фальсификация. GK/ZBZ/none: <strong>N=27</strong> при фикс. воротах; 24 vs 1 удалённых — разные главные толчки. Тектоническая метрика удалена из первичного конвейера. Гипотеза не подтверждается.
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -1978,7 +1978,7 @@
           </table>
         </div>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">Dual-null:</strong> первичная лит. (p<sub>ETAS</sub>≤0,001) тестирует локальную афтершоковую модель; вторичная WLS (p<sub>ETAS</sub>=1,0, mean=27,0=N<sub>obs</sub>) — диагностика связки детектор+калибровка (§5.4–5.6). Permutation p=0.0001 сохраняется.
+          <strong style="color:var(--accent);">Dual-null:</strong> первичная лит. (p<sub>ETAS</sub>≤0,001) тестирует локальную афтершоковую модель; <strong>негативный контроль</strong> WLS (p<sub>ETAS</sub>=1,0) — артефакт связки, <em>не</em> независимое доказательство фальсификации (§5.4–5.6). Permutation p=0.0001 сохраняется.
         </div>
       </div>
 
@@ -2091,7 +2091,7 @@
           Тот же класс η-метрик, но <strong>не основной метод</strong> — GK единственный primary в pipeline_v2 и калибровке ETAS.
         </p>
         <ul style="list-style:none; padding:0; font-size:0.88rem; color:var(--text-muted);">
-          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">GK: 2017 соб.; ZBZ: 2040; none: 2041 — при T<sub>w</sub>=2 yr, GC>1500 km все дают <strong>N=27</strong></li>
+          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">GK: 2017 соб.; ZBZ: 2040; none: 2041 — при T<sub>w</sub>=2 yr, GC>1500 km все дают <strong>N=27</strong> (стабильность при фикс. воротах; 24 vs 1 удалённых — разные главные толчки)</li>
           <li style="padding:4px 0;">Источник: <code>scripts/run_declustering_sensitivity.py</code> → <code>results/sensitivity_declustering.json</code></li>
         </ul>
       </div>
@@ -2301,7 +2301,7 @@
             <li><strong>4267</strong> событий M≥6.5; <strong>2041</strong> в окне 1973–2026</li>
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
             <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
-            <li><strong>ETAS dual-null:</strong> <strong>первичная</strong> лит. H&amp;S → mean <strong>15.4</strong>, p<sub>ETAS</sub>≤0.001 (локальное афтершоковое избыток; не телесейсмика); <strong>вторичная</strong> WLS → mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (связка); GK mainshocks N=27 без изменений (§5.4)</li>
+            <li><strong>ETAS dual-null:</strong> <strong>первичная</strong> лит. H&amp;S → mean <strong>15.4</strong>, p<sub>ETAS</sub>≤0.001 (локальное афтершоковое избыток; не телесейсмика); <strong>негативный контроль</strong> WLS → mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (артефакт связки); декластеризация GK/ZBZ/none → N=27 (§5.4)</li>
             <li><strong>Либеральность детектора (§5.6):</strong> 142 скользящих окна × merge — exploratory search</li>
             <li><strong>Чувствительность:</strong> GC 1000/1500/2000 км → N=27; окна 1/2/5/10 лет → 53/27/11/6 (<code>results/sensitivity_eta_windows_gc.json</code>)</li>
             <li><strong>Multiseed ETAS</strong> (seeds 42–51, n=1000/seed): mean=27.0, σ=0.0, FPR=1.0 (<code>results/etas_multiseed.json</code>)</li>
@@ -2366,7 +2366,7 @@
       <ul style="margin:0; padding-left:1.25rem; color:var(--text-muted); line-height:1.7;">
         <li><strong style="color:var(--text-dim);">Permutation:</strong> p=0.0001 (1/10,001) — отвергает пуассоновские <em>времена</em> (ожидаемо при афтершоках)</li>
         <li><strong style="color:var(--text-dim);">ETAS (первичная, лит.):</strong> p<sub>ETAS</sub>≤0,001, mean≈15,4 — N<sub>obs</sub> превышает локальное афтершоковое ожидание; не телесейсмика</li>
-        <li><strong style="color:var(--text-dim);">ETAS (вторичная, WLS):</strong> p<sub>ETAS</sub>=1,0, mean=27 — связка детектор+калибровка</li>
+        <li><strong style="color:var(--text-dim);">ETAS (негативный контроль, WLS):</strong> p<sub>ETAS</sub>=1,0 — артефакт связки; не цитировать как фальсификацию</li>
         <li><strong style="color:var(--text-dim);">Вывод:</strong> гипотеза глобальных серий не подтверждается; permutation отвергает лишь Poisson-null</li>
       </ul>
     </div>

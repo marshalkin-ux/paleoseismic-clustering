@@ -218,7 +218,7 @@ Raw catalogs (USGS / ISC / NOAA)
 | Scale sensitivity | Designed for regional catalogs; flags short-range fore/aftershocks within windows | At global M≥6.5 scale, events are sparse → most η values are high → permissive |
 | Dependent events | **24** (2,017 mainshocks) | **1** (2,040 mainshocks) |
 
-GK applies conservative local window rules; ZBZ classifies only events with exceptionally low η to a predecessor. The 23-event gap reflects **algorithm and parameter choice**, not conflicting physics. **GK is primary for all inference** (pipeline, ETAS calibration, reported counts). **Quantitative sensitivity** (`scripts/run_declustering_sensitivity.py`, `results/sensitivity_declustering.json`): under fixed gates (2 yr, mean GC > 1500 km, N ≥ 4), **GK, ZBZ, and no declustering all yield N = 27** — declustering is not a critical methodological fork.
+GK applies conservative local window rules; ZBZ classifies only events with exceptionally low η to a predecessor. The 23-event gap reflects **algorithm and parameter choice**, not conflicting physics. **GK is primary for all inference** (pipeline, ETAS calibration, reported counts). **Quantitative sensitivity** (`scripts/run_declustering_sensitivity.py`, `results/sensitivity_declustering.json`): under fixed gates (2 yr, mean GC > 1500 km, N ≥ 4), **GK, ZBZ, and no declustering all yield N = 27**. Empirically N = 27 is **stable under three declustering choices** for our fixed detector gates; this **does not prove** declustering is immaterial in general — algorithms assign **different mainshock labels** (24 vs 1 removed) and could matter under other thresholds or for ETAS calibration (24 GK aftershocks used in WLS).
 
 **Declustering sensitivity (modern window, N_series):**
 
@@ -460,12 +460,13 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 
 - **Paleoseismic and historical data** (~1% of catalog; 47 NOAA records pre-1900, p = 0.46) — **not significant**; not used for significance claims (see §2).
 - **η parameters:** b = 1.0, df = 1.6 — BP (2004) convention (**deliberate simplification**); catalog b = 0.911 for Mc/completeness and MC null only — **not** in the η formula; Zaliapin (2008): D ≈ b — η, η₀, cluster shifts **not tested**.
-- **ETAS calibration:** minimal MLE, not full Ogata MLE; **K** may be overestimated (WLS, 24 aftershocks, K clipped at 5); bounds in `results/etas_calibration.json`; **μ** is GK-mainshock rate, not full-catalog rate.
+- **ETAS calibration:** WLS on 24 aftershocks is **invalid for inference**; K ≈ 0.495 vs literature ~0.08 indicates **fundamental calibration failure**; temporal MLE attempt: `results/etas_mle_calibration.json`; spatial Ogata MLE — `docs/future_work_etas_mle.md`.
 - **Global-series gate:** mean pairwise GC **> 1500 km** (primary); Flinn–Engdahl counts diagnostic only (legacy ≥3 FE zones gave the same N=27 on the modern window).
 - **Heuristic metric with tectonic hint:** **98%** of pairs use 1.5× GC fallback — **failed hypothesis test**, not a global-analysis improvement.
-- **ETAS calibrated but detector liberal** — mean = 27.0 matches N_obs = 27; see §5.6.
+- **ETAS WLS negative control** — mean = 27.0 matches N_obs = 27; **do not cite p_ETAS = 1.0 as falsification**; see §5.7.
 - **No physical mechanism established** — η metric is correlational; ΔCFS/dynamic stress — **future work only**.
-- **Parameter sensitivity** (`results/sensitivity_eta_windows_gc.json`): GC gate 1000/1500/2000 km → N = 27 (unchanged, 2-yr window); window width 1/2/5/10 yr → 53/27/11/6; η₀ from KDE (`results/eta_threshold_meta.json`) **not applied** in the `global_series()` path used for N_obs — future work: pipeline_v2 with varied η₀.
+- **Parameter sensitivity** (`results/sensitivity_eta_windows_gc.json`, `results/sensitivity_b_eta0.json`): GC 1000/1500/2000 km → N = 27; windows 1/2/5/10 yr → 53/27/11/6; b = 1.0 vs 0.911 in η — see `sensitivity_b_eta0.json`; η₀ **not applied** in `global_series()`.
+- **Declustering:** N = 27 stable under GK/ZBZ/none at fixed gates; 24 vs 1 removed — **principally different** mainshock sets for cluster analysis.
 
 Additionally: **GK is primary** for inference, ZBZ sensitivity-only; post-hoc BH on N = 47 (§3.6) — not a discovery claim; quality_score < 0.7 before 1960 limits early-instrumental interpretation.
 

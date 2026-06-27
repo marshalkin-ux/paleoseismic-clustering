@@ -359,6 +359,11 @@ Table~\ref{tab:gk_zbz} compares modern-window (1973--2026) mainshock counts
 and series sensitivity (\texttt{scripts/run\_declustering\_sensitivity.py},
 \texttt{results/sensitivity\_declustering.json}): $N = 27$ under GK, ZBZ,
 and no declustering (2-yr window, mean GC $> 1500$~km, $N \ge 4$).
+\textbf{Empirically $N=27$ is stable under three declustering choices} for
+these fixed detector gates; this \textbf{does not prove} declustering is
+immaterial in general---algorithms assign \textbf{different mainshock labels}
+(24 vs 1 removed) and could affect rare-cluster detection under other
+thresholds or ETAS calibration (24 GK aftershocks used in WLS).
 
 \begin{table}[htbp]
 \centering
@@ -406,6 +411,39 @@ Gardner--Knopoff removes ${\sim}24$ local aftershocks in the modern window.
 to all $M \ge 6.5$ events without an explicit GK pre-filter; GK/ZBZ counts
 in Table~\ref{tab:gk_zbz} come from \texttt{run\_declustering\_sensitivity.py}.
 
+\subsection{Hypothesis Separation}
+\label{subsec:hypothesis-separation}
+
+Three distinct statistical tests address \textbf{different} questions;
+conflating them leads to contradictory readings of ``rejected'' vs.\
+``not rejected'' nulls.
+
+\begin{enumerate}
+\item \textbf{Poisson event-times null} (permutation test, $n=10{,}000$):
+      shuffles event times while preserving coordinates and magnitudes;
+      $p = 1/10{,}001$ rejects independent event times.
+      \textbf{Expected} for aftershock-bearing catalogs \citep{Ogata1988};
+      does \textbf{not} test the global multi-regional series hypothesis.
+
+\item \textbf{ETAS local-clustering null} (primary: literature H\&S 2003,
+      $\mu=0.008$, $K=0.08$; \textbf{decoupled} from detector output):
+      synthetic catalogs with local triggering only ($\le 500$~km).
+      $p_\mathrm{ETAS}\le 0.001$, mean $\approx 15.4$, $N_\mathrm{obs}=27$:
+      observed candidate count exceeds \textbf{local aftershock-only}
+      expectation---clustering beyond Poisson times requires explanation
+      (aftershock structure, detector liberalness), but is \textbf{not}
+      teleseismic proof.
+
+\item \textbf{Global multi-regional series hypothesis} (specific alternative:
+      mean GC $> 1500$~km, $N\ge 4$): \textbf{not confirmed}---no physical
+      mechanism, tectonic metric failed as primary gate, detector liberal
+      (§\ref{sec:detector-liberal}).
+\end{enumerate}
+
+\noindent\textbf{WLS negative control} ($p_\mathrm{ETAS}=1.0$, mean $= N_\mathrm{obs}$):
+catalog-matched calibration on 24 GK aftershocks is \textbf{invalid for inference};
+\textbf{do not cite} as independent falsification (§\ref{sec:etas-calib-limits}).
+
 \subsection{Statistical Tests}
 \label{subsec:stat-tests}
 
@@ -420,8 +458,9 @@ rejecting the permutation null does \textbf{not} contradict $p_\mathrm{ETAS}=1.0
 \hline
 \textbf{Test} & \textbf{Null hypothesis} & \textbf{Interpretation} \\
 \hline
-Permutation ($n=10{,}000$) & Globally Poissonian event times (fixed coordinates) & Rejects temporal independence; expected for aftershock catalogs \citep{Ogata1988} \\
-ETAS ($n=1000$, calibrated) & Detector series count does not exceed local-clustering synthetics & Does \textbf{not} reject: $N_\mathrm{obs}=27$ indistinguishable from null ($p_\mathrm{ETAS}=1.0$) \\
+Permutation ($n=10{,}000$) & Independent event times (fixed coordinates) & Rejects temporal independence; expected for aftershock catalogs; does \textbf{not} test global series \\
+ETAS literature ($n=1000$, H\&S 2003) & Local aftershock-only synthetics & $p_\mathrm{ETAS}\le 0.001$: $N_\mathrm{obs}=27 > \bar{N}\approx 15.4$; local clustering excess, \textbf{not} teleseismic proof \\
+ETAS WLS ($n=1000$, catalog) & Detector--calibration coupling & $p_\mathrm{ETAS}=1.0$: negative control only; \textbf{not} independent falsification \\
 Benjamini--Hochberg & --- & Post-hoc on 47 candidates; not a discovery claim \\
 \hline
 \end{tabular}
@@ -747,9 +786,12 @@ observed value lies $6.17\sigma$ below the null mean, providing
 unambiguous evidence against a spatially inhomogeneous Poisson null model.
 
 After Zaliapin--Ben-Zion declustering (Section~\ref{subsec:declustering}),
-the global-series count is unchanged relative to Gardner--Knopoff declustering,
-confirming that the detected multi-regional clusters are not artefacts of
-local fore-/aftershock contamination.
+the global-series count is unchanged ($N=27$) relative to Gardner--Knopoff
+and no declustering under the same gates (Table~\ref{tab:gk_zbz}).
+This \textbf{empirical stability} does \textbf{not} imply declustering is
+philosophically immaterial: GK and ZBZ label different mainshock sets
+(24 vs 1 dependent events), which could matter for cluster membership,
+$\eta$ forests, or ETAS WLS on 24 GK aftershock delays.
 
 The Benjamini--Hochberg FDR correction at $q = 0.05$
 (Section~\ref{subsec:fdr}) applied to all 47 candidate series retains
@@ -1077,9 +1119,20 @@ null result can be stated.
       analysis); $\eta$-linkage and series gates use great-circle distance only;
       Bird-graph diagnostic retained in Appendix figures only.
 \item \textbf{Declustering sensitivity:} GK, ZBZ, and no declustering all yield
-      $N=27$ on the modern window (\texttt{results/sensitivity\_declustering.json}).
+      $N=27$ on the modern window under fixed gates
+      (\texttt{results/sensitivity\_declustering.json}); different mainshock
+      labels (24 vs 1) could matter under other thresholds.
+\item \textbf{WLS ETAS calibration failure:} $K\approx 0.495$ on 24 aftershocks
+      with $c$ at numerical floor ($10^{-4}$~day); \textbf{invalid for inference};
+      temporal MLE attempt: \texttt{results/etas\_mle\_calibration.json}
+      (see \texttt{docs/future\_work\_etas\_mle.md} for spatial Ogata MLE).
+\item \textbf{$\eta_0$ not applied} in \texttt{global\_series()} path
+      (\texttt{results/sensitivity\_b\_eta0.json}).
+\item \textbf{$b=1.0$ vs catalog $b=0.911$} in $\eta$ metric: $N=27$ unchanged
+      for both (\texttt{results/sensitivity\_b\_eta0.json}).
 \item \textbf{ETAS WLS negative control} --- mean $= 27.0$ matches
       $N_\mathrm{obs}=27$ when $K$ is fit on the same catalog; see \S\ref{sec:detector-liberal}.
+      \textbf{Do not cite} $p_\mathrm{ETAS}=1.0$ as falsification.
 \item \textbf{No physical mechanism established} --- $\Delta$CFS/dynamic stress future work only.
 \item \textbf{Negative result:} the global-series hypothesis is \textbf{not confirmed}.
 \end{itemize}

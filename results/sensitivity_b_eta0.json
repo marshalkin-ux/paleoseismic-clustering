@@ -1,0 +1,42 @@
+{
+  "catalog": "modern_1973_2026_M65",
+  "n_events": 2041,
+  "baseline_gates": {
+    "time_window_years": 2.0,
+    "min_mean_gc_km": 1500.0,
+    "min_events": 4
+  },
+  "b_param_sensitivity": [
+    {
+      "parameter": "b_param_eta",
+      "value": 1.0,
+      "label": "default_bp2004",
+      "time_window_years": 2.0,
+      "min_mean_gc_km": 1500.0,
+      "min_events": 4,
+      "n_series": 27,
+      "baseline": true
+    },
+    {
+      "parameter": "b_param_eta",
+      "value": 0.911,
+      "label": "catalog_mle_0.911",
+      "time_window_years": 2.0,
+      "min_mean_gc_km": 1500.0,
+      "min_events": 4,
+      "n_series": 27,
+      "baseline": false
+    }
+  ],
+  "eta0_sensitivity": {
+    "eta0_kde_valley_default": 7.107191077237056e-06,
+    "plus_20pct": 8.528629292684467e-06,
+    "minus_20pct": 5.685752861789645e-06,
+    "n_series_at_default_eta0": "not_applied",
+    "n_series_at_plus_20pct": "not_applied",
+    "n_series_at_minus_20pct": "not_applied",
+    "note": "global_series() does not apply eta0 filtering; eta0 ±20% would affect upstream identify_clusters() only — not re-run here."
+  },
+  "window_sensitivity_ref": "results/sensitivity_eta_windows_gc.json",
+  "script": "scripts/run_clustering_sensitivity.py"
+}

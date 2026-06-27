@@ -1,0 +1,69 @@
+{
+  "calibration_status": "temporal_etas_mle_gk_mainshocks_1973_2026",
+  "catalog_modern_n_raw": 2041,
+  "gk_mainshocks": 2017,
+  "gk_aftershocks": 24,
+  "catalog_modern_span_years": 53.43309377138946,
+  "parameters_mle": {
+    "mu": 0.09656934603255093,
+    "K": 0.00010000000000000009,
+    "alpha": 0.2539129846254942,
+    "c": 0.0010000000000000002,
+    "p": 1.9142688472613791,
+    "max_trigger_distance_km": 500.0
+  },
+  "confidence_intervals_95_bootstrap": {
+    "mu": {
+      "low": 0.06138218696402322,
+      "high": 0.06366545346728802,
+      "median": 0.06231926251973881,
+      "n_success": 50
+    },
+    "K": {
+      "low": 0.00010000000000000009,
+      "high": 0.00010000000000000009,
+      "median": 0.00010000000000000009,
+      "n_success": 50
+    },
+    "alpha": {
+      "low": 0.0,
+      "high": 0.0,
+      "median": 0.0,
+      "n_success": 50
+    },
+    "c": {
+      "low": 0.0010000000000000002,
+      "high": 0.0010000000000000002,
+      "median": 0.0010000000000000002,
+      "n_success": 50
+    },
+    "p": {
+      "low": 2.244306232410483,
+      "high": 2.253136363776871,
+      "median": 2.2496177666935906,
+      "n_success": 50
+    }
+  },
+  "log_likelihood": -5866.70307676694,
+  "optimizer": {
+    "method": "L-BFGS-B",
+    "success": true,
+    "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+    "n_iterations": 34
+  },
+  "bounds": {
+    "c_min_day": 0.001,
+    "note": "c lower bound 0.001 day per literature; not 1e-4 WLS floor"
+  },
+  "comparison_wls_minimal": {
+    "source": "C:\\Users\\marsh\\Projects\\paleoseismic-clustering\\results\\etas_calibration.json",
+    "mu": 0.1033487797145355,
+    "K": 0.4945527632119062,
+    "alpha": 0.06250066767034286,
+    "c": 0.0001,
+    "p": 1.363250203658662,
+    "note": "WLS minimal calibration (24 aftershock delays) is not valid for inference; K≈0.495 vs MLE K indicates fundamental calibration failure of WLS path."
+  },
+  "source": "scripts/calibrate_etas_mle.py (temporal Ogata 1988 MLE, GK mainshocks)",
+  "note": "Temporal-only ETAS MLE (no spatial kernel). Publication-grade spatial Ogata (1998) MLE deferred to R etas package — see docs/future_work_etas_mle.md."
+}
