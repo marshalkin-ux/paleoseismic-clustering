@@ -247,19 +247,18 @@ def build(s):
         "не доказывает глобальные серии. "
         "Источники: USGS\u00a0ComCat, ISC\u00a0Bulletin, NOAA\u00a0NGDC "
         "(M<sub>c</sub>=6.55, b=0.911+/-0.018). "
-        "На основе метрики Байеси\u2013Пачуски с тектоническим расстоянием "
+        "На основе метрики Байеси\u2013Пачуски с эвристической метрикой с тектонической подсказкой "
         "(граф Bird\u00a02003) алгоритм находит 47\u00a0кандидатов детектора "
         "(27\u00a0на современном окне). "
         "Permutation (n=10\u202f000, p=0.0001, 1/10,001) отвергает пуассоновские "
         "времена; ETAS (1000\u00a0кат., FPR=1000/1000, mean 27,0, p_ETAS=1,0) "
-        "показывает отсутствие избыточной глобальной структуры. "
-        "FDR 45/47\u00a0\u2014 post-hoc, не discovery.",
+        "показывает отсутствие избыточной глобальной структуры.",
         s["abstract"]
     ))
 
     story.append(Paragraph(
         "<b>Ключевые слова:</b> глобальная сейсмичность; сейсмические серии; "
-        "тектоническое расстояние; кластеризация землетрясений; метрика Байеси\u2013Пачуски; "
+        "эвристическая метрика с тектонической подсказкой; кластеризация землетрясений; метрика Байеси\u2013Пачуски; "
         "Монте-Карло; Флинн\u2013Энгдал; палеосейсмология; статистический триггеринг; "
         "Gutenberg\u2013Richter",
         s["keywords"]
@@ -298,19 +297,18 @@ def build(s):
         "(1000 synthetic catalogs, FPR=1000/1000; catalog-calibrated null: mean 27.0, "
         "p_ETAS=1.0; literature defaults \u03bc=0.008: mean 15.4, p\u22640.001; "
         "N_obs=27), "
-        "and Benjamini\u2013Hochberg FDR correction (q=0.05, N=47; 45/47 significant). "
-        "The largest series by event count is 1905\u20131910 (193 events, 43 regions, "
-        "Mmax=8.8); the most spatially extensive modern series is S170 "
-        "(46 events, 12 Flinn\u2013Engdahl regions, 2002\u20132023, Mmax=9.1), "
-        "including the 2004 Indian Ocean earthquake. Tectonic-path diagnostic "
-        "(scripts/generate_grl_figures.py): median \u0394log\u2081\u2080\u03b7 = +0.28 "
-        "vs great-circle on random pairs (mostly 1.5\u00d7 GC fallback).",
+        "and Benjamini\u2013Hochberg FDR sensitivity (Methods only). "
+        "Largest early-instrumental candidate: 1905\u20131910 (193 events, catalog incomplete before ~1960); "
+        "modern detector candidate S170 "
+        "(46 events, 12 Flinn\u2013Engdahl regions, 2002\u20132023, Mmax=9.1). "
+        "Heuristic with tectonic hint (Bird 2003): 98% GC fallback — failed hypothesis test; "
+        "median \u0394log\u2081\u2080\u03b7 = +0.28.",
         s["abstract"]
     ))
     story.append(Paragraph(
-        "<b>Keywords:</b> global seismicity; seismic series; tectonic distance; "
-        "earthquake clustering; Baiesi\u2013Paczuski metric; Monte Carlo; Flinn\u2013Engdahl; "
-        "paleoseismology; statistical triggering; Gutenberg\u2013Richter",
+        "<b>Keywords:</b> global seismicity; seismic series; earthquake clustering; "
+        "heuristic metric with tectonic hint; Baiesi\u2013Paczuski metric; ETAS validation; Monte Carlo; "
+        "Flinn\u2013Engdahl; paleoseismology; statistical triggering; Gutenberg\u2013Richter",
         s["keywords"]
     ))
     story.append(Paragraph(
@@ -412,10 +410,12 @@ def build(s):
 
     # --- 2. Методология ---
     story += SSEC("2. Методология", s)
-    story += SSSEC("2.1 Тектоническое расстояние", s)
+    story += SSSEC("2.1 Эвристическая метрика с тектонической подсказкой", s)
     story.append(Paragraph(
-        "Нами протестирована гипотеза о тектоническом расстоянии r_ij — "
-        "длина кратчайшего пути между гипоцентрами вдоль глобального графа границ плит "
+        "Протестирована альтернатива евклидовому расстоянию (граф Bird 2003). "
+        "В 98% пар реализация сводится к 1,5× дуге большого круга — по сути масштабированное "
+        "евклидово; улучшения для глобального анализа нет (отрицательный тест гипотезы). "
+        "r_ij — кратчайший путь между гипоцентрами вдоль глобального графа границ плит "
         "Bird (2003), включающего 20\u00a0сегментов (субдукционные зоны, трансформные "
         "разломы, срединно-океанические хребты). Кратчайший путь находится алгоритмом "
         "Дейкстры (пакет NetworkX). Если гипоцентр удалён &gt;500\u00a0км от ближайшего "
@@ -456,7 +456,7 @@ def build(s):
          Paragraph("Штраф за большой временно\u0301й разрыв", s["tbl_cell"])],
         [Paragraph("Расстояние", s["tbl_cell"]),
          Paragraph("r\u1d62\u2c7c^1.6 (км)", s["tbl_cell"]),
-         Paragraph("Штраф за большое тектоническое расстояние", s["tbl_cell"])],
+         Paragraph("Штраф за большое расстояние (эвристика)", s["tbl_cell"])],
         [Paragraph("Магнитуда", s["tbl_cell"]),
          Paragraph("10^(\u2212b\u00b7m\u1d62)", s["tbl_cell"]),
          Paragraph("Усиление связи при большой магнитуде родителя", s["tbl_cell"])],
@@ -552,7 +552,7 @@ def build(s):
         [Paragraph("1905\u20131910", s["tbl_cell"]), Paragraph("193", s["tbl_cell"]),
          Paragraph("43", s["tbl_cell"]), Paragraph("8.8", s["tbl_cell"]),
          Paragraph("1905\u20131910", s["tbl_cell"]),
-         Paragraph("Крупнейшая серия; ранний инструментальный период", s["tbl_cell"])],
+         Paragraph("Крупнейший кандидат в раннем инструментальном окне; каталог неполный до ~1960", s["tbl_cell"])],
         [Paragraph("S047", s["tbl_cell"]), Paragraph("53", s["tbl_cell"]),
          Paragraph("5", s["tbl_cell"]), Paragraph("8.0", s["tbl_cell"]),
          Paragraph("1982\u20132024", s["tbl_cell"]),
@@ -606,9 +606,10 @@ def build(s):
         PAGE_W - LM - RM
     ))
     story.append(Paragraph(
-        "Коррекция FDR (q=0.05): 45 из 47 кандидатов — post-hoc, не discovery. "
+        "Коррекция FDR (q=0.05): 45 из 47 — post-hoc (Methods), не discovery. "
         "Permutation p=0,0001 (1/10 001) отвергает пуассоновские времена; "
-        "ETAS mean=27,0, p_ETAS=1,0 — нет избыточной глобальной структуры.",
+        "ETAS mean=27,0, p_ETAS=1,0 — нет избыточной глобальной структуры. "
+        "Multiseed ETAS (seeds 42–51, n=1000): mean≈27, FPR=1,0.",
         s["body_ni"]
     ))
 
@@ -623,10 +624,8 @@ def build(s):
     ))
     story += SSEC("3.4 Обсуждение", s)
     story.append(Paragraph(
-        "<b>Null/falsification:</b> permutation отвергает пуассоновские времена "
-        "(p=0,0001, 1/10 001); ETAS mean=27,0, p_ETAS=1,0 — избыточной глобальной "
-        "структуры нет. FDR 45/47 не доказывает физическую реальность. "
-        "<b>Физика:</b> \u0394CFS/динамический стресс — future work; кандидаты — "
+        "<b>Null/falsification:</b> ETAS mean=27,0, p_ETAS=1,0 — избыточной глобальной "
+        "структуры нет. <b>Физика:</b> \u0394CFS/динамический стресс — future work; кандидаты — "
         "алгоритмические конструкты, не цепочки triggering.",
         s["body"]
     ))
@@ -634,13 +633,19 @@ def build(s):
 
     # === SECTION: ВЫВОДЫ =======================================================
     story += SEC("РЕЗУЛЬТАТЫ ИССЛЕДОВАНИЯ (ВЫВОДЫ)", s)
+    story.append(Paragraph(
+        "Применение калиброванной ETAS-модели показывает, что число мультирегиональных "
+        "кластеров, обнаруживаемых либеральным детектором, <b>не превышает</b> ожидаемого "
+        "от локальной афтершоковой активности. Гипотеза о существовании глобальных "
+        "сейсмических серий <b>не подтверждается</b>. Перестановочный тест отвергает "
+        "лишь пуассоновскую нулевую гипотезу — тривиально для сейсмических каталогов.",
+        s["body"]
+    ))
     conclusions = [
-        ("1.", "Permutation test: p=0.0001 (1/10\u202f001) отвергает пуассоновские "
-               "времена \u2014 не тест гипотезы о глобальных сериях."),
-        ("2.", "ETAS: mean=27,0, p_ETAS=1,0, N_obs=27 \u2014 гипотеза "
-               "мультирегиональных серий опровергнута (null/falsification)."),
-        ("3.", "47 кандидатов детектора неотличимы от ETAS-null; "
-               "тектоника 98% GC-фолбэк; \u0394CFS \u2014 future work."),
+        ("1.", "Эвристическая метрика с тектонической подсказкой: 98% GC-фолбэк — "
+               "failed hypothesis test."),
+        ("2.", "47 кандидатов детектора неотличимы от ETAS-null; "
+               "\u0394CFS — future work."),
     ]
     for num, text in conclusions:
         story.append(Paragraph(f"<b>{num}</b>\u00a0\u00a0{text}", s["enum"]))

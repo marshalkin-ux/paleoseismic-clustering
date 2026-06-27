@@ -20,11 +20,11 @@
 
 ## Abstract
 
-We test the hypothesis of physically meaningful **multi-regional global seismic series** in a merged catalog of **4,267 unique M≥6.5 events** (4,418 CSV rows; ~151 NOAA M<6.5 rows retained for provenance, excluded from clustering) using the Baiesi–Paczuski metric η with tectonic-path distance (Bird 2003 graph). **Primary result — negative (null/falsification):** on the modern window (1973–2026, 2,041 events), catalog-calibrated [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) without long-range links (>500 km) reproduces **N_obs = 27** detector episodes (**mean = 27.0**, **pETAS = 1.0**, FPR = 1000/1000, n = 1000) — **no excess “global” structure beyond ETAS-like local clustering**. The [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p = 0.0001 (1/10,001 permutations)**[^mc-p], z = −6.17) rejects a **global temporal Poisson null** — expected for catalogs with aftershocks/local clustering; **this is not a test of the multi-regional global-series hypothesis** and does **not** prove teleseismic triggering. The detector yields **47 algorithmic candidates** (142 window candidates before merge; 27 modern); [FDR](https://en.wikipedia.org/wiki/False_discovery_rate) 45/47 at q = 0.05 **does not** correct the full search space. Tectonic distance is **not validated** (98% 1.5× GC fallback, ~2% Dijkstra). **ΔCFS/dynamic stress — future work only**; “series” are algorithmic constructs, not proven triggering chains.
+We test the hypothesis of physically meaningful **multi-regional global seismic series** in a merged catalog of **4,267 unique M≥6.5 events** (4,418 CSV rows; ~151 NOAA M<6.5 rows retained for provenance, excluded from clustering) using the Baiesi–Paczuski metric η with a **heuristic metric with tectonic hint** (Bird 2003 graph). **Primary result — negative (null/falsification):** on the modern window (1973–2026, 2,041 events), catalog-calibrated [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) without long-range links (>500 km) reproduces **N_obs = 27** detector episodes (**mean = 27.0**, **pETAS = 1.0**, FPR = 1000/1000, n = 1000) — **no excess “global” structure beyond ETAS-like local clustering**. The [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p = 0.0001 (1/10,001 permutations)**[^mc-p], z = −6.17) rejects a **global temporal Poisson null** — expected for catalogs with aftershocks/local clustering; **this is not a test of the multi-regional global-series hypothesis** and does **not** prove teleseismic triggering. The detector yields **47 algorithmic candidates** (142 window candidates before merge; 27 modern). We tested an alternative to Euclidean distance (Bird 2003 graph): in **98%** of pairs the implementation falls back to 1.5× great-circle distance — effectively scaled Euclidean; **no improvement for global analysis** (failed hypothesis test). **ΔCFS/dynamic stress — future work only**; “series” are algorithmic constructs, not proven triggering chains.
 
 [^mc-p]: Discrete permutation test with n = 10,000: p = (k+1)/(n+1) where k is the count of null replicates at least as extreme as observed. Here k = 0, so p = 1/10,001 ≈ 0.0001. We report **p = 0.0001 (1/10,001 permutations)**; equivalently p < 0.001.
 
-**Keywords:** global seismicity; seismic series; earthquake clustering; tectonic distance; Baiesi–Paczuski metric; ETAS validation; false discovery rate; Monte Carlo; paleoseismology; Flinn–Engdahl
+**Keywords:** global seismicity; seismic series; earthquake clustering; heuristic metric with tectonic hint; Baiesi–Paczuski metric; ETAS validation; Monte Carlo; paleoseismology; Flinn–Engdahl
 
 ---
 
@@ -38,7 +38,7 @@ The [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) mode
 
 **Objective.** Test (and if warranted, **falsify**) the hypothesis that physically meaningful multi-regional “global series” exist, with **primary inference on the modern window (1973–2026)**, using complementary null tests (permutation vs ETAS) and explicit detector liberalness assessment.
 
-**Scope.** We combine nearest-neighbor clustering with tectonic-path distance, ETAS null-model validation, and FDR correction across historical, early instrumental, and modern epochs; this extends prior global rate tests (Michael 2011; Shearer & Stark 2012) with a complementary η-linkage statistic but does not supersede their conclusions.
+**Scope.** We combine nearest-neighbor clustering with a heuristic metric with tectonic hint, ETAS null-model validation, and FDR sensitivity analysis (§3.4); this extends prior global rate tests (Michael 2011; Shearer & Stark 2012) with a complementary η-linkage statistic but does not supersede their conclusions.
 
 ---
 
@@ -88,11 +88,11 @@ The [Gutenberg–Richter](https://en.wikipedia.org/wiki/Gutenberg%E2%80%93Richte
 
 ## 3. Methods
 
-### 3.1 Tectonic distance
+### 3.1 Heuristic metric with tectonic hint
 
-We tested the hypothesis that tectonic-path distance (Bird 2003 graph) should replace Euclidean separation. In the global catalog, **98%** of pairs use the fallback (1.5× great-circle arc); the method is informative for only **~2%** of boundary-proximal pairs. **We therefore find no evidence that tectonic distance improves global analysis** relative to a fixed great-circle penalty.
+We tested an alternative to Euclidean distance (Bird 2003 graph). In **98%** of pairs the implementation falls back to 1.5× great-circle distance — **effectively scaled Euclidean**; only **~2%** of boundary-proximal pairs use a Dijkstra path. **No improvement for global analysis** — failed hypothesis test.
 
-We define tectonic distance rij as the shortest path between hypocenters along the global plate-boundary graph of Bird (2003), comprising 20 key segments (subduction zones, transform faults, mid-ocean ridges). Paths are computed with Dijkstra's algorithm (NetworkX). When either hypocenter lies more than 500 km from the nearest boundary node, or when no graph path exists between plate segments, we apply a penalty fallback:
+We define rij as the shortest path between hypocenters along the global plate-boundary graph of Bird (2003), comprising 20 key segments (subduction zones, transform faults, mid-ocean ridges). Paths are computed with Dijkstra's algorithm (NetworkX). When either hypocenter lies more than 500 km from the nearest boundary node, or when no graph path exists between plate segments, we apply a penalty fallback:
 
 **rij = 1.5 × rGC**
 
@@ -119,7 +119,7 @@ Following Baiesi & Paczuski (2004) and Zaliapin et al. (2008):
 | Component | Symbol | Physical meaning |
 |-----------|--------|------------------|
 | Time | tij (yr) | Penalty for large temporal separation |
-| Distance | rij^1.6 (km) | Penalty for large tectonic separation |
+| Distance | rij^1.6 (km) | Penalty for large separation (heuristic with tectonic hint) |
 | Magnitude | 10^(−b·mi) | Weighting by parent-event magnitude mi |
 
 Here df = 1.6 (fractal dimension; Baiesi & Paczuski, 2004) and **b = 1.0** (code default `B_DEFAULT`; parent magnitude mi only—no erroneous bi in the exponent). Smaller η indicates tighter spatiotemporal coupling.
@@ -139,7 +139,7 @@ Raw catalogs (USGS / ISC / NOAA)
         ↓
  GK declustering (primary) → mainshocks for η NN forest
         ↓
- η NN forest (Bird 2003 tectonic distance)
+ η NN forest (heuristic with tectonic hint, Bird 2003)
         ↓
  Sliding windows (1 / 2 / 5 yr)
         ↓
@@ -213,9 +213,11 @@ The pipeline from raw clustering to FDR-controlled inference follows these steps
 
 **Historical period.** **No statistically significant historical series** were detected (p = 0.46). Only **47** M≥6.5 events pre-1900 — fragmentary paleoseismic records spanning ~4,000 years; the five candidate episodes do not survive the permutation null.
 
-### 4.2 Top five multi-regional series
+### 4.2 Top five multi-regional detector candidates
 
-| Series | N | Regions | Mmax | Period | qBH |
+> **Disclaimer:** entries below are **detector candidates**, indistinguishable from ETAS-null noise; **do not interpret as physical series** or proven triggering chains.
+
+| Series | N | Regions | Mmax | Period | qBH* |
 |--------|---|---------|------|--------|-----|
 | 1905–1910 | 193 | 43 | 8.8 | 1905–1910 | — |
 | S047 | 53 | 5 | 8.0 | 1982–2024 | 9.7×10⁻⁵ |
@@ -223,7 +225,9 @@ The pipeline from raw clustering to FDR-controlled inference follows these steps
 | S095 | 25 | 4 | 7.9 | 1989–2017 | 3.4×10⁻³ |
 | S116 | 22 | 5 | 8.2 | 1993–2021 | 4.1×10⁻³ |
 
-The **1905–1910** episode (193 events, 43 regions) is the largest series in the full catalog, identified in the early instrumental window. Series **S170** spans 12 Flinn–Engdahl regions and includes the 2004 Indian Ocean earthquake (M 9.1), representing the most spatially extensive modern episode (Figures 1–2 in the repository).
+\*qBH — post-hoc FDR on N = 47 (§3.4); not a discovery claim.
+
+The **1905–1910** episode (193 events, 43 regions) is the **largest candidate in the early instrumental window**; catalog completeness before ~1960 is poor (quality_score < 0.7) — **not** “largest series of all time.” **S170** is a modern-window detector candidate (12 Flinn–Engdahl regions, including 2004 Sumatra M 9.1); a descriptive example, not a validated physical series (Figures 1–2 in the repository).
 
 ### 4.3 Spatial–temporal distribution
 
@@ -242,17 +246,28 @@ The two null tests **do not contradict** each other — they target **different 
 | **Permutation** (n = 10,000) | Globally **Poissonian event times** with fixed coordinates | p = 0.0001 (1/10,001), z = −6.17 | Rejects temporal independence; expected with aftershocks/local clustering |
 | **ETAS** (n = 1000, calibrated) | Detector **series count** does not exceed synthetic catalogs with **local** clustering only (>500 km cutoff) | mean = 27.0, pETAS = 1.0, FPR = 1000/1000 | **Does not** reject null: N_obs = 27 **indistinguishable** from ETAS-like local clustering |
 
-**Explicit:** rejecting the Poisson permutation null **≠** evidence for teleseismic/global triggering. Unified conclusion: **data are consistent with ETAS without long-range links; we find NO evidence for multi-regional global series as a physical phenomenon.** Detector candidates are **indistinguishable** from ETAS null plus liberal search artifacts (142 windows, merge, post-hoc FDR on N = 47).
+**Explicit:** rejecting the Poisson permutation null **≠** evidence for teleseismic/global triggering.
 
-Multiseed ETAS (seeds 42–46, 100 catalogs/seed, `results/etas_multiseed.json`): mean false series **15.5 ± 1.3** at n = 100 (quick run; primary n = 1000 → mean = 27.0); **FPR = 1.0** stable across seeds.
+Multiseed ETAS (seeds 42–51, n = 1000 catalogs/seed, calibrated parameters, `results/etas_multiseed.json`): **mean = 27.0** stable across all seeds; **FPR = 1.0**, **pETAS = 1.0** — N_obs = 27 indistinguishable from null.
+
+| Seed | mean | σ | pETAS | FPR |
+|------|-----:|--:|------:|----:|
+| 42 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 43 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 44 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 45 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 46 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 47 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 48 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 49 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 50 | 27.0 | 0.0 | 1.0 | 1.0 |
+| 51 | 27.0 | 0.0 | 1.0 | 1.0 |
 
 ### 5.2 Statistical sensitivity vs physical mechanism
 
 **Established (null/falsification):** the hypothesis of **excess global structure** beyond ETAS-like local clustering is **not supported** (pETAS = 1.0). The permutation test detects deviation from a **global temporal Poisson** null — not from ETAS-null.
 
 **Not established (physics):** η is correlative; **no physical mechanism** explains remote links in candidates. Preliminary Coulomb/dynamic stress tests for S170 **did not** reach triggering thresholds — **future work only**. Candidates are **algorithmic constructs**, not proven triggering chains.
-
-**FDR 45/47** adjusts N = 47 post-hoc hypotheses; **does not** prove physical reality of individual episodes (S170, S047, etc. are **descriptive** examples, not “discovered series”).
 
 **Early instrumental period (1900–1972).** Fifteen series reach p = 0.007 (z = −2.43), but quality_score < 0.7 before 1960 limits interpretation of individual episodes (including 1905–1910).
 
@@ -276,7 +291,7 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 
 **(2) ETAS parameters and detector calibration.** ETAS parameters are calibrated on 2,041 events (μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36). The detector is **liberal**: FPR = 1000/1000; with calibrated ETAS, mean = 27.0 and pETAS = 1.0 — the series count is **indistinguishable** from the local null. Literature defaults (μ=0.008) yielded mean≈15.4, p ≤ 0.001 — sensitive to parameter choice. **Tighter series criteria** (min_events, min_regions) is future work.
 
-**(3) Tectonic distance:** 500 km / 1.5× GC approximations; **98%** of audited pairs use GC fallback (4987 pairs, §3.1); real Dijkstra paths for **~2%** only.
+**(3) Heuristic metric with tectonic hint:** 500 km / 1.5× GC approximations; **98%** of audited pairs use GC fallback (4987 pairs, §3.1); real Dijkstra paths for **~2%** only; failed hypothesis test.
 
 **(4) Declustering asymmetry.** GK is primary in `pipeline_v2.py`; full-epoch `run_full_historical_analysis.py` does not pre-filter with GK.
 
@@ -290,9 +305,9 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 
 ## 6. Conclusions
 
-1. The **permutation test** rejects a global temporal Poisson null (p = 0.0001, 1/10,001) — **expected** for catalogs with aftershocks/local clustering; **not** a test of the multi-regional global-series hypothesis and **not** evidence for remote triggering.
-2. **Catalog-calibrated ETAS** reproduces **N_obs = 27** (mean = 27.0, **pETAS = 1.0**, FPR = 1000/1000) — **no** excess “global” structure beyond ETAS-like local clustering; the **multi-regional global-series hypothesis is falsified** (valuable null contribution).
-3. **47 detector candidates** (45/47 FDR) are **indistinguishable** from ETAS null and liberal exploratory search; tectonic distance is **not validated** (98% GC fallback); **ΔCFS/dynamic stress — future work**; causal chains **not** established.
+Catalog-calibrated ETAS shows that the number of multi-regional clusters flagged by our liberal detector **does not exceed** what is expected from local aftershock activity alone. The hypothesis of physically meaningful global seismic series is **therefore not supported**. The permutation test rejects only a temporal Poisson null (p = 0.0001, 1/10,001) — **trivial** for earthquake catalogs with aftershocks; **not** a test of the multi-regional global-series hypothesis.
+
+Additionally: the heuristic metric with tectonic hint **does not improve** global analysis (98% GC fallback); 47 detector candidates are **indistinguishable** from ETAS null and liberal exploratory search artifacts; **ΔCFS/dynamic stress — future work**; causal chains **not** established.
 
 **Future work:** full ETAS MLE; multiseed n = 1000; tightening **search space** (windows, η₀); ΔCFS/dynamic stress (S170, S047, S095). External DOI ([Zenodo](https://en.wikipedia.org/wiki/Zenodo)) deferred — GitHub only.
 

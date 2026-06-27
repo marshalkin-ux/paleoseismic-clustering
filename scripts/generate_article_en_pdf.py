@@ -202,14 +202,14 @@ def build(s):
         "Primary result — <b>negative (null/falsification)</b>: catalog-calibrated ETAS "
         "reproduces N_obs=27 (mean 27.0, p_ETAS=1.0, FPR=1000/1000). Permutation "
         "p=0.0001 (1/10,001) rejects temporal Poisson null only — not teleseismic "
-        "triggering. 47 <b>detector candidates</b> (45/47 FDR post-hoc); "
+        "triggering. 47 <b>detector candidates</b>; "
         "no evidence for physical multi-regional global series.",
         s["abstract"]
     ))
     story.append(Paragraph(
         "<b>Keywords:</b> global seismicity; seismic series; earthquake clustering; "
-        "tectonic distance; Baiesi\u2013Paczuski metric; ETAS validation; false discovery "
-        "rate; Monte Carlo; paleoseismology; remote triggering",
+        "heuristic metric with tectonic hint; Baiesi\u2013Paczuski metric; ETAS validation; "
+        "Monte Carlo; paleoseismology; remote triggering",
         s["keywords"]
     ))
     story.append(PageBreak())
@@ -245,9 +245,9 @@ def build(s):
     story.append(Paragraph(
         "<b>Objective.</b> We test the hypothesis that multi-regional seismic series "
         "exist in a four-millennium catalog of M&gt;=6.5 earthquakes, using an adapted "
-        "eta metric with tectonic distance along Bird (2003) plate boundaries. "
-        "<b>Scope.</b> We combine nearest-neighbor clustering with tectonic-path distance, "
-        "ETAS validation, and FDR correction; this complements global rate tests "
+        "eta metric with heuristic tectonic hint along Bird (2003) plate boundaries. "
+        "<b>Scope.</b> We combine nearest-neighbor clustering with heuristic tectonic hint, "
+        "ETAS validation, and FDR sensitivity (Methods); this complements global rate tests "
         "(Michael 2011; Shearer &amp; Stark 2012) with a different \u03b7-linkage statistic "
         "but does not supersede their conclusions.",
         s["body"]
@@ -279,9 +279,12 @@ def build(s):
     story.append(FormulaBox("b = 0.911 \u00b1 0.018  (n = 1,688 events)", w))
     story.append(Spacer(1, 0.15 * cm))
 
-    story += SSEC("2.2 Tectonic distance and connectivity metric", s)
+    story += SSEC("2.2 Heuristic metric with tectonic hint", s)
     story.append(Paragraph(
-        "Tectonic distance r<sub>ij</sub> is the shortest path between hypocenters "
+        "We tested an alternative to Euclidean distance (Bird 2003 graph). In 98% of pairs "
+        "the implementation falls back to 1.5\u00d7 great-circle distance \u2014 effectively "
+        "scaled Euclidean; no improvement for global analysis (failed hypothesis test). "
+        "r<sub>ij</sub> is the shortest path between hypocenters "
         "along the Bird (2003) plate-boundary graph (20 key segments). Paths are "
         "computed with Dijkstra's algorithm (NetworkX). If either hypocenter lies "
         "&gt;500 km from the nearest boundary node, or no graph path exists, "
@@ -344,7 +347,8 @@ def build(s):
         "calibrated null: mean 27.0 (max 27), p_ETAS = 1.0; N_obs=27. "
         "Literature \u03bc=0.008 comparison: mean 15.4, max 24, p_ETAS \u2264 0.001. "
         "Detector is liberal; tighter series criteria is future work. "
-        "<b>FDR (q=0.05):</b> 45/47 significant; N=47 series hypotheses. "
+        "<b>FDR (q=0.05):</b> 45/47 — Methods/sensitivity only, not discovery. "
+        "Multiseed ETAS (seeds 42–51, n=1000): mean=27.0, FPR=1.0. "
         "<b>Declustering:</b> GK 2,017/2,041; ZBZ 2,040/2,041.",
         s["body"]
     ))
@@ -364,7 +368,7 @@ def build(s):
         [Paragraph("<b>ID</b>", s["tbl_hdr"]), Paragraph("<b>N</b>", s["tbl_hdr"]),
          Paragraph("<b>Regions</b>", s["tbl_hdr"]), Paragraph("<b>M<sub>max</sub></b>", s["tbl_hdr"]),
          Paragraph("<b>Period</b>", s["tbl_hdr"]), Paragraph("<b>Notes</b>", s["tbl_hdr"])],
-        ["1905\u20131910", "193", "43", "8.8", "1905\u20131910", "Largest series; early instrumental"],
+        ["1905\u20131910", "193", "43", "8.8", "1905\u20131910", "Largest early-instrumental candidate; catalog incomplete before ~1960"],
         ["S047", "53", "5", "8.0", "1982\u20132024", "Western Pacific subduction corridor"],
         ["S170", "46", "12", "9.1", "2002\u20132023", "Sunda belt; Sumatra 2004 (M 9.1)"],
         ["S095", "25", "4", "7.9", "1989\u20132017", "Western Pacific arc"],
@@ -402,26 +406,16 @@ def build(s):
 
     story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
-        "<b>Statistical anomaly (established):</b> series incompatible with Poisson "
-        "null (p \u2264 0.0001); FDR 45/47. Calibrated ETAS: mean = 27.0, p_ETAS = 1.0 "
-        "(liberal detector, FPR = 1000/1000). Conclusion about \u03b7 links and "
-        "p-values, not causality. <b>Working hypotheses</b> (not claims): viscoelastic "
-        "mantle coupling (Pollitz 1998), dynamic triggering (Hill 1993; Brodsky 2006), "
-        "shared tectonic loading (Freed &amp; Lin 2001). "
-        "<b>Future work / supplement:</b> preliminary Coulomb/dynamic stress tests for S170 "
-        "did not reach triggering thresholds (repository). "
-        "<b>ETAS note:</b> FPR=1000/1000 at seed=42; calibrated null mean=27.0, p_ETAS=1.0 "
-        "(indistinguishable from null); literature \u03bc=0.008 yielded mean\u224815.4, p \u2264 0.001. "
-        "<b>Tectonic audit:</b> 98% GC fallback of 4987 pairs (fig07).",
+        "Catalog-calibrated ETAS shows that multi-regional clusters flagged by our liberal "
+        "detector <b>do not exceed</b> local aftershock expectations. The global-series "
+        "hypothesis is <b>not supported</b>. The permutation test rejects only a temporal "
+        "Poisson null \u2014 trivial for earthquake catalogs with aftershocks.",
         s["body"]
     ))
     for num, text in [
-        ("1.", "Permutation test p=0.0001 (1/10,001) rejects temporal Poisson null — "
-               "not a test of multi-regional global series."),
-        ("2.", "ETAS: mean=27.0, p_ETAS=1.0, N_obs=27 — multi-regional global-series "
-               "hypothesis <b>falsified</b> (null contribution)."),
-        ("3.", "47 detector candidates indistinguishable from ETAS null; 98% GC "
-               "tectonic fallback; \u0394CFS/dynamic stress — future work only."),
+        ("1.", "Heuristic with tectonic hint: 98% GC fallback \u2014 failed hypothesis test."),
+        ("2.", "47 detector candidates indistinguishable from ETAS null; "
+               "\u0394CFS/dynamic stress \u2014 future work only."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
         story.append(Spacer(1, 0.1 * cm))

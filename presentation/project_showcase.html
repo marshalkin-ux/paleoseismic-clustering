@@ -1918,16 +1918,14 @@
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
             <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
             <li><strong>ETAS (калибр.):</strong> mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong>, N<sub>obs</sub>=27, FPR 1000/1000 — <strong>нет избыточной глобальной структуры</strong></li>
-            <li><strong>Multiseed</strong> (42–46): FPR=1.0 стабилен (<code>results/etas_multiseed.json</code>)</li>
-            <li><strong>FDR 45/47</strong> — post-hoc на N=47; <em>не</em> корректирует 142×окна</li>
-            <li>Тектоника: <strong>98%</strong> GC-фолбэк — отрицательный тест гипотезы, не innovation</li>
+            <li><strong>Multiseed</strong> (42–51, n=1000, калибр.): mean≈27, FPR=1.0 стабилен (<code>results/etas_multiseed.json</code>)</li>
+            <li>Эвристика с тект. подсказкой: <strong>98%</strong> GC-фолбэк — отрицательный тест гипотезы</li>
           </ul>
           <div class="findings-kpi">
             <span><strong>27</strong>N<sub>obs</sub>=ETAS mean</span>
             <span><strong>1.0</strong>p<sub>ETAS</sub></span>
             <span><strong>47</strong>кандидатов</span>
             <span><strong>0.0001</strong>perm. (Poisson)</span>
-            <span><strong>45/47</strong>FDR*</span>
             <span><strong>98%</strong>GC fallback</span>
           </div>
         </div>
@@ -1935,10 +1933,10 @@
         <div class="findings-block findings-block--honest">
           <h4>Единый вывод (null/falsification)</h4>
           <p>
-            <strong>Гипотеза о физически значимых мультирегиональных «глобальных сериях» не подтверждена.</strong>
-            Каталог-откалиброванный ETAS воспроизводит N<sub>obs</sub>=27 (p<sub>ETAS</sub>=1.0) — кандидаты детектора
-            <strong>неотличимы</strong> от локально-кластеризованного null. Permutation p=0.0001 отвергает только
-            пуассоновские <em>времена</em>, не телесейсмический триггеринг. FDR 45/47 не доказывает физическую реальность.
+            Применение калиброванной ETAS-модели показывает, что число мультирегиональных кластеров, обнаруживаемых нашим либеральным детектором,
+            <strong>не превышает</strong> ожидаемого от локальной афтершоковой активности. Таким образом,
+            <strong>гипотеза о существовании глобальных сейсмических серий не подтверждается</strong>.
+            Перестановочный тест отвергает лишь пуассоновскую нулевую гипотезу — тривиально для сейсмических каталогов.
             ΔCFS/динамический стресс — <strong>future work</strong>; «серии» — алгоритмические конструкты.
           </p>
         </div>
@@ -1984,8 +1982,7 @@
       <ul style="margin:0; padding-left:1.25rem; color:var(--text-muted); line-height:1.7;">
         <li><strong style="color:var(--text-dim);">Permutation:</strong> p=0.0001 (1/10,001) — отвергает пуассоновские <em>времена</em> (ожидаемо при афтершоках)</li>
         <li><strong style="color:var(--text-dim);">ETAS:</strong> p<sub>ETAS</sub>=1.0, mean=27 — <strong>нет</strong> избыточной структуры сверх локального null</li>
-        <li><strong style="color:var(--text-dim);">Вывод:</strong> отвержение Poisson ≠ доказательство глобальных серий; кандидаты ≈ ETAS-null + либеральный детектор</li>
-        <li><strong style="color:var(--text-dim);">FDR:</strong> 45/47 на N=47 post-hoc — не корректирует 142 окна поиска</li>
+        <li><strong style="color:var(--text-dim);">Вывод:</strong> ETAS mean=27 — гипотеза глобальных серий не подтверждается; permutation отвергает лишь Poisson-null</li>
       </ul>
     </div>
 
@@ -2010,7 +2007,11 @@
         </div>
       </div>
 
-      <!-- Таблица крупнейших серий -->
+      <!-- Таблица крупнейших кандидатов детектора -->
+      <div style="background:#1c2128; border:1px solid #f0883e; border-radius:10px; padding:1rem 1.25rem; margin-bottom:1rem;">
+        <strong style="color:#ffa657;">⚠ Дисклеймер:</strong>
+        <span style="color:#8b949e; font-size:0.9rem;"> кандидаты детектора, неотличимы от шума ETAS-null; <strong>не интерпретировать как физические серии</strong>.</span>
+      </div>
       <table style="width:100%; border-collapse:collapse; margin:1.5rem 0;">
         <thead>
           <tr style="border-bottom:2px solid #30363d;">
@@ -2029,7 +2030,7 @@
             <td style="padding:10px; text-align:center; color:#e6edf3;">43</td>
             <td style="padding:10px; text-align:center; color:#f78166;">8.8</td>
             <td style="padding:10px; color:#8b949e;">1905–1910</td>
-            <td style="padding:10px; color:#8b949e;">Крупнейшая серия за всё время</td>
+            <td style="padding:10px; color:#8b949e;">Крупнейший кандидат в раннем инструментальном окне; каталог неполный до ~1960</td>
           </tr>
           <tr style="border-bottom:1px solid #21262d;">
             <td style="padding:10px; color:#58a6ff; font-weight:600;">1960–1965</td>
@@ -2093,12 +2094,8 @@
         <div class="ms-label">серий, 1973–2026<br>p = 0,0001 (1/10 001)</div>
       </div>
       <div class="meaning-stat">
-        <div class="ms-val">15</div>
-        <div class="ms-label">серий, 1900–1972<br>p = 0,007</div>
-      </div>
-      <div class="meaning-stat">
-        <div class="ms-val">45/47</div>
-        <div class="ms-label">прошли FDR<br>q &lt; 0,05</div>
+        <div class="ms-val">1.0</div>
+        <div class="ms-label">p<sub>ETAS</sub><br>mean=27</div>
       </div>
       <div class="meaning-stat">
         <div class="ms-val">1000/1000</div>
@@ -2109,8 +2106,8 @@
       <h4>Методологический контекст</h4>
       <p>
         Метрика η использует
-        <span class="term-tip">тектоническое расстояние<span class="term-tip-box">Bird (2003): Dijkstra только для ~2% пар у границ плит; для 98% — штраф 1,5× GC. Это диагностика связности, а не доказанное преимущество над евклидовой метрикой.<a href="https://en.wikipedia.org/wiki/Plate_tectonics" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>
-        вместо прямой «по карте». Обнаружение серий — <strong>статистическая аномалия</strong> (η-связи, p-values, FDR, ETAS), а не доказательство прямого триггеринга или физического механизма.
+        <span class="term-tip">эвристическая метрика с тектонической подсказкой<span class="term-tip-box">Bird (2003): Dijkstra только для ~2% пар у границ плит; для 98% — штраф 1,5× GC. Отрицательный тест гипотезы — не innovation.<a href="https://en.wikipedia.org/wiki/Plate_tectonics" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>
+        вместо прямой «по карте». Обнаружение серий — <strong>статистическая аномалия</strong> (η-связи, p-values, ETAS), а не доказательство прямого триггеринга или физического механизма.
       </p>
     </div>
     <div class="meaning-section">
@@ -2137,7 +2134,7 @@
 
       <div style="background:#161b22; border:1px solid #30363d; border-radius:10px; padding:1.5rem; text-align:center;">
         <div style="font-size:2rem; color:#3fb950; font-weight:700;">193</div>
-        <div style="color:#8b949e; font-size:0.85rem; margin-top:0.5rem;">Событий в крупнейшей серии</div>
+        <div style="color:#8b949e; font-size:0.85rem; margin-top:0.5rem;">Событий в крупнейшем кандидате (ранний инструментальный)</div>
         <div style="color:#c9d1d9; font-size:0.8rem; margin-top:0.3rem;">1905–1910 (ранний инструментальный)</div>
       </div>
 
@@ -2442,7 +2439,7 @@
  │  • Ищет глобальные серии (≥3 регионов)  │
  │  • Monte Carlo 10 000 × FDR-коррекция   │
  └──────────────────┬──────────────────────┘
-<span class="arch-arrow">                    ↓  47 кандидатов детектора (45/47 FDR post-hoc)</span>
+<span class="arch-arrow">                    ↓  47 кандидатов детектора (не физические серии)</span>
  ┌─────────────────────────────────────────┐
  │  <span class="arch-box-title">✍️  АВТОР</span>                               │
  │  paper/  ·  presentation/  ·  figures/  │
@@ -2582,7 +2579,7 @@
       <div class="history-item history-item--technical">
         <div class="history-dot">5</div>
         <div class="history-date">26 июня 2026</div>
-        <div class="history-title">Метрика η и тектоническое расстояние</div>
+        <div class="history-title">Метрика η и эвристика с тектонической подсказкой</div>
         <div class="history-desc">Реализована метрика Baiesi–Paczuski η (<code>src/analysis/clustering.py</code>) с тектоническим расстоянием по графу <a href="https://en.wikipedia.org/wiki/Peter_Bird_(geologist)" class="wiki-link" target="_blank" rel="noopener">Bird (2003)</a> (<code>tectonic_distance_v2.py</code>). Алгоритм полноты каталога: Mc = 6.55; b-value = 0.911 ± 0.018 по 1 688 событиям.</div>
       </div>
 
