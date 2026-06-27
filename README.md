@@ -7,7 +7,7 @@
 **Статистически значимые глобальные сейсмические серии** в объединённом каталоге **4418 землетрясений M≥6.5** (2150 BCE – 2026): тектоническое расстояние, метрика Baiesi–Paczuski, ETAS-валидация, FDR и Monte Carlo.
 
 > **Живая демонстрация:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)  
-> **Научная статья (PDF):** [paper/article_ru.pdf](paper/article_ru.pdf)  
+> **Научная статья (PDF):** [RU](paper/article_ru.pdf) · [EN](paper/article_en.pdf)  
 > **Интерактивная карта:** [presentation/cluster_map_interactive.html](presentation/cluster_map_interactive.html)
 
 **Автор:** [Ярослав Маршалкин](mailto:marshalkin@gmail.com) · Telegram [@MRSHLKN](https://t.me/MRSHLKN)
@@ -80,6 +80,8 @@ paleoseismic-clustering/
 ├── paper/
 │   ├── article_ru.pdf            # Научная статья (RU)
 │   ├── article_ru.md
+│   ├── article_en.pdf            # Scientific article (EN)
+│   ├── article_en.md
 │   └── main.tex                  # Шаблон GRL/BSSA
 ├── figures/grl/                  # Публикационные рисунки
 ├── results/                      # JSON-результаты анализа

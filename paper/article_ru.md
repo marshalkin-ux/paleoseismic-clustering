@@ -11,7 +11,8 @@
 **Автор:** Ярослав Маршалкин  
 **Email:** marshalkin@gmail.com · **Telegram:** [@MRSHLKN](https://t.me/MRSHLKN)  
 **Репозиторий:** [github.com/marshalkin-ux/paleoseismic-clustering](https://github.com/marshalkin-ux/paleoseismic-clustering)  
-**Демо:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)
+**Демо:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)  
+**English version:** [article_en.md](article_en.md) · [article_en.pdf](article_en.pdf)
 
 **Аннотация.** Статья посвящена статистическому анализу пространственно-временной кластеризации землетрясений M≥6.5 по объединённому каталогу **4418 событий** (2150 г. до н.э. – 2026 г.; 2041 событие в современном окне 1973–2026). Источники: USGS ComCat, ISC Bulletin, NOAA NGDC ($M_c=6{,}55$, $b=0{,}911\pm0{,}018$). На основе метрики Байеси–Пачуски с тектоническим расстоянием (граф Bird 2003) выявлено **47 глобальных серий** в трёх эпохах (27 современных, 15 ранних, 5 исторических). Трёхуровневая валидация: перестановочный тест ($n=10{,}000$, $p<0{,}0001$, $z=-6{,}17$); ETAS-нулевая модель (100 синтетических каталогов, $p_\mathrm{ETAS}=0{,}0000$, FPR=0/100); коррекция FDR Бенджамини–Хохберга ($q=0{,}05$, **45/47** серий значимы). Крупнейшая современная серия — **S170** (46 событий, 12 регионов, $M_{\max}=9{,}1$, 2002–2023).
 

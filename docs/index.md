@@ -2,7 +2,7 @@
 
 > **Глобальные сейсмические серии:** статистический анализ 4418 землетрясений M≥6.5 (2150 BCE – 2026)
 
-**Демо:** [GitHub Pages](https://marshalkin-ux.github.io/paleoseismic-clustering/) · **Статья:** [article_ru.pdf](../paper/article_ru.pdf) · **Автор:** [Ярослав Маршалкин](mailto:marshalkin@gmail.com) · Telegram [@MRSHLKN](https://t.me/MRSHLKN)
+**Демо:** [GitHub Pages](https://marshalkin-ux.github.io/paleoseismic-clustering/) · **Статья:** [RU](../paper/article_ru.pdf) · [EN](../paper/article_en.pdf) · **Автор:** [Ярослав Маршалкин](mailto:marshalkin@gmail.com) · Telegram [@MRSHLKN](https://t.me/MRSHLKN)
 
 ---
 
