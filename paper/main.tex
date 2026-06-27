@@ -20,16 +20,12 @@
        A Clustering Analysis Using the Baiesi–Paczuski Metric}
 
 \authors{
-  Author One\affil{1},
-  Author Two\affil{2},
-  Author Three\affil{1,3}
+  Yaroslav Marshalkin\affil{1}
 }
 
-\affiliation{1}{Institute of Geophysics, University of Example, City, Country}
-\affiliation{2}{Seismological Survey, National Research Center, City, Country}
-\affiliation{3}{Department of Earth Sciences, Another University, City, Country}
+\affiliation{1}{Independent researcher. Email: marshalkin@gmail.com; Telegram: @MRSHLKN}
 
-\correspondingauthor{Author One}{author.one@example.edu}
+\correspondingauthor{Yaroslav Marshalkin}{marshalkin@gmail.com}
 
 %% =====================================================================
 \begin{abstract}
@@ -304,9 +300,14 @@ The 500~km boundary snap and 1.5$\times$ great-circle fallback are
 \textbf{approximations}, not verified against independent geodetic data;
 intraplate pairs rely entirely on the GC penalty, and sensitivity to
 these parameters is deferred to future work.
-Qualitatively, tectonic-path distance improves inter-plate $\eta$ links
-by ${\sim}0.3$~log$_{10}$~$\eta$ relative to Euclidean distance
-(Figure~5 in \texttt{figures/grl/fig05\_tectonic\_vs\_euclidean.png});
+Qualitatively, a diagnostic tectonic-vs-Euclidean comparison
+(Figure~5 in \texttt{figures/grl/fig05\_tectonic\_vs\_euclidean.png};
+\texttt{scripts/generate\_grl\_figures.py::fig\_tectonic\_vs\_euclidean})
+on random $M \ge 6.5$ pairs (1973+, $n = 249$) yields median
+$\Delta\log_{10}\eta = +0.28$ ($1.6[\log_{10} r_\mathrm{tect} - \log_{10} r_\mathrm{eucl}]$);
+${\sim}98\%$ of sampled pairs use the 1.5$\times$ GC fallback
+($1.6 \log_{10} 1.5 \approx 0.28$).
+This is a metric diagnostic, not a calibrated sensitivity gain;
 full validation without ground-truth data is not possible.
 A parameter sweep (300/500/700~km boundary threshold; Bird graph
 resolution) is planned but not yet executed.
@@ -437,6 +438,15 @@ The ETAS $p$-value is defined as $p_\mathrm{ETAS} = P(N^\mathrm{ETAS}_\mathrm{se
 $1/101$).
 If $p_\mathrm{ETAS} < 0.05$, the observed series count cannot be
 attributed to local aftershock structure alone.
+
+\noindent\textbf{Verified from code.}
+Series counts and epoch $p$-values: \texttt{results/analysis\_full\_historical.json};
+Monte Carlo ($p$, $z$): \texttt{results/montecarlo\_full.json};
+ETAS (FPR, $p_\mathrm{ETAS}$): \texttt{results/etas\_validation.json};
+FDR (45/47): \texttt{results/fdr\_correction\_results.csv};
+GK/ZBZ counts: \texttt{scripts/run\_declustering\_comparison.py};
+tectonic diagnostic (median $\Delta\log_{10}\eta = +0.28$):
+\texttt{scripts/generate\_grl\_figures.py::fig\_tectonic\_vs\_euclidean}.
 
 \subsection{Boundary-Type Weights in Tectonic Distance}
 \label{subsec:weights}
@@ -932,9 +942,10 @@ $T_w \ge 1$~yr.
 \paragraph{Experiment 3.2 --- Tectonic-distance parameters (future work).}
 Sensitivity to the 500~km boundary snap, 1.5$\times$ great-circle
 fallback multiplier, and boundary-type weights (Section~\ref{subsec:weights})
-has not yet been swept; qualitative comparison with Euclidean distance
-(${\sim}0.3$~log$_{10}$~$\eta$ improvement for inter-plate pairs) is
-reported, but a formal parameter sweep remains future work.
+has not yet been swept; the diagnostic tectonic-vs-Euclidean comparison
+(\texttt{scripts/generate\_grl\_figures.py}, median $\Delta\log_{10}\eta = +0.28$,
+$n = 249$ random pairs) is reported, but a formal parameter sweep remains
+future work.
 
 \paragraph{Experiment 3.3 --- Declustering algorithm.}
 Results with Zaliapin--Ben-Zion \citep{ZaliapinBenZion2016} and
@@ -973,9 +984,11 @@ The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
         Benjamini--Hochberg FDR correction ($q = 0.05$, 45/47 series
         significant), this confirms that detected series are not artefacts
         of randomness or local aftershock structure.
-  \item Replacing Euclidean distance with tectonic-path distance along
-        \citet{Bird2003} plate boundaries increases clustering sensitivity
-        by $\sim\!0.3$ in $\log_{10}\eta$ units for inter-plate pairs.
+  \item Tectonic-path distance along \citet{Bird2003} plate boundaries is
+        implemented with a documented diagnostic comparison to great-circle
+        distance (median $\Delta\log_{10}\eta = +0.28$ on $n = 249$ random
+        pairs; \texttt{scripts/generate\_grl\_figures.py}); formal parameter
+        sweeps remain future work.
   \item The largest series by event count is 1905--1910 (193 events,
         43 regions, $M_\mathrm{max}=8.8$); the most spatially extensive
         modern chain is S170 (46 events, 12 regions, 2002--2023,

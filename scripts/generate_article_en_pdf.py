@@ -84,7 +84,7 @@ def on_page(canvas, doc):
     canvas.setFillColor(MGREY)
     canvas.drawCentredString(
         PAGE_W / 2, BM - 0.9 * cm,
-        f"Global Seismic Series  \u00b7  DOI: 10.20542/[placeholder]  \u00b7  {doc.page}"
+        f"Global Seismic Series  \u00b7  Yaroslav Marshalkin  \u00b7  {doc.page}"
     )
     canvas.restoreState()
 
@@ -154,8 +154,6 @@ def build(s):
     story = []
     w = PAGE_W - LM - RM
 
-    story.append(Paragraph("DOI: 10.20542/[placeholder]", s["doi"]))
-    story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph(
         "Global Seismic Series: Statistical Analysis of Spatiotemporal "
         "Clustering in M\u22656.5 Earthquake Catalogs (2150 BCE \u2013 2026 CE)",
@@ -265,7 +263,8 @@ def build(s):
         "r<sub>ij</sub> = 1.5 \u00d7 r<sub>GC</sub> (great-circle Haversine). "
         "<b>Limitations:</b> 500 km snap and 1.5\u00d7 GC are approximations; "
         "intraplate pairs rely on GC penalty; sensitivity deferred to future work. "
-        "Qualitatively improves inter-plate \u03b7 links by ~0.3 log<sub>10</sub>.",
+        "Tectonic diagnostic (generate_grl_figures.py): median \u0394log\u2081\u2080\u03b7 = +0.28 "
+        "on random pairs (~98% use 1.5\u00d7 GC fallback).",
         s["body"]
     ))
     story.append(Spacer(1, 0.15 * cm))
@@ -362,9 +361,8 @@ def build(s):
     story.append(Paragraph(
         "Elevated series activity occurs in 1952\u20131965 and 2002\u20132016 "
         "(post-Sumatra period). Spatially, clusters concentrate along the circum-Pacific "
-        "belt (Kamchatka, Kuril Islands, Japan, Tonga, Indonesia). Tectonic distance "
-        "lowers the \u03b7<sub>0</sub> threshold by ~0.3 log<sub>10</sub> units compared "
-        "with Euclidean distance.",
+        "belt (Kamchatka, Kuril Islands, Japan, Tonga, Indonesia). Tectonic diagnostic: "
+        "median \u0394log\u2081\u2080\u03b7 = +0.28 on random pairs (mostly 1.5\u00d7 GC fallback).",
         s["body"]
     ))
 
@@ -387,7 +385,9 @@ def build(s):
         ("3.", "Largest series: 1905\u20131910 (193 events, 43 regions, M<sub>max</sub>=8.8); "
                "most spatially extensive modern: S170 (46 events, 12 regions, "
                "2002\u20132023, M<sub>max</sub>=9.1)."),
-        ("4.", "Tectonic distance increases \u03b7 sensitivity by ~0.3 log<sub>10</sub>."),
+        ("4.", "Tectonic-path distance documented with diagnostic "
+               "(median \u0394log\u2081\u2080\u03b7 = +0.28 vs great-circle; "
+               "generate_grl_figures.py); formal parameter sweep planned."),
         ("5.", "<b>Interpretive fork:</b> (a) if \u03b7 links are real \u2014 hazard "
                "implications without claiming direct triggering; (b) if artifacts \u2014 "
                "FDR+ETAS remains reproducible null-test. Co-occurrence may reflect "

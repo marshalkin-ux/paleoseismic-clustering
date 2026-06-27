@@ -1,6 +1,6 @@
 # Global Seismic Series: Statistical Analysis of Spatiotemporal Clustering in M≥6.5 Earthquake Catalogs (2150 BCE – 2026 CE)
 
-**DOI:** 10.20542/[placeholder]
+**DOI:** pending registration
 
 © 2026 **Yaroslav Marshalkin**
 
@@ -92,7 +92,7 @@ We define tectonic distance rij as the shortest path between hypocenters along t
 
 where rGC is the great-circle (Haversine) distance.
 
-**Limitations and validation.** The 500 km boundary snap and 1.5× great-circle fallback are **approximations**, not verified against independent geodetic data. Intraplate pairs rely entirely on the GC penalty. Qualitatively, tectonic-path distance vs haversine improves inter-plate η links by ~0.3 log10 η (median difference) relative to Euclidean distance (`figures/grl/fig05_tectonic_vs_euclidean.png`, §4.3); full metric validation without ground-truth data is not possible.
+**Limitations and validation.** The 500 km boundary snap and 1.5× great-circle fallback are **approximations**, not verified against independent geodetic data. Intraplate pairs rely entirely on the GC penalty. A diagnostic tectonic-vs-Euclidean comparison on random M≥6.5 pairs (1973+, n = 249; `scripts/generate_grl_figures.py::fig_tectonic_vs_euclidean`, `figures/grl/fig05_tectonic_vs_euclidean.png`) yields **median Δlog₁₀η = +0.28** (1.6×[log₁₀ r_tect − log₁₀ r_eucl]); ~98% of sampled pairs use the 1.5× GC fallback (1.6 log₁₀ 1.5 ≈ 0.28). This is a metric diagnostic, not a calibrated sensitivity gain; full validation without ground-truth data is not possible.
 
 **Sensitivity (planned, not yet run).** A full parameter sweep has not been conducted. Planned work:
 
@@ -167,6 +167,8 @@ Raw catalogs (USGS / ISC / NOAA)
 | FDR (Benjamini–Hochberg) | q = 0.05 | 45/47 series significant |
 | Declustering | GK / ZBZ | 2,017/2,041 (24 aftersh.) / 2,040/2,041 (1 dep.) |
 
+**Verified from code.** Series counts and epoch p-values: `results/analysis_full_historical.json`. Monte Carlo (p, z): `results/montecarlo_full.json`. ETAS (FPR, p_ETAS): `results/etas_validation.json`. FDR (45/47): `results/fdr_correction_results.csv`. GK/ZBZ counts: `scripts/run_declustering_comparison.py`. Tectonic diagnostic (median Δlog₁₀η = +0.28): `scripts/generate_grl_figures.py::fig_tectonic_vs_euclidean`.
+
 ---
 
 ## 4. Results
@@ -201,7 +203,7 @@ The **1905–1910** episode (193 events, 43 regions) is the largest series in th
 
 ### 4.3 Spatial–temporal distribution
 
-Elevated series activity occurs in 1952–1965 and 2002–2016 (post-Sumatra period). Spatially, clusters concentrate along the circum-Pacific belt (Kamchatka, Kuril Islands, Japan, Tonga, Indonesia). Tectonic distance lowers the η0 threshold by ~0.3 log10 units compared with Euclidean distance.
+Elevated series activity occurs in 1952–1965 and 2002–2016 (post-Sumatra period). Spatially, clusters concentrate along the circum-Pacific belt (Kamchatka, Kuril Islands, Japan, Tonga, Indonesia). The tectonic-vs-Euclidean diagnostic (§3.1) reports median Δlog₁₀η = +0.28 on random pairs; this reflects the 1.5× GC fallback for most samples, not a validated η₀ shift.
 
 ---
 
@@ -219,7 +221,7 @@ Elevated series activity occurs in 1952–1965 and 2002–2016 (post-Sumatra per
 
 **Qualitative plausibility for S170.** For the post-Sumatra window 2002–2023 (S170, Mmax = 9.1), surface-wave remote-triggering literature (Hill et al., 1993; Brodsky & Prejean, 2006) provides **qualitative plausibility** for long-range correlations but not proof of causality. ΔCFS modelling and dynamic stress estimates are deferred to future work and are needed to strengthen causal claims.
 
-Tectonic-path distance improves sensitivity (~0.3 log10 η) vs haversine; Euclidean metrics underestimate connectivity along plate boundaries.
+The tectonic diagnostic (§3.1; median Δlog₁₀η = +0.28) quantifies the GC-fallback penalty on random pairs; Euclidean metrics alone do not encode lithospheric connectivity along plate boundaries.
 
 ### 5.2 Working hypotheses (not claims)
 
@@ -248,7 +250,7 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 1. A unified catalog of 4,267 M≥6.5 events (4,418 CSV records; 2150 BCE – 2026 CE) contains 47 global seismic series; 27 modern series are significant at p < 0.0001 (Monte Carlo, n = 10,000).
 2. ETAS validation (μ=0.008, K=0.08, α=1.0, c=0.005 d, p=1.1, 500 km cutoff; FPR = 0/100) and FDR correction (45/47 at q = 0.05) confirm that series are not explained by randomness or local aftershock clustering alone.
 3. The largest series by event count is 1905–1910 (193 events, 43 regions, Mmax = 8.8); the most spatially extensive modern series is S170 (46 events, 12 regions, 2002–2023, Mmax = 9.1).
-4. Tectonic distance increases η-metric sensitivity by ~0.3 log10 units relative to Euclidean distance.
+4. Tectonic-path distance is implemented with a documented diagnostic (median Δlog₁₀η = +0.28 vs great-circle on random pairs; §3.1); formal sensitivity sweeps remain planned.
 5. **Interpretive fork** (statistics vs mechanism): **(a)** if η links reflect genuine spatiotemporal structure — hazard implications and long-range ETAS kernels (without claiming direct triggering); **(b)** if episodes prove artifactual — FDR + ETAS remains a reproducible null-test pipeline. **Series detection does not imply direct triggering;** co-occurrence may reflect shared tectonic loading or mantle coupling.
 
 **Future work:** Coulomb stress change (ΔCFS) analysis for S047, S170, and S095 incorporating **hypocentral depth and focal mechanisms** (King et al., 1994; Stein, 1999); ETAS extensions with explicit long-range kernels; Zenodo DOI release.

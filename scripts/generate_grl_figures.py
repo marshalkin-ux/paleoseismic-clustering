@@ -285,7 +285,8 @@ def fig_tectonic_vs_euclidean() -> Path:
 
     fig.suptitle(
         "Replacing Euclidean distance with tectonic-path distance\n"
-        f"median $\\Delta\\log_{{10}}\\eta = {np.median(delta):.2f}$ (stronger clustering when $< 0$)",
+        f"median $\\Delta\\log_{{10}}\\eta = {np.median(delta):.2f}$ "
+        f"(n={len(delta)} pairs; mostly 1.5$\\times$ GC fallback; diagnostic only)",
         fontsize=12,
         y=1.02,
     )

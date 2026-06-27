@@ -97,7 +97,7 @@ def on_page(canvas, doc):
     canvas.setFillColor(MGREY)
     canvas.drawCentredString(
         PAGE_W / 2, BM - 0.9 * cm,
-        safe_text(f"Глобальные сейсмические серии  \u00b7  DOI: 10.20542/[placeholder]  \u00b7  {doc.page}")
+        safe_text(f"Глобальные сейсмические серии  \u00b7  Yaroslav Marshalkin  \u00b7  {doc.page}")
     )
     canvas.restoreState()
 
@@ -182,8 +182,6 @@ def build(s):
     story = []
 
     # === PAGE 1: Header ========================================================
-    story.append(Paragraph("DOI: 10.20542/[placeholder]", s["doi"]))
-    story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph(
         "Глобальные сейсмические серии: статистический анализ "
         "пространственно-временно\u0301й кластеризации землетрясений "
@@ -198,12 +196,9 @@ def build(s):
     # --- RU metadata ---
     story.append(Paragraph(
         "<b>Ярослав Маршалкин</b><br/>"
-        "e-mail: [author@institution.org]<br/>"
-        "<i>[Institution], [City], [Country]</i>",
-        s["meta"]
-    ))
-    story.append(Paragraph(
-        "<i>Статья поступила в редакцию [дата]. Принята к печати [дата].</i>",
+        "e-mail: marshalkin@gmail.com<br/>"
+        "Telegram: @MRSHLKN &nbsp;|&nbsp; "
+        "GitHub: github.com/marshalkin-ux/paleoseismic-clustering",
         s["meta"]
     ))
     story.append(Spacer(1, 0.3 * cm))
@@ -256,8 +251,8 @@ def build(s):
         s["title_en"]
     ))
     story.append(Paragraph(
-        "<b>Ярослав Маршалкин (Yaroslav Marshalkin)</b>, "
-        "e-mail: [author@institution.org], <i>[Institution], [City], [Country]</i>",
+        "<b>Ярослав Маршалкин (Yaroslav Marshalkin)</b><br/>"
+        "e-mail: marshalkin@gmail.com &nbsp;|&nbsp; Telegram: @MRSHLKN",
         s["meta"]
     ))
     story.append(Spacer(1, 0.2 * cm))
@@ -275,8 +270,9 @@ def build(s):
         "The largest series by event count is 1905\u20131910 (193 events, 43 regions, "
         "Mmax=8.8); the most spatially extensive modern series is S170 "
         "(46 events, 12 Flinn\u2013Engdahl regions, 2002\u20132023, Mmax=9.1), "
-        "including the 2004 Indian Ocean earthquake. Tectonic-path distance improves clustering "
-        "sensitivity by ~0.3 log10 eta units versus Euclidean distance.",
+        "including the 2004 Indian Ocean earthquake. Tectonic-path diagnostic "
+        "(scripts/generate_grl_figures.py): median \u0394log\u2081\u2080\u03b7 = +0.28 "
+        "vs great-circle on random pairs (mostly 1.5\u00d7 GC fallback).",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -286,8 +282,8 @@ def build(s):
         s["keywords"]
     ))
     story.append(Paragraph(
-        "<b>About the author:</b> [Author Name]\u00a0\u2014 [academic degree, position], "
-        "[Institution], [City], [Country].",
+        "<b>About the author:</b> Yaroslav Marshalkin \u2014 independent researcher. "
+        "Contact: marshalkin@gmail.com, Telegram @MRSHLKN.",
         s["body_ni"]
     ))
     story.append(PageBreak())
@@ -395,8 +391,8 @@ def build(s):
         "<b>Ограничения:</b> привязка 500 km и множитель 1.5x GC — "
         "приближения; внутриплитные пары полагаются на GC-штраф; "
         "чувствительность к порогу — будущая работа. "
-        "Качественно: тектонический путь vs haversine улучшает межплитные "
-        "связи (~0.3 log10 eta).",
+        "Диагностика тектоники vs haversine (generate_grl_figures.py): "
+        "медиана Δlog₁₀η = +0.28 на случайных парах (~98% — GC-фолбэк 1.5×).",
         s["body"]
     ))
     story += SSSEC("2.2 Метрика связности eta", s)
@@ -576,8 +572,8 @@ def build(s):
         "Повышенная активность серий: 1952\u20131965\u00a0гг. и 2002\u20132016\u00a0гг. "
         "(пост-суматранский период). Пространственно\u00a0\u2014 вдоль "
         "циркум-тихоокеанского пояса (Камчатка, Курилы, Япония, Тонга, Индонезия). "
-        "Тектоническое расстояние снижает порог \u03b7\u2080 на \u223c0.3\u00a0ед. "
-        "log\u2081\u2080 по сравнению с евклидовой метрикой.",
+        "Диагностика тектоники vs евклидовой метрики: медиана \u0394log\u2081\u2080\u03b7 = +0.28 "
+        "на случайных парах (в основном GC-фолбэк 1.5\u00d7).",
         s["body"]
     ))
     story += SSEC("3.4 Обсуждение", s)
@@ -608,8 +604,9 @@ def build(s):
                "43\u00a0региона, M\u2098\u2090\u2093=8.8); наиболее масштабная современная\u00a0\u2014 "
                "S170 (46\u00a0событий, 12\u00a0регионов, M\u2098\u2090\u2093=9.1, "
                "2002\u20132023)."),
-        ("4.", "Тектоническое расстояние повышает чувствительность метрики \u03b7 "
-               "на ~0.3\u00a0ед. log\u2081\u2080 по сравнению с евклидовой метрикой."),
+        ("4.", "Тектоническое расстояние внедрено с диагностикой "
+               "(медиана \u0394log\u2081\u2080\u03b7 = +0.28 vs great-circle; "
+               "generate_grl_figures.py); формальный sweep параметров запланирован."),
         ("5.", "<b>Интерпретационная вилка:</b> (a)\u00a0если \u03b7-связи реальны \u2014 "
                "последствия для опасности (без утверждения прямого триггеринга); "
                "(b)\u00a0если артефакты \u2014 FDR+ETAS остаётся воспроизводимым null-test. "
