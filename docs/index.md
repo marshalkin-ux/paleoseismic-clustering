@@ -18,10 +18,12 @@
 |----------|----------|
 | Каталог | 4267 событий M≥6.5 (4418 CSV-записей) |
 | Глобальные серии | 47 (142 кандидата до FDR; исторические p=0.46) |
-| Monte Carlo | n = 10 000, p < 0.0001, z = −6.17 |
-| ETAS FPR | 0/100 (μ=0.008, K=0.08, порог 500 км; p_ETAS=0.0000) |
-| FDR BH (q=0.05) | 45/47 значимы |
+| Monte Carlo | n = 10 000, p ≤ 0.0001, z = −6.17 |
+| ETAS FPR | 1000/1000 (n=1000, N_obs=27; p_ETAS ≤ 0.001) |
+| FDR BH (q=0.05) | 45/47 значимы (N=47) |
 | Mc / b | 6.55 / 0.911 ± 0.018 |
+
+> **Депонирование:** Zenodo/Figshare/arXiv отложено; код и данные — на [GitHub](https://github.com/marshalkin-ux/paleoseismic-clustering).
 
 ---
 
@@ -96,6 +98,12 @@ flowchart TD
 | GitHub Pages | ✅ |
 
 **Версия:** 1.0.0 · **Python:** ≥ 3.10 · **Лицензия:** MIT
+
+---
+
+## Публикация и депонирование
+
+**Code and data on GitHub; external deposition (Zenodo) deferred.** См. [PUBLICATION_STATUS.md](../publication/output/PUBLICATION_STATUS.md).
 
 ---
 

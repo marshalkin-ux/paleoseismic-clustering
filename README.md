@@ -44,7 +44,9 @@
 
 ## Публикация и депонирование
 
-Автоматизация выкладки статьи и данных на Zenodo, Figshare, arXiv, OSF и др.: см. **[publication/README.md](publication/README.md)**.
+**Code and data on GitHub; external deposition (Zenodo) deferred.**
+
+Автоматизация выкладки на Figshare, arXiv, OSF и др. (когда потребуется): см. **[publication/README.md](publication/README.md)**.
 
 | Артефакт | Ссылка |
 |----------|--------|
@@ -58,7 +60,7 @@ python publication/main.py --prepare-only
 python publication/main.py --dry-run --skip-social
 ```
 
-> **DOI:** placeholder `10.5281/zenodo.XXXXXXX` в [CITATION.cff](CITATION.cff) — замените после живого депозита на Zenodo (см. [PUBLICATION_STATUS.md](publication/output/PUBLICATION_STATUS.md)).
+> **DOI:** placeholder `10.5281/zenodo.XXXXXXX` в [CITATION.cff](CITATION.cff) — обновится при внешнем депозите (сейчас отложено; см. [PUBLICATION_STATUS.md](publication/output/PUBLICATION_STATUS.md)).
 
 ---
 
