@@ -182,7 +182,15 @@ Table~\ref{tab:catalog} summarises the merged catalog.
 After deduplication and quality filtering, the full catalog contains
 4{,}418 events with $M \ge 6.5$ spanning 2150~BCE to 2026~CE:
 2{,}041 modern events (1973--2026), 2{,}179 early instrumental (1900--1972),
-and 198 pre-1900 historical events.
+and 198 pre-1900 historical events (fragmentary over $\sim$4{,}000~years).
+For the modern window, USGS~ComCat provides 2{,}088 raw $M \ge 6.5$ records;
+after \texttt{quality\_score}~$> 0.5$ filtering, 2{,}041 events remain
+($\sim$47 excluded).  Gardner--Knopoff declustering removes $\sim$24 local
+aftershocks during analysis (2{,}017 independent mainshocks, 98.8\%).
+Each event receives a quality score in $[0.30, 0.95]$ based on epoch,
+phase readings, and cross-catalog overlap \citep{Woessner2005}; analysis
+is restricted to windows where $>90\%$ of events exceed
+\texttt{quality\_score}~$= 0.5$.
 The completeness threshold $M_c = 6.55$ for the post-1973 instrumental
 period is estimated by the maximum-curvature method \citep{Woessner2005};
 1{,}688 modern events satisfy $M \ge M_c$.
@@ -241,7 +249,11 @@ minimises $\eta_{ij}$:
 Events with $\eta_{i^*j} < \eta_0$ are assigned to the same cluster
 as their parent, where $\eta_0$ is a threshold determined by the
 bimodal decomposition of the $\log_{10} \eta$ distribution
-\citep{ZaliapinBenZion2013}.
+\citep{ZaliapinBenZion2013}: KDE valley detection between modes, with
+default $\eta_0 = 10^{\mathrm{median}(\log_{10}\eta)}$ when unspecified.
+The metric $\eta$ is a relative connectivity measure without absolute
+physical units; $\eta_0$ is empirical, validated against a Poisson
+temporal-permutation null ($n = 10\,000$).
 
 \subsection{Tectonic Distance}
 
@@ -395,7 +407,7 @@ Period & Events & Series & $p$-value & $z$-score \\
 \hline
 1973--2026 (modern)            & 2041 & 27 & $<0.0001$ & $-6.17$ \\
 1900--1972 (early instrumental) & 2179 & 15 & $0.007$   & $-2.43$ \\
-Pre-1900 (historical)          &   67 &  5 & $0.46$    & $-0.74$ \\
+Pre-1900 (historical)          &  198 &  5 & $0.46$    & $-0.74$ \\
 \hline
 \textbf{Total}                 & \textbf{4418} & \textbf{47} & --- & --- \\
 \hline

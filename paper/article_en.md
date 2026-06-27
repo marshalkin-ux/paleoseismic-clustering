@@ -11,25 +11,26 @@
 **Author:** Yaroslav Marshalkin  
 **Email:** marshalkin@gmail.com · **Telegram:** [@MRSHLKN](https://t.me/MRSHLKN)  
 **Repository:** [github.com/marshalkin-ux/paleoseismic-clustering](https://github.com/marshalkin-ux/paleoseismic-clustering)  
-**Interactive demo:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)
+**Interactive demo:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)  
+**Russian version:** [article_ru.md](article_ru.md) · [article_ru.pdf](article_ru.pdf)
 
 ---
 
 ## Abstract
 
-Whether large earthquakes cluster in space and time beyond chance is a foundational question in probabilistic seismic hazard assessment. We analyse a merged catalog of **4,418 earthquakes** with M≥6.5 spanning 2150 BCE to 2026 CE, compiled from USGS ComCat, the ISC Bulletin, and NOAA NGDC (catalog completeness Mc = 6.55; Gutenberg–Richter b = 0.911 ± 0.018). Using the Baiesi–Paczuski nearest-neighbor metric η with **tectonic-path distance** on the Bird (2003) plate-boundary graph, we identify **47 global seismic series** across three temporal windows: 27 in the modern period (1973–2026), 15 in the early instrumental period (1900–1972), and 5 historical episodes (pre-1900). Significance is established through a three-level framework: (i) a permutation test (n = 10,000, p < 0.0001, z = −6.17); (ii) ETAS null-model validation (100 synthetic catalogs without long-range coupling, pETAS = 0.0000, false-positive rate 0/100); and (iii) Benjamini–Hochberg false discovery rate correction at q = 0.05 (**45/47** series remain significant). The largest modern series, S170, comprises 46 events across 12 Flinn–Engdahl regions (2002–2023, Mmax = 9.1), including the 2004 Sumatra–Andaman earthquake. Tectonic distance improves clustering sensitivity by ~0.3 log10 η units relative to Euclidean distance.
+We analyse a merged catalog (**4,418 records**, **4,267 events** M≥6.5; 2150 BCE – 2026 CE) using the Baiesi–Paczuski metric η with tectonic-path distance on the Bird (2003) graph. **47 global seismic series** are identified (27 modern, 15 early instrumental, 5 historical candidates). Significance: permutation test (n = 10,000, p < 0.0001, z = −6.17); ETAS validation (FPR = 0/100); FDR correction (45/47 at q = 0.05). Fifteen early-instrumental series reach p = 0.007, but pre-1960 catalog incompleteness (quality_score < 0.7) limits interpretation. **No historical series are statistically significant** (p = 0.46). Largest modern series: S170 (46 events, 12 Flinn–Engdahl regions, Mmax = 9.1, 2002–2023).
 
-**Keywords:** global seismicity; seismic series; earthquake clustering; tectonic distance; Baiesi–Paczuski metric; ETAS validation; false discovery rate; Monte Carlo; paleoseismology; remote triggering
+**Keywords:** global seismicity; seismic series; earthquake clustering; tectonic distance; Baiesi–Paczuski metric; ETAS validation; false discovery rate; Monte Carlo; paleoseismology; Flinn–Engdahl
 
 ---
 
 ## 1. Introduction
 
-Large earthquakes do not occur as independent Poisson events. Following the 1992 Landers earthquake (Mw 7.3), Hill et al. (1993) documented remotely triggered seismicity at distances exceeding 1,000 km. Brodsky & Prejean (2006) showed that surface waves can initiate swarms in volcanic systems thousands of kilometres away. The 2004 Sumatra–Andaman earthquake (Mw 9.1) was followed by elevated activity in distant regions, interpreted by some authors as long-term global stress perturbation (Pollitz et al., 1998; Freed & Lin, 2001).
+Large earthquakes do not occur as independent Poisson events. Following the 1992 Landers earthquake (Mw 7.3), Hill et al. (1993) documented remotely triggered seismicity at distances exceeding 1,000 km. Brodsky & Prejean (2006) showed that surface waves can initiate swarms in volcanic systems thousands of kilometres away. The 2004 Sumatra–Andaman earthquake (Mw 9.1) was followed by elevated activity in distant regions (Pollitz et al., 1998; Freed & Lin, 2001).
 
-However, the systematic nature of such correlations remains debated. Michael (2011) found that M≥7 clustering in 1995–2011 is statistically indistinguishable from random fluctuations. Shearer & Stark (2012) reported no increase in global M≥7 and M≥8 rates after the 2004 Sumatra event. Kagan & Jackson (1999) demonstrated elevated probability of paired events at short separation, confirming local correlations without resolving long-range links.
+However, the systematic nature of such correlations remains debated. Michael (2011) found that M≥7 clustering in 1995–2011 is statistically indistinguishable from random fluctuations. Shearer & Stark (2012) reported no increase in global M≥7 and M≥8 rates after the 2004 Sumatra event. Kagan & Jackson (1999) confirmed elevated probability of paired events at short separation without resolving long-range links.
 
-The ETAS model (Ogata, 1988) reproduces regional aftershock clustering but does not encode inter-plate correlations. The Baiesi–Paczuski (2004) metric and its Zaliapin–Ben-Zion extensions (2008, 2013) provide objective cluster detection but typically use Euclidean distance, ignoring lithospheric connectivity.
+The ETAS model (Ogata, 1988) reproduces regional aftershock clustering but does not encode inter-plate correlations. The Baiesi–Paczuski (2004) metric and Zaliapin–Ben-Zion extensions (2008, 2013) provide objective cluster detection but typically use Euclidean distance, ignoring lithospheric connectivity.
 
 **Objective.** We test the hypothesis that multi-regional seismic series exist in a four-millennium catalog of M≥6.5 earthquakes, using an adapted η metric with tectonic distance along Bird (2003) plate boundaries.
 
@@ -47,13 +48,17 @@ The ETAS model (Ogata, 1988) reproduces regional aftershock clustering but does 
 | ISC Bulletin | 1900–2023 | Relocated hypocenters for verification |
 | NOAA NGDC | ~2150 BCE–2026 | Historical and paleoseismic records |
 
-Duplicate records were merged using ±30 days and ≤50 km spatial tolerance; source priority: ISC > USGS > NOAA. Only events with quality_score > 0.5 were retained.
+Duplicate records were merged using ±30 days and ≤50 km spatial tolerance; source priority: ISC > USGS > NOAA.
+
+**Event-count reconciliation (modern window).** USGS ComCat contains **2,088** raw M≥6.5 events for 1973–2026. After merging with ISC/NOAA, deduplication, and retention of events with **quality_score > 0.5**, the modern analysis window contains **2,041** events (~47 records excluded by quality filtering). Gardner–Knopoff declustering subsequently removes ~24 local aftershocks during analysis (2,017 independent mainshocks, 98.8%).
+
+**Quality scoring.** Each event receives a quality_score in [0.30, 0.95] based on epoch, phase readings, and cross-catalog overlap (Woessner & Wiemer, 2005). Instrumental events after 1960 typically score ≥0.90; pre-1900 documentary records score 0.30–0.60. Analysis is restricted to temporal windows where >90% of events exceed quality_score = 0.5.
 
 **Final catalog:** 4,418 events M≥6.5 (2150 BCE – 2026 CE)
 
 | Epoch | Events | Period |
 |-------|--------|--------|
-| Historical | 67 | pre-1900 |
+| Historical | 198 | pre-1900 (fragmentary over ~4,000 yr) |
 | Early instrumental | 2,179 | 1900–1972 |
 | Modern | 2,041 | 1973–2026 |
 
@@ -63,7 +68,7 @@ Maximum-curvature analysis yields Mc = 6.55. Maximum-likelihood b-value from 1,6
 
 **b = 0.911 ± 0.018**
 
-The Gutenberg–Richter relation is satisfied above Mc, confirming catalog suitability for analysis.
+The Gutenberg–Richter relation is satisfied above Mc, confirming catalog suitability for analysis. Note: the catalog b-value (0.911) differs from the b = 1.0 exponent used in the η metric (Baiesi–Paczuski default; see §3.2).
 
 ---
 
@@ -71,7 +76,11 @@ The Gutenberg–Richter relation is satisfied above Mc, confirming catalog suita
 
 ### 3.1 Tectonic distance
 
-We define tectonic distance rij as the shortest path between hypocenters along the global plate-boundary graph of Bird (2003), comprising 20 key segments (subduction zones, transform faults, mid-ocean ridges). Paths are computed with Dijkstra's algorithm (NetworkX). For weakly connected plate pairs (rtect > 1.5 × reucl), a penalty factor rij = 1.5 × reucl is applied.
+We define tectonic distance rij as the shortest path between hypocenters along the global plate-boundary graph of Bird (2003), comprising 20 key segments (subduction zones, transform faults, mid-ocean ridges). Paths are computed with Dijkstra's algorithm (NetworkX). When either hypocenter lies more than 500 km from the nearest boundary node, or when no graph path exists between plate segments, we apply a penalty fallback:
+
+**rij = 1.5 × rGC**
+
+where rGC is the great-circle (Haversine) distance. This penalises intra-plate and weakly connected pairs relative to boundary-adjacent events, consistent with the implementation in `tectonic_distance.py`.
 
 ### 3.2 Connectivity metric η
 
@@ -83,16 +92,19 @@ Following Baiesi & Paczuski (2004) and Zaliapin et al. (2008):
 |-----------|--------|------------------|
 | Time | tij (yr) | Penalty for large temporal separation |
 | Distance | rij^1.6 (km) | Penalty for large tectonic separation |
-| Magnitude | 10^(−b·mi) | Weighting by parent-event magnitude |
+| Magnitude | 10^(−b·mi) | Weighting by parent-event magnitude mi |
 
-Here df = 1.6 (fractal dimension; Baiesi & Paczuski, 2004).
+Here df = 1.6 (fractal dimension; Baiesi & Paczuski, 2004) and **b = 1.0** (code default `B_DEFAULT`; parent magnitude mi only—no erroneous bi in the exponent). Smaller η indicates tighter spatiotemporal coupling.
 
-### 3.3 Series detection algorithm
+**Units note.** η is a relative connectivity measure without absolute physical units; only ratios and log10(η) statistics are interpreted. The threshold η0 is determined empirically from the observed nearest-neighbor distribution, not from first principles.
 
-1. Declustering via Gardner–Knopoff (1974) to remove local aftershocks.
-2. Nearest-neighbor forest: for each event j, parent i* = argmin ηij subject to ηij < η0.
-3. Global series criterion: N ≥ 4 events; M ≥ 6.5; ≥ 3 Flinn–Engdahl regions.
-4. Sliding windows (1, 2, 5 yr; 1-yr step); overlapping groups merged.
+### 3.3 Threshold η0 and series detection
+
+1. **Declustering** via Gardner–Knopoff (1974) to remove local aftershocks before global-series search.
+2. **Nearest-neighbor forest:** for each event j, parent i* = argmin ηij (over preceding events).
+3. **Threshold η0:** automatic selection from the distribution of nearest-neighbor η values. Primary method: KDE valley detection between bimodal modes in log10(η) (Zaliapin & Ben-Zion, 2013). Default cluster cut when unspecified: η0 = 10^(median log10 η). The threshold is validated against a Poisson temporal-permutation null (Monte Carlo, n = 10,000).
+4. **Global series criterion:** N ≥ 4 events; M ≥ 6.5; ≥ 3 Flinn–Engdahl regions.
+5. **Sliding windows** (1, 2, 5 yr; 1-yr step); overlapping groups merged.
 
 ### 3.4 Statistical validation
 
@@ -109,15 +121,19 @@ Here df = 1.6 (fractal dimension; Baiesi & Paczuski, 2004).
 
 ### 4.1 Identified series
 
-Full historical analysis yields **47 global seismic series**:
+Full historical analysis yields **47 global seismic series** (142 cluster candidates before window filtering):
 
-| Epoch | N series | p-value | z-score |
-|-------|----------|---------|---------|
-| Modern (1973–2026) | 27 | < 0.0001 | −6.17 |
-| Early instrumental (1900–1972) | 15 | 0.007 | −2.43 |
-| Historical (pre-1900) | 5 | 0.46 | — |
+| Epoch | N series | Events | p-value | z-score |
+|-------|----------|--------|---------|---------|
+| Modern (1973–2026) | 27 | 2,041 | < 0.0001 | −6.17 |
+| Early instrumental (1900–1972) | 15 | 2,179 | 0.007 | −2.43 |
+| Historical (pre-1900) | 5 | 198 | 0.46 | — |
 
-The algorithm identifies 142 cluster candidates before window filtering and FDR correction.
+**Modern period.** Twenty-seven series are highly significant (p < 0.0001).
+
+**Early instrumental period.** Fifteen series reach p = 0.007, but this result must be interpreted cautiously: most pre-1960 events have quality_score < 0.7, and catalog incompleteness inflates inter-event intervals, reducing detection power.
+
+**Historical period.** **No statistically significant historical series** were detected (p = 0.46). The ~198 pre-1900 events are fragmentary documentary and paleoseismic records spanning ~4,000 years; the five candidate episodes do not survive the permutation null.
 
 ### 4.2 Top five multi-regional series
 
@@ -129,7 +145,7 @@ The algorithm identifies 142 cluster candidates before window filtering and FDR 
 | S116 | 22 | 5 | 8.2 | 1993–2021 | 4.1×10⁻³ |
 | S191 | 15 | 4 | 8.4 | 2007–2022 | 7.3×10⁻³ |
 
-Series S170 spans 12 Flinn–Engdahl regions and includes the 2004 Indian Ocean earthquake (M 9.1), representing the most spatially extensive modern episode.
+Series S170 spans 12 Flinn–Engdahl regions and includes the 2004 Indian Ocean earthquake (M 9.1), representing the most spatially extensive modern episode (Figure 1: `figures/grl/fig01_global_map.png`; Figure 2: ETAS validation, `figures/grl/fig02_etas_validation.png`; η distribution: `figures/viz2_eta_distribution.png`).
 
 ### 4.3 Spatial–temporal distribution
 
@@ -141,9 +157,11 @@ Elevated series activity occurs in 1952–1965 and 2002–2016 (post-Sumatra per
 
 Observed global series are incompatible with both a spatially inhomogeneous Poisson null hypothesis and ETAS catalogs that reproduce local aftershock structure without long-range coupling. FDR correction confirms that the majority of identified series (45/47) are not artifacts of multiple testing.
 
+**Reconciliation with Michael (2011) and Shearer & Stark (2012).** Those studies tested whether global *event rates* and short-window *frequency* clustering of M≥7 earthquakes exceed random expectation—and found no significant acceleration after 2004. Our analysis targets a different observable: the *clustering structure* of nearest-neighbor η linkages across Flinn–Engdahl regions using tectonic-path distance. A catalog can exhibit elevated multi-regional series connectivity (our result) while showing no anomalous global rate increase (their result). The two findings are complementary, not contradictory.
+
 Tectonic-path distance is essential: Euclidean metrics underestimate connectivity along plate boundaries and overestimate links across rigid lithosphere, producing false positives and missing genuine inter-plate correlations.
 
-Historical episodes (e.g., 856–887 CE: six M≥7.5 events across Iran, Japan, Spain, and Greece within 30 years) exceed typical dynamic-triggering timescales and warrant further investigation with expanded paleoseismic constraints.
+Historical episodes (e.g., 856–887 CE: six M≥7.5 events across Iran, Japan, Spain, and Greece within 30 years) exceed typical dynamic-triggering timescales but cannot be confirmed given catalog incompleteness (p = 0.46).
 
 Limitations include uneven historical completeness, static plate-boundary geometry, and the correlative (non-causal) nature of the η metric.
 
@@ -156,7 +174,7 @@ Limitations include uneven historical completeness, static plate-boundary geomet
 3. Series S170 (46 events, 12 regions, 2002–2023, Mmax = 9.1) demonstrates long-term global activation along the Pacific Ring of Fire.
 4. Tectonic distance increases η-metric sensitivity by ~0.3 log10 units relative to Euclidean distance.
 
-**Future work:** Coulomb stress change (ΔCFS) analysis for S047, S170, and S095; focal mechanism constraints; ETAS extensions with explicit long-range kernels; Zenodo DOI release.
+**Future work:** Coulomb stress change (ΔCFS) analysis for S047, S170, and S095 incorporating **hypocentral depth and focal mechanisms** (King et al., 1994; Stein, 1999); ETAS extensions with explicit long-range kernels; Zenodo DOI release.
 
 ---
 
@@ -177,12 +195,15 @@ Limitations include uneven historical completeness, static plate-boundary geomet
 5. Hill D.P. et al. (1993). Seismicity remotely triggered by the magnitude 7.3 Landers earthquake. *Science*, 260, 1617–1623.
 6. Brodsky E.E., Prejean S.G. (2006). New constraints on mechanisms of remotely triggered seismicity. *J. Geophys. Res.*, 111, B06312.
 7. Pollitz F.F. et al. (1998). Viscosity of oceanic asthenosphere inferred from remote triggering. *Science*, 280, 1245–1249.
-8. Michael A.J. (2011). Random variability explains apparent global clustering of large earthquakes. *Geophys. Res. Lett.*, 38, L21301.
-9. Shearer P.M., Stark P.B. (2012). Global risk of big earthquakes has not recently increased. *PNAS*, 109(3), 717–721.
-10. Ogata Y. (1988). Statistical models for earthquake occurrences and residual analysis. *J. Amer. Stat. Assoc.*, 83, 9–27.
-11. Benjamini Y., Hochberg Y. (1995). Controlling the false discovery rate. *J. Roy. Stat. Soc. B*, 57(1), 289–300.
-12. Gardner J.K., Knopoff L. (1974). Is the sequence of earthquakes in Southern California Poissonian? *BSSA*, 64, 1363–1367.
-13. Young J.B. et al. (1996). The Flinn–Engdahl regionalization scheme: the 1995 revision. *Phys. Earth Planet. Int.*, 96, 223–297.
+8. King G.C.P. et al. (1994). Static stress changes and the triggering of earthquakes. *BSSA*, 84, 935–953.
+9. Stein R.S. (1999). The role of stress transfer in earthquake occurrence. *Nature*, 402, 605–609.
+10. Michael A.J. (2011). Random variability explains apparent global clustering of large earthquakes. *Geophys. Res. Lett.*, 38, L21301.
+11. Shearer P.M., Stark P.B. (2012). Global risk of big earthquakes has not recently increased. *PNAS*, 109(3), 717–721.
+12. Ogata Y. (1988). Statistical models for earthquake occurrences and residual analysis. *J. Amer. Stat. Assoc.*, 83, 9–27.
+13. Benjamini Y., Hochberg Y. (1995). Controlling the false discovery rate. *J. Roy. Stat. Soc. B*, 57(1), 289–300.
+14. Gardner J.K., Knopoff L. (1974). Is the sequence of earthquakes in Southern California Poissonian? *BSSA*, 64, 1363–1367.
+15. Woessner J., Wiemer S. (2005). Assessing the quality of earthquake catalogues. *BSSA*, 95, 684–698.
+16. Young J.B. et al. (1996). The Flinn–Engdahl regionalization scheme: the 1995 revision. *Phys. Earth Planet. Int.*, 96, 223–297.
 
 ---
 

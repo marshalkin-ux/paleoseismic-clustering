@@ -151,22 +151,15 @@ def build(s):
     story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
-        "Whether large earthquakes cluster in space and time beyond chance is a "
-        "foundational question in probabilistic seismic hazard assessment. We analyse "
-        "a merged catalog of 4,418 M\u22656.5 events (2150\u00a0BCE\u20132026\u00a0CE) "
-        "from USGS ComCat, the ISC Bulletin, and NOAA NGDC (M<sub>c</sub>=6.55; "
-        "b=0.911\u00b10.018). Using the Baiesi\u2013Paczuski nearest-neighbor metric "
-        "\u03b7 with tectonic-path distance on the Bird (2003) plate-boundary graph, "
-        "we identify 47 global seismic series across three temporal windows: 27 modern "
-        "(1973\u20132026), 15 early instrumental (1900\u20131972), and 5 historical "
-        "(pre-1900). Significance is established through: (i) a permutation test "
-        "(n=10,000, p&lt;0.0001, z=\u22126.17); (ii) ETAS null-model validation "
-        "(100 synthetic catalogs, p<sub>ETAS</sub>=0.0000, FPR=0/100); and "
-        "(iii) Benjamini\u2013Hochberg FDR correction at q=0.05 (45/47 series "
-        "significant). The largest modern series, S170, comprises 46 events across "
-        "12 Flinn\u2013Engdahl regions (2002\u20132023, M<sub>max</sub>=9.1), "
-        "including the 2004 Sumatra\u2013Andaman earthquake. Tectonic distance improves "
-        "clustering sensitivity by ~0.3 log<sub>10</sub> \u03b7 units versus Euclidean distance.",
+        "We analyse a merged catalog of 4,418 M\u22656.5 events (2150\u00a0BCE\u20132026\u00a0CE) "
+        "using the Baiesi\u2013Paczuski metric \u03b7 with tectonic-path distance (Bird\u00a02003). "
+        "47 global seismic series are identified (27 modern, 15 early, 5 historical candidates). "
+        "Significance: permutation test (n=10,000, p&lt;0.0001, z=\u22126.17); ETAS validation "
+        "(FPR=0/100); FDR (45/47 at q=0.05). Fifteen early series reach p=0.007, but pre-1960 "
+        "incompleteness (quality_score&lt;0.7) limits interpretation. "
+        "<b>No historical series are significant</b> (p=0.46). "
+        "Largest modern series: S170 (46 events, 12 Flinn\u2013Engdahl regions, "
+        "M<sub>max</sub>=9.1, 2002\u20132023).",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -222,13 +215,16 @@ def build(s):
         "instrumental); <b>ISC Bulletin</b> (relocated hypocenters); and <b>NOAA NGDC</b> "
         "(historical and paleoseismic records from ~2150 BCE). Duplicates were merged "
         "using \u00b130 days and \u226450 km tolerance; source priority: ISC &gt; USGS &gt; NOAA. "
-        "Only events with quality_score &gt; 0.5 were retained.",
+        "USGS ComCat contains <b>2,088</b> raw M\u22656.5 events (1973\u20132026); after "
+        "quality_score &gt; 0.5 filtering, <b>2,041</b> remain (~47 excluded). "
+        "Gardner\u2013Knopoff declustering removes ~24 aftershocks (2,017 independent, 98.8\u00a0%). "
+        "quality_score 0.30\u20130.95 by epoch and phase readings (Woessner &amp; Wiemer 2005); "
+        "analysis limited to windows with &gt;90\u00a0% events above 0.5.",
         s["body"]
     ))
     story.append(Paragraph(
-        "<b>Final catalog:</b> 4,418 events M\u22656.5 (2150 BCE \u2013 2026 CE): "
-        "2,041 modern (1973\u20132026), 2,179 early instrumental (1900\u20131972), "
-        "67 historical (pre-1900).",
+        "<b>Final catalog:</b> 4,418 events: 2,041 modern, 2,179 early instrumental, "
+        "198 historical (fragmentary over ~4,000 yr).",
         s["body_ni"]
     ))
     story += SSSEC("2.1.1 Catalog completeness", s)
@@ -245,9 +241,9 @@ def build(s):
     story.append(Paragraph(
         "Tectonic distance r<sub>ij</sub> is the shortest path between hypocenters "
         "along the Bird (2003) plate-boundary graph (20 key segments). Paths are "
-        "computed with Dijkstra's algorithm (NetworkX). For weakly connected pairs "
-        "(r<sub>tect</sub> &gt; 1.5 \u00d7 r<sub>eucl</sub>), a penalty "
-        "r<sub>ij</sub> = 1.5 \u00d7 r<sub>eucl</sub> is applied.",
+        "computed with Dijkstra's algorithm (NetworkX). If either hypocenter lies "
+        "&gt;500 km from the nearest boundary node, or no graph path exists, "
+        "r<sub>ij</sub> = 1.5 \u00d7 r<sub>GC</sub> (great-circle Haversine).",
         s["body"]
     ))
     story.append(Spacer(1, 0.15 * cm))
@@ -256,16 +252,24 @@ def build(s):
         w
     ))
     story.append(Paragraph(
-        "Following Baiesi &amp; Paczuski [2004]; d<sub>f</sub> = 1.6 (fractal dimension).",
+        "Baiesi &amp; Paczuski [2004]; d<sub>f</sub>=1.6; b=1.0 (code default); parent m<sub>i</sub> only. "
+        "\u03b7 is a relative measure; \u03b7<sub>0</sub> is empirical from the NN distribution.",
         s["caption"]
     ))
 
-    story += SSEC("2.3 Series detection and validation", s)
+    story += SSEC("2.3 Threshold \u03b7\u2080 and series detection", s)
+    story.append(Paragraph(
+        "Automatic \u03b7<sub>0</sub> from nearest-neighbor \u03b7 distribution: KDE valley "
+        "between bimodal log<sub>10</sub>(\u03b7) modes (Zaliapin &amp; Ben-Zion 2013); "
+        "default \u03b7<sub>0</sub> = 10<sup>median log10 \u03b7</sup>. Validated against "
+        "Poisson permutation null (n = 10,000).",
+        s["body"]
+    ))
     for num, text in [
-        ("1.", "Declustering via Gardner\u2013Knopoff [1974] to remove local aftershocks."),
-        ("2.", "Nearest-neighbor forest: for each j, parent i* = argmin \u03b7<sub>ij</sub> subject to \u03b7<sub>ij</sub> &lt; \u03b7<sub>0</sub>."),
-        ("3.", "Global series criterion: N \u2265 4 events; M \u2265 6.5; \u2265 3 Flinn\u2013Engdahl regions."),
-        ("4.", "Sliding windows (1, 2, 5 yr; 1-yr step); overlapping groups merged."),
+        ("1.", "Declustering via Gardner\u2013Knopoff [1974]."),
+        ("2.", "Nearest-neighbor forest: parent i* = argmin \u03b7<sub>ij</sub> subject to \u03b7<sub>ij</sub> &lt; \u03b7<sub>0</sub>."),
+        ("3.", "Global series: N \u2265 4; M \u2265 6.5; \u2265 3 Flinn\u2013Engdahl regions."),
+        ("4.", "Sliding windows (1, 2, 5 yr); overlapping groups merged."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
     story.append(Paragraph(
@@ -281,9 +285,9 @@ def build(s):
     story += SSEC("3.1 Identified series", s)
     story.append(Paragraph(
         "Full historical analysis yields <b>47 global seismic series</b>: 27 modern "
-        "(1973\u20132026, p &lt; 0.0001, z = \u22126.17), 15 early instrumental "
-        "(1900\u20131972, p = 0.007, z = \u22122.43), and 5 historical (p = 0.46). "
-        "The algorithm identifies 142 cluster candidates before window filtering and FDR correction.",
+        "(p &lt; 0.0001), 15 early instrumental (p = 0.007; pre-1960 quality_score &lt; 0.7 "
+        "caveat), 5 historical candidates (<b>not significant</b>, p = 0.46; ~198 fragmentary "
+        "events over ~4,000 yr). 142 cluster candidates before filtering.",
         s["body"]
     ))
 
@@ -314,7 +318,8 @@ def build(s):
     ]))
     story.append(tbl)
     story.append(Paragraph(
-        "Table 1. Top five multi-regional seismic series (\u2265 3 Flinn\u2013Engdahl regions).",
+        "Table 1. Top five multi-regional series (\u2265 3 Flinn\u2013Engdahl regions). "
+        "Fig. 1: figures/grl/fig01_global_map.png; Fig. 2: fig02_etas_validation.png.",
         s["caption"]
     ))
     story.append(Spacer(1, 0.2 * cm))
@@ -331,12 +336,10 @@ def build(s):
 
     story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
-        "Observed global series are incompatible with both a spatially inhomogeneous "
-        "Poisson null hypothesis and ETAS catalogs that reproduce local aftershock "
-        "structure without long-range coupling. FDR correction confirms that 45/47 "
-        "identified series are not artifacts of multiple testing. Tectonic-path distance "
-        "is essential: Euclidean metrics underestimate connectivity along plate boundaries "
-        "and overestimate links across rigid lithosphere.",
+        "Observed global series are incompatible with Poisson and ETAS nulls. FDR confirms "
+        "45/47 series. <b>Reconciliation with Michael (2011) and Shearer &amp; Stark (2012):</b> "
+        "those studies tested global <i>event rates</i>; we test <i>clustering structure</i> of "
+        "\u03b7 linkages with tectonic distance\u2014complementary, not contradictory findings.",
         s["body"]
     ))
     for num, text in [
@@ -352,9 +355,8 @@ def build(s):
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
         story.append(Spacer(1, 0.1 * cm))
     story.append(Paragraph(
-        "<b>Future work:</b> Coulomb stress change (\u0394CFS) analysis for S047, S170, "
-        "and S095; focal mechanism constraints; ETAS extensions with explicit long-range "
-        "kernels; Zenodo DOI release.",
+        "<b>Future work:</b> \u0394CFS for S047, S170, S095 with <b>depth and focal mechanisms</b> "
+        "(King et al. 1994; Stein 1999); ETAS long-range kernels; Zenodo DOI release.",
         s["body_ni"]
     ))
 
@@ -376,11 +378,14 @@ def build(s):
         "Hill D.P. et al. (1993). Seismicity remotely triggered by the magnitude 7.3 Landers earthquake. Science, 260, 1617\u20131623.",
         "Brodsky E.E., Prejean S.G. (2006). New constraints on mechanisms of remotely triggered seismicity. J. Geophys. Res., 111, B06312.",
         "Pollitz F.F. et al. (1998). Viscosity of oceanic asthenosphere inferred from remote triggering. Science, 280, 1245\u20131249.",
+        "King G.C.P. et al. (1994). Static stress changes and the triggering of earthquakes. BSSA, 84, 935\u2013953.",
+        "Stein R.S. (1999). The role of stress transfer in earthquake occurrence. Nature, 402, 605\u2013609.",
         "Michael A.J. (2011). Random variability explains apparent global clustering of large earthquakes. Geophys. Res. Lett., 38, L21301.",
         "Shearer P.M., Stark P.B. (2012). Global risk of big earthquakes has not recently increased. PNAS, 109(3), 717\u2013721.",
         "Ogata Y. (1988). Statistical models for earthquake occurrences and residual analysis. J. Amer. Stat. Assoc., 83, 9\u201327.",
         "Benjamini Y., Hochberg Y. (1995). Controlling the false discovery rate. J. Roy. Stat. Soc. B, 57(1), 289\u2013300.",
         "Gardner J.K., Knopoff L. (1974). Is the sequence of earthquakes in Southern California Poissonian? BSSA, 64, 1363\u20131367.",
+        "Woessner J., Wiemer S. (2005). Assessing the quality of earthquake catalogues. BSSA, 95, 684\u2013698.",
         "Young J.B. et al. (1996). The Flinn\u2013Engdahl regionalization scheme: the 1995 revision. Phys. Earth Planet. Int., 96, 223\u2013297.",
     ]
     for i, r in enumerate(refs, 1):
