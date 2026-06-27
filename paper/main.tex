@@ -36,8 +36,8 @@
 We present a systematic analysis of global seismic series spanning
 from 2150~BCE to 2026~CE, combining the NOAA~NGDC historical catalog,
 the USGS~ComCat instrumental catalog, and the ISC~Bulletin into a unified
-catalog of 4{,}418 events ($M \ge 6.5$; 2{,}041 modern, 2{,}179 early
-instrumental, 198 pre-1900).
+catalog of 4{,}418 records containing 4{,}267 events ($M \ge 6.5$; 2{,}041 modern,
+2{,}179 early instrumental, 47 pre-1900).
 Using the nearest-neighbor metric of \citet{Baiesi2004}, extended with
 a tectonic-path distance derived from the \citet{Bird2003} plate-boundary
 graph, we identify 47 global seismic series in three temporal windows:
@@ -179,18 +179,19 @@ Catalog completeness is assessed using the maximum-curvature method
 each event.
 
 Table~\ref{tab:catalog} summarises the merged catalog.
-After deduplication and quality filtering, the full catalog contains
-4{,}418 events with $M \ge 6.5$ spanning 2150~BCE to 2026~CE:
-2{,}041 modern events (1973--2026), 2{,}179 early instrumental (1900--1972),
-and 198 pre-1900 historical events (fragmentary over $\sim$4{,}000~years).
+The file \texttt{unified\_catalog\_full.csv} contains 4{,}418 rows;
+after $M \ge 6.5$ filtering, 4{,}267 events remain spanning 2150~BCE to
+2026~CE: 2{,}041 modern (1973--2026), 2{,}179 early instrumental
+(1900--1972), and 47 pre-1900 historical events (fragmentary paleoseismic
+records over $\sim$4{,}000~years).
 For the modern window, USGS~ComCat provides 2{,}088 raw $M \ge 6.5$ records;
-after \texttt{quality\_score}~$> 0.5$ filtering, 2{,}041 events remain
-($\sim$47 excluded).  Gardner--Knopoff declustering removes $\sim$24 local
-aftershocks during analysis (2{,}017 independent mainshocks, 98.8\%).
-Each event receives a quality score in $[0.30, 0.95]$ based on epoch,
-phase readings, and cross-catalog overlap \citep{Woessner2005}; analysis
-is restricted to windows where $>90\%$ of events exceed
-\texttt{quality\_score}~$= 0.5$.
+after merging with ISC/NOAA and deduplication, 2{,}041 events remain
+(\textbf{without} \texttt{quality\_score} exclusion).
+Gardner--Knopoff declustering removes $\sim$24 local aftershocks during
+analysis (2{,}017 independent mainshocks, 98.8\%).
+Each event receives a \texttt{quality\_score} in $[0.30, 0.95]$ based on
+epoch, phase readings, and cross-catalog overlap \citep{Woessner2005}; this
+is interpretive metadata, \textbf{not} an inclusion filter.
 The completeness threshold $M_c = 6.55$ for the post-1973 instrumental
 period is estimated by the maximum-curvature method \citep{Woessner2005};
 1{,}688 modern events satisfy $M \ge M_c$.
@@ -205,14 +206,15 @@ $b = 0.911 \pm 0.018$ \citep{Aki1965}.
 \hline
 Source / Window & Events ($M \ge 6.5$) & Year range & Quality ($q$) \\
 \hline
-NOAA NGDC (historical)        & $\sim$198       & 2150~BCE -- 1899~CE & 0.3 -- 0.6 \\
+NOAA NGDC (historical)        & 47              & 2150~BCE -- 1899~CE & 0.3 -- 0.6 \\
 USGS ComCat (instrumental)    & 2{,}041         & 1973 -- 2026        & $\ge 0.90$ \\
 ISC Bulletin (relocated)      & $\sim$2{,}600   & 1904 -- 2023        & $\ge 0.80$ \\
 \hline
-Unified (after deduplication) & \textbf{4{,}418} & 2150~BCE -- 2026   & mixed \\
+Unified ($M \ge 6.5$)         & \textbf{4{,}267} & 2150~BCE -- 2026   & mixed \\
+\quad CSV records             & 4{,}418          & ---                 & --- \\
 \quad Modern (1973--2026)     & 2{,}041          & 1973 -- 2026        & $\ge 0.90$ \\
 \quad Early instr.\ (1900--1972) & 2{,}179       & 1900 -- 1972        & 0.70 -- 0.90 \\
-\quad Historical ($<$1900)    & 198              & 2150~BCE -- 1899    & 0.30 -- 0.60 \\
+\quad Historical ($<$1900)    & 47               & 2150~BCE -- 1899    & 0.30 -- 0.60 \\
 $M \ge M_c = 6.55$ complete   & 1{,}688          & 1973 -- 2026        & $\ge 0.90$ \\
 \hline
 \end{tabular}
@@ -347,19 +349,31 @@ Epidemic-Type Aftershock Sequence (ETAS) process
 
 \noindent where $\mu$ is the background rate and $\{K, \alpha, c, p\}$
 govern aftershock productivity.
-Parameters are estimated by maximum likelihood from the declustered
-catalog using the procedure of \citet{Ogata1998}; representative global
-values are $\mu \approx 0.01$, $K \approx 0.08$, $\alpha \approx 1.0$,
-$c \approx 0.01$~yr, $p \approx 1.1$ \citep{HelmstettterSornette2003}.
+Implementation values in \texttt{ETASCatalogGenerator}
+(\texttt{src/analysis/etas\_validation.py},
+\texttt{scripts/run\_etas\_validation.py}) are $\mu = 0.008$~day$^{-1}$,
+$K = 0.08$, $\alpha = 1.0$, $c = 0.005$~day, $p = 1.1$, Gutenberg--Richter
+$b = 1.0$, spatial kernel $d = 10$~km, $q = 1.5$
+\citep{Ogata1988, HelmstettterSornette2003}.
+\textbf{Long-range coupling is disabled:} offspring are placed only within
+\texttt{max\_trigger\_distance\_km}~$= 500$ of their parent (branching
+Poisson process, up to five generations).
 
-We generate 100 synthetic ETAS catalogs, each containing the same number
-of events as the observed catalog and matching its magnitude--frequency
-distribution, but with no spatial coupling beyond the local aftershock
-kernel.
-The global-series algorithm is then applied to each synthetic catalog,
-yielding a null distribution for the number of detected series.
+We generate 100 synthetic ETAS catalogs (seed~=~42), each containing the
+same number of events as the observed catalog and matching its
+magnitude--frequency distribution, but with no spatial coupling beyond
+500~km.
+The global-series algorithm (\texttt{global\_series}: $N \ge 4$,
+$\ge 3$ Flinn--Engdahl regions, 2-yr window) is applied to each
+synthetic catalog, yielding a null distribution for the number of
+detected series.
+The false-positive rate (FPR) is the fraction of catalogs with
+$\ge 1$ spurious global series; results
+(\texttt{results/etas\_validation.json}): mean false series
+$= 0.00 \pm 0.00$, FPR~=~0/100, $n_\mathrm{obs} = 47$.
 The ETAS $p$-value is defined as $p_\mathrm{ETAS} = P(N^\mathrm{ETAS}_\mathrm{series}
-\ge N^\mathrm{obs}_\mathrm{series})$.
+\ge N^\mathrm{obs}_\mathrm{series}) = 0.0000$ (empirical resolution
+$1/101$).
 If $p_\mathrm{ETAS} < 0.05$, the observed series count cannot be
 attributed to local aftershock structure alone.
 
@@ -383,8 +397,8 @@ the sensitivity analysis (Section~\ref{sec:robustness}).
 \section{Results}
 \label{sec:results}
 
-The full historical analysis covers 4{,}418 events ($M \ge 6.5$, BCE--2026,
-including historical catalog) and identifies 47 global seismic series in three
+The full historical analysis covers 4{,}267 events ($M \ge 6.5$, BCE--2026,
+4{,}418 CSV records) and identifies 47 global seismic series in three
 temporal windows (Table~\ref{tab:epochs}).
 
 \subsection{Catalog Completeness}
@@ -407,7 +421,7 @@ Period & Events & Series & $p$-value & $z$-score \\
 \hline
 1973--2026 (modern)            & 2041 & 27 & $<0.0001$ & $-6.17$ \\
 1900--1972 (early instrumental) & 2179 & 15 & $0.007$   & $-2.43$ \\
-Pre-1900 (historical)          &  198 &  5 & $0.46$    & $-0.74$ \\
+Pre-1900 (historical)          &   47 &  5 & $0.46$    & $-0.74$ \\
 \hline
 \textbf{Total}                 & \textbf{4418} & \textbf{47} & --- & --- \\
 \hline
@@ -511,12 +525,15 @@ The same global-series detection algorithm was applied to each catalog.
 
 Fitting ETAS parameters to the declustered catalog yields
 $\hat{\mu} = 0.009$~events/day, $\hat{K} = 0.082$, $\hat{\alpha} = 0.98$,
-$\hat{c} = 0.011$~yr, $\hat{p} = 1.08$.
+$\hat{c} = 0.011$~yr, $\hat{p} = 1.08$; the validation run uses the
+code defaults above ($\mu = 0.008$, $K = 0.08$, $\alpha = 1.0$,
+$c = 0.005$~days, $p = 1.1$, 500~km cutoff).
 The mean number of global series detected in 100 ETAS synthetic catalogs
 is $\bar{N}_\mathrm{ETAS} = 0.00$ (SD~=~0.00); the false-positive rate
-(FPR, fraction of catalogs with $\ge 1$ global series) is 0.000.
+(FPR, fraction of catalogs with $\ge 1$ global series) is 0/100.
 The ETAS $p$-value is $p_\mathrm{ETAS} = 0.0000$ (empirical resolution
-$1/101$).  Because none of the 100 ETAS catalogs produced a global series,
+$1/101$---a discrete test that rejects the local-only null but does not
+identify the physical triggering mechanism).  Because none of the 100 ETAS catalogs produced a global series,
 the observed 47 candidates cannot be attributed to local aftershock dynamics
 alone and represent a statistically significant departure from the standard
 ETAS null model without long-range coupling (Figure~\ref{fig:etas_null}).
@@ -841,7 +858,8 @@ The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
 \label{sec:conclusions}
 
 \begin{enumerate}
-  \item Full historical analysis (4{,}418 events, BCE--2026) identifies
+  \item Full historical analysis (4{,}267 events $M \ge 6.5$; 4{,}418 CSV
+        records; BCE--2026) identifies
         47 global seismic series in three temporal windows: 27 in the modern
         period (1973--2026), 15 in the early instrumental period (1900--1972),
         and 5 historical episodes (pre-1900).
@@ -862,9 +880,26 @@ The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
         modern chain is S170 (46 events, 12 regions, 2002--2023,
         $M_\mathrm{max}=9.1$), encompassing the 2004 Indian Ocean
         earthquake and a decade-long activation of the Circum-Pacific belt.
+  \item Given current evidence, two interpretive paths remain open:
+        \textbf{(a)}~if detected series reflect genuine long-range coupling,
+        probabilistic hazard models should incorporate elevated conditional
+        probabilities in tectonically connected distant zones and explicit
+        long-range kernels in ETAS extensions;
+        \textbf{(b)}~even if individual episodes prove artifactual under
+        refined constraints, the combined FDR~+~ETAS framework provides a
+        reproducible, code-audited null-testing pipeline for future catalog
+        updates.
   \item Global seismic series are not reproduced by ETAS models without
         long-range coupling, implicating stress-transfer mechanisms beyond
         local aftershock propagation.
+  \item \textbf{Interpretive fork given current evidence:}
+        \textbf{(a)}~If detected series reflect genuine long-range coupling,
+        hazard models should incorporate elevated conditional probabilities
+        in tectonically connected distant zones and explicit long-range
+        kernels in ETAS extensions;
+        \textbf{(b)}~even if individual episodes prove artifactual under
+        refined constraints, the combined FDR + ETAS framework provides a
+        reproducible, code-audited null-testing pipeline for future catalogs.
 \end{enumerate}
 
 \acknowledgments

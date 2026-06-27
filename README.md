@@ -4,7 +4,7 @@
 [![GitHub Pages](https://img.shields.io/badge/demo-GitHub%20Pages-58a6ff)](https://marshalkin-ux.github.io/paleoseismic-clustering/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-green.svg)](https://www.python.org/)
 
-**Статистически значимые глобальные сейсмические серии** в объединённом каталоге **4418 землетрясений M≥6.5** (2150 BCE – 2026): тектоническое расстояние, метрика Baiesi–Paczuski, ETAS-валидация, FDR и Monte Carlo.
+**Статистически значимые глобальные сейсмические серии** в объединённом каталоге **4267 событий M≥6.5** (4418 записей CSV; 2150 BCE – 2026): тектоническое расстояние, метрика Baiesi–Paczuski, ETAS-валидация (μ=0.008, K=0.08, порог 500 км), FDR и Monte Carlo.
 
 > **Живая демонстрация:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)  
 > **Научная статья (PDF):** [RU](paper/article_ru.pdf) · [EN](paper/article_en.pdf)  
@@ -18,10 +18,10 @@
 
 | Метрика | Значение |
 |---------|----------|
-| Каталог | **4418** событий M≥6.5 (USGS + ISC + NOAA) |
-| Глобальные серии | **47** (27 современных · 15 ранних · 5 исторических) |
+| Каталог | **4267** событий M≥6.5 (4418 записей CSV; USGS + ISC + NOAA) |
+| Глобальные серии | **47** (27 современных · 15 ранних · 5 исторических, p=0.46) |
 | Monte Carlo | n = 10 000, **p < 0.0001**, z = −6.17 |
-| ETAS-валидация | 100 синтетических каталогов → **0** ложных серий |
+| ETAS-валидация | μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; 500 км → **FPR 0/100** |
 | FDR (q = 0.05) | **45/47** серий значимы |
 | Mc / b-value | 6.55 / 0.911 ± 0.018 |
 

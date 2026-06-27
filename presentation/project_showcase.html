@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Глобальные сейсмические серии — 47 значимых кластеров | Ярослав Маршалкин</title>
-  <meta name="description" content="Статистически значимые глобальные сейсмические серии в каталоге 4418 землетрясений M≥6.5 (2150 BCE–2026). ETAS-валидация (0/100 ложных), FDR 45/47, Monte Carlo p&lt;0.0001. Тектоническое расстояние Bird 2003, метрика Baiesi–Paczuski.">
+  <meta name="description" content="Статистически значимые глобальные сейсмические серии: 4267 событий M≥6.5 (4418 записей CSV; 2150 BCE–2026). ETAS-валидация (μ=0.008, K=0.08, порог 500 км; FPR 0/100), FDR 45/47, Monte Carlo p&lt;0.0001.">
   <meta name="keywords" content="глобальные сейсмические серии, earthquake clustering, seismic triggering, дальнодействующий триггеринг, Baiesi-Paczuski, тектоническое расстояние, ETAS validation, FDR Benjamini-Hochberg, Monte Carlo, paleoseismic, землетрясения M6.5">
   <meta name="author" content="Ярослав Маршалкин">
   <link rel="canonical" href="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
   <meta property="og:title" content="Глобальные сейсмические серии — исследование">
-  <meta property="og:description" content="47 значимых глобальных серий · 4418 событий M≥6.5 · интерактивная карта · научная статья PDF">
+  <meta property="og:description" content="47 значимых глобальных серий · 4267 событий M≥6.5 (4418 CSV) · интерактивная карта · научная статья PDF">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
   <meta property="og:locale" content="ru_RU">
@@ -1014,8 +1014,8 @@
 
     <div class="hero-counters">
       <div class="counter-card fade-in">
-        <div class="counter-number" data-target="4418" data-suffix="">0</div>
-        <div class="counter-label">событий в каталоге</div>
+        <div class="counter-number" data-target="4267" data-suffix="">0</div>
+        <div class="counter-label">событий M≥6.5 (4418 CSV)</div>
       </div>
       <div class="counter-card fade-in">
         <div class="counter-number" data-target="47" data-suffix="">0</div>
@@ -1181,9 +1181,8 @@
         </div>
       </div>
       <div class="data-total-footnote">
-        Использованы только записи с
-        <span class="term" data-tooltip="Оценка надёжности данных от 0 до 1. Современные инструментальные данные — 0.95; средневековые летописи — 0.3–0.4. Мы используем только события с оценкой выше 0.5">quality_score &gt; 0.5</span>
-        · источники: USGS + ISC + NOAA · дубликаты удалены по координатам (±50 км) и времени (±60 с)
+        Источники: USGS + ISC + NOAA · дубликаты удалены по координатам (±50 км) и времени (±60 с).
+        <span class="term" data-tooltip="Оценка надёжности 0–1: метаданные для интерпретации, не фильтр отбора">quality_score</span> — метаданные, не фильтр.
       </div>
     </div>
   </div>
@@ -1208,9 +1207,9 @@
         <div class="timeline-title"><span class="timeline-emoji">📥</span>Загрузка данных из трёх источников</div>
         <p class="timeline-desc">
           Скачиваем каталоги землетрясений с серверов USGS, ISC и NOAA. Проверяем формат,
-          координаты, магнитуды. Применяем фильтр
-          <span class="term" data-tooltip="Оценка надёжности данных от 0 до 1. Современные инструментальные данные — 0.95; средневековые летописи — 0.3–0.4. Мы используем только события с оценкой выше 0.5">quality_score &gt; 0.5</span>
-          для отсева ненадёжных исторических записей.
+          координаты, магнитуды. Каждому событию присваивается
+          <span class="term" data-tooltip="Оценка надёжности 0–1 по эпохе и источнику; метаданные для интерпретации, не критерий отбора">quality_score</span>
+          (метаданные, не фильтр).
         </p>
       </div>
 
@@ -1361,17 +1360,17 @@
         </p>
         <ul style="list-style:none; padding:0; font-size:0.9rem;">
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
-            <span style="color:var(--accent); font-weight:600;">100 синтетических ETAS-каталогов</span>, откалиброванных на реальный b-value
+            <span style="color:var(--accent); font-weight:600;">100 синтетических ETAS-каталогов</span> (μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; порог 500 км)
           </li>
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
-            λ(t) = μ + Σ K·e^α(mᵢ−M₀) / (t−tᵢ+c)^p — учитывает афтершоковую структуру
+            Ветвящийся пуассоновский процесс; FPR = доля каталогов с ≥1 ложной серией
           </li>
           <li style="padding:5px 0; color:var(--green); font-weight:600;">
             ✅ Выполнено · 100 каталогов · 0 ложных серий
           </li>
         </ul>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">p<sub>ETAS</sub> = 0.0000</strong> &nbsp;|&nbsp; FPR = 0.000 — наблюдаемые 47 серий не воспроизводятся афтершоковой моделью. <strong style="color:var(--text-dim);">Статус: ПОДТВЕРЖДЕНО</strong>
+          <strong style="color:var(--accent);">p<sub>ETAS</sub> = 0.0000</strong> &nbsp;|&nbsp; FPR = 0/100 — дискретный тест на 100 каталогах; локальный ETAS-нуль отвергнут (не доказывает механизм).
         </div>
       </div>
 
@@ -1506,8 +1505,8 @@
 
     <div class="results-stats">
       <div class="stat-card fade-in">
-        <div class="stat-number" data-target="4418" data-suffix="">0</div>
-        <div class="stat-label">событий в каталоге</div>
+        <div class="stat-number" data-target="4267" data-suffix="">0</div>
+        <div class="stat-label">событий M≥6.5</div>
       </div>
       <div class="stat-card fade-in">
         <div class="stat-number green" data-target="142" data-suffix="">0</div>
@@ -1807,7 +1806,8 @@
   <div style="margin-bottom: 3rem; border:1px solid rgba(63,185,80,0.35); border-radius:12px; padding:1.5rem; background:rgba(63,185,80,0.05);">
     <h3 style="color:#3fb950; margin-bottom:0.5rem;">ETAS-валидация — главный аргумент для GRL</h3>
     <p class="viz-block-desc">
-      Нулевая модель ETAS: 100 синтетических каталогов с афтершоками, но без дальних межрегиональных связей.
+      Нулевая модель ETAS: μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; max_trigger_distance_km=500.
+      100 синтетических каталогов; FPR=0/100, p<sub>ETAS</sub>=0.0000.
       Ни один не дал ложной серии — реальные 47 серий не объясняются стандартной моделью кластеризации.
     </p>
     <img src="../figures/grl/fig02_etas_validation.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="ETAS null-model validation">

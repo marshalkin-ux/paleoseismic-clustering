@@ -151,12 +151,13 @@ def build(s):
     story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
-        "We analyse a merged catalog of 4,418 M\u22656.5 events (2150\u00a0BCE\u20132026\u00a0CE) "
+        "We analyse a merged catalog (4,418 CSV records; 4,267 M\u22656.5 events; "
+        "2150\u00a0BCE\u20132026\u00a0CE) "
         "using the Baiesi\u2013Paczuski metric \u03b7 with tectonic-path distance (Bird\u00a02003). "
         "47 global seismic series are identified (27 modern, 15 early, 5 historical candidates). "
         "Significance: permutation test (n=10,000, p&lt;0.0001, z=\u22126.17); ETAS validation "
         "(FPR=0/100); FDR (45/47 at q=0.05). Fifteen early series reach p=0.007, but pre-1960 "
-        "incompleteness (quality_score&lt;0.7) limits interpretation. "
+        "incompleteness limits interpretation. "
         "<b>No historical series are significant</b> (p=0.46). "
         "Largest modern series: S170 (46 events, 12 Flinn\u2013Engdahl regions, "
         "M<sub>max</sub>=9.1, 2002\u20132023).",
@@ -216,16 +217,14 @@ def build(s):
         "(historical and paleoseismic records from ~2150 BCE). Duplicates were merged "
         "using \u00b130 days and \u226450 km tolerance; source priority: ISC &gt; USGS &gt; NOAA. "
         "USGS ComCat contains <b>2,088</b> raw M\u22656.5 events (1973\u20132026); after "
-        "quality_score &gt; 0.5 filtering, <b>2,041</b> remain (~47 excluded). "
+        "merging and deduplication, <b>2,041</b> M\u22656.5 events remain "
+        "(no quality_score filter). "
         "Gardner\u2013Knopoff declustering removes ~24 aftershocks (2,017 independent, 98.8\u00a0%). "
-        "quality_score 0.30\u20130.95 by epoch and phase readings (Woessner &amp; Wiemer 2005); "
-        "analysis limited to windows with &gt;90\u00a0% events above 0.5.",
+        "quality_score 0.30\u20130.95 is interpretive metadata (Woessner &amp; Wiemer 2005), "
+        "not an inclusion filter. "
+        "<b>Final catalog:</b> 4,267 M\u22656.5 events (4,418 CSV rows): "
+        "2,041 modern, 2,179 early instrumental, 47 historical (fragmentary paleoseismic).",
         s["body"]
-    ))
-    story.append(Paragraph(
-        "<b>Final catalog:</b> 4,418 events: 2,041 modern, 2,179 early instrumental, "
-        "198 historical (fragmentary over ~4,000 yr).",
-        s["body_ni"]
     ))
     story += SSSEC("2.1.1 Catalog completeness", s)
     story.append(Paragraph(
@@ -272,10 +271,15 @@ def build(s):
         ("4.", "Sliding windows (1, 2, 5 yr); overlapping groups merged."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
+    story += SSEC("2.4 Statistical validation", s)
     story.append(Paragraph(
         "<b>Permutation test:</b> n = 10,000, p &lt; 0.0001, z = \u22126.17 (modern). "
-        "<b>ETAS validation:</b> 100 synthetic catalogs without long-range coupling, "
-        "0 false series, p<sub>ETAS</sub> = 0.0000. "
+        "<b>ETAS validation</b> (<code>ETASCatalogGenerator</code>): "
+        "\u03bc=0.008, K=0.08, \u03b1=1.0, c=0.005 days, p=1.1; "
+        "max_trigger_distance_km=500 (links &gt;500 km forbidden). "
+        "100 synthetic catalogs (branching Poisson, seed=42); same global_series "
+        "algorithm on each. FPR = fraction with \u22651 false series = 0/100; "
+        "p<sub>ETAS</sub> = 0.0000 (discrete test, resolution 1/101). "
         "<b>FDR (Benjamini\u2013Hochberg, q = 0.05):</b> 45/47 series significant. "
         "<b>Declustering:</b> Gardner\u2013Knopoff 98.8%; Zaliapin\u2013Ben-Zion 100.0% independent.",
         s["body"]
@@ -285,9 +289,9 @@ def build(s):
     story += SSEC("3.1 Identified series", s)
     story.append(Paragraph(
         "Full historical analysis yields <b>47 global seismic series</b>: 27 modern "
-        "(p &lt; 0.0001), 15 early instrumental (p = 0.007; pre-1960 quality_score &lt; 0.7 "
-        "caveat), 5 historical candidates (<b>not significant</b>, p = 0.46; ~198 fragmentary "
-        "events over ~4,000 yr). 142 cluster candidates before filtering.",
+        "(p &lt; 0.0001), 15 early instrumental (p = 0.007; pre-1960 incompleteness "
+        "caveat), 5 historical candidates (<b>not significant</b>, p = 0.46; "
+        "47 M\u22656.5 events pre-1900). 142 cluster candidates before filtering.",
         s["body"]
     ))
 
@@ -336,21 +340,25 @@ def build(s):
 
     story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
-        "Observed global series are incompatible with Poisson and ETAS nulls. FDR confirms "
-        "45/47 series. <b>Reconciliation with Michael (2011) and Shearer &amp; Stark (2012):</b> "
-        "those studies tested global <i>event rates</i>; we test <i>clustering structure</i> of "
-        "\u03b7 linkages with tectonic distance\u2014complementary, not contradictory findings.",
+        "Observed global series are incompatible with Poisson and local-only ETAS nulls. "
+        "Michael [2011] and Shearer &amp; Stark [2012] tested global <i>event rates</i>, "
+        "not multi-regional <i>linkage structure</i>; our \u03b7-metric is complementary. "
+        "<b>Limitations:</b> historical p=0.46 (47 M\u22656.5 events pre-1900); "
+        "p<sub>ETAS</sub>=0.0000 is a discrete 100-catalog test (does not prove mechanism); "
+        "correlative \u03b7-metric without depth or focal mechanisms.",
         s["body"]
     ))
     for num, text in [
-        ("1.", "A unified catalog of 4,418 M\u22656.5 events contains 47 global seismic series; "
-               "27 modern series are significant at p &lt; 0.0001 (Monte Carlo, n = 10,000)."),
-        ("2.", "ETAS validation (0/100 false positives) and FDR correction (45/47 at q = 0.05) "
-               "confirm that series are not explained by randomness or local aftershock clustering alone."),
-        ("3.", "Series S170 (46 events, 12 regions, 2002\u20132023, M<sub>max</sub> = 9.1) "
-               "demonstrates long-term global activation along the Pacific Ring of Fire."),
-        ("4.", "Tectonic distance increases \u03b7-metric sensitivity by ~0.3 log<sub>10</sub> "
-               "units relative to Euclidean distance."),
+        ("1.", "4,267 M\u22656.5 events (4,418 CSV records) contain 47 global series; "
+               "27 modern significant at p &lt; 0.0001."),
+        ("2.", "ETAS validation (\u03bc=0.008, K=0.08, \u03b1=1.0, c=0.005 d, p=1.1, 500 km; "
+               "FPR=0/100) and FDR (45/47) confirm non-randomness."),
+        ("3.", "S170 (46 events, 12 regions, 2002\u20132023, M<sub>max</sub>=9.1) "
+               "demonstrates Pacific Ring activation."),
+        ("4.", "Tectonic distance increases \u03b7 sensitivity by ~0.3 log<sub>10</sub>."),
+        ("5.", "<b>Interpretive fork:</b> (a) if series are real \u2014 hazard implications "
+               "and long-range ETAS kernels; (b) if artifacts \u2014 FDR+ETAS remains a "
+               "reproducible null-test pipeline."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
         story.append(Spacer(1, 0.1 * cm))
