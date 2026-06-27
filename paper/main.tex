@@ -168,6 +168,8 @@ from 1904 to the present.
 Duplicate events from multiple sources are identified as events occurring
 within 50~km and 30 days of each other; in such cases the source with
 the highest reliability rank (ISC $>$ USGS $>$ NOAA) is retained.
+After deduplication ($\pm 30$~days, $\le 50$~km), the catalog contains
+4{,}267 unique events (from 4{,}418 raw records).
 Each event is assigned to a Flinn--Engdahl seismogeographic region
 \citep{Young1996} using a nearest-centroid lookup.
 A quality score ($q \in [0,1]$) is assigned based on the source and epoch:
@@ -240,6 +242,9 @@ $d_f = 1.6$ is the fractal dimension of the spatial distribution of
 seismicity \citep{Kagan1991}, $b = 1.0$ is the Gutenberg--Richter
 $b$-value \citep{GutenbergRichter1956}, and $m_i$ is the magnitude
 of the parent event.
+Note: $b = 1.0$ follows the original \citet{Baiesi2004} formulation;
+the catalog's empirical $b$-value is $0.911 \pm 0.018$ (used in the
+Monte~Carlo test).
 
 The nearest neighbor of event~$j$ is the preceding event~$i^*$ that
 minimises $\eta_{ij}$:
@@ -355,6 +360,9 @@ Implementation values in \texttt{ETASCatalogGenerator}
 $K = 0.08$, $\alpha = 1.0$, $c = 0.005$~day, $p = 1.1$, Gutenberg--Richter
 $b = 1.0$, spatial kernel $d = 10$~km, $q = 1.5$
 \citep{Ogata1988, HelmstettterSornette2003}.
+The parameter $c = 0.005$~day was chosen conservatively to accelerate
+aftershock decay in the null model; even under this strict condition,
+no false series emerged (FPR~=~0/100).
 \textbf{Long-range coupling is disabled:} offspring are placed only within
 \texttt{max\_trigger\_distance\_km}~$= 500$ of their parent (branching
 Poisson process, up to five generations).
@@ -423,7 +431,7 @@ Period & Events & Series & $p$-value & $z$-score \\
 1900--1972 (early instrumental) & 2179 & 15 & $0.007$   & $-2.43$ \\
 Pre-1900 (historical)          &   47 &  5 & $0.46$    & $-0.74$ \\
 \hline
-\textbf{Total}                 & \textbf{4418} & \textbf{47} & --- & --- \\
+\textbf{Total}                 & \textbf{4267} & \textbf{47} & --- & --- \\
 \hline
 \end{tabular}
 \end{table}
@@ -595,6 +603,13 @@ Together, these results provide the first quantitative evidence that
 global $M \ge 6.5$ catalogues contain multi-regional seismic episodes
 that are neither random Poisson fluctuations nor local aftershock
 artefacts.
+\paragraph{Early instrumental period (1900--1972).}
+Fifteen series in this window reach statistical significance
+($p = 0.007$, $z = -2.43$), strengthening the overall conclusion that
+clustering is not limited to modern catalog completeness.
+However, most pre-1960 events have \texttt{quality\_score}~$< 0.7$,
+and early instrumental incompleteness requires cautious interpretation
+of individual episodes (including 1905--1910).
 Previous null results \citep{Michael2011, ShearerStark2012} likely
 reflect the use of Euclidean metrics and the absence of tectonic
 connectivity constraints; replacing Euclidean distance with tectonic-path
