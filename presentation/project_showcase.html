@@ -36,6 +36,12 @@
       --yellow: #e3b341;
       --red: #f85149;
       --purple: #bc8cff;
+      --mat-content: #bc8cff;
+      --mat-technical: #3fb950;
+      --mat-data: #ffa657;
+      --mat-viz: #56d4dd;
+      --mat-publication: #79c0ff;
+      --mat-infra: #e3b341;
       --heading-font: 'Space Grotesk', sans-serif;
       --body-font: 'Inter', sans-serif;
     }
@@ -1075,39 +1081,194 @@
 
     /* ===== MATERIALS SECTION ===== */
     #materials { background: var(--bg); }
-    .materials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-    }
-    .materials-grid a {
+    .materials-legend {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 14px;
+      gap: 10px 12px;
+      margin-bottom: 24px;
+      padding: 14px 18px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 18px 20px;
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .materials-legend-label {
+      font-size: 0.82rem;
+      font-weight: 600;
       color: var(--text-dim);
-      font-size: 0.95rem;
+      font-family: var(--heading-font);
+      margin-right: 4px;
+    }
+    .materials-legend-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.78rem;
       font-weight: 500;
-      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      font-family: var(--body-font);
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
     }
-    .materials-grid a:hover {
-      border-color: var(--accent);
-      background: var(--card-hover);
-      transform: translateY(-3px);
-      opacity: 1;
+    .materials-legend-chip::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .materials-legend-chip:hover,
+    .materials-legend-chip:focus-visible {
       color: var(--text);
+      border-color: var(--accent);
+      outline: none;
     }
-    .materials-grid a .mat-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .materials-legend-chip.is-active {
+      color: var(--text);
+      background: rgba(88, 166, 255, 0.1);
+      border-color: var(--accent);
+    }
+    .materials-legend-chip--all::before { background: linear-gradient(135deg, var(--mat-content), var(--mat-viz)); }
+    .materials-legend-chip--content::before { background: var(--mat-content); }
+    .materials-legend-chip--publication::before { background: var(--mat-publication); }
+    .materials-legend-chip--data::before { background: var(--mat-data); }
+    .materials-legend-chip--technical::before { background: var(--mat-technical); }
+    .materials-legend-chip--viz::before { background: var(--mat-viz); }
+    .materials-board {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .materials-group {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .materials-group.is-hidden { display: none; }
+    .materials-group.is-filter-highlight {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(88, 166, 255, 0.2);
+    }
+    .materials-group-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+      cursor: pointer;
+      list-style: none;
+      font-family: var(--heading-font);
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      user-select: none;
+    }
+    .materials-group-header::-webkit-details-marker { display: none; }
+    .materials-group-header::after {
+      content: '▾';
+      margin-left: auto;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+    }
+    .materials-group:not([open]) .materials-group-header::after { transform: rotate(-90deg); }
+    .materials-group-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .materials-group-count {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: rgba(139, 148, 158, 0.12);
+      padding: 2px 8px;
+      border-radius: 999px;
+      margin-left: 4px;
+    }
+    .materials-group--content { border-left: 3px solid var(--mat-content); }
+    .materials-group--content .materials-group-header { background: rgba(188, 140, 255, 0.06); }
+    .materials-group--content .materials-group-dot { background: var(--mat-content); }
+    .materials-group--publication { border-left: 3px solid var(--mat-publication); }
+    .materials-group--publication .materials-group-header { background: rgba(121, 192, 255, 0.06); }
+    .materials-group--publication .materials-group-dot { background: var(--mat-publication); }
+    .materials-group--data { border-left: 3px solid var(--mat-data); }
+    .materials-group--data .materials-group-header { background: rgba(255, 166, 87, 0.06); }
+    .materials-group--data .materials-group-dot { background: var(--mat-data); }
+    .materials-group--technical { border-left: 3px solid var(--mat-technical); }
+    .materials-group--technical .materials-group-header { background: rgba(63, 185, 80, 0.06); }
+    .materials-group--technical .materials-group-dot { background: var(--mat-technical); }
+    .materials-group--viz { border-left: 3px solid var(--mat-viz); }
+    .materials-group--viz .materials-group-header { background: rgba(86, 212, 221, 0.06); }
+    .materials-group--viz .materials-group-dot { background: var(--mat-viz); }
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      padding: 0 16px 16px;
+    }
     .mat-link {
-      display:block; padding:0.75rem 1rem;
-      background:#161b22; border:1px solid #30363d; border-radius:8px;
-      color:#c9d1d9; text-decoration:none; font-size:0.9rem;
-      transition: border-color 0.2s, background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.75rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left-width: 3px;
+      border-radius: 8px;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
     }
-    .mat-link:hover { border-color:#58a6ff; background:#1c2128; color:#e6edf3; }
+    .mat-link:hover {
+      background: var(--card-hover);
+      color: var(--text);
+      transform: translateY(-2px);
+      opacity: 1;
+    }
+    .mat-link--content {
+      background: rgba(188, 140, 255, 0.05);
+      border-left-color: var(--mat-content);
+    }
+    .mat-link--content:hover { border-color: var(--mat-content); border-left-color: var(--mat-content); }
+    .mat-link--publication {
+      background: rgba(121, 192, 255, 0.05);
+      border-left-color: var(--mat-publication);
+    }
+    .mat-link--publication:hover { border-color: var(--mat-publication); border-left-color: var(--mat-publication); }
+    .mat-link--data {
+      background: rgba(255, 166, 87, 0.05);
+      border-left-color: var(--mat-data);
+    }
+    .mat-link--data:hover { border-color: var(--mat-data); border-left-color: var(--mat-data); }
+    .mat-link--technical {
+      background: rgba(63, 185, 80, 0.05);
+      border-left-color: var(--mat-technical);
+    }
+    .mat-link--technical:hover { border-color: var(--mat-technical); border-left-color: var(--mat-technical); }
+    .mat-link--viz {
+      background: rgba(86, 212, 221, 0.05);
+      border-left-color: var(--mat-viz);
+    }
+    .mat-link--viz:hover { border-color: var(--mat-viz); border-left-color: var(--mat-viz); }
+    @media (max-width: 768px) {
+      .materials-legend { gap: 8px 10px; padding: 12px 14px; }
+      .materials-legend-chip { font-size: 0.74rem; padding: 5px 10px; }
+      .materials-grid { grid-template-columns: 1fr; padding: 0 12px 12px; }
+    }
 
     /* ===== FOOTER ===== */
     footer {
@@ -1246,7 +1407,7 @@
         <div class="counter-label">глобальных серий (3 эпохи)</div>
       </div>
       <div class="counter-card fade-in">
-        <div class="counter-number" data-target="" data-literal="p ≤ 0.0001">p ≤ 0.0001</div>
+        <div class="counter-number" data-target="" data-literal="p = 0.0001 (1/10,001)">p = 0.0001 (1/10,001)</div>
         <div class="counter-label">уровень значимости (n=10 000)</div>
       </div>
     </div>
@@ -1518,7 +1679,7 @@
           10 000 раз случайно перемешиваем даты всех событий (координаты сохраняем) и
           повторяем анализ. Если наши реальные серии — случайность, они должны встречаться
           и в перемешанных данных. Результат:
-          <span class="term" data-tooltip="p ≤ 0.0001 — минимальное достижимое p при n=10 000 (1/(n+1)); вероятность получить такую группировку случайно ≤ 1 из 10 000">p ≤ 0.0001</span>,
+          <span class="term" data-tooltip="p = 0.0001 (1/10,001) — минимальное достижимое p при n=10 000 (1/(n+1)); вероятность получить такую группировку случайно ≤ 1 из 10 000">p = 0.0001 (1/10,001)</span>,
           <span class="term" data-tooltip="Наблюдаемое значение отстоит от случайного на 6.17 стандартных отклонений — это примерно как бросить монету и получить 20 орлов подряд">z = −6.17</span>.
         </p>
         <p style="color:#8b949e; font-size:0.9rem; margin-top:0.5rem; padding:0.75rem; background:#0d1117; border-radius:6px; border-left:3px solid #58a6ff;">
@@ -1533,7 +1694,8 @@
         <p class="timeline-desc">
           При поиске закономерностей в большом числе пар легко получить «ложные срабатывания».
           Метод <span class="term-tip">FDR Benjamini–Hochberg<span class="term-tip-box">Коррекция на множественное тестирование: N=47 гипотез (объединённые серии), не 142 окна-кандидата. Результат: 45/47 значимы при q=0.05.<a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> — статистическая «коррекция» на количество проверяемых гипотез.
-          Скользящие окна дают <strong>142 кандидата</strong> до merge; после критериев серии — <strong>47 гипотез</strong>.
+          Скользящие окна (<strong>1, 2 и 5 лет</strong>, шаг 1 год) дают <strong>142 кандидата</strong> до merge перекрывающихся групп; после критериев серии (N≥4, M≥6.5, ≥3 зон FE) — <strong>47 гипотез</strong> (одна на объединённую серию).
+          Перестановочный тест — <strong>глобальный</strong> (n=10 000, не per-window). FDR BH на N=47 series p-values, не на 142×регионы.
           После коррекции BH: <strong>45 из 47</strong> серий значимы (2 исторических кандидата не проходят порог).
         </p>
       </div>
@@ -1570,7 +1732,7 @@
             Метрика: среднее log₁₀(η) по всем парам ближайших соседей
           </li>
           <li style="padding:5px 0; color:var(--green); font-weight:600; font-size:1rem;">
-            ✅ p ≤ 0.0001 · z = −6.17 (современный период)
+            ✅ p = 0.0001 (1/10,001) · z = −6.17 (современный период)
           </li>
         </ul>
         <div style="margin-top:12px; padding:10px; background:rgba(63,185,80,0.08); border-radius:8px; border:1px solid rgba(63,185,80,0.2); font-size:0.85rem; color:var(--text-muted);">
@@ -1667,7 +1829,7 @@
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.4 Порог магнитуды</td>
               <td style="padding:10px 14px; color:var(--text-muted);">M<sub>min</sub></td>
               <td style="padding:10px 14px; color:var(--text-muted);">M≥6.5 → M≥7.0</td>
-              <td style="padding:10px 14px; color:var(--green);">18 серий совр.; p ≤ 0.0001</td>
+              <td style="padding:10px 14px; color:var(--green);">18 серий совр.; p = 0.0001 (1/10,001)</td>
               <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Подтверждено</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
@@ -1754,10 +1916,10 @@
           <ul>
             <li><strong>4267</strong> уникальных событий M≥6.5 в merged-каталоге (4418 CSV-строк; ~151 запись NOAA M&lt;6.5 сохранена для провенанса, исключена из кластеризации)</li>
             <li><strong>2041</strong> событие в современном окне <strong>1973–2026</strong> — основа заявлений о значимости</li>
-            <li><strong>47</strong> глобальных серий (≥3 зон Флинна–Энгдала); <strong>27</strong> современных с <strong>p ≤ 0.0001</strong></li>
+            <li><strong>47</strong> глобальных серий (≥3 зон Флинна–Энгдала); <strong>27</strong> современных с <strong>p = 0.0001 (1/10,001)</strong></li>
             <li><span class="term-tip">FDR<span class="term-tip-box">False Discovery Rate — поправка Benjamini–Hochberg на множественное тестирование.<a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>: <strong>45/47</strong> серий значимы при q &lt; 0.05</li>
             <li><span class="term-tip">ETAS<span class="term-tip-box">Epidemic Type Aftershock Sequence — Ogata (1988); n=1000 синтетических каталогов; параметры откалиброваны на 2041 событии.<a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>: FPR <strong>1000/1000</strong>, калибр. null mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (N<sub>obs</sub>=27)</li>
-            <li>Monte Carlo (10 000 перестановок): <strong>z = −6.17</strong>, p ≤ 0.0001</li>
+            <li>Monte Carlo (10 000 перестановок): <strong>z = −6.17</strong>, p = 0.0001 (1/10,001)</li>
             <li>Декластеризация <span class="term-tip">Gardner–Knopoff<span class="term-tip-box">Основной метод отделения главных толчков от афтершоков; 98–100% событий — независимые M≥6.5.<a href="https://en.wikipedia.org/wiki/Leon_Knopoff" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> — первичный; тектоническое расстояние Bird (2003): <strong>98%</strong> пар на GC-фолбэке 1.5×, ~2% — реальный путь Дейкстры</li>
             <li>Предварительные тесты <span class="term-tip">ΔCFS<span class="term-tip-box">Coulomb failure stress change; порог триггеринга ~0.01 МПа (Stein 1999). S170: +0.008 kPa — на три порядка ниже.<a href="https://en.wikipedia.org/wiki/Coulomb_stress_transfer" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> и динамического стресса для S170 <strong>не достигают порогов</strong> на телесейсмических расстояниях</li>
           </ul>
@@ -1834,7 +1996,7 @@
         <div style="background:#0d1117; border:1px solid #3fb950; border-radius:10px; padding:1.5rem; text-align:center; min-width:0; overflow:hidden; overflow-wrap:break-word;">
           <div style="color:#3fb950; font-size:0.75rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:0.5rem;">1973–2026</div>
           <div style="font-size:1.8rem; font-weight:700; color:#e6edf3;">27 серий</div>
-          <div style="color:#8b949e; font-size:0.8rem; margin-top:0.3rem;">p ≤ 0.0001 ★★★</div>
+          <div style="color:#8b949e; font-size:0.8rem; margin-top:0.3rem;">p = 0.0001 (1/10,001) ★★★</div>
         </div>
         <div style="background:#0d1117; border:1px solid #58a6ff; border-radius:10px; padding:1.5rem; text-align:center; min-width:0; overflow:hidden; overflow-wrap:break-word;">
           <div style="color:#58a6ff; font-size:0.75rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:0.5rem;">1900–1972</div>
@@ -1913,7 +2075,7 @@
       <p>
         Ни одна из <strong>10 000 случайных перестановок</strong> каталога не породила кластеризацию
         такой же силы, как наблюдаемая.
-        <strong>Глобальные сейсмические серии в современном окне — статистически значимы (p ≤ 0.0001); причинный механизм не установлен.</strong>
+        <strong>Глобальные сейсмические серии в современном окне — статистически значимы (p = 0.0001 (1/10,001)); причинный механизм не установлен.</strong>
       </p>
     </div>
   </div>
@@ -1928,7 +2090,7 @@
     <div class="meaning-stats">
       <div class="meaning-stat">
         <div class="ms-val">27</div>
-        <div class="ms-label">серий, 1973–2026<br>p ≤ 0,0001</div>
+        <div class="ms-label">серий, 1973–2026<br>p = 0,0001 (1/10 001)</div>
       </div>
       <div class="meaning-stat">
         <div class="ms-val">15</div>
@@ -2463,7 +2625,7 @@
         <div class="history-dot">11</div>
         <div class="history-date">27 июня 2026</div>
         <div class="history-title">Monte Carlo и ETAS-валидация</div>
-        <div class="history-desc">Перестановочный тест n = 10 000: p ≤ 0.0001, z = −6.17 (<code>results/montecarlo_full.json</code>). 1000 синтетических ETAS-каталогов (калибр. μ≈0,103; порог 500 км, seed=42) → FPR = 1000/1000, mean=27,0, p<sub>ETAS</sub>=1,0 (<code>results/etas_validation.json</code>). Сравнение декластеризации GK vs ZBZ.</div>
+        <div class="history-desc">Перестановочный тест n = 10 000: p = 0.0001 (1/10,001), z = −6.17 (<code>results/montecarlo_full.json</code>). 1000 синтетических ETAS-каталогов (калибр. μ≈0,103; порог 500 км, seed=42) → FPR = 1000/1000, mean=27,0, p<sub>ETAS</sub>=1,0 (<code>results/etas_validation.json</code>). Сравнение декластеризации GK vs ZBZ.</div>
       </div>
 
       <div class="history-item history-item--technical">
@@ -2519,7 +2681,7 @@
         <div class="history-dot">19</div>
         <div class="history-date">27 июня 2026</div>
         <div class="history-title">Уточнение ETAS-параметров и оговорок</div>
-        <div class="history-desc">Коммит 2dec0aa: зафиксированы ETAS-параметры (μ=0.008, K=0.08), раздел «interpretive fork» — обнаружение серий как статистическая аномалия, а не доказательство причинного механизма. Обновлены PDF и <code>main.tex</code>.</div>
+        <div class="history-desc">Коммит 2dec0aa: раздел «interpretive fork» — обнаружение серий как статистическая аномалия, а не доказательство причинного механизма. ETAS-параметры позже переведены на каталог-калиброванный MLE (μ≈0,103); литературные μ=0,008 — только для сравнения.</div>
       </div>
 
       <div class="history-item history-item--content">
@@ -2558,7 +2720,7 @@
           <li><strong>ETAS-валидация:</strong> 1000 каталогов → FPR 1000/1000; калибр. mean 27,0, p<sub>ETAS</sub>=1,0; лит. μ=0,008 → mean≈15,4, p≤0,001</li>
           <li><strong>FDR BH (q=0.05):</strong> 45/47 серий значимы, 0 удалено коррекцией</li>
           <li><strong>Декластеризация:</strong> GK 2017/2041 (24 афтершока) · ZBZ 2040/2041 (1 зависимое) — проверка чувствительности</li>
-          <li><strong>Monte Carlo:</strong> n = 10 000, p ≤ 0.0001, z = −6.17</li>
+          <li><strong>Monte Carlo:</strong> n = 10 000, p = 0.0001 (1/10,001), z = −6.17</li>
           <li>Данные и артефакты: <a href="../docs/data_availability.md" style="color:var(--accent)">docs/data_availability.md</a></li>
         </ul>
       </div>
@@ -2598,38 +2760,92 @@
       <p>Полный набор файлов — от сырых данных до финальной статьи</p>
     </div>
 
-    <div class="materials-grid fade-in">
-      <h3 style="color:#8b949e; font-size:0.8rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:1rem; grid-column:1/-1;">Презентации и дайджест</h3>
-      <a href="overview.pdf" class="mat-link">📄 Обзорный PDF (11 стр.)</a>
-      <a href="../figures/grl/fig02_etas_validation.png" class="mat-link">📊 ETAS-валидация (Fig. 2)</a>
-      <a href="../figures/grl/fig03_montecarlo_null.png" class="mat-link">📊 Monte Carlo null (Fig. 3)</a>
-      <a href="../docs/data_availability.md" class="mat-link">📋 Data availability (paths)</a>
-      <a href="index.html" class="mat-link">🎬 Слайды reveal.js (17 сл.)</a>
-      <a href="slides.md" class="mat-link">📝 Marp-слайды</a>
-      <a href="../digest/дайджест_ru.md" class="mat-link">🗞️ Научпоп дайджест</a>
-      <a href="visualizations.html" class="mat-link">📈 Визуализации (6 графиков)</a>
+    <div class="materials-legend fade-in" role="toolbar" aria-label="Фильтр материалов по категории">
+      <span class="materials-legend-label">Категории:</span>
+      <button type="button" class="materials-legend-chip materials-legend-chip--all is-active" data-mat-filter="all">Все</button>
+      <button type="button" class="materials-legend-chip materials-legend-chip--content" data-mat-filter="content">📖 Для читателей</button>
+      <button type="button" class="materials-legend-chip materials-legend-chip--publication" data-mat-filter="publication">📄 Публикация</button>
+      <button type="button" class="materials-legend-chip materials-legend-chip--data" data-mat-filter="data">📊 Данные</button>
+      <button type="button" class="materials-legend-chip materials-legend-chip--technical" data-mat-filter="technical">🔬 Код и документация</button>
+      <button type="button" class="materials-legend-chip materials-legend-chip--viz" data-mat-filter="viz">📈 Визуализации</button>
+    </div>
 
-      <h3 style="color:#8b949e; font-size:0.8rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:1rem; grid-column:1/-1; margin-top:1.5rem;">Научная статья</h3>
-      <a href="../paper/article_ru.pdf" class="mat-link">📰 Статья PDF (RU)</a>
-      <a href="../paper/article_en.pdf" class="mat-link">📰 Article PDF (EN)</a>
-      <a href="../paper/article_ru.md" class="mat-link">✏️ Статья Markdown (RU)</a>
-      <a href="../paper/article_en.md" class="mat-link">✏️ Article Markdown (EN)</a>
-      <a href="../paper/main.tex" class="mat-link">📐 LaTeX (AGU/GRL)</a>
-      <a href="../paper/bibliography_extended.bib" class="mat-link">📚 Библиография (79 источников)</a>
+    <div class="materials-board fade-in">
 
-      <h3 style="color:#8b949e; font-size:0.8rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:1rem; grid-column:1/-1; margin-top:1.5rem;">Данные и код</h3>
-      <a href="../results/analysis_summary.json" class="mat-link">📊 JSON результатов</a>
-      <a href="map_data.json" class="mat-link">📋 Каталог для карты (JSON)</a>
-      <a href="../notebooks/03_clustering_demo.ipynb" class="mat-link">🔬 Demo-ноутбук</a>
-      <a href="../notebooks/05_improvements_demo.ipynb" class="mat-link">🧪 Улучшения (ноутбук)</a>
+      <details class="materials-group materials-group--content" id="mat-content" open data-mat-category="content">
+        <summary class="materials-group-header">
+          <span class="materials-group-dot" aria-hidden="true"></span>
+          📖 Для читателей
+          <span class="materials-group-count">5</span>
+        </summary>
+        <div class="materials-grid">
+          <a href="overview.pdf" class="mat-link mat-link--content">📄 Обзорный PDF (11 стр.)</a>
+          <a href="index.html" class="mat-link mat-link--content">🎬 Слайды reveal.js (17 сл.)</a>
+          <a href="slides.md" class="mat-link mat-link--content">📝 Marp-слайды</a>
+          <a href="../digest/дайджест_ru.md" class="mat-link mat-link--content">🗞️ Научпоп дайджест</a>
+          <a href="visualizations.html" class="mat-link mat-link--content">📈 Интерактивные графики (6 шт.)</a>
+        </div>
+      </details>
 
-      <h3 style="color:#8b949e; font-size:0.8rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:1rem; grid-column:1/-1; margin-top:1.5rem;">Документация</h3>
-      <a href="../docs/index.md" class="mat-link">📚 Документация (7 разделов)</a>
-      <a href="../docs/03_methodology.md" class="mat-link">🔢 Методология</a>
-      <a href="../docs/04_api_reference.md" class="mat-link">⚙️ API Reference</a>
-      <a href="../docs/05_quickstart.md" class="mat-link">🚀 Быстрый старт</a>
-      <a href="../docs/research_improvements_consultation.md" class="mat-link">🔬 Рекомендации для GRL (A–H)</a>
-      <a href="../docs/statistical_testing_plan.md" class="mat-link">📊 План статистического тестирования</a>
+      <details class="materials-group materials-group--publication" id="mat-publication" open data-mat-category="publication">
+        <summary class="materials-group-header">
+          <span class="materials-group-dot" aria-hidden="true"></span>
+          📄 Публикация
+          <span class="materials-group-count">6</span>
+        </summary>
+        <div class="materials-grid">
+          <a href="../paper/article_ru.pdf" class="mat-link mat-link--publication">📰 Статья PDF (RU)</a>
+          <a href="../paper/article_en.pdf" class="mat-link mat-link--publication">📰 Article PDF (EN)</a>
+          <a href="../paper/article_ru.md" class="mat-link mat-link--publication">✏️ Статья Markdown (RU)</a>
+          <a href="../paper/article_en.md" class="mat-link mat-link--publication">✏️ Article Markdown (EN)</a>
+          <a href="../paper/main.tex" class="mat-link mat-link--publication">📐 LaTeX (AGU/GRL)</a>
+          <a href="../paper/bibliography_extended.bib" class="mat-link mat-link--publication">📚 Библиография (79 источников)</a>
+        </div>
+      </details>
+
+      <details class="materials-group materials-group--data" id="mat-data" open data-mat-category="data">
+        <summary class="materials-group-header">
+          <span class="materials-group-dot" aria-hidden="true"></span>
+          📊 Данные и результаты
+          <span class="materials-group-count">3</span>
+        </summary>
+        <div class="materials-grid">
+          <a href="../results/analysis_summary.json" class="mat-link mat-link--data">📊 JSON результатов</a>
+          <a href="map_data.json" class="mat-link mat-link--data">📋 Каталог для карты (JSON)</a>
+          <a href="../docs/data_availability.md" class="mat-link mat-link--data">📋 Data availability (paths)</a>
+        </div>
+      </details>
+
+      <details class="materials-group materials-group--technical" id="mat-technical" open data-mat-category="technical">
+        <summary class="materials-group-header">
+          <span class="materials-group-dot" aria-hidden="true"></span>
+          🔬 Код и документация
+          <span class="materials-group-count">8</span>
+        </summary>
+        <div class="materials-grid">
+          <a href="../notebooks/03_clustering_demo.ipynb" class="mat-link mat-link--technical">🔬 Demo-ноутбук</a>
+          <a href="../notebooks/05_improvements_demo.ipynb" class="mat-link mat-link--technical">🧪 Улучшения (ноутбук)</a>
+          <a href="../docs/index.md" class="mat-link mat-link--technical">📚 Документация (7 разделов)</a>
+          <a href="../docs/03_methodology.md" class="mat-link mat-link--technical">🔢 Методология</a>
+          <a href="../docs/04_api_reference.md" class="mat-link mat-link--technical">⚙️ API Reference</a>
+          <a href="../docs/05_quickstart.md" class="mat-link mat-link--technical">🚀 Быстрый старт</a>
+          <a href="../docs/research_improvements_consultation.md" class="mat-link mat-link--technical">🔬 Рекомендации для GRL (A–H)</a>
+          <a href="../docs/statistical_testing_plan.md" class="mat-link mat-link--technical">📊 План статистического тестирования</a>
+        </div>
+      </details>
+
+      <details class="materials-group materials-group--viz" id="mat-viz" open data-mat-category="viz">
+        <summary class="materials-group-header">
+          <span class="materials-group-dot" aria-hidden="true"></span>
+          📈 Визуализации
+          <span class="materials-group-count">2</span>
+        </summary>
+        <div class="materials-grid">
+          <a href="../figures/grl/fig02_etas_validation.png" class="mat-link mat-link--viz">📊 ETAS-валидация (Fig. 2)</a>
+          <a href="../figures/grl/fig03_montecarlo_null.png" class="mat-link mat-link--viz">📊 Monte Carlo null (Fig. 3)</a>
+        </div>
+      </details>
+
     </div>
   </div>
 </section>
@@ -2728,6 +2944,27 @@
   // Also observe counter cards that are not inside fade-in wrappers
   counterEls.forEach(el => {
     if (!el.closest('.fade-in')) observer.observe(el);
+  });
+
+  // ===== MATERIALS CATEGORY FILTER =====
+  const matFilterChips = document.querySelectorAll('[data-mat-filter]');
+  const matGroups = document.querySelectorAll('[data-mat-category]');
+
+  matFilterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const filter = chip.dataset.matFilter;
+      matFilterChips.forEach(c => c.classList.toggle('is-active', c === chip));
+      matGroups.forEach(group => {
+        const category = group.dataset.matCategory;
+        const show = filter === 'all' || category === filter;
+        group.classList.toggle('is-hidden', !show);
+        group.classList.toggle('is-filter-highlight', filter !== 'all' && category === filter);
+        if (filter !== 'all' && category === filter) {
+          group.open = true;
+          group.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    });
   });
 
   // ===== HERO COUNTER CARDS DIRECT OBSERVE =====
