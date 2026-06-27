@@ -22,9 +22,9 @@
 
 **Primary result:** catalog-calibrated **ETAS validation (p_ETAS = 1.0)** shows **47 algorithmic detector candidates** (27 on the modern window) are **indistinguishable from background activity** — the detector finds mean **27.0** candidates in ETAS synthetic catalogs, matching **N_obs = 27** (null result; falsification of the global-series hypothesis).
 
-**Analysis scope:** main catalog **1900–2026** (4,267 unique M≥6.5); **primary significance claims — modern window 1973–2026 only** (2,041 events). **47 pre-1900 NOAA records** remain in CSV but are **outside the primary detector-significance path** (Appendix A).
+**Analysis scope:** **Primary analysis set:** events **1900–2026** (4,218 unique M≥6.5); **47 pre-1900 NOAA records** remain in CSV for provenance only — see **Appendix A**. **Primary significance claims — modern window 1973–2026 only** (2,041 events).
 
-We test physically meaningful **multi-regional global seismic series** in an **analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041 events) using the Baiesi–Paczuski metric η with a **heuristic metric with tectonic hint** (Bird 2003 graph). *Provenance:* 4,418 CSV rows include ~151 NOAA M<6.5 rows excluded from clustering. The [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p = 0.0001 (1/10,001 permutations)**[^mc-p], z = −6.17) is a **secondary** test: it rejects a **global temporal Poisson null** — **expected for aftershock catalogs** (Ogata, 1988); **not** a test of the multi-regional global-series hypothesis and **not** proof of teleseismic triggering. Tectonic-path distance: **98%** 1.5× GC fallback — labeled sensitivity/failed hypothesis test; **primary spatial gate is mean pairwise GC > 1500 km**. **ΔCFS/dynamic stress — future work only**; “series” are algorithmic constructs, not proven triggering chains. Limitations — §5.5.
+We test physically meaningful **multi-regional global seismic series** in an **analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041 events); historical NOAA records (*n*=47) are reported in **Appendix A** only. We use the Baiesi–Paczuski metric η with a **heuristic metric with tectonic hint** (Bird 2003 graph). *Provenance:* 4,418 CSV rows include ~151 NOAA M<6.5 rows excluded from clustering. The [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p = 0.0001 (1/10,001 permutations)**[^mc-p], z = −6.17) is a **secondary** test: it rejects a **global temporal Poisson null** — **expected for aftershock catalogs** (Ogata, 1988); **not** a test of the multi-regional global-series hypothesis and **not** proof of teleseismic triggering. Tectonic-path distance: **98%** 1.5× GC fallback — labeled sensitivity/failed hypothesis test; **primary spatial gate is mean pairwise GC > 1500 km**. **ΔCFS/dynamic stress — future work only**; “series” are algorithmic constructs, not proven triggering chains. Limitations — §5.5.
 
 [^catalog-n]: Canonical analysis N: **4,267** unique M≥6.5 after deduplication (±30 days, ≤50 km; ISC > USGS > NOAA; cf. Waldhauser & Schaff, 2008). **4,418** saved CSV rows include ~151 NOAA M<6.5 rows (provenance only).
 
@@ -85,7 +85,7 @@ Duplicate records were merged using ±30 days and ≤50 km spatial tolerance (cf
 
 **Quality scoring (metadata).** Each event receives a quality_score in [0.30, 0.95] based on epoch, phase readings, and cross-catalog overlap (Woessner & Wiemer, 2005); this is interpretive metadata, **not** an inclusion filter. Instrumental events after 1960 typically score ≥0.90; pre-1900 documentary records score 0.30–0.60.
 
-**Final analysis catalog:** 4,267 unique M≥6.5 events (4,418 CSV rows = raw merged file, not analysis N). **Primary detector and significance scope: 1900–2026**; **primary claims: 1973–2026**. **47 pre-1900 records** stay in CSV (provenance) but are **outside primary inference** — see **Appendix A** (no re-run excluding them from CSV).
+**Final analysis catalog:** 4,267 unique M≥6.5 events (4,418 CSV rows = raw merged file, not analysis N). **Primary analysis set:** events **1900–2026** (4,218); **47 pre-1900 records** stay in CSV (provenance) but are **excluded from the primary detector pipeline and ETAS calibration window** (1973–2026 only) — see **Appendix A** (no re-run excluding them from CSV).
 
 | Epoch | Events M≥6.5 | Period |
 |-------|---------------|--------|
@@ -242,7 +242,9 @@ Minimal MLE on the modern catalog (**2,041** events M≥6.5, 1973–2026): `scri
 |-----------|--------|----------------------|----------------|---------------|-------------|
 | **μ** | GK mainshocks / T | closed form (no optimization) | 2,017/53.4 yr | — | — |
 | **c, p** | Omori MLE on 24 delays (≤500 km, ≤365 d) | `scipy.optimize.minimize`, **Nelder–Mead**, maxiter=5000 | log c=ln(0.01), log(p−1)=ln(0.1) | c∈[10⁻⁴, 10] d; p∈[1.01, 3] | success=true; **c=10⁻⁴** at lower bound |
-| **K, α** | WLS: log(E[N]+0.5) = log K + α(M−6.5) | `numpy.linalg.lstsq` (free α) | defaults if n<10 | K∈[10⁻⁴, 5]; α∈[0, 2.5] | **K≈0.495** (not at clip 5); α≈0.063 |
+| **K, α** | WLS: log(E[N]+0.5) = log K + α(M−6.5) | WLS (`numpy.linalg.lstsq`, free α) | defaults if n<10 | K∈[10⁻⁴, 5]; α∈[0, 2.5] | **K≈0.495** (not at clip 5); α≈0.063 |
+
+All Omori/ETAS time offsets **c** are in **days** (standard ETAS unit). The lower bound **c = 10⁻⁴ day** (~8.6 s) is a numerical floor in `calibrate_etas.py`; when the Nelder–Mead optimizer hits this bound we report it honestly. Literature values are typically **c ~ 0.001–0.01 day** (e.g. H&S 2003 default 0.005 day); hitting the floor is a calibration limitation of the minimal MLE on 24 GK aftershock delays.
 
 **Comparison with literature** (Helmstetter & Sornette 2003 — comparison only, not primary null):
 
@@ -448,6 +450,8 @@ Additionally: the heuristic metric with tectonic hint **does not improve** globa
 ## Appendix A. Pre-1900 NOAA records
 
 **47** fragmentary paleoseismic/historical M≥6.5 records from NOAA NGDC are retained in `data/processed/unified_catalog_full.csv` for provenance. **Not removed from CSV**; a separate pipeline re-run excluding them **was not performed**.
+
+These 47 events are **excluded from the primary detector pipeline and ETAS calibration window**: the canonical pipeline (`pipeline_v2.py`) and ETAS fit (`calibrate_etas.py`) use the modern catalog **1973–2026 only** (*N* = 2,041). Epoch-stratified counts in §4.1 include pre-1900 descriptively via `run_full_historical_analysis.py` but do not enter primary significance claims.
 
 - **quality_score:** 0.30–0.60 (metadata, not an inclusion filter).
 - **Detector:** 5 algorithmic candidates on this epoch; permutation p = 0.46 — **not statistically significant**.

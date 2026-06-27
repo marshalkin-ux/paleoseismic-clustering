@@ -197,7 +197,8 @@ def build(s):
         "(modern window 1973\u20132026: 2,041 events; provenance: 4,418 CSV rows, "
         "~151 NOAA M&lt;6.5 excluded from clustering) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
-        "The detector yields <b>47 algorithmic candidates</b> (27 modern); however, "
+        "The detector yields <b>47 algorithmic candidates</b> (27 modern); historical NOAA records "
+        "(n=47) reported in Appendix A only. However, "
         "ETAS validation (p_ETAS=1.0) shows these candidates are indistinguishable "
         "from background activity. Primary result \u2014 <b>null result (falsification of the global-series hypothesis)</b>: "
         "the detector finds on average 27.0 candidates in catalog-calibrated ETAS "
@@ -268,6 +269,9 @@ def build(s):
         "USGS ComCat: <b>2,088</b> raw (1973\u20132026) \u2192 <b>2,041</b> after merge/ISC. "
         "GK: 24 aftershocks (2,017/2,041); ZBZ: 1 dependent (2,040/2,041). "
         "quality_score is metadata, not an inclusion filter. "
+        "<b>Primary analysis set:</b> events 1900\u20132026 (4,218); 47 pre-1900 records "
+        "remain in CSV (provenance) but are excluded from the primary detector pipeline "
+        "and ETAS calibration window (1973\u20132026 only) \u2014 see Appendix A. "
         "<b>Final catalog:</b> 4,267 M\u22656.5 events (4,418 CSV rows).",
         s["body"]
     ))
@@ -350,8 +354,10 @@ def build(s):
     story.append(Paragraph(
         "<b>ETAS calibration</b> (scripts/calibrate_etas.py, results/etas_calibration.json): "
         "\u03bc = GK mainshocks/T (closed form); Omori c,p via scipy.minimize Nelder-Mead "
-        "(c=10\u207b\u2074 at lower bound); K,\u03b1 via WLS lstsq on 24 aftershocks "
-        "(\u2264500 km). K\u22480.495 vs literature ~0.08 \u2014 simplified WLS, not Ogata MLE. "
+        "(c=10\u207b\u2074 at lower bound); K,\u03b1 via WLS (numpy.linalg.lstsq) on 24 aftershocks "
+        "(\u2264500 km). All c in <b>days</b> (ETAS standard); lower bound 10\u207b\u2074\u00a0day "
+        "(\u22488.6\u00a0s) is a numerical floor; literature c typically 0.001\u20130.01\u00a0day. "
+        "K\u22480.495 vs literature ~0.08 \u2014 simplified WLS, not Ogata MLE. "
         "<b>Parameter CIs not estimated.</b> H&amp;S 2003 comparison: "
         "\u03bc=0.008, K=0.08, \u03b1=1.0, c=0.005, p=1.1.",
         s["body"]
@@ -454,6 +460,17 @@ def build(s):
         "<b>Future work / supplement:</b> Static \u0394CFS and dynamic stress for "
         "S170, S047, S095; full ETAS MLE and multi-seed robustness.",
         s["body_ni"]
+    ))
+
+    story += SEC("APPENDIX A. PRE-1900 NOAA RECORDS", s)
+    story.append(Paragraph(
+        "Forty-seven fragmentary paleoseismic/historical M\u22656.5 records from NOAA NGDC "
+        "are retained in data/processed/unified_catalog_full.csv for provenance (not removed). "
+        "These 47 events are <b>excluded from the primary detector pipeline and ETAS calibration "
+        "window</b>: pipeline_v2.py and calibrate_etas.py use the modern catalog 1973\u20132026 "
+        "only (N=2,041). Epoch-stratified counts include pre-1900 descriptively via "
+        "run_full_historical_analysis.py but do not enter primary significance claims.",
+        s["body"]
     ))
 
     story += SEC("DATA AND CODE AVAILABILITY", s)
