@@ -29,12 +29,13 @@
 %% =====================================================================
 \begin{abstract}
 We test the hypothesis of physically meaningful multi-regional \textbf{global seismic series}
-in a catalog of \textbf{4{,}267 unique $M \ge 6.5$ events} (4{,}418 CSV rows).
+in an \textbf{analysis catalog of 4{,}267 unique $M \ge 6.5$ events} (modern window
+1973--2026: 2{,}041 events).
 The detector yields \textbf{47 algorithmic candidates} (142 windows before merge;
 27 modern); \textbf{however, ETAS validation ($p_\mathrm{ETAS} = 1.0$) shows that
 these candidates are indistinguishable from background activity}.
-\textbf{Primary result --- negative (null/falsification):} on the modern window
-(1973--2026, 2{,}041 events), the detector finds on average \textbf{27.0} candidates
+\textbf{Primary result --- null result (falsification of the global-series hypothesis):}
+on the modern window, the detector finds on average \textbf{27.0} candidates
 in catalog-calibrated ETAS synthetic catalogs, matching the observed count of
 \textbf{27} --- the detector is \textbf{not specific} to global series; it reflects
 catalog background structure (see \S\ref{sec:limitations}--\ref{sec:detector-liberal}).
@@ -54,7 +55,7 @@ Limitations --- \S\ref{sec:limitations}.
         shows they are indistinguishable from background activity.
   \item Detector mean = 27.0 on calibrated ETAS null matches $N_\mathrm{obs}=27$ ---
         \textbf{not specific} to global series; reflects catalog background structure
-        (null/falsification result; see \S\ref{sec:limitations}).
+        (null result; see \S\ref{sec:limitations}).
   \item Permutation test $p = 0.0001$ (1/10{,}001) rejects \textbf{temporal Poisson}
         null only --- \textbf{not} proof of multi-regional global series.
   \item Tectonic distance failed as a global metric (98\% GC fallback);
@@ -241,10 +242,11 @@ $d_f = 1.6$ is the fractal dimension of the spatial distribution of
 seismicity \citep{Kagan1991}, $b = 1.0$ is the Gutenberg--Richter
 $b$-value \citep{GutenbergRichter1956}, and $m_i$ is the magnitude
 of the parent event.
-Note: $b = 1.0$ follows the original \citet{Baiesi2004} formulation for
-cross-study $\eta$ comparability; the catalog's empirical $b$-value is
-$0.911 \pm 0.018$ (used in the Monte~Carlo null and completeness analysis,
-not in the $\eta$ formula).
+Note: $b = 1.0$ and $d_f = 1.6$ follow the original \citet{Baiesi2004} formulation for
+cross-study $\eta$ comparability --- \textbf{not calibrated} to this catalog; the empirical
+$b$-value is $0.911 \pm 0.018$ (Mc, Monte Carlo null only).
+\citet{ZaliapinBenZion2008} relate $d_f$ to $b$ ($D \approx b$); fixed 1.6 and 1.0 are a
+\textbf{methodological choice}.
 
 The nearest neighbor of event~$j$ is the preceding event~$i^*$ that
 minimises $\eta_{ij}$:
@@ -503,13 +505,13 @@ The five largest series by coverage are:
 \label{tab:top5}
 \begin{tabular}{llrrrll}
 \hline
-Series & $N$ & Regions & $M_\mathrm{max}$ & Period & Note \\
+Series & $N$ & Regions & $M_\mathrm{max}$ & Period & lat$^\circ$ & lon$^\circ$ \\
 \hline
-1905--1910 & 193 & 43 & 8.8 & 1905--1910 & Largest ever \\
-1960--1965 & 166 & 35 & 9.2 & 1960--1965 & Chile 1960 ($M~9.2$) \\
-2011--2013 &  87 & 32 & 8.6 & 2011--2013 & Tohoku 2011 \\
-S170       &  46 & 12 & 9.1 & 2002--2023 & Sumatra 2004 ($M~9.1$) \\
-856--887 CE &  6 &  4 & 8.6 & 856--887   & Medieval cluster \\
+1905--1910 & 193 & 43 & 8.8 & 1905--1910 & $-60\ldots72$ & $-180\ldots180$ \\
+S170       &  46 & 12 & 9.1 & 2002--2023 & $-14.3\ldots33.8$ & $-113.1\ldots167.3$ \\
+S047       &  53 &  5 & 8.0 & 1982--2024 & $-21.5\ldots18.9$ & $-175.5\ldots155.2$ \\
+S095       &  25 &  4 & 7.9 & 1989--2017 & $-8.1\ldots16.5$ & $120.4\ldots146.4$ \\
+S116       &  22 &  5 & 8.2 & 1993--2021 & $-31.7\ldots10.8$ & $-179.5\ldots179.4$ \\
 \hline
 \end{tabular}
 \end{table}
@@ -768,10 +770,19 @@ null result can be stated.
 \begin{itemize}
 \item \textbf{Paleoseismic and historical data} ($\sim$1\% of catalog; 47 NOAA records
       pre-1900, $p = 0.46$) --- not significant; not used for significance claims.
+\item \textbf{$\eta$ parameters:} $b=1.0$, $d_f=1.6$ --- BP (2004) convention, not calibrated;
+      Zaliapin (2008): $D \approx b$ --- sensitivity deferred.
+\item \textbf{ETAS calibration:} minimal MLE, not full Ogata MLE; $\mu \approx 0.103$~d$^{-1}$
+      is GK-mainshock rate (2{,}017/53.4~yr), not raw 2{,}041/53.4; $K \approx 0.495$ from
+      simplified WLS (24 aftershocks, 500~km cap), possibly clipped at $K \le 5$ ---
+      see \texttt{results/etas\_calibration.json}.
+\item \textbf{Flinn--Engdahl zones:} large administrative regions; 3 zones $\neq$ 3 tectonic
+      provinces; not proof of global structure; future work: min great-circle separation
+      $>1000$~km between event pairs.
 \item \textbf{Heuristic tectonic metric:} 98\% of pairs use 1.5$\times$ GC fallback;
       failed hypothesis test, not a global-analysis improvement.
 \item \textbf{ETAS calibrated but detector liberal} --- mean $= 27.0$ matches
-      $N_\mathrm{obs}=27$; see \S\ref{sec:detector-liberal} for FPR and search-space detail.
+      $N_\mathrm{obs}=27$; see \S\ref{sec:detector-liberal}.
 \item \textbf{No physical mechanism established} --- $\Delta$CFS/dynamic stress future work only.
 \item \textbf{Negative result:} the global-series hypothesis is \textbf{not confirmed}.
 \end{itemize}

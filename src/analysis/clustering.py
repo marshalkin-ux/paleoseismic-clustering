@@ -1,7 +1,13 @@
 ﻿"""Кластеризация глобальных сейсмических серий.
 
-Реализует метрику Baiesi-Paczuski (2004) для поиска ближайших
-соседей и идентификации кластеров землетрясений.
+End-to-end detector (see paper §3.3, ``pipeline_v2.py``):
+
+1. Gardner–Knopoff declustering → mainshocks
+2. Baiesi–Paczuski η NN forest (b=1.0, r^1.6 — BP 2004 convention)
+3. ``global_series()`` sliding windows (1/2/5 yr) + FE ≥3 filter
+4. Permutation (mean log10 η_NN) and ETAS-null validation
+
+Output: algorithmic candidates, not validated physical series.
 """
 
 from __future__ import annotations
@@ -19,6 +25,32 @@ logger = logging.getLogger(__name__)
 DF_DEFAULT = 1.6   # фрактальная размерность
 B_DEFAULT = 1.0    # b-value (наклон закона Gutenberg-Richter)
 SECS_PER_YEAR = 365.25 * 24 * 3600
+
+# Primary global-series spatial gate: mean pairwise great-circle distance (km)
+DEFAULT_MIN_MEAN_GC_KM = 1500.0
+
+
+def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Great-circle distance (km)."""
+    lat1, lon1, lat2, lon2 = map(np.radians, [lat1, lon1, lat2, lon2])
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = np.sin(dlat / 2) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2) ** 2
+    return 2 * 6371.0 * np.arcsin(np.sqrt(np.clip(a, 0.0, 1.0)))
+
+
+def mean_pairwise_gc_km(lats: np.ndarray, lons: np.ndarray) -> float:
+    """Mean great-circle distance over all unordered event pairs."""
+    n = len(lats)
+    if n < 2:
+        return 0.0
+    total = 0.0
+    count = 0
+    for i in range(n - 1):
+        for j in range(i + 1, n):
+            total += _haversine_km(lats[i], lons[i], lats[j], lons[j])
+            count += 1
+    return total / count if count else 0.0
 
 
 def _eta_metric(
@@ -308,28 +340,38 @@ class SeismicClusterAnalyzer:
         time_window_years: float = 1.0,
         min_events: int = 4,
         min_magnitude: float = 6.5,
+        min_mean_gc_km: float = DEFAULT_MIN_MEAN_GC_KM,
+        min_regions: int | None = None,
     ) -> list[pd.DataFrame]:
-        """Ищет глобальные серии: события M>=min_magnitude в разных регионах.
+        """Ищет глобальные серии в скользящих временных окнах.
 
-        Серия — это группа событий, находящихся в одном временном окне
-        time_window_years и охватывающих не менее 3 разных регионов
-        Flinn-Engdahl.
+        Primary gate: mean pairwise great-circle distance among window events
+        exceeds ``min_mean_gc_km`` (default 1500 km). Flinn--Engdahl region
+        count is recorded when ``fe_region`` is present but is **not** a gate
+        unless ``min_regions`` is set explicitly (diagnostic / legacy).
 
         Args:
-            df: DataFrame с колонками year, magnitude, fe_region.
-            time_window_years: размер временного окна в годах.
-            min_events: минимальное число событий в серии.
-            min_magnitude: минимальная магнитуда.
+            df: DataFrame with year, magnitude, lat/lon; fe_region optional.
+            time_window_years: sliding window width (years).
+            min_events: minimum events per candidate series.
+            min_magnitude: magnitude cutoff.
+            min_mean_gc_km: minimum mean pairwise GC distance (km).
+            min_regions: optional FE-region gate (legacy); None = diagnostic only.
 
         Returns:
-            Список DataFrame, каждый — одна глобальная серия.
+            List of DataFrames, one per merged global-series candidate.
         """
-        if "fe_region" not in df.columns:
-            logger.warning("Колонка fe_region отсутствует, глобальные серии не ищутся")
+        lat_col = "latitude" if "latitude" in df.columns else "lat"
+        lon_col = "longitude" if "longitude" in df.columns else "lon"
+
+        required = ["year", "magnitude", lat_col, lon_col]
+        if any(c not in df.columns for c in required):
+            logger.warning("Missing columns for global_series: %s", required)
             return []
 
         sub = df[df["magnitude"] >= min_magnitude].copy()
-        sub = sub.dropna(subset=["year", "lat", "lon", "fe_region"])
+        sub = sub.rename(columns={lat_col: "lat", lon_col: "lon"})
+        sub = sub.dropna(subset=["year", "lat", "lon"])
         sub = sub.sort_values(["year", "month", "day"]).reset_index(drop=True)
 
         times = _events_to_time_years(sub)
@@ -339,20 +381,40 @@ class SeismicClusterAnalyzer:
         for i in range(len(sub)):
             if used[i]:
                 continue
-            # Окно [t_i, t_i + time_window_years]
             window_mask = (times >= times[i]) & (times < times[i] + time_window_years)
             window_events = sub[window_mask].copy()
 
-            regions = window_events["fe_region"].unique()
-            if len(window_events) >= min_events and len(regions) >= 3:
-                # Это глобальная серия
-                window_events["series_anchor_year"] = int(sub.loc[i, "year"])
-                series_list.append(window_events)
-                used[np.asarray(window_mask)] = True
-                logger.debug(
-                    "Глобальная серия: %d событий в %d регионах, ~%d год",
-                    len(window_events), len(regions), int(sub.loc[i, "year"]),
-                )
+            if len(window_events) < min_events:
+                continue
 
-        logger.info("Найдено %d глобальных серий", len(series_list))
+            lats = window_events["lat"].astype(float).values
+            lons = window_events["lon"].astype(float).values
+            mean_gc = mean_pairwise_gc_km(lats, lons)
+
+            if mean_gc < min_mean_gc_km:
+                continue
+
+            if min_regions is not None and "fe_region" in window_events.columns:
+                if window_events["fe_region"].nunique() < min_regions:
+                    continue
+
+            window_events["mean_pairwise_gc_km"] = mean_gc
+            if "fe_region" in window_events.columns:
+                window_events["n_fe_regions"] = int(
+                    window_events["fe_region"].nunique()
+                )
+            window_events["series_anchor_year"] = int(sub.loc[i, "year"])
+            series_list.append(window_events)
+            used[np.asarray(window_mask)] = True
+            n_reg = (
+                int(window_events["fe_region"].nunique())
+                if "fe_region" in window_events.columns
+                else -1
+            )
+            logger.debug(
+                "Global series: %d events, mean GC=%.0f km, %d FE regions, ~%d",
+                len(window_events), mean_gc, n_reg, int(sub.loc[i, "year"]),
+            )
+
+        logger.info("Найдено %d глобальных серий (mean GC > %.0f km)", len(series_list), min_mean_gc_km)
         return series_list

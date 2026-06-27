@@ -5,8 +5,12 @@ Uses reportlab; no external LaTeX required.
 """
 
 import os
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _pdf_fonts import register_pdf_fonts
+
+register_pdf_fonts()
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.lib.colors import HexColor, white
@@ -17,13 +21,6 @@ from reportlab.platypus import (
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 from reportlab.platypus.flowables import Flowable
-
-_FONT_DIR = r"C:\Windows\Fonts"
-pdfmetrics.registerFont(TTFont("Main", os.path.join(_FONT_DIR, "arial.ttf")))
-pdfmetrics.registerFont(TTFont("MainBold", os.path.join(_FONT_DIR, "arialbd.ttf")))
-pdfmetrics.registerFont(TTFont("MainItalic", os.path.join(_FONT_DIR, "ariali.ttf")))
-pdfmetrics.registerFont(TTFont("MainBI", os.path.join(_FONT_DIR, "arialbi.ttf")))
-
 DARK = HexColor("#1e3a5f")
 ACCENT = HexColor("#2563eb")
 TEXT = HexColor("#111111")
@@ -196,12 +193,13 @@ def build(s):
     story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
-        "We analyse a merged catalog of <b>4,267 unique M\u22656.5 events</b> "
-        "(from 4,418 CSV rows; ~151 NOAA M&lt;6.5 excluded from clustering) "
+        "We analyse an <b>analysis catalog of 4,267 unique M\u22656.5 events</b> "
+        "(modern window 1973\u20132026: 2,041 events; provenance: 4,418 CSV rows, "
+        "~151 NOAA M&lt;6.5 excluded from clustering) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "The detector yields <b>47 algorithmic candidates</b> (27 modern); however, "
         "ETAS validation (p_ETAS=1.0) shows these candidates are indistinguishable "
-        "from background activity. Primary result \u2014 <b>negative (null/falsification)</b>: "
+        "from background activity. Primary result \u2014 <b>null result (falsification of the global-series hypothesis)</b>: "
         "the detector finds on average 27.0 candidates in catalog-calibrated ETAS "
         "synthetic catalogs, matching N_obs=27 \u2014 not specific to global series; "
         "reflects catalog background structure (see Sec. 5.5\u20135.6). Permutation "
@@ -381,16 +379,17 @@ def build(s):
         s["body"]
     ))
 
-    tbl_cols = [w * f for f in [0.09, 0.07, 0.11, 0.09, 0.20, 0.44]]
+    tbl_cols = [w * f for f in [0.08, 0.06, 0.08, 0.07, 0.14, 0.12, 0.12, 0.33]]
     tbl_data = [
         [Paragraph("<b>ID</b>", s["tbl_hdr"]), Paragraph("<b>N</b>", s["tbl_hdr"]),
-         Paragraph("<b>Regions</b>", s["tbl_hdr"]), Paragraph("<b>M<sub>max</sub></b>", s["tbl_hdr"]),
-         Paragraph("<b>Period</b>", s["tbl_hdr"]), Paragraph("<b>Notes</b>", s["tbl_hdr"])],
-        ["1905\u20131910", "193", "43", "8.8", "1905\u20131910", "Largest early-instrumental candidate; catalog incomplete before ~1960"],
-        ["S047", "53", "5", "8.0", "1982\u20132024", "Western Pacific subduction corridor"],
-        ["S170", "46", "12", "9.1", "2002\u20132023", "Sunda belt; Sumatra 2004 (M 9.1)"],
-        ["S095", "25", "4", "7.9", "1989\u20132017", "Western Pacific arc"],
-        ["S116", "22", "5", "8.2", "1993\u20132021", "South Pacific multi-arc series"],
+         Paragraph("<b>Reg.</b>", s["tbl_hdr"]), Paragraph("<b>Mmax</b>", s["tbl_hdr"]),
+         Paragraph("<b>Period</b>", s["tbl_hdr"]), Paragraph("<b>lat</b>", s["tbl_hdr"]),
+         Paragraph("<b>lon</b>", s["tbl_hdr"]), Paragraph("<b>Notes</b>", s["tbl_hdr"])],
+        ["1905\u20131910", "193", "43", "8.8", "1905\u20131910", "-60..72", "-180..180", "Early instrumental; incomplete before ~1960"],
+        ["S047", "53", "5", "8.0", "1982\u20132024", "-21.5..18.9", "-175.5..155.2", "Western Pacific"],
+        ["S170", "46", "12", "9.1", "2002\u20132023", "-14.3..33.8", "-113.1..167.3", "Sumatra 2004 (M 9.1)"],
+        ["S095", "25", "4", "7.9", "1989\u20132017", "-8.1..16.5", "120.4..146.4", "Western Pacific arc"],
+        ["S116", "22", "5", "8.2", "1993\u20132021", "-31.7..10.8", "-179.5..179.4", "South Pacific"],
     ]
     tbl_data_fmt = [tbl_data[0]] + [
         [Paragraph(c, s["tbl_cell"]) for c in row] for row in tbl_data[1:]

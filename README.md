@@ -4,7 +4,7 @@
 [![GitHub Pages](https://img.shields.io/badge/demo-GitHub%20Pages-58a6ff)](https://marshalkin-ux.github.io/paleoseismic-clustering/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-green.svg)](https://www.python.org/)
 
-**Negative (null/falsification) result:** catalog-calibrated **ETAS** validation shows detector candidates are **indistinguishable from background activity** (**mean=27.0, p_ETAS=1.0**, matching N_obs=27) — the detector reflects catalog background structure, not excess global series. Permutation test rejects **temporal Poisson null** (p=0.0001, 1/10,001) — trivial for catalogs with aftershocks; **not** evidence for teleseismic triggering. **47 algorithmic candidates** (not “discovered series”); limitations — §5.5.
+**Negative (null result — falsification of the global-series hypothesis):** catalog-calibrated **ETAS** validation shows detector candidates are **indistinguishable from background activity** (**mean=27.0, p_ETAS=1.0**, matching N_obs=27) — the detector reflects catalog background structure, not excess global series. Permutation test rejects **temporal Poisson null** (p=0.0001, 1/10,001) — trivial for catalogs with aftershocks; **not** evidence for teleseismic triggering. **47 algorithmic candidates** (not “discovered series”); limitations — §5.5.
 
 > **Живая демонстрация:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)  
 > **Научная статья (PDF):** [RU](paper/article_ru.pdf) · [EN](paper/article_en.pdf)  
@@ -18,7 +18,7 @@
 
 | Метрика | Значение |
 |---------|----------|
-| Каталог | **4267** событий M≥6.5 (4418 записей CSV; USGS + ISC + NOAA) |
+| Каталог (анализ) | **4267** уникальных M≥6.5 (4418 CSV — провенанс; ~151 NOAA M<6.5 исключены) |
 | Кандидаты детектора | **47** merged (27 modern; **не** физически доказанные «серии») |
 | Permutation (Poisson times) | n = 10 000, **p = 0.0001 (1/10 001)**, z = −6.17 — **≠** global-series proof |
 | ETAS-null (калибр.) | n = 1000 → **mean 27.0, p_ETAS=1.0** (совпадает с N_obs=27; FPR — §5.6) |

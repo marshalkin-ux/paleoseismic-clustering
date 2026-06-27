@@ -9,7 +9,7 @@
   <meta name="author" content="Ярослав Маршалкин">
   <link rel="canonical" href="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
   <meta property="og:title" content="Глобальные сейсмические серии: M≥6.5 за 1973–2026">
-  <meta property="og:description" content="Null/falsification: ETAS-indistinguishable output. No multi-regional global series evidence.">
+  <meta property="og:description" content="Null result (falsification of global-series hypothesis): ETAS-indistinguishable detector output.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
   <meta property="og:locale" content="ru_RU">
@@ -1546,7 +1546,7 @@
       <div class="data-total-header">
         <p>Итог после объединения и дедупликации</p>
         <strong>4 267 событий M ≥ 6.5</strong>
-        <span class="data-total-sub">4418 CSV-строк (вкл. ~151 M&lt;6.5 из NOAA, исключены из кластеризации) → 4267 уникальных M≥6.5 · USGS 2088 → 2041 современных</span>
+        <span class="data-total-sub">Анализ-каталог: <strong>4267</strong> уникальных M≥6.5 · современное окно 1973–2026: <strong>2041</strong> · (4418 CSV-строк raw; ~151 NOAA M&lt;6.5 — только провенанс)</span>
       </div>
       <div class="data-total-grid">
         <div class="data-total-card">
@@ -1606,8 +1606,8 @@
         <div class="timeline-title"><span class="timeline-emoji">🔗</span>Объединение и дедупликация</div>
         <p class="timeline-desc">
           Одно и то же землетрясение часто встречается в нескольких каталогах.
-          Дедупликация: ±30 сут., ≤50 км. Исключены ~151 строк NOAA с M&lt;6.5 (провенанс в CSV).
-          Итог: <strong>2041 событие M≥6.5</strong> в окне 1973–2026 (4267 уникальных M≥6.5 в полном merged CSV 4418 строк).
+          Дедупликация: ±30 сут., ≤50 км. ~151 строк NOAA M&lt;6.5 — провенанс в CSV, исключены из кластеризации.
+          Итог: <strong>4267</strong> уникальных M≥6.5 (анализ-каталог); <strong>2041</strong> в окне 1973–2026.
         </p>
       </div>
 
@@ -1955,7 +1955,7 @@
         </div>
 
         <div class="findings-block findings-block--honest">
-          <h4>Единый вывод (null/falsification)</h4>
+          <h4>Отрицательный результат (фальсификация гипотезы о глобальных сериях)</h4>
           <p>
             Детектор находит в среднем 27,0 кандидатов в ETAS-каталогах с калиброванными параметрами, что совпадает с наблюдаемым числом 27 — детектор не специфичен для глобальных серий, он отражает фоновую структуру каталога (§5.5).
             <strong>Гипотеза о существовании глобальных сейсмических серий не подтверждается</strong>.
@@ -2043,6 +2043,8 @@
             <th style="padding:10px; color:#8b949e; font-size:0.85rem;">Регионов</th>
             <th style="padding:10px; color:#8b949e; font-size:0.85rem;">M<sub>max</sub></th>
             <th style="text-align:left; padding:10px; color:#8b949e; font-size:0.85rem;">Период</th>
+            <th style="text-align:left; padding:10px; color:#8b949e; font-size:0.85rem;">lat°</th>
+            <th style="text-align:left; padding:10px; color:#8b949e; font-size:0.85rem;">lon°</th>
             <th style="text-align:left; padding:10px; color:#8b949e; font-size:0.85rem;">Примечание</th>
           </tr>
         </thead>
@@ -2053,23 +2055,19 @@
             <td style="padding:10px; text-align:center; color:#e6edf3;">43</td>
             <td style="padding:10px; text-align:center; color:#f78166;">8.8</td>
             <td style="padding:10px; color:#8b949e;">1905–1910</td>
+            <td style="padding:10px; color:#8b949e; font-size:0.85rem;">−60…72</td>
+            <td style="padding:10px; color:#8b949e; font-size:0.85rem;">−180…180</td>
             <td style="padding:10px; color:#8b949e;">Крупнейший кандидат в раннем инструментальном окне; каталог неполный до ~1960</td>
           </tr>
           <tr style="border-bottom:1px solid #21262d;">
-            <td style="padding:10px; color:#58a6ff; font-weight:600;">1960–1965</td>
-            <td style="padding:10px; text-align:center; color:#e6edf3;">166</td>
-            <td style="padding:10px; text-align:center; color:#e6edf3;">35</td>
-            <td style="padding:10px; text-align:center; color:#ff7b72;">9.2</td>
-            <td style="padding:10px; color:#8b949e;">1960–1965</td>
-            <td style="padding:10px; color:#8b949e;">Чили 1960 (M9.2)</td>
-          </tr>
-          <tr style="border-bottom:1px solid #21262d;">
-            <td style="padding:10px; color:#3fb950; font-weight:600;">2011–2013</td>
-            <td style="padding:10px; text-align:center; color:#e6edf3;">87</td>
-            <td style="padding:10px; text-align:center; color:#e6edf3;">32</td>
-            <td style="padding:10px; text-align:center; color:#f78166;">8.6</td>
-            <td style="padding:10px; color:#8b949e;">2011–2013</td>
-            <td style="padding:10px; color:#8b949e;">Тохоку 2011 + последствия</td>
+            <td style="padding:10px; color:#58a6ff; font-weight:600;">S047</td>
+            <td style="padding:10px; text-align:center; color:#e6edf3;">53</td>
+            <td style="padding:10px; text-align:center; color:#e6edf3;">5</td>
+            <td style="padding:10px; text-align:center; color:#f78166;">8.0</td>
+            <td style="padding:10px; color:#8b949e;">1982–2024</td>
+            <td style="padding:10px; color:#8b949e; font-size:0.85rem;">−21.5…18.9</td>
+            <td style="padding:10px; color:#8b949e; font-size:0.85rem;">−175.5…155.2</td>
+            <td style="padding:10px; color:#8b949e;">Западная Пацифика</td>
           </tr>
           <tr style="border-bottom:1px solid #21262d;">
             <td style="padding:10px; color:#d2a8ff; font-weight:600;">S170</td>
@@ -2077,20 +2075,34 @@
             <td style="padding:10px; text-align:center; color:#e6edf3;">12</td>
             <td style="padding:10px; text-align:center; color:#ff7b72;">9.1</td>
             <td style="padding:10px; color:#8b949e;">2002–2023</td>
-            <td style="padding:10px; color:#8b949e;">вкл. Суматру 2004 (корреляция ≠ триггеринг); 18 100 км охвата</td>
+            <td style="padding:10px; color:#8b949e; font-size:0.85rem;">−14.3…33.8</td>
+            <td style="padding:10px; color:#8b949e; font-size:0.85rem;">−113.1…167.3</td>
+            <td style="padding:10px; color:#8b949e;">Суматра 2004 (корреляция ≠ триггеринг)</td>
           </tr>
-          <tr style="border-bottom:1px solid #21262d; background:#161b22;">
-            <td style="padding:10px; color:#ffd68a; font-weight:600;">856–887 CE</td>
-            <td style="padding:10px; text-align:center; color:#e6edf3;">6</td>
+          <tr style="border-bottom:1px solid #21262d;">
+            <td style="padding:10px; color:#3fb950; font-weight:600;">S095</td>
+            <td style="padding:10px; text-align:center; color:#e6edf3;">25</td>
             <td style="padding:10px; text-align:center; color:#e6edf3;">4</td>
-            <td style="padding:10px; text-align:center; color:#f78166;">8.6</td>
-            <td style="padding:10px; color:#8b949e;">856–887 н.э.</td>
-            <td style="padding:10px; color:#ffd68a;">★ Средневековый эпизод: Иран, Япония, Испания, Греция</td>
+            <td style="padding:10px; text-align:center; color:#f78166;">7.9</td>
+            <td style="padding:10px; color:#8b949e;">1989–2017</td>
+            <td style="padding:10px; color:#8b949e; font-size:0.85rem;">−8.1…16.5</td>
+            <td style="padding:10px; color:#8b949e; font-size:0.85rem;">120.4…146.4</td>
+            <td style="padding:10px; color:#8b949e;">Западно-тихоокеанская дуга</td>
+          </tr>
+          <tr style="border-bottom:1px solid #21262d;">
+            <td style="padding:10px; color:#79c0ff; font-weight:600;">S116</td>
+            <td style="padding:10px; text-align:center; color:#e6edf3;">22</td>
+            <td style="padding:10px; text-align:center; color:#e6edf3;">5</td>
+            <td style="padding:10px; text-align:center; color:#f78166;">8.2</td>
+            <td style="padding:10px; color:#8b949e;">1993–2021</td>
+            <td style="padding:10px; color:#8b949e; font-size:0.85rem;">−31.7…10.8</td>
+            <td style="padding:10px; color:#8b949e; font-size:0.85rem;">−179.5…179.4</td>
+            <td style="padding:10px; color:#8b949e;">Южная Пацифика</td>
           </tr>
         </tbody>
       </table>
       <p style="font-size:0.85rem; color:var(--text-muted); margin-top:12px;">
-        Топ-5 серий по охвату и числу событий. Современное окно 1973–2026: 2041 событие; 47 серий в трёх временны́х окнах (полный merged CSV: 4418 строк, M≥6.5: 4267).
+        Топ-5 кандидатов детектора. Анализ-каталог: 4267 M≥6.5; современное окно: 2041; 47 merged кандидатов (27 modern).
       </p>
     </div>
 

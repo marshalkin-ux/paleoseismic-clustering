@@ -5,8 +5,12 @@ generate_article_pdf.py
 """
 
 import os
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from _pdf_fonts import register_pdf_fonts
+
+register_pdf_fonts()
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.lib.colors import HexColor, white, black
@@ -17,15 +21,6 @@ from reportlab.platypus import (
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY, TA_RIGHT
 from reportlab.platypus.flowables import Flowable
-
-# ── Font registration (Cyrillic) ─────────────────────────────────────────────
-_FONT_DIR = r"C:\Windows\Fonts"
-pdfmetrics.registerFont(TTFont("Main",       os.path.join(_FONT_DIR, "arial.ttf")))
-pdfmetrics.registerFont(TTFont("MainBold",   os.path.join(_FONT_DIR, "arialbd.ttf")))
-pdfmetrics.registerFont(TTFont("MainItalic", os.path.join(_FONT_DIR, "ariali.ttf")))
-pdfmetrics.registerFont(TTFont("MainBI",     os.path.join(_FONT_DIR, "arialbi.ttf")))
-
-
 # ── Unicode → ASCII safety filter (Arial TTF lacks many specialty glyphs) ────
 def safe_text(s: str) -> str:
     """Replace chars unsupported by Arial with ASCII equivalents."""
@@ -57,7 +52,10 @@ def safe_text(s: str) -> str:
         ("\u2265", ">="),
         ("\u00b1", "+/-"),
         ("\u202f", " "),
-        ("\u2047", "?"),
+        ("\u2013", "-"),  # en dash
+        ("\u2014", "-"),  # em dash
+        ("GK\u2013ZBZ", "GK-ZBZ"),
+        ("GK\u2014ZBZ", "GK-ZBZ"),
         ("\u0301", ""),
         ("\u0305", ""),
     ]
@@ -237,14 +235,13 @@ def build(s):
     story.append(Paragraph("<b>Аннотация.</b>", s["abstract_label"]))
     story.append(Paragraph(
         "Статья посвящена статистическому анализу пространственно-временно\u0301й "
-        "кластеризации землетрясений M\u22656.5 по объединённому каталогу "
-        "4418\u00a0записей CSV (вкл. ~151\u00a0M&lt;6.5 из NOAA), "
-        "4267\u00a0уникальных событий M\u22656.5 (4418\u00a0строк CSV; анализ M\u22656.5; "
-        "2041\u00a0событие в современном окне 1973\u20132026). "
+        "кластеризации землетрясений M\u22656.5 по <b>анализ-каталогу 4267</b> уникальных "
+        "событий M\u22656.5 (современное окно 1973\u20132026: 2041). "
+        "Провенанс: 4418 CSV-строк (вкл. ~151 NOAA M&lt;6.5, исключены из кластеризации). "
         "Алгоритм находит 47\u00a0кандидатов детектора "
         "(27\u00a0на современном окне); однако ETAS-валидация (p_ETAS=1,0) показывает, "
         "что эти кандидаты неотличимы от фоновой активности. "
-        "Главный вывод\u00a0\u2014 null/falsification: детектор находит в среднем 27,0 "
+        "Главный вывод\u00a0\u2014 отрицательный результат (фальсификация гипотезы о глобальных сериях): "
         "кандидатов в ETAS-каталогах с калиброванными параметрами, что совпадает с "
         "наблюдаемым числом 27\u00a0\u2014 детектор не специфичен для глобальных серий, "
         "он отражает фоновую структуру каталога (см. \u00a75.5\u20135.6). "
@@ -549,34 +546,41 @@ def build(s):
         s["body"]
     ))
 
-    tbl_cols = [(PAGE_W - LM - RM) * f for f in [0.09, 0.07, 0.11, 0.09, 0.20, 0.44]]
+    tbl_cols = [(PAGE_W - LM - RM) * f for f in [0.08, 0.06, 0.08, 0.07, 0.14, 0.12, 0.12, 0.33]]
     tbl_data = [
         [Paragraph("<b>ID</b>", s["tbl_hdr"]),
          Paragraph("<b>N</b>", s["tbl_hdr"]),
-         Paragraph("<b>Регионов</b>", s["tbl_hdr"]),
-         Paragraph("<b>M\u2098\u2090\u2093</b>", s["tbl_hdr"]),
+         Paragraph("<b>Рег.</b>", s["tbl_hdr"]),
+         Paragraph("<b>Mmax</b>", s["tbl_hdr"]),
          Paragraph("<b>Период</b>", s["tbl_hdr"]),
+         Paragraph("<b>lat</b>", s["tbl_hdr"]),
+         Paragraph("<b>lon</b>", s["tbl_hdr"]),
          Paragraph("<b>Примечание</b>", s["tbl_hdr"])],
         [Paragraph("1905\u20131910", s["tbl_cell"]), Paragraph("193", s["tbl_cell"]),
          Paragraph("43", s["tbl_cell"]), Paragraph("8.8", s["tbl_cell"]),
          Paragraph("1905\u20131910", s["tbl_cell"]),
-         Paragraph("Крупнейший кандидат в раннем инструментальном окне; каталог неполный до ~1960", s["tbl_cell"])],
+         Paragraph("-60..72", s["tbl_cell"]), Paragraph("-180..180", s["tbl_cell"]),
+         Paragraph("Ранний инструментальный; каталог неполный до ~1960", s["tbl_cell"])],
         [Paragraph("S047", s["tbl_cell"]), Paragraph("53", s["tbl_cell"]),
          Paragraph("5", s["tbl_cell"]), Paragraph("8.0", s["tbl_cell"]),
          Paragraph("1982\u20132024", s["tbl_cell"]),
-         Paragraph("Западная Пацифика, циркум-субдукц. коридор", s["tbl_cell"])],
+         Paragraph("-21.5..18.9", s["tbl_cell"]), Paragraph("-175.5..155.2", s["tbl_cell"]),
+         Paragraph("Западная Пацифика", s["tbl_cell"])],
         [Paragraph("S170", s["tbl_cell"]), Paragraph("46", s["tbl_cell"]),
          Paragraph("12", s["tbl_cell"]), Paragraph("9.1", s["tbl_cell"]),
          Paragraph("2002\u20132023", s["tbl_cell"]),
-         Paragraph("Зондский пояс, Суматра 2004 (M\u00a09.1)", s["tbl_cell"])],
+         Paragraph("-14.3..33.8", s["tbl_cell"]), Paragraph("-113.1..167.3", s["tbl_cell"]),
+         Paragraph("Суматра 2004 (M 9.1)", s["tbl_cell"])],
         [Paragraph("S095", s["tbl_cell"]), Paragraph("25", s["tbl_cell"]),
          Paragraph("4", s["tbl_cell"]), Paragraph("7.9", s["tbl_cell"]),
          Paragraph("1989\u20132017", s["tbl_cell"]),
+         Paragraph("-8.1..16.5", s["tbl_cell"]), Paragraph("120.4..146.4", s["tbl_cell"]),
          Paragraph("Западно-тихоокеанская дуга", s["tbl_cell"])],
         [Paragraph("S116", s["tbl_cell"]), Paragraph("22", s["tbl_cell"]),
          Paragraph("5", s["tbl_cell"]), Paragraph("8.2", s["tbl_cell"]),
          Paragraph("1993\u20132021", s["tbl_cell"]),
-         Paragraph("Южная Пацифика, многодуговая серия", s["tbl_cell"])],
+         Paragraph("-31.7..10.8", s["tbl_cell"]), Paragraph("-179.5..179.4", s["tbl_cell"]),
+         Paragraph("Южная Пацифика", s["tbl_cell"])],
     ]
     main_tbl = Table(tbl_data, colWidths=tbl_cols)
     main_tbl.setStyle(TableStyle([
@@ -632,7 +636,7 @@ def build(s):
     ))
     story += SSEC("3.4 Обсуждение", s)
     story.append(Paragraph(
-        "<b>Null/falsification:</b> ETAS mean=27,0, p_ETAS=1,0 — избыточной глобальной "
+        "<b>Отрицательный результат (фальсификация гипотезы о глобальных сериях):</b> ETAS mean=27,0, p_ETAS=1,0 "
         "структуры нет. <b>Физика:</b> \u0394CFS/динамический стресс — future work; кандидаты — "
         "алгоритмические конструкты, не цепочки triggering.",
         s["body"]
