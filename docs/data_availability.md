@@ -1,6 +1,7 @@
 # Data and Code Availability
 
 **Repository:** [github.com/marshalkin-ux/paleoseismic-clustering](https://github.com/marshalkin-ux/paleoseismic-clustering)  
+**Catalog:** `data/processed/unified_catalog_full.csv` (4,418 rows; **4,267** unique M≥6.5 after dedup)  
 **Interactive demo:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)
 
 ## Merged catalog

@@ -4,7 +4,7 @@
 [![GitHub Pages](https://img.shields.io/badge/demo-GitHub%20Pages-58a6ff)](https://marshalkin-ux.github.io/paleoseismic-clustering/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-green.svg)](https://www.python.org/)
 
-**Negative (null result — falsification of the global-series hypothesis):** catalog-calibrated **ETAS** validation shows detector candidates are **indistinguishable from background activity** (**mean=27.0, p_ETAS=1.0**, matching N_obs=27) — the detector reflects catalog background structure, not excess global series. Permutation test rejects **temporal Poisson null** (p=0.0001, 1/10,001) — trivial for catalogs with aftershocks; **not** evidence for teleseismic triggering. **47 algorithmic candidates** (not “discovered series”); limitations — §5.5.
+**Negative (null result — falsification of the global-series hypothesis):** catalog-calibrated **ETAS** validation shows detector candidates are **indistinguishable from background activity** (**mean=27.0, p_ETAS=1.0**, matching N_obs=27) — the detector reflects catalog background structure, not excess global series. Permutation test rejects **temporal Poisson null** (p=0.0001, 1/10,001) — **expected for aftershock catalogs** (Ogata, 1988); **not** evidence for teleseismic triggering. **47 algorithmic candidates** (not “discovered series”); limitations — §5.5.
 
 > **Живая демонстрация:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)  
 > **Научная статья (PDF):** [RU](paper/article_ru.pdf) · [EN](paper/article_en.pdf)  
@@ -32,7 +32,7 @@
 
 Проект **проверяет и опровергает** гипотезу о физически значимых **мультирегиональных «глобальных сериях»** в каталоге M≥6.5 (1973–2026 — основное окно).
 
-**Вывод:** детектор находит в среднем 27,0 кандидатов в ETAS-каталогах с калиброванными параметрами, что совпадает с наблюдаемым числом 27 — детектор не специфичен для глобальных серий, он отражает фоновую структуру каталога; гипотеза о глобальных сейсмических сериях **не подтверждается** (§5.5). Permutation отвергает лишь пуассоновский null — тривиально для сейсмических каталогов.
+**Вывод:** детектор находит в среднем 27,0 кандидатов в ETAS-каталогах с калиброванными параметрами, что совпадает с наблюдаемым числом 27 — детектор не специфичен для глобальных серий, он отражает фоновую структуру каталога; гипотеза о глобальных сейсмических сериях **не подтверждается** (§5.5). Permutation отвергает лишь пуассоновский null по временам — ожидаемо для каталогов с афтершоками (Ogata, 1988).
 
 **Методы (без marketing):** η Baiesi–Paczuski; эвристическая метрика с тектонической подсказкой Bird 2003 (98% ≈ scaled Euclidean); permutation test; ETAS validation; BH post-hoc (Methods §3.5 only).
 

@@ -29,7 +29,9 @@
 %% =====================================================================
 \begin{abstract}
 We test the hypothesis of physically meaningful multi-regional \textbf{global seismic series}
-in an \textbf{analysis catalog of 4{,}267 unique $M \ge 6.5$ events} (modern window
+in an \textbf{analysis catalog of 4{,}267 unique $M \ge 6.5$ events}\footnote{Canonical
+analysis $N$: 4{,}267 unique $M \ge 6.5$ after deduplication; 4{,}418 saved CSV rows
+include ${\sim}151$ NOAA $M < 6.5$ rows retained for provenance only.} (modern window
 1973--2026: 2{,}041 events).
 The detector yields \textbf{47 algorithmic candidates} (142 windows before merge;
 27 modern); \textbf{however, ETAS validation ($p_\mathrm{ETAS} = 1.0$) shows that
@@ -41,8 +43,9 @@ in catalog-calibrated ETAS synthetic catalogs, matching the observed count of
 catalog background structure (see \S\ref{sec:limitations}--\ref{sec:detector-liberal}).
 A permutation test ($n = 10{,}000$) rejects a \textbf{global temporal Poisson null}
 ($p = 0.0001$, 1/10{,}001 permutations\footnote{Discrete permutation test:
-$p = (k+1)/(n+1)$, $k=0$.}, $z = -6.17$) --- expected with aftershocks/local
-clustering; \textbf{not} a test of teleseismic/multi-regional series and
+$p = (k+1)/(n+1)$, $k=0$.}, $z = -6.17$) --- \textbf{expected rejection of
+Poisson event times} for aftershock catalogs \citep{Ogata1988}; secondary to
+the ETAS null result; \textbf{not} a test of teleseismic/multi-regional series and
 \textbf{not} evidence for remote triggering.
 Tectonic-path distance is \textbf{not validated} (98\% 1.5$\times$ GC fallback,
 $\sim$2\% Dijkstra). $\Delta$CFS/dynamic stress --- future work only;
@@ -61,6 +64,14 @@ Limitations --- \S\ref{sec:limitations}.
   \item Tectonic distance failed as a global metric (98\% GC fallback);
         detector liberalism --- \S\ref{sec:detector-liberal} (FPR technical detail).
 \end{keypoints}
+
+\noindent\fbox{\parbox{0.97\linewidth}{\small\textbf{Terminology.}
+A \emph{detector candidate} is an algorithmic output ($N \ge 4$, $M \ge 6.5$,
+mean pairwise GC $> 1500$~km, merged from sliding windows).
+A \emph{series} in tables denotes such a candidate, \textbf{not} a validated
+physical triggering chain.
+A \emph{validated global chain} would require excess structure beyond
+catalog-calibrated ETAS null ($p_\mathrm{ETAS} < 1$); none is observed.}}
 
 %% =====================================================================
 \section{Introduction}
@@ -122,10 +133,15 @@ reproduces local aftershock structure without long-range coupling
 \citep{Ogata1988, HelmstettterSornette2003}, and (iii)~Benjamini--Hochberg
 FDR control \citep{BenjaminiHochberg1995} for multiple candidate series.
 Tectonic-path distance \citep{Bird2003} replaces Euclidean separation in
-the $\eta$-metric, improving sensitivity to plate-boundary-mediated coupling.
+the $\eta$-metric (sensitivity analysis; primary spatial gate is GC $> 1500$~km).
+
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Data}
 \label{sec:data}
 
-\subsection{Catalog Sources}
+\subsubsection{Catalog Sources}
 
 We use three complementary catalog sources:
 
@@ -143,11 +159,14 @@ events from pre-1900 historical records (47 events),
 \citep{ISC2023,Storchak2013} provides relocated hypocenters for $M \ge 5.0$
 from 1904 to the present.
 
-\subsection{Catalog Unification and Quality Filtering}
+\subsection{Deduplication}
 
 Duplicate events from multiple sources are identified as events occurring
-within 50~km and 30 days of each other; in such cases the source with
-the highest reliability rank (ISC $>$ USGS $>$ NOAA) is retained.
+within 50~km and 30 days of each other \citep[cf.][]{WaldhauserSchaff2008};
+in such cases the source with the highest reliability rank (ISC $>$ USGS $>$ NOAA)
+is retained.
+These tolerances follow common catalog-merge practice for global compilations
+\citep{WaldhauserSchaff2008}; we did not vary them in sensitivity tests.
 After deduplication ($\pm 30$~days, $\le 50$~km), the catalog contains
 4{,}267 unique events (from 4{,}418 raw records).
 Each event is assigned to a Flinn--Engdahl seismogeographic region
@@ -223,10 +242,7 @@ $M \ge M_c = 6.55$ complete   & 1{,}688          & 1973 -- 2026        & $\ge 0.
 \end{tabular}
 \end{table}
 
-\section{Methods}
-\label{sec:methods}
-
-\subsection{Baiesi--Paczuski Nearest-Neighbor Metric}
+\subsection{Baiesi--Paczuski $\eta$ Metric}
 
 Following \citet{Baiesi2004} and \citet{ZaliapinBenZion2008}, we define
 the connectivity metric between a candidate parent event~$i$ and a
@@ -261,6 +277,8 @@ as their parent, where $\eta_0$ is a threshold determined by the
 bimodal decomposition of the $\log_{10} \eta$ distribution
 \citep{ZaliapinBenZion2013}: KDE valley detection between modes, with
 default $\eta_0 = 10^{\mathrm{median}(\log_{10}\eta)}$ when unspecified.
+Visual verification of the bimodal split was limited at global $M \ge 6.5$
+scale (see \S\ref{sec:limitations}).
 The metric $\eta$ is a relative connectivity measure without absolute
 physical units; $\eta_0$ is empirical, validated against a Poisson
 temporal-permutation null ($n = 10\,000$).
@@ -274,7 +292,9 @@ path (Dijkstra's algorithm) along the plate-boundary graph derived
 from the \citet{Bird2003} model.
 For events located more than 500~km from any boundary, we use
 $r_{ij} = 1.5 \times r_\mathrm{GC}$, where $r_\mathrm{GC}$ is the
-great-circle distance.
+great-circle distance; this is the implementation default when no Dijkstra
+path is available (sensitivity to the 1.5 multiplier not varied; see
+\S\ref{sec:limitations}).
 The 500~km boundary snap and 1.5$\times$ great-circle fallback are
 \textbf{approximations}, not verified against independent geodetic data;
 intraplate pairs rely entirely on the GC penalty, and sensitivity to
@@ -298,6 +318,45 @@ This is a metric diagnostic, not a calibrated sensitivity gain.
 A parameter sweep (300/500/700~km boundary threshold; Bird graph
 resolution) is planned but not yet executed.
 
+\subsection{Declustering}
+\label{subsec:declustering}
+
+Gardner--Knopoff \citep{Gardner1974} is the \textbf{primary} declustering
+method: mainshocks feed the $\eta$ nearest-neighbor forest.
+Zaliapin--Ben-Zion \citep{ZaliapinBenZion2013,ZaliapinBenZion2016} is a
+\textbf{sensitivity check} only (not a sequential filter).
+Table~\ref{tab:gk_zbz} compares modern-window (1973--2026) counts;
+series count $N = 27$ is unchanged under either method.
+
+\begin{table}[htbp]
+\centering
+\caption{Gardner--Knopoff vs.\ Zaliapin--Ben-Zion declustering (modern window).}
+\label{tab:gk_zbz}
+\begin{tabular}{lrrl}
+\hline
+Method & Role & Mainshocks / 2041 & Removed \\
+\hline
+Gardner--Knopoff & Primary & 2{,}017 & 24 (98.8\%) \\
+Zaliapin--Ben-Zion & Sensitivity & 2{,}040 & 1 (100.0\%) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Series Detection}
+\label{subsec:series-detection}
+
+A \textbf{detector candidate} is defined as a merged group of $\ge 4$
+events with $M \ge 6.5$ occurring within a sliding temporal window
+(1, 2, or 5~yr by epoch) whose \textbf{mean pairwise great-circle distance}
+exceeds 1500~km (all unordered event pairs in the window).
+Flinn--Engdahl region counts are computed for diagnostics but are
+\textbf{not} a detection gate (\texttt{src/analysis/clustering.py};
+see \S\ref{subsec:pipeline}).
+Overlapping window groups are merged.
+Implementation: \texttt{SeismicClusterAnalyzer.global\_series()} in
+\texttt{src/analysis/clustering.py}, orchestrated by
+\texttt{src/analysis/pipeline\_v2.py}.
+
 \subsection{Analysis Pipeline}
 \label{subsec:pipeline}
 
@@ -312,46 +371,30 @@ $\to$ Monte~Carlo / ETAS / FDR validation.
 Gardner--Knopoff removes ${\sim}24$ local aftershocks in the modern window.
 \texttt{run\_full\_historical\_analysis.py} applies \texttt{global\_series()}
 to all $M \ge 6.5$ events without an explicit GK pre-filter; GK/ZBZ counts
-in Table~\ref{tab:reconciliation} come from \texttt{run\_declustering\_comparison.py}.
-Zaliapin--Ben-Zion declustering is a \textbf{sensitivity check}, not a
-sequential filter: GK and ZBZ answer different questions.
+in Table~\ref{tab:gk_zbz} come from \texttt{run\_declustering\_comparison.py}.
 
-\subsection{Global Series Detection}
+\subsection{Statistical Tests}
+\label{subsec:stat-tests}
 
-A global series is defined as a group of $\ge 4$
-events with $M \ge 6.5$ occurring within a sliding temporal window
-(1, 2, or 5~yr by epoch) whose \textbf{mean pairwise great-circle distance}
-exceeds 1500~km (all unordered event pairs in the window).
-Flinn--Engdahl region counts are computed for diagnostics but are
-\textbf{not} a detection gate (\texttt{src/analysis/clustering.py}).
-Overlapping window groups are merged.
+Table~\ref{tab:null_tests} summarises complementary null hypotheses;
+rejecting the permutation null does \textbf{not} contradict $p_\mathrm{ETAS}=1.0$.
 
-\subsection{Background Declustering}
-\label{subsec:declustering}
+\begin{table}[htbp]
+\centering
+\caption{Null-model tests and their interpretation.}
+\label{tab:null_tests}
+\begin{tabular}{p{2.2cm}p{4.2cm}p{5.8cm}}
+\hline
+\textbf{Test} & \textbf{Null hypothesis} & \textbf{Interpretation} \\
+\hline
+Permutation ($n=10{,}000$) & Globally Poissonian event times (fixed coordinates) & Rejects temporal independence; expected for aftershock catalogs \citep{Ogata1988} \\
+ETAS ($n=1000$, calibrated) & Detector series count does not exceed local-clustering synthetics & Does \textbf{not} reject: $N_\mathrm{obs}=27$ indistinguishable from null ($p_\mathrm{ETAS}=1.0$) \\
+Benjamini--Hochberg & --- & Post-hoc on 47 candidates; not a discovery claim \\
+\hline
+\end{tabular}
+\end{table}
 
-Before the global-series search, we isolate background seismicity using
-the adaptive method of \citet{ZaliapinBenZion2013,ZaliapinBenZion2016}.
-Unlike the deterministic Gardner--Knopoff \citep{Gardner1974} windows,
-which classify events based solely on magnitude-dependent time and distance
-thresholds, the Zaliapin--Ben-Zion approach exploits the empirically observed
-bimodality of the $\log_{10} \eta$ distribution: the left mode corresponds
-to clustered (fore-/aftershock) pairs, while the right mode contains
-background events.
-The threshold $\eta_0$ is identified as the valley between the two modes and
-is determined adaptively, making it sensitive to local seismicity rates.
-This internal consistency---using the same $\eta$ metric for both
-declustering and series detection---avoids the circular assumptions inherent
-in applying an external declustering step.
-
-For comparison, we also present results obtained with Gardner--Knopoff
-declustering; consistency across both approaches is treated as evidence
-that detected global series are not artefacts of local aftershock
-contamination (Sensitivity Experiment~3.3, Section~\ref{sec:robustness}).
-
-\subsection{Statistical Significance}
-
-The significance of observed clustering is assessed using a one-sided
-permutation test.
+\subsubsection{Permutation test}
 For each of $n_\mathrm{sim} = 10\,000$ surrogate catalogs, event times
 are randomly permuted (preserving coordinates and magnitudes), and the
 mean $\log_{10} \eta$ of all nearest-neighbor pairs is recomputed.
@@ -415,6 +458,9 @@ Full spatial ETAS MLE (Ogata 1998) and multi-seed robustness remain future work.
 \texttt{max\_trigger\_distance\_km}~$= 500$ of their parent (branching
 Poisson process, up to five generations).
 
+Multi-seed robustness: seeds 42--51 ($n=1000$ catalogs each;
+\texttt{scripts/run\_etas\_multiseed.py}, \texttt{results/etas\_multiseed.json}).
+
 We generate 1000 synthetic ETAS catalogs (seed~=~42), each with
 $n_\mathrm{background} \approx \mu T$ events matching the observed span,
 but with no spatial coupling beyond 500~km.
@@ -425,6 +471,8 @@ from the calibrated null (detector is liberal).
 \textbf{Sensitivity (fixed $\alpha = b = 0.911$):}
 \texttt{results/etas\_validation\_b0911.json} --- same qualitative result
 ($p_\mathrm{ETAS} = 1.0$, mean $\approx 27$; $K \approx 0.358$ refitted).
+The global-series hypothesis remains \textbf{not supported} under this
+parameter set.
 Literature comparison ($\mu = 0.008$): mean~$\approx 15.4$, max~$24$,
 $p_\mathrm{ETAS} \le 0.001$.
 
@@ -507,7 +555,7 @@ The five largest series by coverage are:
 
 \begin{table}[htbp]
 \centering
-\caption{Top-5 global seismic series by event count and spatial extent.}
+\caption{Top-5 detector candidates (not ETAS-validated physical series).}
 \label{tab:top5}
 \begin{tabular}{llrrrll}
 \hline
@@ -521,6 +569,9 @@ S116       &  22 &  5 & 8.2 & 1993--2021 & $-31.7\ldots10.8$ & $-179.5\ldots179.
 \hline
 \end{tabular}
 \end{table}
+\noindent\footnotesize\textit{Note:} Entries are algorithmic detector outputs
+indistinguishable from catalog-calibrated ETAS null ($p_\mathrm{ETAS}=1.0$);
+not validated multi-regional triggering chains.
 
 The mean nearest-neighbor metric $\overline{\log_{10}\eta}$ for identified
 series ranges from $-5.1$ to $-3.2$, confirming tight temporal clustering
@@ -667,6 +718,32 @@ These test \textbf{different hypotheses}: non-Poissonian event times vs.\
 excess series count beyond locally clustered synthetic catalogs.
 Rejecting Poisson \textbf{$\neq$} evidence for teleseismic/global triggering.
 
+\paragraph{Global ETAS limitations and falsification value.}
+Our catalog-calibrated ETAS generator is a \textbf{global exploratory} null,
+not a regional standard model of the kind calibrated network-by-network in
+\citet{Ogata1988, HelmstettterSornette2003}.
+Long-range coupling is explicitly disabled (${\le}500$~km); the minimal MLE
+(\texttt{scripts/calibrate\_etas.py}) does not implement full spatial Ogata
+(1998) MLE.
+Within these constraints, $p_\mathrm{ETAS}=1.0$ is a \textbf{meaningful
+falsification}: the liberal detector finds no \emph{excess} multi-regional
+structure beyond what local aftershock branching reproduces.
+Negative results constrain over-interpretation of descriptive cluster lists
+and complement positive-detection studies that lack an ETAS benchmark.
+
+\paragraph{Agreement with Michael (2011) and Shearer \& Stark (2012).}
+\citet{Michael2011} showed that apparent global $M \ge 7$ clustering in
+1995--2011 is consistent with Poisson rate fluctuations after accounting for
+catalog non-stationarity.
+\citet{ShearerStark2012} found no recent increase in global $M \ge 7$ and
+$M \ge 8$ rates after the 2004 Sumatra earthquake.
+Our $\eta$-linkage statistic targets multi-regional nearest-neighbor structure
+rather than event-rate trends, but reaches a \textbf{compatible} conclusion:
+detector candidates are indistinguishable from ETAS-like local clustering
+($p_\mathrm{ETAS}=1.0$).
+The findings are complementary, not contradictory---we add a structure-based
+null test; they established rate-based limits on global clustering claims.
+
 \paragraph{Physical mechanism (not established).}
 The $\eta$ metric is correlative; \textbf{no physical mechanism} explains
 remote links in detector candidates. Preliminary Coulomb/dynamic stress tests
@@ -789,8 +866,12 @@ null result can be stated.
 \item \textbf{Global-series gate:} mean pairwise GC $> 1500$~km (primary);
       Flinn--Engdahl counts are diagnostic only (legacy $\ge 3$ zones
       yielded the same $N=27$ on the modern window).
+\item \textbf{$\eta_0$ selection:} Zaliapin--Ben-Zion KDE valley
+      \citep{ZaliapinBenZion2013}; visual bimodality check limited at global
+      $M \ge 6.5$ scale.
 \item \textbf{Heuristic tectonic metric:} 98\% of pairs use 1.5$\times$ GC fallback;
-      failed hypothesis test, not a global-analysis improvement.
+      labeled sensitivity/failed hypothesis test; primary spatial gate is
+      mean pairwise GC $> 1500$~km.
 \item \textbf{ETAS calibrated but detector liberal} --- mean $= 27.0$ matches
       $N_\mathrm{obs}=27$; see \S\ref{sec:detector-liberal}.
 \item \textbf{No physical mechanism established} --- $\Delta$CFS/dynamic stress future work only.
@@ -1002,7 +1083,10 @@ Computational resources were provided by the host institution's HPC cluster.
 This research received no specific grant from any funding agency.
 
 Data and code are openly available at
-\url{https://github.com/marshalkin-ux/paleoseismic-clustering}.
+\url{https://github.com/marshalkin-ux/paleoseismic-clustering}
+(commit recorded at release; analysis catalog:
+\texttt{data/processed/unified\_catalog\_full.csv}, 4{,}418 rows;
+4{,}267 unique $M \ge 6.5$ after dedup).
 Analysis artifact paths are documented in \texttt{docs/data\_availability.md}.
 
 \bibliography{bibliography}

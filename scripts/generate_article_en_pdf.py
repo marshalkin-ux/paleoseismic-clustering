@@ -341,7 +341,7 @@ def build(s):
     for num, text in [
         ("1.", "Declustering via Gardner\u2013Knopoff [1974]."),
         ("2.", "Nearest-neighbor forest: parent i* = argmin \u03b7<sub>ij</sub> subject to \u03b7<sub>ij</sub> &lt; \u03b7<sub>0</sub>."),
-        ("3.", "Global series: N \u2265 4; M \u2265 6.5; \u2265 3 Flinn\u2013Engdahl regions."),
+        ("3.", "Global series: N >= 4; M >= 6.5; mean pairwise GC > 1500 km."),
         ("4.", "Sliding windows (1, 2, 5 yr); overlapping groups merged."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
@@ -407,7 +407,7 @@ def build(s):
     ]))
     story.append(tbl)
     story.append(Paragraph(
-        "Table 1. Top five multi-regional series (\u2265 3 Flinn\u2013Engdahl regions).",
+        "Table 1. Top-5 detector candidates (not ETAS-validated physical series).",
         s["caption"]
     ))
     story.append(Spacer(1, 0.2 * cm))
@@ -421,13 +421,20 @@ def build(s):
         s["body"]
     ))
 
-    story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
+    story += SEC("4. DISCUSSION", s)
     story.append(Paragraph(
         "The detector finds on average 27.0 candidates in catalog-calibrated ETAS "
-        "synthetic catalogs, matching N_obs=27 \u2014 not specific to global series; "
-        "reflects catalog background structure. The global-series "
-        "hypothesis is <b>not supported</b> (see Sec. 5.5). The permutation test rejects only a temporal "
-        "Poisson null \u2014 trivial for earthquake catalogs with aftershocks.",
+        "synthetic catalogs, matching N_obs=27 \u2014 not specific to global series. "
+        "Permutation p=0.0001 rejects Poisson event times only (expected for aftershock "
+        "catalogs; Ogata 1988); p_ETAS=1.0 falsifies excess global structure. "
+        "Compatible with Michael (2011) and Shearer &amp; Stark (2012).",
+        s["body"]
+    ))
+
+    story += SEC("5. CONCLUSIONS", s)
+    story.append(Paragraph(
+        "The global-series hypothesis is <b>not supported</b> (p_ETAS=1.0). "
+        "47 detector candidates are indistinguishable from ETAS-null local clustering.",
         s["body"]
     ))
     for num, text in [
