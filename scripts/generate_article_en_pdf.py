@@ -198,14 +198,12 @@ def build(s):
         "~151 NOAA M&lt;6.5 excluded from clustering) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "The detector yields <b>47 algorithmic candidates</b> (27 modern); historical NOAA records "
-        "(n=47) reported in Appendix A only. However, "
-        "ETAS validation (p_ETAS=1.0) shows these candidates are indistinguishable "
-        "from background activity. Primary result \u2014 <b>null result (falsification of the global-series hypothesis)</b>: "
-        "the detector finds on average 27.0 candidates in catalog-calibrated ETAS "
-        "synthetic catalogs, matching N_obs=27 \u2014 not specific to global series; "
-        "reflects catalog background structure (see Sec. 5.5\u20135.6). Permutation "
-        "p=0.0001 (1/10,001) rejects temporal Poisson null only \u2014 not teleseismic "
-        "triggering. Limitations \u2014 Sec. 5.5.",
+        "(n=47) reported in Appendix A only. The detector is <b>liberal</b>: under "
+        "catalog-matched ETAS (p_ETAS=1.0, mean=27.0=N_obs) detector and calibration are "
+        "<b>coupled</b>; under literature H&amp;S 2003 (mean\u224815.4, p_ETAS\u22640.001) "
+        "N_obs exceeds that null but tests local aftershock clustering only (Sec. 5.4, dual-null). "
+        "Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.5). Permutation "
+        "p=0.0001 (1/10,001) rejects temporal Poisson null only. Limitations \u2014 Sec. 5.5.",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -309,8 +307,9 @@ def build(s):
         w
     ))
     story.append(Paragraph(
-        "b=1.0 per Baiesi &amp; Paczuski (2004) for \u03b7 comparability; "
-        "catalog b=0.911\u00b10.018 in Monte Carlo null only.",
+        "b=1.0 — deliberate Baiesi &amp; Paczuski (2004) simplification; catalog b=0.911\u00b10.018 "
+        "for M<sub>c</sub>/completeness and MC null only — <b>not</b> in the \u03b7 formula. "
+        "Zaliapin (2008): D\u2248b — \u03b7, \u03b7<sub>0</sub>, cluster shifts <b>not tested</b>.",
         s["caption"]
     ))
 
@@ -372,7 +371,10 @@ def build(s):
         "<b>Multiseed ETAS</b> (seeds 42\u201351, n=1000 each, results/etas_multiseed.json): "
         "mean=27.0, \u03c3=0.0, FPR=1.0, p_ETAS=1.0 for all 10 seeds \u2014 perfect stability "
         "because calibrated ETAS matches catalog event rate (~2001 background events). "
-        "Literature \u03bc=0.008 comparison only (earlier n=100 runs): mean\u224815.5, p_ETAS \u2264 0.001. "
+        "Literature H&amp;S 2003: mean\u224815.4, p_ETAS\u22640.001 — N_obs=27 exceeds null. "
+        "<b>Dual ETAS null:</b> lit. (\u03bc=0.008, K=0.08) \u2192 mean\u224815.4, p\u22640.001; "
+        "calibrated (\u03bc\u22480.103, K\u22480.495) \u2192 mean=27.0, p=1.0 (detector coupling). "
+        "\u03b1=b=0.911 (results/etas_validation_b0911.json): p_ETAS=1.0, mean\u224827. "
         "Detector liberalism \u2014 see \u00a75.6 (FPR=1000/1000). "
         "<b>Multiple comparisons (Methods):</b> BH post-hoc on N=47, 45/47 at q=0.05 \u2014 not discovery. "
         "<b>Declustering:</b> GK 2,017/2,041 (primary); ZBZ 2,040/2,041 (sensitivity only).",
@@ -435,18 +437,19 @@ def build(s):
 
     story += SEC("4. DISCUSSION", s)
     story.append(Paragraph(
-        "The detector finds on average 27.0 candidates in catalog-calibrated ETAS "
-        "synthetic catalogs, matching N_obs=27 \u2014 not specific to global series. "
-        "Permutation p=0.0001 rejects Poisson event times only (expected for aftershock "
-        "catalogs; Ogata 1988); p_ETAS=1.0 falsifies excess global structure. "
-        "Compatible with Michael (2011) and Shearer &amp; Stark (2012).",
+        "The detector is <b>liberal</b>: catalog-matched ETAS mean=27.0=N_obs (p_ETAS=1.0) "
+        "indicates detector--calibration coupling; literature ETAS mean\u224815.4, p_ETAS\u22640.001 "
+        "— N_obs exceeds local-clustering null. No physical mechanism; tectonic metric failed "
+        "(98% GC fallback). Compatible with Michael (2011) and Shearer &amp; Stark (2012).",
         s["body"]
     ))
 
     story += SEC("5. CONCLUSIONS", s)
     story.append(Paragraph(
-        "The global-series hypothesis is <b>not supported</b> (p_ETAS=1.0). "
-        "47 detector candidates are indistinguishable from ETAS-null local clustering.",
+        "The detector is <b>liberal</b>: matched ETAS calibration yields p_ETAS=1.0 "
+        "(coupling); literature ETAS yields mean\u224815.4, p_ETAS\u22640.001. "
+        "Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.5); ETAS null "
+        "is parameter-sensitive. Permutation rejects Poisson times only (Ogata 1988).",
         s["body"]
     ))
     for num, text in [

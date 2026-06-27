@@ -240,12 +240,11 @@ def build(s):
         "исторические записи NOAA (n=47) \u2014 только в Приложении\u00a0A. "
         "Провенанс: 4418 CSV-строк (вкл. ~151 NOAA M&lt;6.5, исключены из кластеризации). "
         "Алгоритм находит 47\u00a0кандидатов детектора "
-        "(27\u00a0на современном окне); однако ETAS-валидация (p_ETAS=1,0) показывает, "
-        "что эти кандидаты неотличимы от фоновой активности. "
-        "Главный вывод\u00a0\u2014 отрицательный результат (фальсификация гипотезы о глобальных сериях): "
-        "кандидатов в ETAS-каталогах с калиброванными параметрами, что совпадает с "
-        "наблюдаемым числом 27\u00a0\u2014 детектор не специфичен для глобальных серий, "
-        "он отражает фоновую структуру каталога (см. \u00a75.5\u20135.6). "
+        "(27\u00a0на современном окне). Детектор <b>либерален</b>: при согласованной "
+        "калибровке ETAS (p_ETAS=1,0, mean=27,0=N_obs) — связка детектор+калибровка; "
+        "при лит. H&S 2003 (mean\u224815,4, p_ETAS\u22640,001) N_obs превышает null, "
+        "но тест отражает локальную афтершоковую кластеризацию (§5.4, dual-null). "
+        "Гипотеза о глобальных сериях <b>не подтверждается</b> (§5.4\u20135.5). "
         "Permutation p=0.0001 (1/10,001) отвергает пуассоновские времена, "
         "не доказывает глобальные серии. "
         "Источники: USGS\u00a0ComCat, ISC\u00a0Bulletin, NOAA\u00a0NGDC "
@@ -290,11 +289,12 @@ def build(s):
         "foundational question in seismic hazard assessment. We analyse a merged "
         "catalog of <b>4,267 unique M&gt;=6.5 events</b> (from 4,418 CSV rows; "
         "~151 NOAA M&lt;6.5 rows excluded from clustering). "
-        "The detector yields 47 algorithmic candidates (27 modern); however, "
-        "ETAS validation (p_ETAS=1.0) shows these candidates are indistinguishable "
-        "from background activity. Primary result \u2014 negative (null/falsification): "
-        "the detector finds on average 27.0 candidates in catalog-calibrated ETAS "
-        "synthetic catalogs, matching N_obs=27 \u2014 not specific to global series. "
+        "The detector yields 47 algorithmic candidates (27 modern). The detector is "
+        "<b>liberal</b>: under catalog-matched ETAS (p_ETAS=1.0, mean=27.0=N_obs) "
+        "detector and calibration are <b>coupled</b>; under literature H&S 2003 "
+        "(mean\u224815.4, p_ETAS\u22640.001) N_obs exceeds that null but tests local "
+        "aftershock clustering only (Sec. 5.4, dual-null). Global-series hypothesis "
+        "<b>not supported</b> (Sec. 5.4\u20135.5). "
         "Significance is assessed by permutation test "
         "(n=10,000, p=0.0001 (1/10,001), z=-6.17). "
         "Heuristic with tectonic hint (Bird 2003): 98% GC fallback \u2014 failed hypothesis test. "
@@ -442,8 +442,9 @@ def build(s):
         PAGE_W - LM - RM
     ))
     story.append(Paragraph(
-        "b=1.0 — конвенция Baiesi &amp; Paczuski (2004) для сопоставимости eta; "
-        "эмпирическое b=0.911+/-0.018 — только в Monte Carlo-нуле и оценке полноты.",
+        "b=1.0 — намеренное упрощение Baiesi &amp; Paczuski (2004); каталожное b=0.911±0.018 — "
+        "только Mc/полнота и MC-null, <b>не</b> в формуле η. Zaliapin (2008): D≈b — сдвиг η, η₀ "
+        "и кластеров <b>не тестировался</b> (перезапуск при b=0.911 не выполнялся).",
         s["caption"]
     ))
     story.append(Spacer(1, 0.1 * cm))
@@ -534,7 +535,10 @@ def build(s):
         "<b>Multiseed</b> (seeds 42\u201351, n=1000, results/etas_multiseed.json): "
         "mean=27,0, \u03c3=0,0, FPR=1,0, p_ETAS=1,0 по всем 10 seed \u2014 "
         "идеальная стабильность (калибр. ETAS ~2001 фоновых соб.; детектор детерминирован). "
-        "Лит. \u03bc=0,008 \u2014 только сравнение (ранние n=100): mean\u224815,5, p_ETAS\u22640,001. "
+        "Лит. H&amp;S 2003: mean≈15,4, p_ETAS≤0,001 — N_obs=27 превышает null. "
+        "<b>Двойная ETAS-null:</b> лит. (μ=0,008, K=0,08) → mean≈15,4, p≤0,001; "
+        "калибр. (μ≈0,103, K≈0,495) → mean=27,0, p=1,0 (связка детектор+калибровка). "
+        "α=b=0,911 (results/etas_validation_b0911.json): p_ETAS=1,0, mean≈27. "
         "Либеральность детектора \u2014 см. \u00a75.6 (FPR=1000/1000). "
         "<b>Множественные сравнения (Methods):</b> BH post-hoc на N=47, 45/47 при q=0.05 \u2014 не discovery. "
         "<b>Декластеризация:</b> GK 2017/2041 (основной); "
@@ -628,8 +632,9 @@ def build(s):
     ))
     story.append(Paragraph(
         "Коррекция BH (q=0.05) на N=47 \u2014 post-hoc (Methods), не discovery. "
-        "Permutation p=0,0001 (1/10 001) отвергает пуассоновские времена; "
-        "ETAS mean=27,0, p_ETAS=1,0 — нет избыточной глобальной структуры. "
+        "Permutation p=0,0001 (1/10 001) отвергает пуассоновские времена. "
+        "<b>Двойная ETAS-null:</b> калибр. mean=27,0, p_ETAS=1,0 (связка); "
+        "лит. mean≈15,4, p_ETAS≤0,001 (N_obs превышает, локальная кластеризация). "
         "Multiseed ETAS (seeds 42–51, n=1000): mean≈27, FPR=1,0.",
         s["body_ni"]
     ))
@@ -646,9 +651,10 @@ def build(s):
     ))
     story += SEC("4. Обсуждение и выводы", s)
     story.append(Paragraph(
-        "<b>Отрицательный результат (фальсификация гипотезы о глобальных сериях):</b> ETAS mean=27,0, p_ETAS=1,0 "
-        "структуры нет. <b>Физика:</b> \u0394CFS/динамический стресс — future work; кандидаты — "
-        "алгоритмические конструкты, не цепочки triggering.",
+        "<b>Отрицательный результат (честная рамка):</b> детектор либерален; "
+        "p_ETAS=1,0 при согласованной калибровке — связка детектор+калибровка; "
+        "лит. ETAS: N_obs=27 превышает mean≈15,4 (локальная кластеризация). "
+        "Физика: \u0394CFS/динамический стресс — future work.",
         s["body"]
     ))
     story.append(PageBreak())
@@ -656,12 +662,11 @@ def build(s):
     # === CONCLUSIONS ===========================================================
     story += SEC("5. Выводы", s)
     story.append(Paragraph(
-        "Детектор находит в среднем 27,0 кандидатов в ETAS-каталогах с калиброванными "
-        "параметрами, что совпадает с наблюдаемым числом 27\u00a0\u2014 детектор не "
-        "специфичен для глобальных серий, он отражает фоновую структуру каталога. "
-        "Гипотеза о существовании глобальных сейсмических серий <b>не подтверждается</b> "
-        "(см. \u00a75.5). Перестановочный тест отвергает "
-        "лишь пуассоновскую нулевую гипотезу \u2014 ожидаемо для каталогов с афтершоками (Ogata, 1988).",
+        "Детектор <b>либерален</b>: при согласованной калибровке ETAS mean=27,0=N_obs "
+        "(p_ETAS=1,0) — связка детектор+калибровка; при лит. H&amp;S 2003 mean≈15,4, "
+        "p_ETAS≤0,001 — N_obs превышает null (локальная афтершоковая кластеризация). "
+        "Гипотеза о глобальных сериях <b>не подтверждается</b> (§5.4–5.5). "
+        "Перестановочный тест отвергает лишь пуассоновскую нулевую гипотезу (Ogata, 1988).",
         s["body"]
     ))
     conclusions = [
