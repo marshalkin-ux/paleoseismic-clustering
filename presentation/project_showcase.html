@@ -690,44 +690,177 @@
       color: var(--text-dim);
       font-size: 0.98rem;
       line-height: 1.8;
-      margin: 0 0 1.5rem;
+      margin: 0 0 1rem;
     }
-    .findings-plain-step {
-      margin-bottom: 1.35rem;
+    .plain-timeline-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 1rem;
     }
-    .findings-plain-step:last-child {
-      margin-bottom: 0;
+    .plain-expand-all {
+      font-family: var(--heading-font);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-glow);
+      border: 1px solid var(--accent-dim);
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
     }
-    .findings-plain-step h4 {
+    .plain-expand-all:hover {
+      background: rgba(88, 166, 255, 0.22);
+      border-color: var(--accent);
+    }
+    .plain-timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .plain-timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 28px;
+      bottom: 28px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-dim), var(--border));
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+    }
+    .plain-timeline:has(.plain-step[open])::before {
+      opacity: 0.55;
+    }
+    .plain-step {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--card);
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+    }
+    .plain-step:hover {
+      border-color: rgba(88, 166, 255, 0.35);
+      background: var(--card-hover);
+    }
+    .plain-step[open] {
+      border-color: rgba(88, 166, 255, 0.45);
+      box-shadow: 0 0 0 1px var(--accent-glow);
+    }
+    .plain-step > summary {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 0.85rem 1rem;
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+    }
+    .plain-step > summary::-webkit-details-marker { display: none; }
+    .plain-step > summary::after {
+      content: '▾';
+      margin-left: auto;
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: transform 0.25s ease, color 0.2s;
+      margin-top: 0.35rem;
+    }
+    .plain-step:not([open]) > summary::after { transform: rotate(-90deg); }
+    .plain-step[open] > summary::after { color: var(--accent); }
+    .plain-step-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(88, 166, 255, 0.08);
+      border: 1px solid rgba(88, 166, 255, 0.2);
+      border-radius: 8px;
+      color: var(--accent);
+    }
+    .plain-step-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .plain-step-icon .icon-fill { fill: currentColor; stroke: none; }
+    .plain-step-icon .icon-warn { stroke: #f85149; fill: rgba(248, 81, 73, 0.12); }
+    .plain-step-head {
+      flex: 1;
+      min-width: 0;
+    }
+    .plain-step-title {
+      display: block;
       color: #e6edf3;
       font-size: 0.92rem;
       font-weight: 600;
-      margin: 0 0 0.45rem;
+      line-height: 1.35;
     }
-    .findings-plain-step p {
+    .plain-step-teaser {
+      display: block;
+      margin-top: 0.2rem;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-style: italic;
+      line-height: 1.45;
+    }
+    .plain-step-body {
+      padding: 0 1rem 1rem 3.85rem;
+      animation: plain-step-open 0.3s ease;
+    }
+    @keyframes plain-step-open {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .plain-step-body p {
       color: var(--text-dim);
       font-size: 0.93rem;
       line-height: 1.78;
       margin: 0;
     }
-    .findings-plain-step p + p {
+    .plain-step-body p + p {
       margin-top: 0.55rem;
     }
-    .findings-plain-footnote {
+    .plain-step-footnote {
       font-size: 0.85rem;
       color: var(--text-muted);
       margin-top: 0.4rem;
     }
-    .findings-plain-conclusion {
-      margin-top: 1.25rem;
-      padding-top: 1.1rem;
-      border-top: 1px solid var(--border);
+    .plain-chip {
+      display: inline-block;
+      margin-top: 0.65rem;
+      padding: 0.2rem 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: var(--mono-font, ui-monospace, monospace);
+      color: var(--accent);
+      background: var(--accent-glow);
+      border: 1px solid rgba(88, 166, 255, 0.25);
+      border-radius: 999px;
     }
-    .findings-plain-conclusion p {
-      color: #e6edf3;
-      font-size: 0.95rem;
-      line-height: 1.75;
-      margin: 0;
+    .plain-step--conclusion {
+      margin-top: 0.35rem;
+      border-top-color: rgba(88, 166, 255, 0.2);
+    }
+    .plain-step--conclusion .plain-step-title {
+      color: var(--accent);
+    }
+    @media (max-width: 540px) {
+      .findings-plain { padding: 1.25rem 1rem; }
+      .plain-step-body { padding-left: 1rem; padding-top: 0.25rem; }
+      .plain-timeline::before { left: 11px; }
+      .plain-step-icon { width: 28px; height: 28px; }
+      .plain-step-icon svg { width: 18px; height: 18px; }
     }
 
     /* ===== METHOD SECTION ===== */
@@ -1982,69 +2115,150 @@
         обмануло — и чему на самом деле учит отрицательный результат.
       </p>
 
-      <div class="findings-plain-step">
-        <h4>1. С чего начали</h4>
-        <p>
-          Вопрос простой и строгий: крупные землетрясения M≥6,5 по всей планете иногда
-          «собираются» в эпизоды плотнее, чем если бы события были независимыми?
-          После катастрофы у Суматры в 2004&nbsp;г. (M9,1) сейсмографы отметили всплеск активности
-          и в далёких регионах — интуиция подсказывает общую связь. Но одна заметная цепочка
-          в календаре ещё не доказывает глобальный закон: нужна проверка на фоне случайности
-          и локальных афтершоков.
-        </p>
+      <div class="plain-timeline-toolbar">
+        <button type="button" class="plain-expand-all" aria-expanded="false">Развернуть все</button>
       </div>
 
-      <div class="findings-plain-step">
-        <h4>2. Что сделали</h4>
-        <p>
-          Объединили инструментальные и исторические каталоги: <strong>4267</strong> событий M≥6,5
-          для анализа. Алгоритм ищет группы событий, близких по времени и пространству
-          (метрика Baiesi–Paczuski, принятая в сейсмологии), и сравнивает результат с двумя
-          стандартными нулевыми моделями — перестановкой времён и синтетическими каталогами ETAS.
-        </p>
-        <p class="findings-plain-footnote">
-          В сыром CSV — 4418 строк; 151 запись NOAA с M&lt;6,5 исключены из кластеризации.
-        </p>
-      </div>
+      <div class="plain-timeline">
 
-      <div class="findings-plain-step">
-        <h4>3. «Ложное открытие»</h4>
-        <p>
-          На первый взгляд казалось, что «серии найдены»: детектор выдал <strong>47</strong> кандидатов
-          после объединения окон (<strong>27</strong> на современном окне 1973–2026).
-          Это выход алгоритма — список мест, где события выглядят необычно близко по η-метрике, —
-          а не доказательство, что одно землетрясение физически «толкнуло» другое через океан.
-        </p>
-      </div>
+        <details class="plain-step">
+          <summary>
+            <span class="plain-step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M4.5 11h13M11 4.5c2.5 0 4.5 2.9 4.5 6.5s-2 6.5-4.5 6.5"/><path d="M17.5 18.5c1.2-1.2 2-2.8 2.5-4.5"/><path d="M18 16v3.5h3.5"/><circle cx="18.5" cy="18" r="0.8" class="icon-fill"/></svg>
+            </span>
+            <span class="plain-step-head">
+              <span class="plain-step-title">1. С чего начали</span>
+              <span class="plain-step-teaser">Планета трясётся — но связаны ли далёкие толчки?</span>
+            </span>
+          </summary>
+          <div class="plain-step-body">
+            <p>
+              Вопрос простой и строгий: крупные землетрясения M≥6,5 по всей планете иногда
+              «собираются» в эпизоды плотнее, чем если бы события были независимыми?
+              После катастрофы у Суматры в 2004&nbsp;г. (M9,1) сейсмографы отметили всплеск активности
+              и в далёких регионах — интуиция подсказывает общую связь.
+            </p>
+            <p>
+              Но одна заметная цепочка в календаре ещё не доказывает глобальный закон: нужна проверка
+              на фоне случайности и локальных афтершоков.
+            </p>
+            <span class="plain-chip">M≥6,5 · глобальный охват</span>
+          </div>
+        </details>
 
-      <div class="findings-plain-step">
-        <h4>4. Опровержение</h4>
-        <p>
-          Калиброванные синтетические каталоги ETAS (локальная кластеризация и афтершоки «как в жизни»)
-          дают в среднем те же <strong>~27</strong> групп; p<sub>ETAS</sub>=&nbsp;<strong>1,0</strong> —
-          наблюдаемое число неотличимо от такого фона.
-          Перестановочный тест (p&nbsp;=&nbsp;0,0001) отвергает лишь модель случайных пуассоновских
-          <em>времён</em> — ожидаемо для любого реального каталога с афтершоками.
-          Дополнительной глобальной структуры сверх локальной кластеризации данные не показывают.
-        </p>
-      </div>
+        <details class="plain-step">
+          <summary>
+            <span class="plain-step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="3" y="15" width="11" height="2.5" rx="0.5"/><rect x="4.5" y="11" width="11" height="2.5" rx="0.5"/><rect x="6" y="7" width="11" height="2.5" rx="0.5"/><circle cx="18" cy="9" r="4.5"/><path d="M18 6.5v5M15.5 9h5"/></svg>
+            </span>
+            <span class="plain-step-head">
+              <span class="plain-step-title">2. Что сделали</span>
+              <span class="plain-step-teaser">Сшили четыре каталога и включили «микроскоп» статистики.</span>
+            </span>
+          </summary>
+          <div class="plain-step-body">
+            <p>
+              Объединили инструментальные и исторические каталоги: <strong>4267</strong> событий M≥6,5
+              для анализа. Алгоритм ищет группы событий, близких по времени и пространству
+              (метрика Baiesi–Paczuski, принятая в сейсмологии), и сравнивает результат с двумя
+              стандартными нулевыми моделями — перестановкой времён и синтетическими каталогами ETAS.
+            </p>
+            <p class="plain-step-footnote">
+              В сыром CSV — 4418 строк; 151 запись NOAA с M&lt;6,5 исключены из кластеризации.
+            </p>
+            <span class="plain-chip">4267 событий · Baiesi–Paczuski · ETAS</span>
+          </div>
+        </details>
 
-      <div class="findings-plain-step">
-        <h4>5. Почему это наука, а не провал</h4>
-        <p>
-          Отрицательный (null) результат — это фальсификация гипотезы: мы её сформулировали,
-          проверили и не подтвердили. Пайплайн воспроизводим — открытый код, фиксированные seeds,
-          JSON с числами в репозитории. Использованы те же инструменты, что и в сообществе:
-          ETAS, Monte Carlo, объединённые каталоги — не «своя математика ради красивой картинки».
-        </p>
-      </div>
+        <details class="plain-step">
+          <summary>
+            <span class="plain-step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="2" y="10" width="11" height="7" rx="1"/><path d="M13 12h2.5l2.5 2.5v0l-2.5 2.5H13"/><path d="M5 13.5h2.5"/><path d="M5 11.5l1-2M5 15.5l1 2"/><circle cx="19" cy="6" r="4" class="icon-warn"/><text x="19" y="7.6" text-anchor="middle" font-size="4.5" fill="#f85149" stroke="none" font-weight="700" font-family="system-ui,sans-serif">47</text></svg>
+            </span>
+            <span class="plain-step-head">
+              <span class="plain-step-title">3. «Ложное открытие»</span>
+              <span class="plain-step-teaser">Сирена завыла 47 раз — это подозрения, не приговор.</span>
+            </span>
+          </summary>
+          <div class="plain-step-body">
+            <p>
+              На первый взгляд казалось, что «серии найдены»: детектор выдал <strong>47</strong> кандидатов
+              после объединения окон (<strong>27</strong> на современном окне 1973–2026).
+              Это выход алгоритма — список мест, где события выглядят необычно близко по η-метрике, —
+              а не доказательство, что одно землетрясение физически «толкнуло» другое через океан.
+            </p>
+            <span class="plain-chip">47 кандидатов · 27 на окне 1973–2026</span>
+          </div>
+        </details>
 
-      <div class="findings-plain-step findings-plain-conclusion">
-        <h4>6. Честный вывод одной фразой</h4>
-        <p>
-          Данные согласуются с локальной кластеризацией и структурой каталога, а не с доказанными
-          телесейсмическими «глобальными цепочками» через весь мир.
-        </p>
+        <details class="plain-step">
+          <summary>
+            <span class="plain-step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 3v16"/><path d="M8 20h8"/><path d="M4.5 9h5.5l-.8 5.5H3.7z"/><path d="M14 9h5.5l-.8 5.5h-5.5z"/><path d="M5.5 8l.8-2.5"/><path d="M18.5 8l-.8-2.5"/><path d="M9 9.5h6" stroke-dasharray="1.5 1.5" opacity="0.5"/></svg>
+            </span>
+            <span class="plain-step-head">
+              <span class="plain-step-title">4. Опровержение</span>
+              <span class="plain-step-teaser">ETAS-близнецы на весах: наблюдение ≈ фон, p<sub>ETAS</sub>&nbsp;=&nbsp;1,0.</span>
+            </span>
+          </summary>
+          <div class="plain-step-body">
+            <p>
+              Калиброванные синтетические каталоги ETAS (локальная кластеризация и афтершоки «как в жизни»)
+              дают в среднем те же <strong>~27</strong> групп; p<sub>ETAS</sub>=&nbsp;<strong>1,0</strong> —
+              наблюдаемое число неотличимо от такого фона.
+            </p>
+            <p>
+              Перестановочный тест (p&nbsp;=&nbsp;0,0001) отвергает лишь модель случайных пуассоновских
+              <em>времён</em> — ожидаемо для любого реального каталога с афтершоками.
+              Дополнительной глобальной структуры сверх локальной кластеризации данные не показывают.
+            </p>
+            <span class="plain-chip">p<sub>ETAS</sub>&nbsp;=&nbsp;1,0 · permutation Poisson only</span>
+          </div>
+        </details>
+
+        <details class="plain-step">
+          <summary>
+            <span class="plain-step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M9 18.5c-4.5 1.3-4.5-2.2-6.5-3m13 4.5v-3.2a2.8 2.8 0 0 0-.8-2.2c2.6-.3 5.4-1.3 5.4-5.8a4.5 4.5 0 0 0-1.2-3.1 4.2 4.2 0 0 0-.1-3.1S17.5 1 15 2.5a10.5 10.5 0 0 0-5.5 0C7 1 6 1.2 6 1.2a4.2 4.2 0 0 0-.1 3.1 4.5 4.5 0 0 0-1.2 3.1c0 4.5 2.8 5.5 5.4 5.8a2.8 2.8 0 0 0-.8 2.2V22"/><path d="M12 2.5l1.5 2.5-1.5 1-1.5-1z" class="icon-fill" opacity="0.7"/></svg>
+            </span>
+            <span class="plain-step-head">
+              <span class="plain-step-title">5. Почему это наука, а не провал</span>
+              <span class="plain-step-teaser">Null-результат + открытый код — наука работает, даже когда «ничего не нашли».</span>
+            </span>
+          </summary>
+          <div class="plain-step-body">
+            <p>
+              Отрицательный (null) результат — это фальсификация гипотезы: мы её сформулировали,
+              проверили и не подтвердили. Пайплайн воспроизводим — открытый код, фиксированные seeds,
+              JSON с числами в репозитории.
+            </p>
+            <p>
+              Использованы те же инструменты, что и в сообществе:
+              ETAS, Monte Carlo, объединённые каталоги — не «своя математика ради красивой картинки».
+            </p>
+            <span class="plain-chip">reproducible · GitHub · fixed seeds</span>
+          </div>
+        </details>
+
+        <details class="plain-step plain-step--conclusion">
+          <summary>
+            <span class="plain-step-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><line x1="2" y1="17" x2="22" y2="17" opacity="0.35"/><path d="M2 14h5" opacity="0.5"/><path d="M7 14h2l1-6 1.5 12 1.5-9 1 3 1.5-2 1 1.5 1.5-1" opacity="0.45"/><path d="M16 14h6"/><circle cx="20" cy="14" r="0.6" class="icon-fill" opacity="0.6"/></svg>
+            </span>
+            <span class="plain-step-head">
+              <span class="plain-step-title">6. Честный вывод одной фразой</span>
+              <span class="plain-step-teaser">Земля пожала плечами — глобальной цепной реакции нет.</span>
+            </span>
+          </summary>
+          <div class="plain-step-body">
+            <p>
+              Данные согласуются с локальной кластеризацией и структурой каталога, а не с доказанными
+              телесейсмическими «глобальными цепочками» через весь мир.
+            </p>
+            <span class="plain-chip">null result · локальная кластеризация</span>
+          </div>
+        </details>
+
       </div>
     </div>
 
@@ -3128,6 +3342,23 @@
       });
     });
   });
+
+  // ===== PLAIN FINDINGS ACCORDION =====
+  const plainExpandBtn = document.querySelector('.plain-expand-all');
+  const plainSteps = document.querySelectorAll('.plain-timeline .plain-step');
+  if (plainExpandBtn && plainSteps.length) {
+    const syncPlainExpandLabel = () => {
+      const allOpen = [...plainSteps].every(step => step.open);
+      plainExpandBtn.textContent = allOpen ? 'Свернуть все' : 'Развернуть все';
+      plainExpandBtn.setAttribute('aria-expanded', allOpen ? 'true' : 'false');
+    };
+    plainExpandBtn.addEventListener('click', () => {
+      const expandAll = [...plainSteps].some(step => !step.open);
+      plainSteps.forEach(step => { step.open = expandAll; });
+      syncPlainExpandLabel();
+    });
+    plainSteps.forEach(step => step.addEventListener('toggle', syncPlainExpandLabel));
+  }
 
   // ===== HERO COUNTER CARDS DIRECT OBSERVE =====
   document.querySelectorAll('.counter-card').forEach(card => {
