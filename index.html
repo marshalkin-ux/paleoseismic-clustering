@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Глобальные сейсмические серии: M≥6.5 за 1973–2026 | Ярослав Маршалкин</title>
-  <meta name="description" content="Null result: primary literature ETAS p≤0.001 (local clustering); WLS negative control p=1.0 (coupling artifact). Declustering GK/ZBZ/none N=27. No evidence for physical global series.">
+  <meta name="description" content="Null result: primary literature ETAS p≤0.001 (local clustering excess). Declustering GK/ZBZ/none N=27. No evidence for physical global series.">
   <meta name="keywords" content="глобальные сейсмические серии, earthquake clustering, seismic triggering, дальнодействующий триггеринг, Baiesi-Paczuski, тектоническое расстояние, ETAS validation, FDR Benjamini-Hochberg, Monte Carlo, paleoseismic, землетрясения M6.5">
   <meta name="author" content="Ярослав Маршалкин">
   <link rel="canonical" href="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
@@ -1577,7 +1577,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern). <strong>Первичная ETAS-null</strong> (лит. H&amp;S 2003): mean≈15,4, p<sub>ETAS</sub>≤0,001 — локальная кластеризация, не телесейсмика (§5.4). <strong>Негативный контроль</strong> WLS: mean=27,0, p<sub>ETAS</sub>=1,0 — артефакт связки «детектор+калибровка»; <strong>не</strong> фальсификация. GK/ZBZ/none: <strong>N=27</strong> при фикс. воротах; b=1.0/0.911→N=27. Тектоническая метрика удалена из первичного конвейера. Гипотеза не подтверждается.
+      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern). <strong>Первичная ETAS-null</strong> (лит. H&amp;S 2003): mean≈15,4, p<sub>ETAS</sub>≤0,001 — локальная кластеризация, не телесейсмика (§5.4). GK/ZBZ/none: <strong>N=27</strong> при фикс. воротах; b=1.0/0.911→N=27. Тектоническая метрика удалена из первичного конвейера. Гипотеза не подтверждается.
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -2320,9 +2320,8 @@
         <div class="findings-block findings-block--honest">
           <h4>Отрицательный результат (честная рамка)</h4>
           <p>
-            Детектор <strong>либерален</strong>: при согласованной калибровке ETAS mean=27,0 = N<sub>obs</sub> (p<sub>ETAS</sub>=1,0) — связка «детектор+калибровка», не единоличная фальсификация.
-            При литературных параметрах H&amp;S 2003 mean≈15,4, p<sub>ETAS</sub>≤0,001 — N<sub>obs</sub> статистически превышает null (локальная афтершоковая кластеризация + либеральный search), но <em>не</em> телесейсмика (GK mainshocks only → N=27 без изменений).
-            <strong>Гипотеза о глобальных сериях не подтверждается</strong> (нет механизма, тектоника 98% GC, ETAS-null чувствителен к параметрам).
+            Детектор <strong>либерален</strong> (142 окна до merge). При литературных параметрах H&amp;S 2003 mean≈15,4, p<sub>ETAS</sub>≤0,001 — N<sub>obs</sub> статистически превышает локальное афтершоковое ожидание (избыток кластеризации + либеральный search), но <em>не</em> телесейсмика (GK mainshocks only → N=27 без изменений).
+            <strong>Гипотеза о глобальных сериях не подтверждается</strong> (нет механизма, тектоника 98% GC).
           </p>
         </div>
 
