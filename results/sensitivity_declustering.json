@@ -1,0 +1,53 @@
+{
+  "catalog": "modern_1973_2026_M65",
+  "n_events_raw": 2041,
+  "baseline_method": "gardner_knopoff",
+  "baseline_n_series": 27,
+  "gates": {
+    "time_window_years": 2.0,
+    "min_mean_gc_km": 1500.0,
+    "min_events": 4
+  },
+  "methods": [
+    {
+      "method": "gardner_knopoff",
+      "label": "GK (baseline)",
+      "description": "Gardner-Knopoff declustering (primary pipeline)",
+      "n_events_input": 2041,
+      "n_events_after_decluster": 2017,
+      "n_dependent_removed": 24,
+      "time_window_years": 2.0,
+      "min_mean_gc_km": 1500.0,
+      "min_events": 4,
+      "n_series_modern": 27,
+      "delta_vs_gk_baseline": 0
+    },
+    {
+      "method": "zaliapin",
+      "label": "ZBZ",
+      "description": "Zaliapin-Ben-Zion declustering (pipeline_v2 decluster_method='zaliapin')",
+      "n_events_input": 2041,
+      "n_events_after_decluster": 2040,
+      "n_dependent_removed": 1,
+      "time_window_years": 2.0,
+      "min_mean_gc_km": 1500.0,
+      "min_events": 4,
+      "n_series_modern": 27,
+      "delta_vs_gk_baseline": 0
+    },
+    {
+      "method": "none",
+      "label": "None",
+      "description": "No declustering; full M>=6.5 modern catalog",
+      "n_events_input": 2041,
+      "n_events_after_decluster": 2041,
+      "n_dependent_removed": 0,
+      "time_window_years": 2.0,
+      "min_mean_gc_km": 1500.0,
+      "min_events": 4,
+      "n_series_modern": 27,
+      "delta_vs_gk_baseline": 0
+    }
+  ],
+  "script": "scripts/run_declustering_sensitivity.py"
+}

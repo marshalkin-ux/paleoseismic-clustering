@@ -20,11 +20,11 @@
 
 ## Abstract
 
-**Primary result:** **Primary ETAS null** for the global-series hypothesis test is **literature** H&S 2003 (μ = 0.008, K = 0.08 — **not coupled** to detector output): mean ≈ **15.4**, **p_ETAS ≤ 0.001** — **N_obs = 27 exceeds** local aftershock-only expectation (clustering beyond Poisson times), but this **does not prove** teleseismic chains (dual-null table, §5.4). **Secondary diagnostic:** catalog-matched WLS calibration (**p_ETAS = 1.0**, mean = 27.0 = **N_obs**) shows **detector--calibration coupling** — **not adequate** as sole falsification test (K likely inflated by 24-event WLS).
+**Primary result:** **Primary ETAS null** for the global-series hypothesis test is **literature** H&S 2003 (μ = 0.008, K = 0.08 — **not coupled** to detector output): mean ≈ **15.4**, **p_ETAS ≤ 0.001** — **N_obs = 27 exceeds** local aftershock-only expectation (clustering beyond Poisson times), but this **does not prove** teleseismic chains (dual-null table, §5.4). **Negative control (WLS):** catalog-matched calibration (**p_ETAS = 1.0**, mean = 27.0 = **N_obs**) shows **detector–calibration coupling artifact** — **not independent evidence**; **do not cite** p_ETAS = 1.0 alone as falsification (K inflated by 24-event WLS).
 
 **Analysis scope:** **Primary analysis set:** events **1900–2026** (4,218 unique M≥6.5); **47 pre-1900 NOAA records** remain in CSV for provenance only — see **Appendix A**. **Primary significance claims — modern window 1973–2026 only** (2,041 events).
 
-We test physically meaningful **multi-regional global seismic series** in an **analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041 events); historical NOAA records (*n*=47) are reported in **Appendix A** only. We use the Baiesi–Paczuski metric η with a **heuristic metric with tectonic hint** (Bird 2003 graph). *Provenance:* 4,418 CSV rows include ~151 NOAA M<6.5 rows excluded from clustering. The [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p = 0.0001 (1/10,001 permutations)**[^mc-p], z = −6.17) is a **secondary** test: it rejects a **global temporal Poisson null** — **expected for aftershock catalogs** (Ogata, 1988); **not** a test of the multi-regional global-series hypothesis and **not** proof of teleseismic triggering. Tectonic-path distance: **98%** 1.5× GC fallback — labeled sensitivity/failed hypothesis test; **primary spatial gate is mean pairwise GC > 1500 km**. **ΔCFS/dynamic stress — future work only**; “series” are algorithmic constructs, not proven triggering chains. Limitations — §5.5.
+We test physically meaningful **multi-regional global seismic series** in an **analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041 events); historical NOAA records (*n*=47) are reported in **Appendix A** only. We use the Baiesi–Paczuski metric η with **great-circle distance** for η-linkage and series detection at global scale. A Bird (2003) tectonic-path heuristic was tested and **removed from the primary pipeline** (Appendix diagnostic only; 98% GC fallback). *Provenance:* 4,418 CSV rows include ~151 NOAA M<6.5 rows excluded from clustering. The [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p = 0.0001 (1/10,001 permutations)**[^mc-p], z = −6.17) is a **secondary** test: it rejects a **global temporal Poisson null** — **expected for aftershock catalogs** (Ogata, 1988); **not** a test of the multi-regional global-series hypothesis and **not** proof of teleseismic triggering. Tectonic-path distance: **98%** 1.5× GC fallback — labeled sensitivity/failed hypothesis test; **primary spatial gate is mean pairwise GC > 1500 km**. **ΔCFS/dynamic stress — future work only**; “series” are algorithmic constructs, not proven triggering chains. Limitations — §5.5.
 
 [^catalog-n]: Canonical analysis N: **4,267** unique M≥6.5 after deduplication (±30 days, ≤50 km; ISC > USGS > NOAA; cf. Waldhauser & Schaff, 2008). **4,418** saved CSV rows include ~151 NOAA M<6.5 rows (provenance only).
 
@@ -106,7 +106,7 @@ The [Gutenberg–Richter](https://en.wikipedia.org/wiki/Gutenberg%E2%80%93Richte
 Single list for Methods and Results (`src/analysis/clustering.py`, `pipeline_v2.py`):
 
 1. **GK declustering** (primary) → mainshocks for η NN forest.
-2. **η NN forest:** i* = argmin ηij; **b = 1.0**, **r^1.6** (Baiesi–Paczuski 2004); rij = tectonic Bird 2003 (1.5× GC fallback).
+2. **η NN forest:** i* = argmin ηij; **b = 1.0**, **r^1.6** (Baiesi–Paczuski 2004); rij = **great-circle distance** (km).
 3. **Sliding windows:** 1, 2, 5 yr (1-yr step).
 4. **Merge:** 142 window candidates → **47** merged.
 5. **Detector gate (sole mandatory criteria):** N ≥ 4, M ≥ 6.5, **mean pairwise GC > 1500 km** (`results/clustering_gc1500.json`).
@@ -122,9 +122,9 @@ Unified pipeline (see §3.3 for detector algorithm): **Data** → **Deduplicatio
 
 Catalog sources and merge reconciliation are in §2.1. Duplicates merged at ±30 days and ≤50 km (cf. Waldhauser & Schaff, 2008); ISC > USGS > NOAA priority. **Analysis catalog: 4,267** unique M≥6.5 (4,418 CSV rows = provenance only).
 
-### 3.2 Heuristic metric with tectonic hint
+### 3.2 Tectonic distance heuristic (deprecated diagnostic)
 
-We tested an alternative to Euclidean distance (Bird 2003 graph). In **98%** of pairs the implementation falls back to 1.5× great-circle distance when no Dijkstra path is available — **implementation default**; sensitivity to the 1.5 multiplier not varied (§5.5). Only **~2%** of boundary-proximal pairs use a Dijkstra path. **Labeled sensitivity/failed hypothesis test**; primary spatial gate is mean pairwise GC >1500 km.
+**Not used in primary inference.** η-linkage and series detection use **great-circle distance only** at global scale. The Bird (2003) tectonic-path heuristic below is retained for **Appendix diagnostic comparison only** (98% GC fallback — redundant for global analysis).
 
 We define rij as the shortest path between hypocenters along the global plate-boundary graph of Bird (2003), comprising 20 key segments (subduction zones, transform faults, mid-ocean ridges). Paths are computed with Dijkstra's algorithm (NetworkX). When either hypocenter lies more than 500 km from the nearest boundary node, or when no graph path exists between plate segments, we apply a penalty fallback:
 
@@ -153,7 +153,7 @@ Following Baiesi & Paczuski (2004) and Zaliapin et al. (2008):
 | Component | Symbol | Physical meaning |
 |-----------|--------|------------------|
 | Time | tij (yr) | Penalty for large temporal separation |
-| Distance | rij^1.6 (km) | Penalty for large separation (heuristic with tectonic hint) |
+| Distance | rij^1.6 (km) | Great-circle separation (primary pipeline) |
 | Magnitude | 10^(−b·mi) | Weighting by parent-event magnitude mi |
 
 Here df = 1.6 (fractal dimension; Baiesi & Paczuski, 2004) and **b = 1.0** (code default `B_DEFAULT`; parent magnitude mi only—no erroneous bi in the exponent). Smaller η indicates tighter spatiotemporal coupling.
@@ -218,14 +218,15 @@ Raw catalogs (USGS / ISC / NOAA)
 | Scale sensitivity | Designed for regional catalogs; flags short-range fore/aftershocks within windows | At global M≥6.5 scale, events are sparse → most η values are high → permissive |
 | Dependent events | **24** (2,017 mainshocks) | **1** (2,040 mainshocks) |
 
-GK applies conservative local window rules; ZBZ classifies only events with exceptionally low η to a predecessor. The 23-event gap reflects **algorithm and parameter choice**, not conflicting physics. **GK is primary for all inference** (pipeline, ETAS calibration, reported counts). The ZBZ check shows **minimal additional removal** (1 event) — declustering is not a critical methodological fork. **If ZBZ were primary**, 23 GK-aftershocks would remain as mainshocks; these are short-range local pairs unlikely to satisfy mean GC > 1500 km, so **N = 27 modern candidates would likely change negligibly** — **not re-run** (`decluster_method='zaliapin'` exists in `pipeline_v2.py` but series count is untested).
+GK applies conservative local window rules; ZBZ classifies only events with exceptionally low η to a predecessor. The 23-event gap reflects **algorithm and parameter choice**, not conflicting physics. **GK is primary for all inference** (pipeline, ETAS calibration, reported counts). **Quantitative sensitivity** (`scripts/run_declustering_sensitivity.py`, `results/sensitivity_declustering.json`): under fixed gates (2 yr, mean GC > 1500 km, N ≥ 4), **GK, ZBZ, and no declustering all yield N = 27** — declustering is not a critical methodological fork.
 
-**GK vs ZBZ (modern window, N=27 unchanged):**
+**Declustering sensitivity (modern window, N_series):**
 
-| Method | Role | Mainshocks / 2041 | Removed |
-|--------|------|------------------:|--------:|
-| Gardner–Knopoff | Primary | 2,017 | 24 |
-| Zaliapin–Ben-Zion | Sensitivity | 2,040 | 1 |
+| Method | Role | Events | Removed | N_series | Δ vs GK |
+|--------|------|-------:|--------:|---------:|--------:|
+| Gardner–Knopoff | Primary | 2,017 | 24 | **27** | 0 |
+| Zaliapin–Ben-Zion | Sensitivity | 2,040 | 1 | **27** | 0 |
+| None | Sensitivity | 2,041 | 0 | **27** | 0 |
 
 ### 3.6 Threshold η₀
 
@@ -269,7 +270,7 @@ Multi-seed ETAS: seeds 42–51, n=1000 catalogs/seed (`scripts/run_etas_multisee
 | Test | Null hypothesis | Role | Interpretation |
 |------|-----------------|------|----------------|
 | **ETAS literature** (H&S 2003) | N_obs exceeds local aftershock-only synthetics | **Primary** | p_ETAS ≤ 0.001; N_obs = 27 > mean ≈ 15.4 — clustering beyond Poisson; **not** teleseismic proof |
-| **ETAS catalog WLS** | Detector count vs matched synthetics | **Secondary diagnostic** | p_ETAS = 1.0 — detector--calibration coupling; **not** sole falsification |
+| **ETAS catalog WLS** | Detector count vs matched synthetics | **Negative control** | p_ETAS = 1.0 — coupling artifact when K fit on same catalog; **not** independent evidence |
 | **Permutation** (n = 10,000) | Globally Poissonian event times | Secondary | Rejects temporal independence; expected for aftershock catalogs |
 | **Benjamini–Hochberg** | — | Post-hoc | Not a discovery claim |
 
@@ -302,12 +303,12 @@ Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wi
 
 **Literature-default comparison** (Helmstetter & Sornette 2003: μ = 0.008, K = 0.08): mean ≈ **15.4**, max = 24, pETAS ≤ 0.001 — **N_obs = 27 exceeds** that null (local clustering).
 
-**Dual ETAS null (table below).** **Primary** for hypothesis test: literature H&S 2003. **Secondary diagnostic:** catalog WLS (p_ETAS = 1.0 may be a **calibration artifact** from inflated K ≈ 0.495).
+**Dual ETAS null (table below).** **Primary** for hypothesis test: literature H&S 2003. **Negative control:** catalog WLS (p_ETAS = 1.0 illustrates **calibration coupling** when K ≈ 0.495 is fit on the same catalog — **do not cite as independent falsification**). Full Ogata (1998) MLE with CIs: future work (`docs/future_work_etas_mle.md`).
 
 | Role | Null model | μ | K | Mean false series | p_ETAS | Interpretation |
 |------|------------|--:|--:|------------------:|------:|----------------|
 | **Primary** | Literature (H&S 2003) | 0.008 | 0.08 | ≈15.4 | ≤0.001 | N_obs exceeds local aftershock expectation; **not** teleseismic proof |
-| Secondary | Catalog-calibrated (WLS) | 0.103 | 0.495 | 27.0 | 1.0 | Detector--calibration coupling; **not** sole falsification |
+| Negative control | Catalog-calibrated (WLS) | 0.103 | 0.495 | 27.0 | 1.0 | Coupling artifact; **not** independent evidence |
 
 **Sensitivity: α fixed to catalog b = 0.911** (`results/etas_calibration_b0911.json`, `results/etas_validation_b0911.json`): branching term K·10^{α(M−M₀)} with α = 0.911 (base-10 Gutenberg–Richter exponent; Ogata natural-log equivalent α_nat ≈ 2.097); K refitted to **≈0.358**. Qualitative conclusion unchanged: **pETAS = 1.0**, mean false series **≈27** on the modern window (GC > 1500 km gate).
 

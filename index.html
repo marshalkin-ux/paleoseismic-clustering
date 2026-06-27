@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Глобальные сейсмические серии: M≥6.5 за 1973–2026 | Ярослав Маршалкин</title>
-  <meta name="description" content="Null result: ETAS p=1.0 (mean=27). Permutation rejects Poisson times only. 47 detector candidates — no evidence for physical global series.">
+  <meta name="description" content="Null result: primary literature ETAS p≤0.001 (local clustering); secondary WLS p=1.0 (detector coupling). 47 detector candidates — no evidence for physical global series.">
   <meta name="keywords" content="глобальные сейсмические серии, earthquake clustering, seismic triggering, дальнодействующий триггеринг, Baiesi-Paczuski, тектоническое расстояние, ETAS validation, FDR Benjamini-Hochberg, Monte Carlo, paleoseismic, землетрясения M6.5">
   <meta name="author" content="Ярослав Маршалкин">
   <link rel="canonical" href="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
@@ -1577,7 +1577,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern); однако ETAS-валидация (p<sub>ETAS</sub>=1,0) показывает, что кандидаты неотличимы от фоновой активности. Детектор находит mean=27,0 на ETAS-null — совпадает с N<sub>obs</sub>=27 (§5.5). Экстраполяция на 1900–1972.
+      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern). <strong>Первичная ETAS-null</strong> (лит. H&amp;S 2003): mean≈15,4, p<sub>ETAS</sub>≤0,001 — локальная кластеризация, не телесейсмика (§5.4). <strong>Негативный контроль</strong> WLS: mean=27,0, p<sub>ETAS</sub>=1,0 — артефакт связки «детектор+калибровка». GK vs ZBZ vs none: <strong>N=27</strong>. Тектоническая метрика удалена из первичного конвейера. Гипотеза не подтверждается.
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -1598,8 +1598,8 @@
         <div class="counter-label">кандидатов детектора (3 эпохи)</div>
       </div>
       <div class="counter-card fade-in">
-        <div class="counter-number" data-target="" data-literal="p_ETAS = 1,0">p<sub>ETAS</sub> = 1,0</div>
-        <div class="counter-label">ETAS-null (mean=27,0 = N<sub>obs</sub>)</div>
+        <div class="counter-number" data-target="" data-literal="p ≤ 0,001">p<sub>ETAS</sub> ≤ 0,001</div>
+        <div class="counter-label">первичная лит. null (mean≈15,4; N<sub>obs</sub>=27)</div>
       </div>
     </div>
 
@@ -1945,8 +1945,11 @@
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--green); font-weight:600;">
             ✅ Калибр. null: mean 27,0 · σ=0,0 · p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) — стабильно по всем 10 seed
           </li>
+          <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--yellow); font-weight:600;">
+            ✅ <strong>Первичная</strong> лит. null (H&amp;S 2003): μ=0,008, K=0,08 → mean≈15,4, p<sub>ETAS</sub>≤0,001 — локальное афтершоковое избыток
+          </li>
           <li style="padding:5px 0; color:var(--text-muted); font-size:0.85rem;">
-            Сравнение (только): лит. defaults μ=0,008 → mean≈15,5 (ранние n=100); не основная null-модель
+            GK mainshocks only (24 афтерш. удалено): N=27 без изменений — <code>results/sensitivity_aftershock_removed.json</code>
           </li>
         </ul>
         <div style="margin-top:12px; overflow-x:auto;">
@@ -1975,7 +1978,7 @@
           </table>
         </div>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">p<sub>ETAS</sub>=1,0</strong> (калибр.) — детектор находит mean=27,0 на ETAS-null, совпадает с N<sub>obs</sub>=27; см. §5.5–5.6; σ=0,0 потому что калибр. ETAS (~2001 фоновых соб./кат.) даёт детерминированные 27 ложных серий; permutation p=0.0001 сохраняется.
+          <strong style="color:var(--accent);">Dual-null:</strong> первичная лит. (p<sub>ETAS</sub>≤0,001) тестирует локальную афтершоковую модель; вторичная WLS (p<sub>ETAS</sub>=1,0, mean=27,0=N<sub>obs</sub>) — диагностика связки детектор+калибровка (§5.4–5.6). Permutation p=0.0001 сохраняется.
         </div>
       </div>
 
@@ -2021,23 +2024,37 @@
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.1 Временно́е окно</td>
               <td style="padding:10px 14px; color:var(--text-muted);">T<sub>w</sub></td>
-              <td style="padding:10px 14px; color:var(--text-muted);">0.5–5 лет</td>
-              <td style="padding:10px 14px; color:var(--green);">22–31 серий; p ≤ 0.001 везде</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">1 / 2 / 5 / 10 лет</td>
+              <td style="padding:10px 14px; color:var(--green);">N=53 / 27 (база) / 11 / 6 — <code>sensitivity_eta_windows_gc.json</code></td>
+              <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Выполнено</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.1b GC-порог</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">mean GC</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">1000 / 1500 / 2000 км</td>
+              <td style="padding:10px 14px; color:var(--green);">N=27 во всех случаях (T<sub>w</sub>=2 yr)</td>
               <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Стабильно</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.1c GK mainshocks</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">каталог</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">−24 афтерш.</td>
+              <td style="padding:10px 14px; color:var(--green);">N=27 без изменений</td>
+              <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Подтверждено</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.2 Тектон. расстояние</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">500 км / 1.5× GC</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">Bird graph</td>
               <td style="padding:10px 14px; color:var(--text-muted);">—</td>
-              <td style="padding:10px 14px; color:var(--yellow);">Sweep не выполнялся; 98% GC-фолбэк, 2% Dijkstra; Δlog₁₀η ≈ +0,28</td>
-              <td style="padding:10px 14px;"><span style="background:rgba(210,153,34,0.15); color:var(--yellow); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">○ Будущая работа</span></td>
+              <td style="padding:10px 14px; color:var(--yellow);"><strong>Удалено из primary</strong>; 98% GC-фолбэк — только GC в конвейере; диагностика в приложении</td>
+              <td style="padding:10px 14px;"><span style="background:rgba(210,153,34,0.15); color:var(--yellow); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">○ Deprecated</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.3 Декластеризация</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">GK (основной) · ZBZ (чувств.)</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">2 алгоритма</td>
-              <td style="padding:10px 14px; color:var(--green);">GK: 24 афтерш.; ZBZ: 1 завис. — разные критерии, GK primary</td>
-              <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Согласовано</span></td>
+              <td style="padding:10px 14px; color:var(--text-muted);">GK · ZBZ · none</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">3 метода</td>
+              <td style="padding:10px 14px; color:var(--green);"><strong>GK vs ZBZ vs none — N=27</strong> (<code>sensitivity_declustering.json</code>)</td>
+              <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Выполнено</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.4 Порог магнитуды</td>
@@ -2050,8 +2067,8 @@
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">ETAS-нулевая модель</td>
               <td style="padding:10px 14px; color:var(--text-muted);">p<sub>ETAS</sub></td>
               <td style="padding:10px 14px; color:var(--text-muted);">1000 синт. каталогов</td>
-              <td style="padding:10px 14px; color:var(--yellow);">FPR 1000/1000; калибр. mean 27,0, p<sub>ETAS</sub>=1,0; лит. μ=0,008 → mean≈15,4, p≤0,001</td>
-              <td style="padding:10px 14px;"><span style="background:rgba(210,153,34,0.15); color:var(--yellow); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">○ Либерален</span></td>
+              <td style="padding:10px 14px; color:var(--yellow);">Первичная лит.: mean≈15,4, p≤0,001; <strong>негативный контроль</strong> WLS: mean 27,0, p=1,0 (связка, не независимое доказательство)</td>
+              <td style="padding:10px 14px;"><span style="background:rgba(210,153,34,0.15); color:var(--yellow); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">○ Dual-null</span></td>
             </tr>
             <tr>
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.5 Калибровка порогов</td>
@@ -2074,9 +2091,8 @@
           Тот же класс η-метрик, но <strong>не основной метод</strong> — GK единственный primary в pipeline_v2 и калибровке ETAS.
         </p>
         <ul style="list-style:none; padding:0; font-size:0.88rem; color:var(--text-muted);">
-          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">GK: окна T(M)/R(M) → 24 зависимых; ZBZ: η NN + KDE → 1 зависимое (глобальный M≥6.5)</li>
-          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">Разрыв 23 события — алгоритм/параметры, не противоречие; ZBZ не заменяет GK</li>
-          <li style="padding:4px 0;">ZBZ-primary для N=27 не тестировался (вероятно незначительно)</li>
+          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">GK: 2017 соб.; ZBZ: 2040; none: 2041 — при T<sub>w</sub>=2 yr, GC>1500 km все дают <strong>N=27</strong></li>
+          <li style="padding:4px 0;">Источник: <code>scripts/run_declustering_sensitivity.py</code> → <code>results/sensitivity_declustering.json</code></li>
         </ul>
       </div>
       <div class="card">
@@ -2285,8 +2301,9 @@
             <li><strong>4267</strong> событий M≥6.5; <strong>2041</strong> в окне 1973–2026</li>
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
             <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
-            <li><strong>ETAS (калибр.):</strong> mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong>, N<sub>obs</sub>=27 — детектор не специфичен для глобальных серий, отражает фоновую структуру каталога (§5.5)</li>
-            <li><strong>Либеральность детектора (§5.6):</strong> mean=27 на ETAS-null; 142 скользящих окна × merge — exploratory search, не «открытые серии»</li>
+            <li><strong>ETAS dual-null:</strong> <strong>первичная</strong> лит. H&amp;S → mean <strong>15.4</strong>, p<sub>ETAS</sub>≤0.001 (локальное афтершоковое избыток; не телесейсмика); <strong>вторичная</strong> WLS → mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (связка); GK mainshocks N=27 без изменений (§5.4)</li>
+            <li><strong>Либеральность детектора (§5.6):</strong> 142 скользящих окна × merge — exploratory search</li>
+            <li><strong>Чувствительность:</strong> GC 1000/1500/2000 км → N=27; окна 1/2/5/10 лет → 53/27/11/6 (<code>results/sensitivity_eta_windows_gc.json</code>)</li>
             <li><strong>Multiseed ETAS</strong> (seeds 42–51, n=1000/seed): mean=27.0, σ=0.0, FPR=1.0 (<code>results/etas_multiseed.json</code>)</li>
             <li>Эвристика с тект. подсказкой: <strong>98%</strong> GC-фолбэк — отрицательный тест гипотезы</li>
           </ul>
@@ -2300,12 +2317,11 @@
         </div>
 
         <div class="findings-block findings-block--honest">
-          <h4>Отрицательный результат (фальсификация гипотезы о глобальных сериях)</h4>
+          <h4>Отрицательный результат (честная рамка)</h4>
           <p>
-            Детектор находит в среднем 27,0 кандидатов в ETAS-каталогах с калиброванными параметрами, что совпадает с наблюдаемым числом 27 — детектор не специфичен для глобальных серий, он отражает фоновую структуру каталога (§5.5).
-            <strong>Гипотеза о существовании глобальных сейсмических серий не подтверждается</strong>.
-            Перестановочный тест отвергает лишь пуассоновскую нулевую гипотезу — тривиально для сейсмических каталогов.
-            ΔCFS/динамический стресс — <strong>future work</strong>; «серии» — алгоритмические конструкты.
+            Детектор <strong>либерален</strong>: при согласованной калибровке ETAS mean=27,0 = N<sub>obs</sub> (p<sub>ETAS</sub>=1,0) — связка «детектор+калибровка», не единоличная фальсификация.
+            При литературных параметрах H&amp;S 2003 mean≈15,4, p<sub>ETAS</sub>≤0,001 — N<sub>obs</sub> превышает null, но тест отражает <em>локальную</em> афтершоковую кластеризацию (GK mainshocks only → N=27 без изменений).
+            <strong>Гипотеза о глобальных сериях не подтверждается</strong> (нет механизма, тектоника 98% GC, ETAS-null чувствителен к параметрам).
           </p>
         </div>
 
@@ -2349,8 +2365,9 @@
       <h3 style="margin-bottom:16px; font-family:var(--heading-font); color:var(--green);">Согласование null-моделей</h3>
       <ul style="margin:0; padding-left:1.25rem; color:var(--text-muted); line-height:1.7;">
         <li><strong style="color:var(--text-dim);">Permutation:</strong> p=0.0001 (1/10,001) — отвергает пуассоновские <em>времена</em> (ожидаемо при афтершоках)</li>
-        <li><strong style="color:var(--text-dim);">ETAS:</strong> p<sub>ETAS</sub>=1.0, mean=27 — <strong>нет</strong> избыточной структуры сверх локального null</li>
-        <li><strong style="color:var(--text-dim);">Вывод:</strong> ETAS mean=27 — гипотеза глобальных серий не подтверждается; permutation отвергает лишь Poisson-null</li>
+        <li><strong style="color:var(--text-dim);">ETAS (первичная, лит.):</strong> p<sub>ETAS</sub>≤0,001, mean≈15,4 — N<sub>obs</sub> превышает локальное афтершоковое ожидание; не телесейсмика</li>
+        <li><strong style="color:var(--text-dim);">ETAS (вторичная, WLS):</strong> p<sub>ETAS</sub>=1,0, mean=27 — связка детектор+калибровка</li>
+        <li><strong style="color:var(--text-dim);">Вывод:</strong> гипотеза глобальных серий не подтверждается; permutation отвергает лишь Poisson-null</li>
       </ul>
     </div>
 

@@ -6,7 +6,7 @@
 1. Загрузка и предобработка каталога.
 2. Декластеризация (Gardner-Knopoff или Zaliapin-Ben-Zion).
 3. Анализ полноты каталога.
-4. Кластеризация с улучшенной тектонической метрикой v2.
+4. Кластеризация (η NN forest; series gate = great-circle only).
 5. Monte Carlo тест значимости.
 6. FDR коррекция p-value.
 7. ETAS валидация (оценка частоты ложных открытий).
@@ -131,7 +131,8 @@ def run_full_analysis(
         n_monte_carlo: число итераций Monte Carlo.
         run_etas_validation: выполнять ли ETAS-валидацию.
         n_etas_catalogs: число синтетических каталогов для ETAS.
-        use_tectonic_v2: использовать TectonicDistanceV2 (с типами границ).
+        use_tectonic_v2: **deprecated diagnostic** — Bird-graph distance for η NN forest
+            only; not used in ``global_series()`` gates or reported N_obs.
 
     Returns:
         Словарь с результатами::

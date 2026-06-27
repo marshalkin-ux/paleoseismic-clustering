@@ -2,10 +2,13 @@
 
 End-to-end detector (see paper §3.3, ``pipeline_v2.py``):
 
-1. Gardner–Knopoff declustering → mainshocks
-2. Baiesi–Paczuski η NN forest (b=1.0, r^1.6 — BP 2004 convention)
-3. ``global_series()`` sliding windows (1/2/5 yr) + FE ≥3 filter
+1. Gardner–Knopoff declustering → mainshocks (primary; ZBZ/none sensitivity-tested)
+2. Baiesi–Paczuski η NN forest (b=1.0, r^1.6 — BP 2004; **r_ij = great-circle km**)
+3. ``global_series()`` sliding windows (1/2/5 yr); primary gate mean pairwise GC > 1500 km
 4. Permutation (mean log10 η_NN) and ETAS-null validation
+
+Tectonic-path distance (Bird 2003) is **deprecated for inference** — diagnostic only
+(98% GC fallback; see ``tectonic_distance_v2.py``). Series detection never used it.
 
 Output: algorithmic candidates, not validated physical series.
 """

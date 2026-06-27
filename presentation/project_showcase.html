@@ -1577,7 +1577,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern); однако ETAS-валидация (p<sub>ETAS</sub>=1,0) показывает, что кандидаты неотличимы от фоновой активности. Детектор находит mean=27,0 на ETAS-null — совпадает с N<sub>obs</sub>=27 (§5.5). Экстраполяция на 1900–1972.
+      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern). <strong>Первичная ETAS-null</strong> (лит. H&amp;S 2003): mean≈15,4, p<sub>ETAS</sub>≤0,001. <strong>Негативный контроль</strong> WLS: p<sub>ETAS</sub>=1,0 — связка детектор+калибровка. GK vs ZBZ vs none: <strong>N=27</strong>. Тектоническая метрика удалена из primary. Гипотеза не подтверждается.
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -2027,17 +2027,17 @@
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.2 Тектон. расстояние</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">500 км / 1.5× GC</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">Bird graph</td>
               <td style="padding:10px 14px; color:var(--text-muted);">—</td>
-              <td style="padding:10px 14px; color:var(--yellow);">Sweep не выполнялся; 98% GC-фолбэк, 2% Dijkstra; Δlog₁₀η ≈ +0,28</td>
-              <td style="padding:10px 14px;"><span style="background:rgba(210,153,34,0.15); color:var(--yellow); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">○ Будущая работа</span></td>
+              <td style="padding:10px 14px; color:var(--yellow);"><strong>Удалено из primary</strong>; 98% GC-фолбэк — только GC в конвейере</td>
+              <td style="padding:10px 14px;"><span style="background:rgba(210,153,34,0.15); color:var(--yellow); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">○ Deprecated</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.3 Декластеризация</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">GK (основной) · ZBZ (чувств.)</td>
-              <td style="padding:10px 14px; color:var(--text-muted);">2 алгоритма</td>
-              <td style="padding:10px 14px; color:var(--green);">GK: 24 афтерш.; ZBZ: 1 завис. — разные критерии, GK primary</td>
-              <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Согласовано</span></td>
+              <td style="padding:10px 14px; color:var(--text-muted);">GK · ZBZ · none</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">3 метода</td>
+              <td style="padding:10px 14px; color:var(--green);"><strong>GK vs ZBZ vs none — N=27</strong> (<code>sensitivity_declustering.json</code>)</td>
+              <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Выполнено</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.4 Порог магнитуды</td>
@@ -2074,9 +2074,8 @@
           Тот же класс η-метрик, но <strong>не основной метод</strong> — GK единственный primary в pipeline_v2 и калибровке ETAS.
         </p>
         <ul style="list-style:none; padding:0; font-size:0.88rem; color:var(--text-muted);">
-          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">GK: окна T(M)/R(M) → 24 зависимых; ZBZ: η NN + KDE → 1 зависимое (глобальный M≥6.5)</li>
-          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">Разрыв 23 события — алгоритм/параметры, не противоречие; ZBZ не заменяет GK</li>
-          <li style="padding:4px 0;">ZBZ-primary для N=27 не тестировался (вероятно незначительно)</li>
+          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">GK: 2017 соб.; ZBZ: 2040; none: 2041 — все дают <strong>N=27</strong> (T<sub>w</sub>=2 yr, GC>1500 km)</li>
+          <li style="padding:4px 0;">Источник: <code>results/sensitivity_declustering.json</code></li>
         </ul>
       </div>
       <div class="card">
@@ -2285,7 +2284,7 @@
             <li><strong>4267</strong> событий M≥6.5; <strong>2041</strong> в окне 1973–2026</li>
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
             <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
-            <li><strong>ETAS dual-null:</strong> <strong>первичная</strong> лит. H&amp;S → mean <strong>15.4</strong>, p<sub>ETAS</sub>≤0.001 (локальное афтершоковое избыток; не телесейсмика); <strong>вторичная</strong> WLS → mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (связка); GK mainshocks N=27 без изменений (§5.4)</li>
+            <li><strong>ETAS dual-null:</strong> <strong>первичная</strong> лит. H&amp;S → mean <strong>15.4</strong>, p<sub>ETAS</sub>≤0.001; <strong>негативный контроль</strong> WLS → mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong> (связка); GK/ZBZ/none N=27 (<code>sensitivity_declustering.json</code>)</li>
             <li><strong>Либеральность детектора (§5.6):</strong> 142 скользящих окна × merge — exploratory search</li>
             <li><strong>Multiseed ETAS</strong> (seeds 42–51, n=1000/seed): mean=27.0, σ=0.0, FPR=1.0 (<code>results/etas_multiseed.json</code>)</li>
             <li>Эвристика с тект. подсказкой: <strong>98%</strong> GC-фолбэк — отрицательный тест гипотезы</li>
