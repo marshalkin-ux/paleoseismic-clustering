@@ -201,8 +201,9 @@ def build(s):
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "47 global seismic series are identified (27 modern, 15 early, 5 historical candidates). "
         "Significance: permutation test (n=10,000, p\u22640.0001, z=-6.17); ETAS validation "
-        "(n=1000 catalogs, FPR=1000/1000, mean 15.4 \u00b1 1.7; max 24; "
-        "p_ETAS=0/1000 for N_obs=27); FDR (45/47 at q=0.05, N=47). "
+        "(n=1000 catalogs, FPR=1000/1000; catalog-calibrated null: mean 27.0, p_ETAS=1.0; "
+        "literature defaults \u03bc=0.008: mean 15.4, p\u22640.001; N_obs=27); "
+        "FDR (45/47 at q=0.05, N=47). "
         "<b>statistical anomaly</b>, not proof of causal triggering. "
         "Largest series: 1905\u20131910 (193 events, 43 regions); "
         "most extensive modern: S170 (46 events, 12 regions, Mmax=9.1).",
@@ -333,16 +334,19 @@ def build(s):
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
     story.append(Paragraph(
-        "<b>ETAS parameters (not catalog-calibrated):</b> Helmstetter &amp; Sornette 2003 "
-        "defaults (mu=0.008, K=0.08, alpha=1.0, c=0.005 d, p=1.1); not refit on 2041 events "
-        "(results/etas_calibration_note.md). Optional MLE mu ~0.105 events/day vs default 0.008.",
+        "<b>ETAS parameters (catalog-calibrated):</b> MLE on 2,041 events "
+        "(scripts/calibrate_etas.py, results/etas_calibration.json): "
+        "\u03bc\u22480.103, K\u22480.495, \u03b1\u22480.063, c\u224810\u207b\u2074 d, p\u22481.36. "
+        "Literature defaults (Helmstetter &amp; Sornette 2003) retained for comparison.",
         s["body"]
     ))
     story += SSEC("2.5 Statistical validation", s)
     story.append(Paragraph(
         "<b>Permutation test:</b> n = 10,000, p \u2264 0.0001, z = -6.17 (modern). "
-        "<b>ETAS validation:</b> 1000 catalogs (seed=42); FPR=1000/1000; mean 15.4; max 24; p_ETAS \u2264 0.001. "
-        "Previously FPR=0/100 was an API bug (min_regions TypeError). "
+        "<b>ETAS validation:</b> 1000 catalogs (seed=42); FPR=1000/1000; "
+        "calibrated null: mean 27.0 (max 27), p_ETAS = 1.0; N_obs=27. "
+        "Literature \u03bc=0.008 comparison: mean 15.4, max 24, p_ETAS \u2264 0.001. "
+        "Detector is liberal; tighter series criteria is future work. "
         "<b>FDR (q=0.05):</b> 45/47 significant; N=47 series hypotheses. "
         "<b>Declustering:</b> GK 2,017/2,041; ZBZ 2,040/2,041.",
         s["body"]
@@ -402,21 +406,24 @@ def build(s):
     story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
         "<b>Statistical anomaly (established):</b> series incompatible with Poisson "
-        "and local-only ETAS nulls; FDR 45/47. Conclusion about \u03b7 links and "
+        "null (p \u2264 0.0001); FDR 45/47. Calibrated ETAS: mean = 27.0, p_ETAS = 1.0 "
+        "(liberal detector, FPR = 1000/1000). Conclusion about \u03b7 links and "
         "p-values, not causality. <b>Working hypotheses</b> (not claims): viscoelastic "
         "mantle coupling (Pollitz 1998), dynamic triggering (Hill 1993; Brodsky 2006), "
         "shared tectonic loading (Freed &amp; Lin 2001). "
         "<b>Future work / supplement:</b> preliminary Coulomb/dynamic stress tests for S170 "
         "did not reach triggering thresholds (repository). "
-        "<b>ETAS note:</b> FPR=1000/1000 at seed=42 (mean 15.4 spurious series); N_obs=27 exceeds ETAS max (24). "
+        "<b>ETAS note:</b> FPR=1000/1000 at seed=42; calibrated null mean=27.0, p_ETAS=1.0 "
+        "(indistinguishable from null); literature \u03bc=0.008 yielded mean\u224815.4, p \u2264 0.001. "
         "<b>Tectonic audit:</b> 98% GC fallback of 4987 pairs (fig07).",
         s["body"]
     ))
     for num, text in [
         ("1.", "4,267 M\u22656.5 events (4,418 CSV records) contain 47 global series; "
                "27 modern significant at p \u2264 0.0001."),
-        ("2.", "ETAS validation (1000 catalogs; FPR=1000/1000, p_ETAS \u2264 0.001) and "
-               "FDR (45/47, N=47) confirm non-randomness."),
+        ("2.", "ETAS validation (1000 catalogs; FPR=1000/1000; calibrated null: "
+               "mean=27.0, p_ETAS=1.0) and FDR (45/47, N=47) — permutation test "
+               "supports structure; calibrated ETAS is not rejected."),
         ("3.", "Largest series: 1905\u20131910 (193 events, 43 regions, M<sub>max</sub>=8.8); "
                "most spatially extensive modern: S170 (46 events, 12 regions, "
                "2002\u20132023, M<sub>max</sub>=9.1)."),

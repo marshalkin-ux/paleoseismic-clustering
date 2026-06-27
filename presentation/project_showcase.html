@@ -1582,21 +1582,24 @@
         <span class="card-icon">🤖</span>
         <h3 style="color:var(--accent);">Уровень 2 — ETAS-валидация</h3>
         <p style="margin-bottom:14px; color:var(--text-muted);">
-          Нулевая модель: <strong style="color:var(--text-dim);"><span class="term-tip">ETAS<span class="term-tip-box">Epidemic-type aftershock sequence — модель локальных афтершоков без дальних (&gt;500&nbsp;км) связей. 1000 синтетических каталогов; FPR=1000/1000; N_obs=27 &gt; max 24.<a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> без дальних межрегиональных связей</strong>
+          Нулевая модель: <strong style="color:var(--text-dim);"><span class="term-tip">ETAS<span class="term-tip-box">Epidemic-type aftershock sequence — модель локальных афтершоков без дальних (&gt;500&nbsp;км) связей. 1000 синтетических каталогов; FPR=1000/1000; калибр. null mean=27,0, p<sub>ETAS</sub>=1,0.<a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> без дальних межрегиональных связей</strong>
         </p>
         <ul style="list-style:none; padding:0; font-size:0.9rem;">
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
-            <span style="color:var(--accent); font-weight:600;">1000 синтетических ETAS-каталогов</span> (μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; порог 500 км; seed=42)
+            <span style="color:var(--accent); font-weight:600;">1000 синтетических ETAS-каталогов</span> (калибр.: μ≈0,103, K≈0,495, α≈0,063, c≈10⁻⁴ сут., p≈1,36; порог 500 км; seed=42)
           </li>
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
-            <span class="term-tip">Ветвящийся пуассоновский процесс<span class="term-tip-box">ETAS — стохастическая модель, где каждое событие может порождать «дочерние» (афтершоки). FPR = доля синтетических каталогов с ≥1 ложной серией.<a href="https://ru.wikipedia.org/wiki/Пуассоновский_процесс" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>; FPR = доля каталогов с ≥1 ложной серией
+            <span class="term-tip">Ветвящийся пуассоновский процесс<span class="term-tip-box">ETAS — стохастическая модель, где каждое событие может порождать «дочерние» (афтершоки). FPR = доля синтетических каталогов с ≥1 ложной серией.<a href="https://ru.wikipedia.org/wiki/Пуассоновский_процесс" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>; FPR = 1000/1000
           </li>
-          <li style="padding:5px 0; color:var(--green); font-weight:600;">
-            ✅ Выполнено · 1000 каталогов · mean 15.4 ложных серий
+          <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--green); font-weight:600;">
+            ✅ Калибр. null: mean 27,0 · p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27)
+          </li>
+          <li style="padding:5px 0; color:var(--text-muted); font-size:0.85rem;">
+            Сравнение: литературные defaults (μ=0,008) → mean≈15,4, max=24, p≤0,001
           </li>
         </ul>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">p<sub>ETAS</sub> ≤ 0.001</strong> &nbsp;|&nbsp; FPR = 1000/1000 (≥1 ложная серия; N_obs=27) — детектор либерален на ETAS-нулях; multiseed и механизм не доказаны.
+          <strong style="color:var(--accent);">p<sub>ETAS</sub>=1,0</strong> (калибр.) &nbsp;|&nbsp; FPR=1000/1000 — детектор либерален; permutation test p≤0,0001 сохраняется; multiseed и механизм — перспектива.
         </div>
       </div>
 
@@ -1671,8 +1674,8 @@
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">ETAS-нулевая модель</td>
               <td style="padding:10px 14px; color:var(--text-muted);">p<sub>ETAS</sub></td>
               <td style="padding:10px 14px; color:var(--text-muted);">1000 синт. каталогов</td>
-              <td style="padding:10px 14px; color:var(--green);">FPR 1000/1000; mean 15.4; N_obs=27 &gt; max 24; p ≤ 0.001</td>
-              <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Значимо</span></td>
+              <td style="padding:10px 14px; color:var(--yellow);">FPR 1000/1000; калибр. mean 27,0, p<sub>ETAS</sub>=1,0; лит. μ=0,008 → mean≈15,4, p≤0,001</td>
+              <td style="padding:10px 14px;"><span style="background:rgba(210,153,34,0.15); color:var(--yellow); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">○ Либерален</span></td>
             </tr>
             <tr>
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.5 Калибровка порогов</td>
@@ -2095,9 +2098,10 @@
   <div style="margin-bottom: 3rem; border:1px solid rgba(63,185,80,0.35); border-radius:12px; padding:1.5rem; background:rgba(63,185,80,0.05);">
     <h3 style="color:#3fb950; margin-bottom:0.5rem;">ETAS-валидация — главный аргумент для GRL</h3>
     <p class="viz-block-desc">
-      Нулевая модель ETAS: μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; max_trigger_distance_km=500.
-      1000 синтетических каталогов; FPR=1000/1000, mean 15.4, p<sub>ETAS</sub>≤0.001 (N_obs=27 &gt; max 24).
-      Ни один не дал ложной серии — реальные 47 серий не объясняются стандартной моделью кластеризации.
+      Каталог-откалиброванный ETAS (μ≈0,103, K≈0,495, α≈0,063, c≈10⁻⁴ сут., p≈1,36; порог 500&nbsp;км; seed=42):
+      1000 синтетических каталогов; FPR=1000/1000; mean=27,0; p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) — неотличимо от null.
+      Для сравнения, литературные defaults (μ=0,008) давали mean≈15,4, max=24, p≤0,001.
+      Детектор либерален; permutation test p≤0,0001 подтверждает структуру кластеризации.
     </p>
     <img src="../figures/grl/fig02_etas_validation.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="ETAS null-model validation">
   </div>
@@ -2354,12 +2358,12 @@
         <div style="background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:12px 16px;margin-top:12px;">
           <pre style="margin:0;color:#3fb950;font-size:12px;line-height:1.8;">python scripts/run_etas_validation.py
 <span style="color:#8b949e;"># → Загружено событий: 4418
-# → Запуск ETAS-валидации (100 каталогов)...
-# → Реальных глобальных серий:  47
-# → В ETAS-каталогах (среднее): 15.44 ± 1.65
+# → Запуск ETAS-валидации (1000 каталогов)...
+# → Реальных глобальных серий:  27 (совр. окно)
+# → В ETAS-каталогах (среднее): 27.00 ± 0.00  (калибр. null)
 # → FPR (>=1 ложной серии):       1000/1000
-# → p-value (ETAS):               0.0000 (≤ 0.001)
-# → Интерпретация:              N_obs=27 > max ETAS (24)
+# → p-value (ETAS):               1.0000 (калибр.; лит. μ=0.008 → ≤ 0.001)
+# → Интерпретация:              N_obs=27 неотличимо от калибр. null
 # → Сохранено: results/etas_validation.json</span></pre>
         </div>
       </div>
@@ -2459,7 +2463,7 @@
         <div class="history-dot">11</div>
         <div class="history-date">27 июня 2026</div>
         <div class="history-title">Monte Carlo и ETAS-валидация</div>
-        <div class="history-desc">Перестановочный тест n = 10 000: p ≤ 0.0001, z = −6.17 (<code>results/montecarlo_full.json</code>). 1000 синтетических ETAS-каталогов (μ=0.008, K=0.08, порог 500 км, seed=42) → FPR = 1000/1000 (<code>results/etas_validation.json</code>). Сравнение декластеризации GK vs ZBZ.</div>
+        <div class="history-desc">Перестановочный тест n = 10 000: p ≤ 0.0001, z = −6.17 (<code>results/montecarlo_full.json</code>). 1000 синтетических ETAS-каталогов (калибр. μ≈0,103; порог 500 км, seed=42) → FPR = 1000/1000, mean=27,0, p<sub>ETAS</sub>=1,0 (<code>results/etas_validation.json</code>). Сравнение декластеризации GK vs ZBZ.</div>
       </div>
 
       <div class="history-item history-item--technical">
@@ -2551,7 +2555,7 @@
       <div class="plan-card">
         <h3>✅ Статистика — выполнено</h3>
         <ul class="plan-list">
-          <li><strong>ETAS-валидация:</strong> 1000 каталогов → FPR 1000/1000, mean 15.4, p<sub>ETAS</sub> ≤ 0.001 (N_obs=27 &gt; max 24)</li>
+          <li><strong>ETAS-валидация:</strong> 1000 каталогов → FPR 1000/1000; калибр. mean 27,0, p<sub>ETAS</sub>=1,0; лит. μ=0,008 → mean≈15,4, p≤0,001</li>
           <li><strong>FDR BH (q=0.05):</strong> 45/47 серий значимы, 0 удалено коррекцией</li>
           <li><strong>Декластеризация:</strong> GK 2017/2041 (24 афтершока) · ZBZ 2040/2041 (1 зависимое) — проверка чувствительности</li>
           <li><strong>Monte Carlo:</strong> n = 10 000, p ≤ 0.0001, z = −6.17</li>
