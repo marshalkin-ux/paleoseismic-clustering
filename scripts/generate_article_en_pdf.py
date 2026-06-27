@@ -330,29 +330,34 @@ def build(s):
         s["body"]
     ))
 
-    story += SSEC("2.4 Threshold \u03b7\u2080, series detection, and ETAS parameters", s)
-    story.append(Paragraph(
-        "Automatic \u03b7<sub>0</sub> from nearest-neighbor \u03b7 distribution: KDE valley "
-        "between bimodal log<sub>10</sub>(\u03b7) modes (Zaliapin &amp; Ben-Zion 2013); "
-        "default \u03b7<sub>0</sub> = 10<sup>median log10 \u03b7</sup>. Validated against "
-        "Poisson permutation null (n = 10,000).",
-        s["body"]
-    ))
+    story += SSEC("2.4 Clustering and detector criteria", s)
     for num, text in [
-        ("1.", "Declustering via Gardner\u2013Knopoff [1974]."),
-        ("2.", "Nearest-neighbor forest: parent i* = argmin \u03b7<sub>ij</sub> subject to \u03b7<sub>ij</sub> &lt; \u03b7<sub>0</sub>."),
-        ("3.", "Global series: N >= 4; M >= 6.5; mean pairwise GC > 1500 km."),
-        ("4.", "Sliding windows (1, 2, 5 yr); overlapping groups merged."),
+        ("1.", "GK declustering (primary) \u2192 mainshocks for \u03b7 NN forest."),
+        ("2.", "\u03b7 NN forest: b=1.0, r<sup>1.6</sup>; tectonic Bird 2003 (1.5\u00d7 GC fallback)."),
+        ("3.", "Sliding windows 1, 2, 5 yr (1-yr step); merge 142\u219247."),
+        ("4.", "<b>Detector gate:</b> N\u22654; M\u22656.5; mean pairwise GC&gt;1500 km."),
+        ("5.", "Flinn\u2013Engdahl zone count \u2014 diagnostic only (not admission criterion)."),
     ]:
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
+
+    story += SSEC("2.5 Threshold \u03b7\u2080 and ETAS calibration", s)
     story.append(Paragraph(
-        "<b>ETAS parameters (catalog-calibrated):</b> MLE on 2,041 events "
-        "(scripts/calibrate_etas.py, results/etas_calibration.json): "
-        "\u03bc\u22480.103, K\u22480.495, \u03b1\u22480.063, c\u224810\u207b\u2074 d, p\u22481.36. "
-        "Literature defaults (Helmstetter &amp; Sornette 2003) retained for comparison.",
+        "\u03b7<sub>0</sub>: KDE valley in log<sub>10</sub>(\u03b7) (Zaliapin &amp; Ben-Zion 2013); "
+        "see figures/grl/fig_eta_threshold.png (scripts/plot_eta_threshold.py). "
+        "KDE stability at global M\u22656.5 not verified.",
         s["body"]
     ))
-    story += SSEC("2.5 Statistical validation", s)
+    story.append(Paragraph(
+        "<b>ETAS calibration</b> (scripts/calibrate_etas.py, results/etas_calibration.json): "
+        "\u03bc = GK mainshocks/T (closed form); Omori c,p via scipy.minimize Nelder-Mead "
+        "(c=10\u207b\u2074 at lower bound); K,\u03b1 via WLS lstsq on 24 aftershocks "
+        "(\u2264500 km). K\u22480.495 vs literature ~0.08 \u2014 simplified WLS, not Ogata MLE. "
+        "<b>Parameter CIs not estimated.</b> H&amp;S 2003 comparison: "
+        "\u03bc=0.008, K=0.08, \u03b1=1.0, c=0.005, p=1.1.",
+        s["body"]
+    ))
+
+    story += SSEC("2.6 Statistical validation", s)
     story.append(Paragraph(
         "<b>Permutation test:</b> n = 10,000, p \u2264 0.0001, z = -6.17 (modern). "
         "<b>ETAS validation:</b> calibrated params (\u03bc\u22480.103, K\u22480.495, "
@@ -414,7 +419,8 @@ def build(s):
 
     story += SSEC("3.2 Spatial\u2013temporal distribution", s)
     story.append(Paragraph(
-        "Elevated series activity occurs in 1952\u20131965 and 2002\u20132016 "
+        "Elevated detector candidate frequency (not validated physical series) "
+        "occurs in 1952\u20131965 and 2002\u20132016 "
         "(post-Sumatra period). Spatially, clusters concentrate along the circum-Pacific "
         "belt (Kamchatka, Kuril Islands, Japan, Tonga, Indonesia). Tectonic diagnostic: "
         "median \u0394log\u2081\u2080\u03b7 = +0.28 on random pairs (mostly 1.5\u00d7 GC fallback).",

@@ -1,0 +1,11 @@
+{
+  "n_events": 2016,
+  "eta0_kde_valley": 7.107191077237056e-06,
+  "eta0_median_fallback": 0.0005840042548338349,
+  "log10_eta0": -5.148302008368724,
+  "catalog": "data/processed/unified_catalog_full.csv",
+  "window": "1973-2026",
+  "declustering": "Gardner-Knopoff",
+  "figure": "figures/grl/fig_eta_threshold.png",
+  "script": "scripts/plot_eta_threshold.py"
+}

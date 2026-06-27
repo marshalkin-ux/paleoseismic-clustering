@@ -7,7 +7,7 @@ Outputs (figures/grl/):
   fig03_montecarlo_null.png      — Permutation-test null distribution
   fig04_fdr_top_series.png       — Top series: BH-adjusted q-values
   fig05_tectonic_vs_euclidean.png — Sensitivity gain from tectonic distance
-  fig06_modern_series_map.png    — Multi-regional series (≥3 FE zones), 1973+
+  fig06_modern_series_map.png    — Top detector candidates (mean GC>1500 km), 1973+
 """
 
 from __future__ import annotations

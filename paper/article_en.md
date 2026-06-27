@@ -22,6 +22,8 @@
 
 **Primary result:** catalog-calibrated **ETAS validation (p_ETAS = 1.0)** shows **47 algorithmic detector candidates** (27 on the modern window) are **indistinguishable from background activity** — the detector finds mean **27.0** candidates in ETAS synthetic catalogs, matching **N_obs = 27** (null result; falsification of the global-series hypothesis).
 
+**Analysis scope:** main catalog **1900–2026** (4,267 unique M≥6.5); **primary significance claims — modern window 1973–2026 only** (2,041 events). **47 pre-1900 NOAA records** remain in CSV but are **outside the primary detector-significance path** (Appendix A).
+
 We test physically meaningful **multi-regional global seismic series** in an **analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041 events) using the Baiesi–Paczuski metric η with a **heuristic metric with tectonic hint** (Bird 2003 graph). *Provenance:* 4,418 CSV rows include ~151 NOAA M<6.5 rows excluded from clustering. The [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p = 0.0001 (1/10,001 permutations)**[^mc-p], z = −6.17) is a **secondary** test: it rejects a **global temporal Poisson null** — **expected for aftershock catalogs** (Ogata, 1988); **not** a test of the multi-regional global-series hypothesis and **not** proof of teleseismic triggering. Tectonic-path distance: **98%** 1.5× GC fallback — labeled sensitivity/failed hypothesis test; **primary spatial gate is mean pairwise GC > 1500 km**. **ΔCFS/dynamic stress — future work only**; “series” are algorithmic constructs, not proven triggering chains. Limitations — §5.5.
 
 [^catalog-n]: Canonical analysis N: **4,267** unique M≥6.5 after deduplication (±30 days, ≤50 km; ISC > USGS > NOAA; cf. Waldhauser & Schaff, 2008). **4,418** saved CSV rows include ~151 NOAA M<6.5 rows (provenance only).
@@ -56,7 +58,7 @@ The [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) mode
 |--------|--------|------|
 | USGS ComCat | 1900–2026 | Primary instrumental catalog |
 | ISC Bulletin | 1900–2023 | Relocated hypocenters for verification |
-| NOAA NGDC | pre-1900 (47 events) | Historical and paleoseismic records |
+| NOAA NGDC | pre-1900 | Historical/paleoseismic records (47 events — Appendix A) |
 
 Duplicate records were merged using ±30 days and ≤50 km spatial tolerance (cf. Waldhauser & Schaff, 2008; common catalog-merge practice); source priority: ISC > USGS > NOAA. After deduplication, the catalog contains **4,267** unique M≥6.5 events (from **4,418** saved CSV rows). **151 sub-threshold rows** (NOAA, M<6.5 from the M≥6.0 fetch) **are retained in CSV for provenance but excluded from all clustering and series-detection steps**.
 
@@ -83,15 +85,13 @@ Duplicate records were merged using ±30 days and ≤50 km spatial tolerance (cf
 
 **Quality scoring (metadata).** Each event receives a quality_score in [0.30, 0.95] based on epoch, phase readings, and cross-catalog overlap (Woessner & Wiemer, 2005); this is interpretive metadata, **not** an inclusion filter. Instrumental events after 1960 typically score ≥0.90; pre-1900 documentary records score 0.30–0.60.
 
-**Final analysis catalog:** 4,267 unique M≥6.5 events (4,418 CSV rows = raw merged file, not analysis N)
+**Final analysis catalog:** 4,267 unique M≥6.5 events (4,418 CSV rows = raw merged file, not analysis N). **Primary detector and significance scope: 1900–2026**; **primary claims: 1973–2026**. **47 pre-1900 records** stay in CSV (provenance) but are **outside primary inference** — see **Appendix A** (no re-run excluding them from CSV).
 
 | Epoch | Events M≥6.5 | Period |
 |-------|---------------|--------|
-| Historical | 47 | pre-1900 (fragmentary paleoseismic records) |
 | Early instrumental | 2,179 | 1900–1972 |
 | Modern | 2,041 | 1973–2026 |
-
-**47 pre-1900 NOAA records** are retained for provenance; epoch test yields p = 0.46 — **not used for significance claims** (see §4.1).
+| Pre-1900 (provenance) | 47 | Appendix A |
 
 ### 2.2 Catalog completeness
 
@@ -100,6 +100,17 @@ Maximum-curvature analysis yields Mc = 6.55. Maximum-likelihood b-value from 1,6
 **b = 0.911 ± 0.018**
 
 The [Gutenberg–Richter](https://en.wikipedia.org/wiki/Gutenberg%E2%80%93Richter_law) relation is satisfied above Mc. **b-value consistency:** clustering η uses **b = 1.0** per the Baiesi & Paczuski (2004) convention for cross-catalog comparability; the Monte Carlo null and completeness analysis use the fitted **b = 0.911 ± 0.018**. This difference is intentional: η is a relative connectivity measure, not a rate forecast.
+
+### 2.4 Clustering and detector criteria (canonical list)
+
+Single list for Methods and Results (`src/analysis/clustering.py`, `pipeline_v2.py`):
+
+1. **GK declustering** (primary) → mainshocks for η NN forest.
+2. **η NN forest:** i* = argmin ηij; **b = 1.0**, **r^1.6** (Baiesi–Paczuski 2004); rij = tectonic Bird 2003 (1.5× GC fallback).
+3. **Sliding windows:** 1, 2, 5 yr (1-yr step).
+4. **Merge:** 142 window candidates → **47** merged.
+5. **Detector gate (sole mandatory criteria):** N ≥ 4, M ≥ 6.5, **mean pairwise GC > 1500 km** (`results/clustering_gc1500.json`).
+6. **Flinn–Engdahl zone count — diagnostic/reporting only**, not an admission criterion (legacy ≥3 FE threshold gave the same N = 27 on the modern window).
 
 ---
 
@@ -207,7 +218,7 @@ Raw catalogs (USGS / ISC / NOAA)
 | Scale sensitivity | Designed for regional catalogs; flags short-range fore/aftershocks within windows | At global M≥6.5 scale, events are sparse → most η values are high → permissive |
 | Dependent events | **24** (2,017 mainshocks) | **1** (2,040 mainshocks) |
 
-GK applies conservative local window rules; ZBZ classifies only events with exceptionally low η to a predecessor. The 23-event gap reflects **algorithm and parameter choice**, not conflicting physics. **GK is primary for all inference** (pipeline, ETAS calibration, reported counts). The ZBZ check shows **minimal additional removal** (1 event) — declustering is not a critical methodological fork. **If ZBZ were primary**, 23 GK-aftershocks would remain as mainshocks; these are short-range local pairs unlikely to enter multi-regional series (≥3 Flinn–Engdahl regions), so **N=27 modern series would likely change negligibly** — **not re-run** (`decluster_method='zaliapin'` exists in `pipeline_v2.py` but series count is untested).
+GK applies conservative local window rules; ZBZ classifies only events with exceptionally low η to a predecessor. The 23-event gap reflects **algorithm and parameter choice**, not conflicting physics. **GK is primary for all inference** (pipeline, ETAS calibration, reported counts). The ZBZ check shows **minimal additional removal** (1 event) — declustering is not a critical methodological fork. **If ZBZ were primary**, 23 GK-aftershocks would remain as mainshocks; these are short-range local pairs unlikely to satisfy mean GC > 1500 km, so **N = 27 modern candidates would likely change negligibly** — **not re-run** (`decluster_method='zaliapin'` exists in `pipeline_v2.py` but series count is untested).
 
 **GK vs ZBZ (modern window, N=27 unchanged):**
 
@@ -216,24 +227,40 @@ GK applies conservative local window rules; ZBZ classifies only events with exce
 | Gardner–Knopoff | Primary | 2,017 | 24 |
 | Zaliapin–Ben-Zion | Sensitivity | 2,040 | 1 |
 
-### 3.6 Threshold η₀, ETAS parameters, and calibration
+### 3.6 Threshold η₀
 
 1. **Declustering** via [Gardner–Knopoff](https://en.wikipedia.org/wiki/Aftershock) (1974) — mainshocks for NN search.
 2. **Nearest-neighbor forest:** for each event j, parent i* = argmin ηij.
-3. **Threshold η0:** automatic selection from the distribution of nearest-neighbor η values. Primary method: KDE valley detection between bimodal modes in log10(η) (Zaliapin & Ben-Zion, 2013). Default cluster cut when unspecified: η0 = 10^(median log10 η). The threshold is validated against a Poisson temporal-permutation null (Monte Carlo, n = 10,000).
-4. **Global series criterion:** N ≥ 4 events; M ≥ 6.5; **mean pairwise great-circle distance > 1500 km** (all unordered pairs in the sliding window). Flinn–Engdahl region count is diagnostic only (`results/clustering_gc1500.json`).
-5. **Sliding windows** (1, 2, 5 yr; 1-yr step); overlapping groups merged.
+3. **Threshold η₀:** KDE valley detection between bimodal modes in log₁₀(η) (Zaliapin & Ben-Zion, 2013); fallback η₀ = 10^(median log₁₀ η). Distribution and threshold — `figures/grl/fig_eta_threshold.png` (`scripts/plot_eta_threshold.py`, `results/eta_threshold_meta.json`). **Limitation:** at global M≥6.5 scale bimodality is weak; KDE stability not verified — see figure caption.
+4. **Detector criteria** — §2.4 (N≥4, M≥6.5, mean GC>1500 km); FE counts diagnostic only.
 
-**ETAS null-model parameters (catalog-calibrated).** Minimal MLE (`scripts/calibrate_etas.py`, `results/etas_calibration.json`) on the **2,041**-event modern catalog after GK: **μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36**.
+### 3.7 ETAS calibration
 
-- **μ≈0.103 events/day** is **not** the raw rate 2,041/53.4 ≈ 0.038/day; μ = GK mainshock count / catalog span (2,017/53.4 yr ≈ 0.103) — background intensity of **mainshocks** in the simplified ETAS generator.
-- **K≈0.495** comes from simplified WLS on 24 GK aftershocks within 500 km; **not** full Ogata (1998) spatial MLE; literature ~0.01–0.08; K is clipped at 5.0 — possible overestimate (see §5.5).
+Minimal MLE on the modern catalog (**2,041** events M≥6.5, 1973–2026): `scripts/calibrate_etas.py` → `results/etas_calibration.json`; α = b sensitivity: `results/etas_calibration_b0911.json`.
 
-Multi-seed: **10 seeds (42–51)**, n=1000 catalogs/seed (`scripts/run_etas_multiseed.py`, `results/etas_multiseed.json`). Literature defaults (Helmstetter & Sornette, 2003) — **comparison only**.
+| Component | Method | Optimizer / estimator | Initial values | Bounds / clip | Convergence |
+|-----------|--------|----------------------|----------------|---------------|-------------|
+| **μ** | GK mainshocks / T | closed form (no optimization) | 2,017/53.4 yr | — | — |
+| **c, p** | Omori MLE on 24 delays (≤500 km, ≤365 d) | `scipy.optimize.minimize`, **Nelder–Mead**, maxiter=5000 | log c=ln(0.01), log(p−1)=ln(0.1) | c∈[10⁻⁴, 10] d; p∈[1.01, 3] | success=true; **c=10⁻⁴** at lower bound |
+| **K, α** | WLS: log(E[N]+0.5) = log K + α(M−6.5) | `numpy.linalg.lstsq` (free α) | defaults if n<10 | K∈[10⁻⁴, 5]; α∈[0, 2.5] | **K≈0.495** (not at clip 5); α≈0.063 |
 
-Multi-seed: **10 seeds (42–51)**, n=1000 catalogs/seed (`scripts/run_etas_multiseed.py`, `results/etas_multiseed.json`). Literature defaults (Helmstetter & Sornette, 2003) — **comparison only**; cited in ETAS comparison paragraph above.
+**Comparison with literature** (Helmstetter & Sornette 2003 — comparison only, not primary null):
 
-### 3.7 Statistical validation
+| Parameter | This catalog | H&S 2003 defaults |
+|-----------|-------------:|------------------:|
+| μ (day⁻¹) | 0.103 | 0.008 |
+| K | 0.495 | 0.08 |
+| α | 0.063 | 1.0 |
+| c (day) | 10⁻⁴ | 0.005 |
+| p | 1.36 | 1.1 |
+
+**Why K≈0.495 ≫ literature ~0.01–0.08:** simplified WLS on **24** GK aftershocks with 500 km cap; **not** full spatial Ogata (1998) MLE; global scale without spatial kernel. **μ** is **GK-mainshock** rate, not 2,041/53.4 ≈ 0.038/day.
+
+**Uncertainty:** parameter confidence intervals **were not estimated** (minimal MLE without bootstrap/profile likelihood — future work).
+
+Multi-seed ETAS: seeds 42–51, n=1000 catalogs/seed (`scripts/run_etas_multiseed.py`, `results/etas_multiseed.json`).
+
+### 3.8 Statistical validation
 
 #### What each test checks
 
@@ -300,7 +327,7 @@ Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wi
 
 **Early instrumental period.** Fifteen series reach p = 0.007, but this result must be interpreted cautiously: most pre-1960 events have quality_score < 0.7, and catalog incompleteness inflates inter-event intervals, reducing detection power.
 
-**Historical period:** five candidates; see §2 (47 NOAA records, p = 0.46 — not used for significance claims).
+**Historical period (pre-1900):** five candidates; p = 0.46 — **not used for significance claims**; see **Appendix A**. Detector criteria — §2.4.
 
 ### 4.2 Top-5 detector candidates
 
@@ -318,7 +345,7 @@ The **1905–1910** episode (193 events, 43 regions) is the **largest candidate 
 
 ### 4.3 Spatial–temporal distribution
 
-Elevated series activity occurs in 1952–1965 and 2002–2016 (post-Sumatra period). Spatially, clusters concentrate along the circum-Pacific belt (Kamchatka, Kuril Islands, Japan, Tonga, Indonesia). The tectonic-vs-Euclidean diagnostic (§3.2) reports median Δlog₁₀η = +0.28 on random pairs; this reflects the 1.5× GC fallback for most samples, not a validated η₀ shift.
+Elevated **detector candidate frequency** (not validated physical series) occurs in 1952–1965 and 2002–2016 (post-Sumatra period). Spatially, candidates concentrate along the circum-Pacific belt (Kamchatka, Kuril Islands, Japan, Tonga, Indonesia). The tectonic-vs-Euclidean diagnostic (§3.2) reports median Δlog₁₀η = +0.28 on random pairs; this reflects the 1.5× GC fallback for most samples, not a validated η₀ shift.
 
 ### 4.4 ETAS b = 0.911 sensitivity
 
@@ -415,6 +442,16 @@ The detector finds on average **27.0** candidates in catalog-calibrated ETAS syn
 Additionally: the heuristic metric with tectonic hint **does not improve** global analysis (98% GC fallback); 47 detector candidates are **indistinguishable** from ETAS null (§5.6); **ΔCFS/dynamic stress — future work**; causal chains **not** established.
 
 **Future work:** full ETAS MLE; ZBZ-primary declustering re-run; tightening **search space** (windows, η₀); ΔCFS/dynamic stress (S170, S047, S095). External DOI ([Zenodo](https://en.wikipedia.org/wiki/Zenodo)) deferred — GitHub only.
+
+---
+
+## Appendix A. Pre-1900 NOAA records
+
+**47** fragmentary paleoseismic/historical M≥6.5 records from NOAA NGDC are retained in `data/processed/unified_catalog_full.csv` for provenance. **Not removed from CSV**; a separate pipeline re-run excluding them **was not performed**.
+
+- **quality_score:** 0.30–0.60 (metadata, not an inclusion filter).
+- **Detector:** 5 algorithmic candidates on this epoch; permutation p = 0.46 — **not statistically significant**.
+- **Primary significance path:** detector + ETAS + permutation claims — **1900–2026** (descriptive) and **1973–2026** (primary); pre-1900 is **outside** primary inference.
 
 ---
 

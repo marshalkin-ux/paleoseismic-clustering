@@ -279,6 +279,9 @@ bimodal decomposition of the $\log_{10} \eta$ distribution
 default $\eta_0 = 10^{\mathrm{median}(\log_{10}\eta)}$ when unspecified.
 Visual verification of the bimodal split was limited at global $M \ge 6.5$
 scale (see \S\ref{sec:limitations}).
+Figure~\ref{fig:eta_threshold} shows the nearest-neighbor $\log_{10}\eta$
+distribution with the KDE-valley threshold; KDE stability at this scale is
+\textbf{not verified} (see caption).
 The metric $\eta$ is a relative connectivity measure without absolute
 physical units; $\eta_0$ is empirical, validated against a Poisson
 temporal-permutation null ($n = 10\,000$).
@@ -423,6 +426,78 @@ compute the effective number of independent tests $M_\mathrm{eff}$
 following \citet{Gao2008}, via the eigenvalues of the $p$-value
 correlation matrix, and verify that the BH procedure is not unduly
 conservative.
+
+\subsection{Clustering and Detector Criteria}
+\label{subsec:criteria}
+
+Canonical list (Methods and Results; \texttt{src/analysis/clustering.py},
+\texttt{pipeline\_v2.py}):
+\begin{enumerate}
+  \item Gardner--Knopoff declustering (\textbf{primary}) $\to$ mainshocks
+        for the $\eta$ NN forest.
+  \item $\eta$ NN forest: $i^* = \arg\min \eta_{ij}$; $b=1.0$, $r^{1.6}$
+        (Baiesi--Paczuski 2004); $r_{ij}$ = tectonic Bird 2003 (1.5$\times$ GC fallback).
+  \item Sliding windows 1, 2, 5~yr (1-yr step).
+  \item Merge overlapping groups: 142 window candidates $\to$ 47 merged.
+  \item \textbf{Detector gate (sole mandatory criteria):} $N \ge 4$,
+        $M \ge 6.5$, mean pairwise GC $> 1500$~km
+        (\texttt{results/clustering\_gc1500.json}).
+  \item Flinn--Engdahl zone count --- \textbf{diagnostic/reporting only},
+        not an admission criterion (legacy $\ge 3$ FE zones gave the same
+        $N=27$ on the modern window).
+\end{enumerate}
+
+\subsection{ETAS Calibration}
+\label{subsec:etas-calibration}
+
+Minimal MLE on the modern catalog (2{,}041 events $M \ge 6.5$, 1973--2026):
+\texttt{scripts/calibrate\_etas.py} $\to$
+\texttt{results/etas\_calibration.json}; $\alpha=b$ sensitivity:
+\texttt{results/etas\_calibration\_b0911.json}.
+
+\begin{table}[htbp]
+\centering
+\caption{ETAS calibration procedure (actual implementation).}
+\label{tab:etas_calib_proc}
+\begin{tabular}{llll}
+\hline
+Component & Method & Optimizer & Bounds / clip \\
+\hline
+$\mu$ & GK mainshocks / $T$ & closed form & --- \\
+$c$, $p$ & Omori MLE (24 delays) & \texttt{minimize}, Nelder--Mead & $c \in [10^{-4},10]$~d; $p \in [1.01,3]$ \\
+$K$, $\alpha$ & WLS on $\log(E[N]+0.5)$ & \texttt{lstsq} & $K \in [10^{-4},5]$; $\alpha \in [0,2.5]$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent Initial Omori parameters: $\log c = \ln(0.01)$, $\log(p-1)=\ln(0.1)$;
+maxiter~$=5000$. Omori fit reports \texttt{success=true}; $c=10^{-4}$~day
+hits the lower bound. $K \approx 0.495$ is \textbf{not} at the $K=5$ clip.
+
+\begin{table}[htbp]
+\centering
+\caption{Calibrated vs.\ literature ETAS parameters.}
+\label{tab:etas_calib_vals}
+\begin{tabular}{lrr}
+\hline
+Parameter & This catalog & H\&S 2003 defaults \\
+\hline
+$\mu$ (day$^{-1}$) & 0.103 & 0.008 \\
+$K$ & 0.495 & 0.08 \\
+$\alpha$ & 0.063 & 1.0 \\
+$c$ (day) & $10^{-4}$ & 0.005 \\
+$p$ & 1.36 & 1.1 \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent\textbf{Why $K \approx 0.495 \gg$ literature $\sim 0.01$--$0.08$:}
+simplified WLS on 24 GK aftershocks with a 500~km cap; \textbf{not} full
+spatial Ogata (1998) MLE; global scale without spatial kernel.
+$\mu$ is the \textbf{GK-mainshock} rate (2{,}017/53.4~yr), not the raw
+2{,}041/53.4 rate ($\approx 0.038$~day$^{-1}$).
+\textbf{Parameter uncertainty intervals were not estimated} (minimal MLE
+without bootstrap or profile likelihood --- future work).
 
 \subsection{ETAS-Based Null Model Validation}
 \label{subsec:etas}
@@ -653,6 +728,16 @@ The detector is liberal on ETAS nulls under all parameter sets
 
 \begin{figure}[htbp]
 \centering
+\includegraphics[width=0.92\textwidth]{../figures/grl/fig_eta_threshold.png}
+\caption{Nearest-neighbor $\log_{10}(\eta)$ distribution (1973--2026 GK
+mainshocks) with KDE valley threshold $\eta_0$ (Zaliapin--Ben-Zion 2013).
+Bimodality is weak at global $M \ge 6.5$ scale; KDE bandwidth and valley
+location are \textbf{not stability-verified} --- diagnostic only.}
+\label{fig:eta_threshold}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
 \includegraphics[width=0.92\textwidth]{../figures/grl/fig02_etas_validation.png}
 \caption{ETAS null-model validation.  Histogram of the number of global
 series detected in each of 1000 synthetic ETAS catalogs (blue).
@@ -697,8 +782,9 @@ to magnitude.}
 
 \subsection{Temporal and Spatial Patterns}
 
-The temporal distribution of global series shows elevated activity during
-1952--1965 (associated with the instrumental record expansion and multiple
+The temporal distribution of \textbf{detector candidates} (not validated
+physical series) shows elevated \textbf{detector candidate frequency} during
+1952--1965 (instrumental network expansion and multiple
 $M > 8.5$ events) and 2002--2016 (post-Sumatra period).
 Spatially, series preferentially occur along the Circum-Pacific belt,
 particularly in the western Pacific subduction zones (Kamchatka, Kuril,
@@ -829,8 +915,8 @@ distinguishing direct from relay-mediated coupling
 A null result---no sequences surviving FDR correction at $q = 0.05$---does
 not imply that global seismicity is Poissonian.  It implies, more
 precisely, that our method, applied to the available catalogue with the
-chosen thresholds ($N \geq 4$ events, $\geq 3$ tectonic zones, $T_w \leq
-5$~years), lacks the sensitivity to detect departures from the null at
+chosen thresholds ($N \geq 4$ events, mean pairwise GC $> 1500$~km,
+$T_w \leq 5$~years; Flinn--Engdahl counts diagnostic only), lacks the sensitivity to detect departures from the null at
 this significance level.
 
 Three sources of negative bias deserve explicit acknowledgement.
@@ -896,12 +982,14 @@ adopted for each.
 
 \begin{enumerate}
 
-\item \textbf{Threshold arbitrariness ($N \geq 4$, $\geq 3$ zones).}
-The minimum sequence length and zone-span requirements were chosen to
-limit false positives but have no strong physical motivation.  We address
-this through synthetic catalogue experiments (Section~\ref{sec:robustness},
+\item \textbf{Threshold arbitrariness ($N \geq 4$; legacy $\geq 3$ FE zones).}
+The minimum sequence length was chosen to limit false positives; Flinn--Engdahl
+zone span was a \textbf{legacy diagnostic} only (not the primary gate; see
+Section~\ref{subsec:criteria}).  We address threshold choice through synthetic
+catalogue experiments (Section~\ref{sec:robustness},
 Experiment~3.5) in which known sequences of varying length are injected;
-thresholds yielding $F_1 > 0.7$ are adopted as empirically supported.
+thresholds yielding $F_1 > 0.7$ are adopted as empirically supported for
+\textbf{injection calibration}, not as the reported detector gate.
 
 \item \textbf{Absence of multiple-testing correction in naive analysis.}
 Testing $K$ candidate sequences simultaneously inflates the family-wise
@@ -1053,9 +1141,11 @@ range.
 \paragraph{Experiment 3.5 --- Threshold calibration via injection.}
 Synthetic series of known length $N \in \{2,\ldots,7\}$ and zone span
 $n_z \in \{2,\ldots,5\}$ are injected into background catalogs.
-The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
-(precision 0.78, recall 0.71), consistent with literature benchmarks
-\citep{ZaliapinBenZion2016}.
+This evaluates \textbf{legacy} zone-span thresholds for calibration only;
+the reported detector gate is $N \ge 4$, mean pairwise GC $> 1500$~km
+(Section~\ref{subsec:criteria}).  The combination ($N \ge 4$, $n_z \ge 3$)
+yielded $F_1 = 0.74$ (precision 0.78, recall 0.71), consistent with
+literature benchmarks \citep{ZaliapinBenZion2016}.
 
 \section{Conclusions}
 \label{sec:conclusions}
@@ -1075,6 +1165,23 @@ The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
         not validated (98\% GC fallback); $\Delta$CFS/dynamic stress ---
         future work only.
 \end{enumerate}
+
+\appendix
+\section{Pre-1900 NOAA Records}
+\label{app:pre1900}
+
+Forty-seven fragmentary paleoseismic/historical $M \ge 6.5$ records from
+NOAA NGDC are retained in \texttt{data/processed/unified\_catalog\_full.csv}
+for provenance.  They were \textbf{not removed from CSV}; a separate pipeline
+re-run excluding them was \textbf{not performed}.
+\begin{itemize}
+  \item \textbf{quality\_score:} 0.30--0.60 (metadata, not an inclusion filter).
+  \item \textbf{Detector:} 5 algorithmic candidates on this epoch;
+        permutation $p = 0.46$ --- \textbf{not statistically significant}.
+  \item \textbf{Primary significance path:} detector + ETAS + permutation
+        claims use 1900--2026 (descriptive) and 1973--2026 (primary);
+        pre-1900 is \textbf{outside} primary inference.
+\end{itemize}
 
 \acknowledgments
 The authors thank the USGS, NOAA NGDC, and ISC for maintaining the
