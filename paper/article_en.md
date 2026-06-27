@@ -20,9 +20,9 @@
 
 ## Abstract
 
-We analyse a merged catalog of **4,267 unique M≥6.5 events** (from 4,418 saved CSV rows; ~151 NOAA records with M<6.5 from an M≥6.0 fetch **retained in CSV for provenance but excluded from all clustering analyses**) using the Baiesi–Paczuski metric η with tectonic-path distance on the Bird (2003) graph. **Significance claims focus on the modern instrumental window (1973–2026, 2,041 events) and early instrumental period (1900–1972, 2,179 events);** 47 pre-1900 records are retained for context but not used for epoch-level significance. **47 global seismic series** are identified (27 modern, 15 early instrumental, 5 historical candidates). Significance: [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p ≤ 0.0001**[^mc-p], z = −6.17); [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) validation on modern window (**n = 1000** synthetic catalogs, **FPR = 1000/1000**; catalog-calibrated null: mean **27.0**, **pETAS = 1.0**; literature defaults: mean **15.4**, p ≤ 0.001); [FDR](https://en.wikipedia.org/wiki/False_discovery_rate) correction (45/47 at q = 0.05, **N = 47** hypotheses). Fifteen early-instrumental series reach p = 0.007, but pre-1960 catalog incompleteness (quality_score < 0.7) limits interpretation. **No historical series are statistically significant** (p = 0.46). The largest series by event count is **1905–1910** (193 events, 43 regions, Mmax = 8.8); the most spatially extensive modern series is **S170** (46 events, 12 Flinn–Engdahl regions, Mmax = 9.1, 2002–2023). Tectonic-path distance applies a real Dijkstra path for **~2%** of audited pairs (98% GC fallback). Series detection is a **statistical anomaly** (η links, p-values); causal mechanism is not established.
+We analyse a merged catalog of **4,267 unique M≥6.5 events** (from 4,418 saved CSV rows; ~151 NOAA records with M<6.5 from an M≥6.0 fetch **retained in CSV for provenance but excluded from all clustering analyses**) using the Baiesi–Paczuski metric η with tectonic-path distance on the Bird (2003) graph. **Significance claims focus on the modern instrumental window (1973–2026, 2,041 events) and early instrumental period (1900–1972, 2,179 events);** 47 pre-1900 records are retained for context but not used for epoch-level significance. **47 global seismic series** are identified (27 modern, 15 early instrumental, 5 historical candidates). Significance: [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p = 0.0001 (1/10,001 permutations)**[^mc-p], z = −6.17); [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) validation on modern window (**n = 1000** synthetic catalogs, **FPR = 1000/1000**; catalog-calibrated null: mean **27.0**, **pETAS = 1.0**; literature defaults: mean **15.4**, p ≤ 0.001); [FDR](https://en.wikipedia.org/wiki/False_discovery_rate) correction (45/47 at q = 0.05, **N = 47** hypotheses). Fifteen early-instrumental series reach p = 0.007, but pre-1960 catalog incompleteness (quality_score < 0.7) limits interpretation. **No historical series are statistically significant** (p = 0.46). The largest series by event count is **1905–1910** (193 events, 43 regions, Mmax = 8.8); the most spatially extensive modern series is **S170** (46 events, 12 Flinn–Engdahl regions, Mmax = 9.1, 2002–2023). Tectonic-path distance applies a real Dijkstra path for **~2%** of audited pairs (98% GC fallback). Series detection is a **statistical anomaly** (η links, p-values); causal mechanism is not established.
 
-[^mc-p]: Discrete permutation test with n = 10,000 yields minimum achievable p = 1/(n+1) = 0.0001; we report p ≤ 0.0001 rather than p < 0.0001.
+[^mc-p]: Discrete permutation test with n = 10,000: p = (k+1)/(n+1) where k is the count of null replicates at least as extreme as observed. Here k = 0, so p = 1/10,001 ≈ 0.0001. We report **p = 0.0001 (1/10,001 permutations)**; equivalently p < 0.001.
 
 **Keywords:** global seismicity; seismic series; earthquake clustering; tectonic distance; Baiesi–Paczuski metric; ETAS validation; false discovery rate; Monte Carlo; paleoseismology; Flinn–Engdahl
 
@@ -166,13 +166,27 @@ Raw catalogs (USGS / ISC / NOAA)
 
 ### 3.5 Statistical validation
 
-**FDR procedure.** Sliding windows (1, 2, and 5 yr; 1-yr step) over the η NN forest yield **142 cluster candidates** before merging overlapping groups. After merge and series criteria (N ≥ 4, M ≥ 6.5, ≥ 3 Flinn–Engdahl regions), **47 global series** remain. [Benjamini–Hochberg FDR](https://en.wikipedia.org/wiki/False_discovery_rate) (q = 0.05) is applied to **N = 47** series-level p-values (one hypothesis per merged series), not to individual window tests or NN pairs. Result: **45/47** significant. See `results/fdr_correction_results.csv`.
+#### Multiple comparisons (FDR decision tree)
+
+The pipeline from raw clustering to FDR-controlled inference follows these steps (see `results/analysis_summary.json`, `results/fdr_correction_results.csv`):
+
+1. **η NN forest** on Gardner–Knopoff mainshocks (full 4,267-event catalog).
+2. **Sliding temporal windows** — three window sizes (**1, 2, and 5 yr**), advanced in **1-yr steps** — scan for multi-event groups linked by η thresholds.
+3. **Window-level candidates** — each window passing N ≥ 4, M ≥ 6.5, ≥ 3 distinct [Flinn–Engdahl](https://en.wikipedia.org/wiki/Flinn%E2%80%93Engdahl_regions) regions counts as one candidate → **142 raw candidates** (`total_clusters_found` in `analysis_summary.json`).
+4. **Merge overlapping groups** — windows sharing ≥1 event are union-merged (greedy overlap merge in `global_series()`); duplicate event sets collapse to a single episode.
+5. **Final series list** — **47 merged global series** (one hypothesis per episode), each assigned a series-level p-value from epoch-appropriate permutation tests.
+6. **Global permutation test** — Monte Carlo (n = 10,000) shuffles event times while fixing coordinates; tests catalog-wide mean log₁₀(η_NN) for the modern window. **Not** a separate test per sliding window.
+7. **FDR** — [Benjamini–Hochberg](https://en.wikipedia.org/wiki/False_discovery_rate) at q = 0.05 applied to **N = 47 series-level p-values** (one test per merged series), **not** to 142 window candidates or individual η pairs. Result: **45/47** significant.
+
+**Limitation.** Sliding windows explore the temporal search space; the 47 merged series constitute the pre-registered hypothesis set for FDR. Window exploration is not independently corrected at the 142-candidate level.
+
+**FDR procedure (summary).** Sliding windows (1, 2, and 5 yr; 1-yr step) over the η NN forest yield **142 cluster candidates** before merging overlapping groups. After merge and series criteria (N ≥ 4, M ≥ 6.5, ≥ 3 Flinn–Engdahl regions), **47 global series** remain. [Benjamini–Hochberg FDR](https://en.wikipedia.org/wiki/False_discovery_rate) (q = 0.05) is applied to **N = 47** series-level p-values (one hypothesis per merged series), not to individual window tests or NN pairs. Result: **45/47** significant. See `results/fdr_correction_results.csv`.
 
 **ETAS null model.** We generate **1,000** synthetic catalogs (**seed = 42**; parameters from `results/etas_calibration.json`: μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36; GK+Omori MLE on 2,041 events). On the real modern catalog the algorithm finds **N_obs = 27** series. On calibrated ETAS nulls: **1000/1000** catalogs contain ≥1 spurious series (**FPR = 1.0**); mean **27.0 ± 0.0** (max **27**). **pETAS = P(N_ETAS ≥ 27) = 1.0** — with catalog-calibrated ETAS, the observed count is **indistinguishable** from the null. For comparison, literature defaults (μ=0.008, K=0.08) yielded mean≈15.4, max=24, pETAS ≤ 0.001. The detector is liberal (FPR = 1000/1000 under all parameter sets); see §5.5.
 
 | Test | Parameters | Result |
 |------|------------|--------|
-| Permutation ([Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method)) | n = 10,000 | p ≤ 0.0001[^mc-p], z = −6.17 (modern) |
+| Permutation ([Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method)) | n = 10,000 | p = 0.0001 (1/10,001)[^mc-p], z = −6.17 (modern) |
 | ETAS null model | μ≈0.103, K≈0.495; 1000 cat.; N_obs=27 | FPR = 1000/1000; mean 27.0; pETAS = 1.0 |
 | FDR (Benjamini–Hochberg) | q = 0.05; N = 47 series | 45/47 significant |
 | Declustering (primary) | GK | 2,017/2,041 (24 aftersh.) |
@@ -189,11 +203,11 @@ Full historical analysis yields **47 global seismic series** (142 cluster candid
 
 | Epoch | N series | Events | p-value | z-score |
 |-------|----------|--------|---------|---------|
-| Modern (1973–2026) | 27 | 2,041 | ≤ 0.0001 | −6.17 |
+| Modern (1973–2026) | 27 | 2,041 | 0.0001 (1/10,001) | −6.17 |
 | Early instrumental (1900–1972) | 15 | 2,179 | 0.007 | −2.43 |
 | Historical (pre-1900) | 5 | 47 | 0.46 | — |
 
-**Modern period.** Twenty-seven series are highly significant (p ≤ 0.0001).
+**Modern period.** Twenty-seven series are highly significant (p = 0.0001, 1/10,001 permutations).
 
 **Early instrumental period.** Fifteen series reach p = 0.007, but this result must be interpreted cautiously: most pre-1960 events have quality_score < 0.7, and catalog incompleteness inflates inter-event intervals, reducing detection power.
 
@@ -261,7 +275,7 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 
 ## 6. Conclusions
 
-1. A unified catalog of 4,267 M≥6.5 events yields 47 candidate global series; **27 modern episodes pass strict null tests** (p ≤ 0.0001), but **the statistical anomalies identified require further study** — causal mechanism is not established.
+1. A unified catalog of 4,267 M≥6.5 events yields 47 candidate global series; **27 modern episodes pass strict null tests** (p = 0.0001, 1/10,001 permutations), but **the statistical anomalies identified require further study** — causal mechanism is not established.
 2. ETAS validation (1,000 catalogs; FPR = 1000/1000; **pETAS = 1.0** with catalog-calibrated null, mean = 27) and FDR (45/47) — the permutation test supports structure, but **calibrated ETAS is not rejected**; identified anomalies require further study.
 3. The largest series by event count is 1905–1910; the most spatially extensive modern series is S170.
 4. Tectonic-path distance is **not validated** as an improvement for global analysis: **98%** of pairs use the 1.5× GC fallback, **~2%** a real Dijkstra path.

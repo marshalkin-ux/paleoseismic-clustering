@@ -4,11 +4,12 @@ ETAS (Epidemic Type Aftershock Sequence) — стандартная статис
 сейсмичности. Генерация синтетических каталогов позволяет оценить
 частоту ложных открытий алгоритма кластеризации.
 
-Параметры по умолчанию откалиброваны для глобального каталога M≥6.5:
-- mu=0.008: фоновая интенсивность ~1 событие/нед/глобально
-- K=0.08, alpha=1.0: продуктивность афтершоков (Helmstetter & Sornette 2003)
-- c=0.005, p=1.1: параметры Омори-Уцу
-- max_trigger_distance_km=500: только локальные триггеры
+Параметры по умолчанию — **каталог-откалиброванный MLE** на 2041 событии
+(1973–2026, M≥6.5) после GK-декластеризации (``scripts/calibrate_etas.py``,
+``results/etas_calibration.json``): μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36.
+
+Литературные defaults (Helmstetter & Sornette 2003: μ=0.008, K=0.08) —
+только для сравнения, не для основного вывода.
 
 Ссылки: Ogata (1988, 1998), Helmstetter & Sornette (2002, 2003).
 """
@@ -22,6 +23,7 @@ import numpy as np
 import pandas as pd
 from scipy.spatial import cKDTree
 
+from src.analysis.etas_params import load_calibrated_etas_params
 from src.curator.unifier import FE_REGIONS
 
 logger = logging.getLogger(__name__)
@@ -86,17 +88,17 @@ def etas_omori_sample(
 
 
 class ETASCatalogGenerator:
-    """ETAS-каталог с параметрами глобальной сейсмичности (Ogata 1988, Helmstetter & Sornette 2003).
+    """ETAS-каталог с каталог-откалиброванными параметрами (primary null model).
 
     Модель ETAS описывает условную интенсивность λ(t, x, y)::
 
         λ(t, x, y) = μ + Σ_{i: t_i<t} K·10^{α(m_i-M_0)} · (t-t_i+c)^{-p} · (r²+d²)^{-q}
 
-    Параметры по умолчанию откалиброваны для глобального каталога M≥6.5:
+    Параметры по умолчанию — MLE на 2041 modern M≥6.5 (GK + Omori + branching):
 
-    - mu=0.008: фоновая интенсивность ~1 событие/нед/глобально
-    - K=0.08, alpha=1.0: продуктивность афтершоков (Helmstetter & Sornette 2003)
-    - c=0.005 дней, p=1.1: параметры Омори-Уцу (Ogata 1988)
+    - mu≈0.103 events/day (GK mainshock rate)
+    - K≈0.495, alpha≈0.063: branching fit on offspring counts
+    - c≈10⁻⁴ d, p≈1.36: Omori MLE on GK aftershock delays
     - max_trigger_distance_km=500: КЛЮЧЕВОЕ — только локальные триггеры
 
     Алгоритм генерации (ветвящийся пуассоновский процесс):
@@ -114,16 +116,18 @@ class ETASCatalogGenerator:
 
     def __init__(
         self,
-        mu: float = 0.008,           # фоновая интенсивность (~1 событие/нед/глобально)
-        K: float = 0.08,             # продуктивность афтершоков (Helmstetter & Sornette 2003)
-        alpha: float = 1.0,          # зависимость продуктивности от магнитуды
-        c: float = 0.005,            # параметр Omori (дни; Ogata 1988)
-        p: float = 1.1,              # показатель Omori (Ogata 1988)
-        d: float = 10.0,             # пространственный масштаб (км)
-        q: float = 1.5,              # пространственный показатель
-        m_min: float = 6.5,          # минимальная магнитуда каталога
-        b: float = 1.0,              # b-value GR
-        max_trigger_distance_km: float = 500.0,  # ключевое ограничение локальности
+        mu: float | None = None,
+        K: float | None = None,
+        alpha: float | None = None,
+        c: float | None = None,
+        p: float | None = None,
+        d: float = 10.0,
+        q: float = 1.5,
+        m_min: float = 6.5,
+        b: float = 1.0,
+        max_trigger_distance_km: float = 500.0,
+        *,
+        use_calibrated_defaults: bool = True,
     ) -> None:
         """
         Args:
@@ -137,7 +141,30 @@ class ETASCatalogGenerator:
             m_min: минимальная регистрируемая магнитуда.
             b: наклон закона Гутенберга-Рихтера.
             max_trigger_distance_km: максимальное расстояние триггеринга (км).
+            use_calibrated_defaults: if True and params omitted, load from
+                ``results/etas_calibration.json`` (primary null model).
         """
+        if use_calibrated_defaults and mu is None:
+            cal = load_calibrated_etas_params()
+            mu = cal["mu"]
+            K = cal["K"] if K is None else K
+            alpha = cal["alpha"] if alpha is None else alpha
+            c = cal["c"] if c is None else c
+            p = cal["p"] if p is None else p
+            max_trigger_distance_km = cal.get(
+                "max_trigger_distance_km", max_trigger_distance_km
+            )
+        # Explicit overrides or legacy literature comparison
+        if mu is None:
+            mu = 0.008
+        if K is None:
+            K = 0.08
+        if alpha is None:
+            alpha = 1.0
+        if c is None:
+            c = 0.005
+        if p is None:
+            p = 1.1
         self.mu = mu
         self.K = K
         self.alpha = alpha

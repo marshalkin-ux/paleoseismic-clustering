@@ -104,7 +104,8 @@ def permutation_test_eta(
             logger.info("  ... perestanovka %d/%d", s + 1, n_sim)
 
     valid_sim = sim_stats[~np.isnan(sim_stats)]
-    pvalue = float(np.mean(valid_sim <= observed))
+    n_extreme = int(np.sum(valid_sim <= observed))
+    pvalue = float((n_extreme + 1) / (len(valid_sim) + 1))
     sim_mean = float(np.mean(valid_sim))
     sim_std = float(np.std(valid_sim, ddof=1))
     zscore = (observed - sim_mean) / max(sim_std, 1e-30)

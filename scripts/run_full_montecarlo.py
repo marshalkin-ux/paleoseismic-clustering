@@ -150,7 +150,9 @@ logger.info("Monte Carlo завершён за %.1f с (%.2f мин)", elapsed_t
 
 # ── 6. Итоговые статистики ────────────────────────────────────────────────────
 valid_sim = null_dist[np.isfinite(null_dist)]
-p_value   = float(np.mean(valid_sim <= observed_stat))
+n_extreme = int(np.sum(valid_sim <= observed_stat))
+# Discrete permutation p-value: (k+1)/(n+1), k = count of nulls as extreme as observed
+p_value = float((n_extreme + 1) / (len(valid_sim) + 1))
 null_mean = float(np.mean(valid_sim))
 null_std  = float(np.std(valid_sim, ddof=1))
 z_score   = float((observed_stat - null_mean) / (null_std + 1e-30))
@@ -161,7 +163,7 @@ print(f"{'='*50}")
 print(f"Событий в каталоге:            {n}")
 print(f"Наблюдаемое mean log10(eta):   {observed_stat:.4f}")
 print(f"Нулевое: mean={null_mean:.4f}, std={null_std:.4f}")
-print(f"p-value:                       {p_value:.4f}")
+print(f"p-value:                       {p_value:.6f}  ({n_extreme + 1}/{len(valid_sim) + 1} permutations)")
 print(f"z-score:                       {z_score:.2f}")
 print(f"Время расчёта:                 {elapsed_total/60:.1f} мин")
 
@@ -204,7 +206,9 @@ mc_results = {
     'observed_statistic':       observed_stat,
     'null_mean':                null_mean,
     'null_std':                 null_std,
+    'n_extreme_nulls':          n_extreme,
     'p_value':                  p_value,
+    'p_value_formula':          '(k+1)/(n+1)',
     'z_score':                  z_score,
     'significant_global':       p_value < 0.01,
     'significant_marginal':     p_value < 0.10,

@@ -71,10 +71,7 @@ def main() -> None:
         df = pd.read_csv(catalog_path)
         df = df[df["year"] >= 1973].copy()
         analyzer = SeismicClusterAnalyzer()
-        generator = ETASCatalogGenerator(
-            mu=0.008, K=0.08, alpha=1.0, c=0.005, p=1.1,
-            max_trigger_distance_km=500,
-        )
+        generator = ETASCatalogGenerator(use_calibrated_defaults=True)
 
         per_seed = []
         for seed in seeds:

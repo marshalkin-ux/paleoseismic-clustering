@@ -18,7 +18,7 @@
 - ETAS FPR: **1000/1000** (все каталоги содержат ≥1 ложную серию)
 - ETAS calibrated null: mean **27.0 ± 0.0** (max **27**); **p_ETAS = 1.0**
 - ETAS literature comparison (μ=0.008): mean **15.44 ± 1.65** (max **24**); p ≤ 0.001
-- Permutation test: **p ≤ 0.0001**, z = **−6.17**
+- Permutation test: **p = 0.0001 (1/10,001 permutations)**, z = **−6.17** (k=0 nulls ≥ observed; formula (k+1)/(n+1))
 - FDR BH (q=0.05, N=47): **45/47**
 
 ## Исправление ETAS (2026-06-27)

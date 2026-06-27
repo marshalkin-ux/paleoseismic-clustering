@@ -2019,6 +2019,16 @@
     "p": 1.363250203658662,
     "max_trigger_distance_km": 500.0
   },
+  "etas_parameters_primary": "catalog_mle_1973_2026",
+  "etas_parameters_literature_comparison": {
+    "mu": 0.008,
+    "K": 0.08,
+    "alpha": 1.0,
+    "c": 0.005,
+    "p": 1.1,
+    "max_trigger_distance_km": 500.0,
+    "source": "Helmstetter & Sornette (2003) — literature comparison only"
+  },
   "n_background_per_catalog": 2001,
   "catalog_span_years": 53.0
 }

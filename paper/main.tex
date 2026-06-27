@@ -37,8 +37,9 @@ retained for context but not used for epoch-level significance.
 Using the nearest-neighbor metric of \citet{Baiesi2004}, extended with
 a tectonic-path distance derived from the \citet{Bird2003} plate-boundary
 graph, we identify 47 global seismic series in three temporal windows:
-27 in the modern period (1973--2026, $p \le 0.0001$\footnote{Discrete
-permutation test ($n=10{,}000$): minimum achievable $p = 1/(n+1) = 0.0001$.},
+27 in the modern period (1973--2026, $p = 0.0001$ (1/10{,}001 permutations)\footnote{Discrete
+permutation test ($n=10{,}000$): $p = (k+1)/(n+1)$ with $k=0$ null replicates
+at least as extreme as observed.},
 $z = -6.17$),
 15 in the early instrumental period (1900--1972, $p = 0.007$, $z = -2.43$),
 and 5 historical episodes (pre-1900).
@@ -53,11 +54,15 @@ and (iii)~the Benjamini--Hochberg false discovery rate (FDR) correction
 \citep{BenjaminiHochberg1995} at $q = 0.05$ applied to $N = 47$ merged
 series $p$-values (142 window candidates before merge).
 ETAS null-model validation (1000 synthetic catalogs without long-range
-links $>500$~km) on the modern window ($N_\mathrm{obs}=27$ series):
-FPR~=~1000/1000 catalogs with $\ge 1$ spurious series (mean
-$15.4 \pm 1.7$; max~$24$); $p_\mathrm{ETAS} = P(N_\mathrm{ETAS} \ge 27) = 0/1000$
-($\le 0.001$), confirming
-that observed series cannot be attributed to local aftershock clustering.
+links $>500$~km) on the modern window ($N_\mathrm{obs}=27$ series) uses
+\textbf{catalog-calibrated} parameters from \texttt{scripts/calibrate\_etas.py}
+(GK declustering + Omori MLE on 2041 modern events):
+$\mu \approx 0.103$~day$^{-1}$, $K \approx 0.495$, $\alpha \approx 0.063$,
+$c \approx 10^{-4}$~day, $p \approx 1.36$.
+FPR~=~1000/1000; mean~=~27.0; $p_\mathrm{ETAS} = 1.0$ --- observed count
+\textbf{indistinguishable} from the calibrated local-aftershock null.
+Literature defaults ($\mu = 0.008$, $K = 0.08$) yield mean~$\approx 15.4$,
+$p_\mathrm{ETAS} \le 0.001$ --- \textbf{comparison only}, not primary inference.
 After Benjamini--Hochberg FDR correction ($q = 0.05$), 45 of 47 series
 remain significant ($q$-values spanning $[9.7 \times 10^{-5},\, 0.047]$).
 Background seismicity is isolated using Gardner--Knopoff declustering
@@ -421,36 +426,31 @@ Epidemic-Type Aftershock Sequence (ETAS) process
 
 \noindent where $\mu$ is the background rate and $\{K, \alpha, c, p\}$
 govern aftershock productivity.
-Implementation values in \texttt{ETASCatalogGenerator} are \textbf{default
-global parameters} \citep{Ogata1988, HelmstettterSornette2003}:
-$\mu = 0.008$~day$^{-1}$, $K = 0.08$, $\alpha = 1.0$, $c = 0.005$~day,
-$p = 1.1$, Gutenberg--Richter $b = 1.0$---\textbf{not} re-calibrated on the
-2041-event modern catalog (\texttt{results/etas\_calibration\_note.md}).
-Optional homogeneous Poisson MLE on catalog times yields
-$\mu \approx 0.105$~events/day vs the default 0.008; full spatial ETAS MLE
-and multi-seed robustness are future work.
+Implementation values in \texttt{ETASCatalogGenerator} default to
+\textbf{catalog-calibrated MLE} on the 2041-event modern catalog
+(\texttt{scripts/calibrate\_etas.py}, \texttt{results/etas\_calibration.json}):
+Gardner--Knopoff declustering $\to$ $\mu = N_\mathrm{mainshock}/T$;
+Omori MLE on aftershock delays $\to$ $c$, $p$;
+branching regression $\to$ $K$, $\alpha$.
+Primary values: $\mu \approx 0.103$~day$^{-1}$, $K \approx 0.495$,
+$\alpha \approx 0.063$, $c \approx 10^{-4}$~day, $p \approx 1.36$.
+\textbf{Literature comparison only} (Helmstetter \& Sornette 2003):
+$\mu = 0.008$, $K = 0.08$, $\alpha = 1.0$, $c = 0.005$~day, $p = 1.1$ ---
+not used for primary inference.
+Full spatial ETAS MLE (Ogata 1998) and multi-seed robustness remain future work.
 \textbf{Long-range coupling is disabled:} offspring are placed only within
 \texttt{max\_trigger\_distance\_km}~$= 500$ of their parent (branching
 Poisson process, up to five generations).
 
-We generate 1000 synthetic ETAS catalogs (seed~=~42), each containing the
-same number of events as the observed catalog and matching its
-magnitude--frequency distribution, but with no spatial coupling beyond
-500~km.
-The global-series algorithm ($N \ge 4$,
-$\ge 3$ Flinn--Engdahl regions, 2-yr window) is applied to each
-synthetic catalog, yielding a null distribution for the number of
-detected series.
-The false-positive rate (FPR) is the fraction of catalogs with
-$\ge 1$ spurious global series: FPR~=~1000/1000, mean false series
-$= 15.58 \pm 1.67$, $n_\mathrm{obs} = 27$ (modern window).
-\textbf{Note:} previously reported FPR~=~0/100 arose from an API mismatch
-(\texttt{min\_regions}); corrected here. The detector is liberal on ETAS
-nulls, but $N_\mathrm{obs}=27$ exceeds the ETAS null maximum ($\approx 19$).
-The ETAS $p$-value is $p_\mathrm{ETAS} = P(N^\mathrm{ETAS}_\mathrm{series}
-\ge N^\mathrm{obs}_\mathrm{series}) = 0/1000$ (report $\le 0.001$).
-If $p_\mathrm{ETAS} < 0.05$, the observed series count cannot be
-attributed to local aftershock structure alone.
+We generate 1000 synthetic ETAS catalogs (seed~=~42), each with
+$n_\mathrm{background} \approx \mu T$ events matching the observed span,
+but with no spatial coupling beyond 500~km.
+On calibrated ETAS nulls: FPR~=~1000/1000, mean false series
+$= 27.0 \pm 0.0$ (max~$27$), $n_\mathrm{obs} = 27$.
+$p_\mathrm{ETAS} = P(N_\mathrm{ETAS} \ge 27) = 1.0$ --- indistinguishable
+from the calibrated null (detector is liberal).
+Literature comparison ($\mu = 0.008$): mean~$\approx 15.4$, max~$24$,
+$p_\mathrm{ETAS} \le 0.001$.
 
 \noindent\textbf{Verified from code.}
 Series counts and epoch $p$-values: \texttt{results/analysis\_full\_historical.json};
@@ -575,7 +575,7 @@ interpretation set.
 \label{subsec:significance}
 
 The permutation test ($n = 10\,000$) yields observed mean $\log_{10}(\eta) = -2.884$,
-$z = -6.17$, $p \le 0.0001$ for the modern period.
+$z = -6.17$, $p = 0.0001$ (1/10{,}001 permutations) for the modern period.
 None of the $10\,000$ random permutations produced clustering as strong as observed.
 The null distribution has mean $-2.8143$ and standard deviation $0.0112$; the
 observed value lies $6.17\sigma$ below the null mean, providing
@@ -608,20 +608,16 @@ magnitude--frequency distribution but restricts spatial triggering to
 distances $\le 500$~km, thereby excluding deliberate long-range links.
 The same global-series detection algorithm was applied to each catalog.
 
-Validation uses the literature defaults above ($\mu = 0.008$, $K = 0.08$,
-$\alpha = 1.0$, $c = 0.005$~days, $p = 1.1$, 500~km cutoff), not a
-catalog-specific fit.
-The mean number of global series detected in 1000 ETAS synthetic catalogs
-is $\bar{N}_\mathrm{ETAS} = 15.44$ (SD~=~1.65); the false-positive rate
-(FPR, fraction of catalogs with $\ge 1$ global series) is 1000/1000;
-maximum spurious count per catalog is 24.
-The ETAS $p$-value is $p_\mathrm{ETAS} = P(N_\mathrm{ETAS} \ge 27) = 0/1000$
-(report $\le 0.001$).
-Previously reported FPR~=~0/100 arose from an API bug (invalid
-\texttt{min\_regions} argument caused TypeError and returned zero).
-The detector is liberal on ETAS nulls, but $N_\mathrm{obs}=27$ exceeds
-the ETAS null maximum (24), so the observed modern series count cannot
-be attributed to local aftershock dynamics alone
+Validation uses \textbf{catalog-calibrated} parameters
+($\mu \approx 0.103$, $K \approx 0.495$, $\alpha \approx 0.063$,
+$c \approx 10^{-4}$~days, $p \approx 1.36$, 500~km cutoff).
+The mean number of global series in 1000 ETAS synthetic catalogs
+is $\bar{N}_\mathrm{ETAS} = 27.0$ (SD~=~0.0); FPR = 1000/1000;
+$p_\mathrm{ETAS} = 1.0$ --- $N_\mathrm{obs}=27$ is \textbf{indistinguishable}
+from the calibrated null.
+Literature defaults ($\mu = 0.008$, $K = 0.08$): $\bar{N}_\mathrm{ETAS} = 15.44$
+(SD~=~1.65), max~$24$, $p_\mathrm{ETAS} \le 0.001$ --- sensitivity check only.
+The detector is liberal on ETAS nulls under all parameter sets
 (Figure~\ref{fig:etas_null}).
 
 \begin{figure}[htbp]
@@ -631,7 +627,7 @@ be attributed to local aftershock dynamics alone
 series detected in each of 1000 synthetic ETAS catalogs (blue).
 The observed modern catalog yields $N_\mathrm{obs}=27$ series (red line).
 Inset: contrast between maximum ETAS replicate (24) and the real catalog.
-$p_\mathrm{ETAS} \le 0.001$; FPR~=~1000/1000; $\bar{N}_\mathrm{ETAS}=15.4$.}
+$p_\mathrm{ETAS} = 1.0$ (calibrated); FPR~=~1000/1000; $\bar{N}_\mathrm{ETAS}=27.0$.}
 \label{fig:etas_null}
 \end{figure}
 

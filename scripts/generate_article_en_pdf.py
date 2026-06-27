@@ -200,7 +200,7 @@ def build(s):
         "(from 4,418 CSV rows; ~151 NOAA M&lt;6.5 excluded from clustering; 47 historical NOAA records pre-1900) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "47 global seismic series are identified (27 modern, 15 early, 5 historical candidates). "
-        "Significance: permutation test (n=10,000, p\u22640.0001, z=-6.17); ETAS validation "
+        "Significance: permutation test (n=10,000, p=0.0001 (1/10,001), z=-6.17); ETAS validation "
         "(n=1000 catalogs, FPR=1000/1000; catalog-calibrated null: mean 27.0, p_ETAS=1.0; "
         "literature defaults \u03bc=0.008: mean 15.4, p\u22640.001; N_obs=27); "
         "FDR (45/47 at q=0.05, N=47). "

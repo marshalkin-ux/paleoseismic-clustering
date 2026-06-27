@@ -27,30 +27,22 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+from src.analysis.etas_params import load_calibrated_etas_params, load_literature_etas_params
 from src.analysis.etas_validation import ETASCatalogGenerator
 from src.analysis.clustering import SeismicClusterAnalyzer
 
 CALIBRATION_PATH = Path("results/etas_calibration.json")
-DEFAULT_PARAMS = {
-    "mu": 0.008,
-    "K": 0.08,
-    "alpha": 1.0,
-    "c": 0.005,
-    "p": 1.1,
-    "max_trigger_distance_km": 500.0,
-}
 
 
 def load_etas_params() -> dict:
-    """Load calibrated ETAS params if available, else literature defaults."""
-    if CALIBRATION_PATH.exists():
-        with open(CALIBRATION_PATH, encoding="utf-8") as f:
-            data = json.load(f)
-        params = data.get("parameters_calibrated", DEFAULT_PARAMS)
-        logger.info("Loaded calibrated ETAS params from %s", CALIBRATION_PATH)
-        return params
-    logger.warning("No %s — using literature defaults", CALIBRATION_PATH)
-    return DEFAULT_PARAMS
+    """Load catalog-calibrated ETAS params (primary null model)."""
+    params = load_calibrated_etas_params(CALIBRATION_PATH)
+    clean = {k: v for k, v in params.items() if not k.startswith("_")}
+    logger.info(
+        "Primary ETAS (catalog MLE): mu=%.6f K=%.4f alpha=%.3f c=%.5f p=%.3f",
+        clean["mu"], clean["K"], clean["alpha"], clean["c"], clean["p"],
+    )
+    return clean
 
 
 # ---------------------------------------------------------------------------
@@ -86,6 +78,7 @@ generator = ETASCatalogGenerator(
     c=etas_params["c"],
     p=etas_params["p"],
     max_trigger_distance_km=etas_params.get("max_trigger_distance_km", 500.0),
+    use_calibrated_defaults=False,
 )
 
 # Background count scaled from calibrated mu (53 yr window ≈ catalog span)
@@ -140,6 +133,8 @@ results = generator.run_false_positive_analysis(
 )
 
 results["etas_parameters"] = etas_params
+results["etas_parameters_primary"] = "catalog_mle_1973_2026"
+results["etas_parameters_literature_comparison"] = load_literature_etas_params()
 results["n_background_per_catalog"] = n_background
 results["catalog_span_years"] = t_span_years
 
