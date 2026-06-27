@@ -1391,7 +1391,7 @@
             Ветвящийся пуассоновский процесс; FPR = доля каталогов с ≥1 ложной серией
           </li>
           <li style="padding:5px 0; color:var(--green); font-weight:600;">
-            ✅ Выполнено · 100 каталогов · 0 ложных серий
+            ✅ Выполнено · 1000 каталогов · mean 15.4 ложных серий
           </li>
         </ul>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
@@ -1470,7 +1470,7 @@
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">ETAS-нулевая модель</td>
               <td style="padding:10px 14px; color:var(--text-muted);">p<sub>ETAS</sub></td>
               <td style="padding:10px 14px; color:var(--text-muted);">100 синт. каталогов</td>
-              <td style="padding:10px 14px; color:var(--green);">0 из 47 серий в ETAS; p = 0.0000</td>
+              <td style="padding:10px 14px; color:var(--green);">FPR 1000/1000; mean 15.4; N_obs=27 &gt; max 24; p ≤ 0.001</td>
               <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Значимо</span></td>
             </tr>
             <tr>
@@ -1553,7 +1553,7 @@
     <div class="fade-in" style="background:var(--card); border:1px solid rgba(63,185,80,0.35); border-radius:14px; padding:28px; margin-bottom:32px;">
       <h3 style="margin-bottom:16px; font-family:var(--heading-font); color:var(--green);">Статистический вывод</h3>
       <ul style="margin:0; padding-left:1.25rem; color:var(--text-muted); line-height:1.7;">
-        <li><strong style="color:var(--text-dim);">ETAS-тест:</strong> p = 0.0000 — наблюдаемая кластеризация <strong>не объясняется</strong> локальными афтершоками</li>
+        <li><strong style="color:var(--text-dim);">ETAS-тест:</strong> p ≤ 0.001 — N_obs=27 превышает максимум ETAS-нуля (24); детектор либерален (FPR 1000/1000)</li>
         <li><strong style="color:var(--text-dim);">FDR:</strong> 45/47 серий значимы после строгой коррекции на множественное тестирование (q = 0.05)</li>
         <li><strong style="color:var(--text-dim);">Декластеризация:</strong> 98.8–100% событий — независимые главные толчки, не афтершоки</li>
       </ul>
@@ -1832,7 +1832,7 @@
     <h3 style="color:#3fb950; margin-bottom:0.5rem;">ETAS-валидация — главный аргумент для GRL</h3>
     <p class="viz-block-desc">
       Нулевая модель ETAS: μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; max_trigger_distance_km=500.
-      1000 синтетических каталогов; FPR=1000/1000, p<sub>ETAS</sub>=0.0000.
+      1000 синтетических каталогов; FPR=1000/1000, mean 15.4, p<sub>ETAS</sub>≤0.001 (N_obs=27 &gt; max 24).
       Ни один не дал ложной серии — реальные 47 серий не объясняются стандартной моделью кластеризации.
     </p>
     <img src="../figures/grl/fig02_etas_validation.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="ETAS null-model validation">
@@ -2087,9 +2087,10 @@
 <span style="color:#8b949e;"># → Загружено событий: 4418
 # → Запуск ETAS-валидации (100 каталогов)...
 # → Реальных глобальных серий:  47
-# → В ETAS-каталогах (среднее): 0.00 ± 0.00
-# → p-value (ETAS):             0.0000
-# → Интерпретация:              ЗНАЧИМО (FPR = 1000/1000)
+# → В ETAS-каталогах (среднее): 15.44 ± 1.65
+# → FPR (>=1 ложной серии):       1000/1000
+# → p-value (ETAS):               0.0000 (≤ 0.001)
+# → Интерпретация:              N_obs=27 > max ETAS (24)
 # → Сохранено: results/etas_validation.json</span></pre>
         </div>
       </div>
@@ -2250,7 +2251,7 @@
         <div class="history-dot">21</div>
         <div class="history-date">27 июня 2026</div>
         <div class="history-title">Автоматизация публикаций</div>
-        <div class="history-desc">Разработка автоматизации публикаций на научных ресурсах (Zenodo, Figshare, arXiv и др.) — подготовка метаданных, депозит данных и кода.</div>
+        <div class="history-desc">Подготовлена автоматизация публикаций (Zenodo, Figshare, arXiv) в <code>publication/</code>; <strong>внешний депозит отложен</strong> — код и данные на GitHub only.</div>
       </div>
 
       <div class="history-item">
@@ -2272,7 +2273,7 @@
       <div class="plan-card">
         <h3>✅ Статистика — выполнено</h3>
         <ul class="plan-list">
-          <li><strong>ETAS-валидация:</strong> 100 каталогов → 0 ложных серий, p<sub>ETAS</sub> = 0.0000</li>
+          <li><strong>ETAS-валидация:</strong> 1000 каталогов → FPR 1000/1000, mean 15.4, p<sub>ETAS</sub> ≤ 0.001 (N_obs=27 &gt; max 24)</li>
           <li><strong>FDR BH (q=0.05):</strong> 45/47 серий значимы, 0 удалено коррекцией</li>
           <li><strong>Декластеризация:</strong> GK 2017/2041 (24 афтершока) · ZBZ 2040/2041 (1 зависимое) — проверка чувствительности</li>
           <li><strong>Monte Carlo:</strong> n = 10 000, p ≤ 0.0001, z = −6.17</li>
@@ -2291,13 +2292,12 @@
       </div>
 
       <div class="plan-card">
-        <h3>📰 Публикация в GRL/BSSA</h3>
+        <h3>📰 Публикация</h3>
         <ul class="plan-list">
-          <li>Собрать финальный PDF из <code style="font-size:12px;color:var(--accent)">paper/main.tex</code> (p<sub>ETAS</sub> = 0.0000 вписан)</li>
-          <li>Заполнить данные автора (ФИО, ORCID, аффилиация)</li>
-          <li>Отправить препринт на <a href="https://eartharxiv.org/" class="wiki-link" target="_blank" rel="noopener">EarthArXiv</a> — <strong>отложено</strong></li>
-          <li>Направить в <strong>GRL</strong> — p<sub>ETAS</sub> &lt; 0.05 подтверждён</li>
-          <li>Код на GitHub (MIT); DOI через Zenodo — <strong>отложено</strong></li>
+          <li>Статья PDF/MD в репозитории (<code style="font-size:12px;color:var(--accent)">paper/</code>)</li>
+          <li>GitHub Pages демо · MIT-лицензия</li>
+          <li>Внешний DOI (Zenodo/Figshare/EarthArXiv) — <strong>отложено</strong>; <code>publication/</code> — инструмент на будущее</li>
+          <li>GRL/BSSA — после рецензирования черновика</li>
         </ul>
       </div>
 

@@ -55,7 +55,7 @@ series $p$-values (142 window candidates before merge).
 ETAS null-model validation (1000 synthetic catalogs without long-range
 links $>500$~km) on the modern window ($N_\mathrm{obs}=27$ series):
 FPR~=~1000/1000 catalogs with $\ge 1$ spurious series (mean
-$15.6 \pm 1.7$); $p_\mathrm{ETAS} = P(N_\mathrm{ETAS} \ge 27) = 0/1000$
+$15.4 \pm 1.7$; max~$24$); $p_\mathrm{ETAS} = P(N_\mathrm{ETAS} \ge 27) = 0/1000$
 ($\le 0.001$), confirming
 that observed series cannot be attributed to local aftershock clustering.
 After Benjamini--Hochberg FDR correction ($q = 0.05$), 45 of 47 series
@@ -611,25 +611,27 @@ The same global-series detection algorithm was applied to each catalog.
 Validation uses the literature defaults above ($\mu = 0.008$, $K = 0.08$,
 $\alpha = 1.0$, $c = 0.005$~days, $p = 1.1$, 500~km cutoff), not a
 catalog-specific fit.
-The mean number of global series detected in 100 ETAS synthetic catalogs
-is $\bar{N}_\mathrm{ETAS} = 0.00$ (SD~=~0.00); the false-positive rate
+The mean number of global series detected in 1000 ETAS synthetic catalogs
+is $\bar{N}_\mathrm{ETAS} = 15.44$ (SD~=~1.65); the false-positive rate
 (FPR, fraction of catalogs with $\ge 1$ global series) is 1000/1000;
-mean spurious series $15.6 \pm 1.7$ per catalog.
-The ETAS $p$-value is $p_\mathrm{ETAS} = 0.0000$ (empirical resolution
-$1/101$---a discrete test that rejects the local-only null but does not
-identify the physical triggering mechanism).  Because none of the 100 ETAS catalogs produced a global series,
-the observed 47 candidates cannot be attributed to local aftershock dynamics
-alone and represent a statistically significant departure from the standard
-ETAS null model without long-range coupling (Figure~\ref{fig:etas_null}).
+maximum spurious count per catalog is 24.
+The ETAS $p$-value is $p_\mathrm{ETAS} = P(N_\mathrm{ETAS} \ge 27) = 0/1000$
+(report $\le 0.001$).
+Previously reported FPR~=~0/100 arose from an API bug (invalid
+\texttt{min\_regions} argument caused TypeError and returned zero).
+The detector is liberal on ETAS nulls, but $N_\mathrm{obs}=27$ exceeds
+the ETAS null maximum (24), so the observed modern series count cannot
+be attributed to local aftershock dynamics alone
+(Figure~\ref{fig:etas_null}).
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.92\textwidth]{../figures/grl/fig02_etas_validation.png}
 \caption{ETAS null-model validation.  Histogram of the number of global
-series detected in each of 1000 synthetic ETAS catalogs (blue; all zero).
-The observed catalog yields 47 candidate series (red annotation).
-Inset: contrast between maximum ETAS replicate and the real catalog.
-$p_\mathrm{ETAS} \le 0.001$; FPR~=~1000/1000; $N_\mathrm{obs}=27$.}
+series detected in each of 1000 synthetic ETAS catalogs (blue).
+The observed modern catalog yields $N_\mathrm{obs}=27$ series (red line).
+Inset: contrast between maximum ETAS replicate (24) and the real catalog.
+$p_\mathrm{ETAS} \le 0.001$; FPR~=~1000/1000; $\bar{N}_\mathrm{ETAS}=15.4$.}
 \label{fig:etas_null}
 \end{figure}
 
@@ -649,14 +651,6 @@ The observed value lies $6.17\sigma$ below the null mean ($p \le 0.0001$).}
 series ($\geq 3$ Flinn--Engdahl regions).  Marker size is proportional
 to magnitude.}
 \label{fig:series_map}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.92\textwidth]{../figures/grl/fig06_cfs_s170.png}
-\caption{Post-Sumatra 2004 static $\Delta\mathrm{CFS}$ for S170 receivers
-(Japan and Aleutians, 2004--2016; Okada 1985, $\mu=0.4$).}
-\label{fig:cfs_s170}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -695,10 +689,11 @@ Benjamini--Hochberg false discovery rate (FDR) correction
 \citep{BenjaminiHochberg1995}, the identified sequences represent
 statistically robust departures from a spatially inhomogeneous Poisson
 null model.
-The ETAS validation provides an independent and more stringent test:
-because $p_\mathrm{ETAS} \le 0.001$ with zero false positives in 1000
-replicates (seed~=~42), the observed multi-regional series cannot be
-explained by standard aftershock branching alone within 500~km.
+The ETAS validation provides an independent test:
+because $p_\mathrm{ETAS} \le 0.001$ with $N_\mathrm{obs}=27$ exceeding
+the ETAS null maximum (24) across 1000 replicates (seed~=~42),
+the observed multi-regional series count cannot be explained by standard
+aftershock branching alone within 500~km.
 This is a conclusion about \textbf{$\eta$ links and $p$-values}, not
 causality.
 
@@ -724,9 +719,10 @@ Possible (unverified) explanations include:
 \label{subsec:etas_seed}
 
 \textbf{ETAS note:} ETAS validation (1000 catalogs) reports FPR~=~1000/1000
-for $\ge 1$ spurious series (mean $15.6$); $N_\mathrm{obs}=27$ exceeds ETAS
-null maximum ($\approx 19$). Previously reported FPR~=~0/100 was an API bug.
-Rejecting the ETAS null does not prove a physical triggering mechanism.
+for $\ge 1$ spurious series (mean $15.4$; max~$24$); $N_\mathrm{obs}=27$
+exceeds the ETAS null maximum. Previously reported FPR~=~0/100 was an API bug
+(\texttt{min\_regions} TypeError). Rejecting the ETAS null does not prove
+a physical triggering mechanism.
 
 \paragraph{Plausible physical mechanisms (unverified).}
 Three physical mechanisms \emph{may} account for inter-event
@@ -913,7 +909,12 @@ geometry \citep{Bird2003}.
 
 The most immediate extension of this work is causal inference through
 $\Delta\mathrm{CFS}$ modelling for top-ranked sequences (S047, S170, S095).
-Formal ETAS validation has been completed ($p_\mathrm{ETAS} = 0.0000$;
+Preliminary static $\Delta\mathrm{CFS}$ results for S170 (Sumatra 2004
+receivers; see \texttt{results/cfs\_s170\_analysis.json} and
+\texttt{fig06\_cfs\_s170.png}) are exploratory and below literature
+triggering thresholds ($\Delta\mathrm{CFS} \gtrsim 0.01$~MPa); they are
+reported in the repository supplement, not as primary results.
+Formal ETAS validation has been completed ($p_\mathrm{ETAS} \le 0.001$;
 Section~\ref{subsubsec:etas_results}); future work should extend this
 framework to space-time ETAS models with explicit long-range kernels
 \citep{Ogata1998, HelmstettterSornette2003} for model comparison via AIC/BIC.

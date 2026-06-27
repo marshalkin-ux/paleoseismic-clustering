@@ -216,7 +216,7 @@ def build(s):
     story.append(Paragraph(
         "Глобальные сейсмические серии: статистический анализ "
         "пространственно-временно\u0301й кластеризации землетрясений "
-        "M\u22656.5 (2150\u00a0г.\u00a0до\u00a0н.\u044d.\u20132026\u00a0гг.)",
+        "M\u22656.5 (1973\u20132026\u00a0г.)",
         s["title_ru"]
     ))
     story.append(Paragraph("\u00a9 2026\u00a0г.\u00a0\u00a0Ярослав Маршалкин",
@@ -296,8 +296,9 @@ def build(s):
         "identifying 47 global seismic series in three temporal windows. "
         "Significance is assessed by a three-level framework: permutation test "
         "(n=10,000, p\u22640.0001, z=-6.17), ETAS null-model validation "
-        "(100 synthetic catalogs without long-range coupling, p_ETAS\u22640.001), "
-        "and Benjamini\u2013Hochberg FDR correction (q=0.05, 45/47 series significant). "
+        "(1000 synthetic catalogs, FPR=1000/1000, mean 15.4; max 24; "
+        "p_ETAS\u22640.001 for N_obs=27), "
+        "and Benjamini\u2013Hochberg FDR correction (q=0.05, N=47; 45/47 significant). "
         "The largest series by event count is 1905\u20131910 (193 events, 43 regions, "
         "Mmax=8.8); the most spatially extensive modern series is S170 "
         "(46 events, 12 Flinn\u2013Engdahl regions, 2002\u20132023, Mmax=9.1), "
@@ -518,12 +519,12 @@ def build(s):
         "p\u22640.0001, z=\u22126.17 для современного периода. "
         "<b>ETAS-валидация.</b> Параметры: "
         "mu=0.008, K=0.08, alpha=1.0, c=0.005 сут., p=1.1; "
-        "порог 500 km. 100 синтетических каталогов (seed=42); "
-        "FPR=1000/1000; p_ETAS\u22640.001. "
-        "<b>Примечание:</b> параметры ETAS — глобальные defaults (Helmstetter &amp; Sornette 2003), "
+        "порог 500 km. 1000 синтетических каталогов (seed=42); "
+        "FPR=1000/1000; mean 15.4 ложных серий; max 24; N_obs=27; p_ETAS\u22640.001. "
+        "<b>Примечание:</b> ранее FPR=0/100 — ошибка API (min_regions TypeError). "
+        "Параметры ETAS — глобальные defaults (Helmstetter &amp; Sornette 2003), "
         "не откалиброваны на 2041 событие (results/etas_calibration_note.md). "
-        "<b>Ограничение (Sec. 5.3):</b> FPR=1000/1000 только при seed=42; "
-        "multiseed-анализ рекомендуется; не доказывает механизм. "
+        "<b>Ограничение:</b> детектор либерален на ETAS-нулях; multiseed — перспектива. "
         "<b>FDR</b> (q=0.05): 45/47 значимы. "
         "<b>Декластеризация:</b> GK 2017/2041 (24 афтершока); "
         "ZBZ 2040/2041 (1 зависимое) \u2014 разные критерии, не последовательный фильтр.",
@@ -596,18 +597,17 @@ def build(s):
         s["body"]
     ))
     story.append(FormulaBox(
-        "p &lt; 0.0001   (z = \u22126.17,  современный период 1973\u20132026)",
+        "p \u2264 0.0001   (z = \u22126.17,  современный период 1973\u20132026)",
         PAGE_W - LM - RM
     ))
     story.append(FormulaBox(
-        "p\u2091\u209c\u2090\u209b \u2264 0.001   (ETAS, 1000 каталогов, FPR = 0/1000)",
+        "p\u2091\u209c\u2090\u209b \u2264 0.001   (ETAS, 1000 каталогов, FPR = 1000/1000, mean 15.4)",
         PAGE_W - LM - RM
     ))
     story.append(Paragraph(
         "Коррекция FDR (q=0.05): 45 из 47 кандидатов остаются значимыми. "
-        "Ни один из 100 ETAS-каталогов без дальних связей не воспроизвёл "
-        "наблюдаемое число глобальных серий\u00a0\u2014 кластеризация не объясняется "
-        "локальной афтершоковой структурой.",
+        "N_obs=27 превышает максимум ETAS-нуля (24)\u00a0\u2014 современное число серий "
+        "не объясняется только локальной афтершоковой структурой.",
         s["body_ni"]
     ))
 
@@ -661,9 +661,9 @@ def build(s):
 
     story.append(Paragraph(
         "<b>Доступность данных:</b> github.com/marshalkin-ux/paleoseismic-clustering "
-        "(docs/data_availability.md). "
-        "<b>Перспективы / дополнение:</b> Coulomb/динамический стресс S170, S047, S095; "
-        "полный ETAS MLE; multiseed; Zenodo.",
+        "(docs/data_availability.md). Внешний DOI (Zenodo) отложен \u2014 GitHub only. "
+        "<b>Перспективы / дополнение:</b> статический \u0394CFS и динамический стресс "
+        "для S170, S047, S095; полный ETAS MLE; multiseed.",
         s["body_ni"]
     ))
 

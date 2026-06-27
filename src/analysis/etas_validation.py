@@ -20,10 +20,24 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+from scipy.spatial import cKDTree
+
+from src.curator.unifier import FE_REGIONS
 
 logger = logging.getLogger(__name__)
 
 _R_EARTH = 6371.0  # км
+_FE_COORDS = np.array([(r[2], r[3]) for r in FE_REGIONS])
+_FE_TREE = cKDTree(_FE_COORDS)
+
+
+def assign_fe_regions(df: pd.DataFrame) -> pd.DataFrame:
+    """Назначает номера регионов Flinn-Engdahl по координатам (KD-tree)."""
+    coords = df[["lat", "lon"]].fillna(0).values
+    _, indices = _FE_TREE.query(coords)
+    out = df.copy()
+    out["fe_region"] = [FE_REGIONS[i][0] for i in indices]
+    return out
 
 
 def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
@@ -321,29 +335,21 @@ class ETASCatalogGenerator:
     # ------------------------------------------------------------------
 
     def _run_one_catalog(self, args: tuple) -> int:
-        """Запускает кластеризацию на одном ETAS-каталоге. Для Pool.map."""
+        """Запускает кластеризацию на одном ETAS-каталоге."""
         i, seed_i, cluster_analyzer, min_events, time_window_years = args
-        try:
-            df = self.generate(n_background=80, seed=seed_i)
-            df["year"] = df["time_years"].astype(int)
-            df["month"] = (
-                ((df["time_years"] - df["year"]) * 12) + 1
-            ).astype(int).clip(1, 12)
-            df["day"] = 15
-            df["fe_region"] = (
-                (df["lat"] // 20).astype(int).astype(str)
-                + "_"
-                + (df["lon"] // 30).astype(int).astype(str)
-            )
-            found = cluster_analyzer.global_series(
-                df,
-                min_events=min_events,
-                time_window_years=time_window_years,
-            )
-            return len(found)
-        except Exception as exc:
-            logger.warning("Каталог %d: ошибка — %s", i, exc)
-            return 0
+        df = self.generate(n_background=80, seed=seed_i)
+        df["year"] = df["time_years"].astype(int)
+        df["month"] = (
+            ((df["time_years"] - df["year"]) * 12) + 1
+        ).astype(int).clip(1, 12)
+        df["day"] = 15
+        df = assign_fe_regions(df)
+        found = cluster_analyzer.global_series(
+            df,
+            min_events=min_events,
+            time_window_years=time_window_years,
+        )
+        return len(found)
 
     def run_false_positive_analysis(
         self,
@@ -379,12 +385,16 @@ class ETASCatalogGenerator:
             Словарь::
 
                 {
-                    'false_positive_rates': list[int],  # число серий в каждом каталоге
+                    'series_counts_per_catalog': list[int],  # число серий в каждом каталоге
+                    'false_positive_rates': list[int],       # alias (backward compat)
                     'mean_false_series': float,
                     'std_false_series': float,
-                    'p_value_empirical': float,          # P(N_etas >= N_observed)
+                    'max_false_series': int,
+                    'p_value_empirical': float,              # P(N_etas >= N_observed)
                     'n_observed': int,
-                    'false_positive_rate': float,        # доля каталогов с >= 1 серий
+                    'n_catalogs': int,
+                    'n_catalogs_with_false_series': int,     # каталоги с >= 1 серий
+                    'false_positive_rate': float,            # n_catalogs_with_false / n_catalogs
                 }
         """
         series_counts = np.zeros(n_catalogs, dtype=int)
@@ -393,10 +403,11 @@ class ETASCatalogGenerator:
             args = (i, seed + i, cluster_analyzer, min_events, time_window_years)
             series_counts[i] = self._run_one_catalog(args)
 
-        false_positive_rates = series_counts.tolist()
+        counts_list = series_counts.tolist()
+        n_with_false = int(np.sum(series_counts > 0))
         mean_false = float(np.mean(series_counts))
         std_false = float(np.std(series_counts))
-        fpr = float(np.mean(series_counts > 0))
+        fpr = float(n_with_false / n_catalogs)
 
         if n_observed is None:
             n_observed_val = 0
@@ -406,11 +417,15 @@ class ETASCatalogGenerator:
             p_value = float(np.mean(series_counts >= n_observed_val))
 
         result = {
-            "false_positive_rates": false_positive_rates,
+            "series_counts_per_catalog": counts_list,
+            "false_positive_rates": counts_list,
             "mean_false_series": mean_false,
             "std_false_series": std_false,
+            "max_false_series": int(np.max(series_counts)),
             "p_value_empirical": p_value,
             "n_observed": n_observed_val,
+            "n_catalogs": n_catalogs,
+            "n_catalogs_with_false_series": n_with_false,
             "false_positive_rate": fpr,
         }
         logger.info(

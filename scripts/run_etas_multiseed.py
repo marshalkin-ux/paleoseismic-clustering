@@ -55,7 +55,7 @@ def main() -> None:
         ),
         "planned_seeds": seeds,
         "n_catalogs_per_seed": args.n_catalogs,
-        "reference_single_seed": "results/etas_validation.json (seed=42, FPR=0/100)",
+        "reference_single_seed": "results/etas_validation.json (seed=42, see n_catalogs_with_false_series)",
     }
 
     if args.run:
@@ -83,7 +83,6 @@ def main() -> None:
                 cluster_analyzer=analyzer,
                 n_catalogs=args.n_catalogs,
                 min_events=4,
-                min_regions=3,
                 time_window_years=2.0,
                 seed=seed,
             )

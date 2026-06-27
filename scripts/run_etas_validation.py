@@ -104,7 +104,8 @@ results = generator.run_false_positive_analysis(
 print("\n=== РЕЗУЛЬТАТЫ ETAS-ВАЛИДАЦИИ ===")
 print(f"Реальных глобальных серий:    {results['n_observed']}")
 print(f"В ETAS-каталогах (среднее):   {results['mean_false_series']:.2f} ± {results['std_false_series']:.2f}")
-print(f"FPR (>=1 ложной серии):       {results['false_positive_rate']:.3f}")
+print(f"FPR (>=1 ложной серии):       {results['n_catalogs_with_false_series']}/{results['n_catalogs']} ({results['false_positive_rate']:.3f})")
+print(f"Max ложных серий:             {results['max_false_series']}")
 print(f"p-value (ETAS):               {results['p_value_empirical']:.4f}")
 
 if not pd.isna(results["p_value_empirical"]):
@@ -118,8 +119,7 @@ if not pd.isna(results["p_value_empirical"]):
 out_path = Path("results/etas_validation.json")
 out_path.parent.mkdir(parents=True, exist_ok=True)
 
-save_results = {k: v for k, v in results.items() if k != "false_positive_rates"}
-save_results["false_positive_rates"] = results["false_positive_rates"]
+save_results = dict(results)
 
 with open(out_path, "w", encoding="utf-8") as f:
     json.dump(save_results, f, indent=2, ensure_ascii=False, default=str)

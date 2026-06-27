@@ -201,7 +201,8 @@ def build(s):
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "47 global seismic series are identified (27 modern, 15 early, 5 historical candidates). "
         "Significance: permutation test (n=10,000, p\u22640.0001, z=-6.17); ETAS validation "
-        "(FPR=1000/1000, seed=42, p_ETAS\u22640.001); FDR (45/47 at q=0.05, N=47). "
+        "(n=1000 catalogs, FPR=1000/1000, mean 15.4 \u00b1 1.7; max 24; "
+        "p_ETAS=0/1000 for N_obs=27); FDR (45/47 at q=0.05, N=47). "
         "<b>statistical anomaly</b>, not proof of causal triggering. "
         "Largest series: 1905\u20131910 (193 events, 43 regions); "
         "most extensive modern: S170 (46 events, 12 regions, Mmax=9.1).",
@@ -340,7 +341,8 @@ def build(s):
     story += SSEC("2.5 Statistical validation", s)
     story.append(Paragraph(
         "<b>Permutation test:</b> n = 10,000, p \u2264 0.0001, z = -6.17 (modern). "
-        "<b>ETAS validation:</b> 1000 catalogs (seed=42); FPR=1000/1000; p_ETAS \u2264 0.001. "
+        "<b>ETAS validation:</b> 1000 catalogs (seed=42); FPR=1000/1000; mean 15.4; max 24; p_ETAS \u2264 0.001. "
+        "Previously FPR=0/100 was an API bug (min_regions TypeError). "
         "<b>FDR (q=0.05):</b> 45/47 significant; N=47 series hypotheses. "
         "<b>Declustering:</b> GK 2,017/2,041; ZBZ 2,040/2,041.",
         s["body"]
@@ -350,7 +352,7 @@ def build(s):
     story += SSEC("3.1 Identified series", s)
     story.append(Paragraph(
         "Full historical analysis yields <b>47 global seismic series</b>: 27 modern "
-        "(p &lt; 0.0001), 15 early instrumental (p = 0.007; pre-1960 incompleteness "
+        "(p \u2264 0.0001), 15 early instrumental (p = 0.007; pre-1960 incompleteness "
         "caveat), 5 historical candidates (<b>not significant</b>, p = 0.46; "
         "47 M\u22656.5 events pre-1900). 142 cluster candidates before filtering.",
         s["body"]
@@ -406,7 +408,7 @@ def build(s):
         "shared tectonic loading (Freed &amp; Lin 2001). "
         "<b>Future work / supplement:</b> preliminary Coulomb/dynamic stress tests for S170 "
         "did not reach triggering thresholds (repository). "
-        "<b>ETAS note:</b> FPR=1000/1000 at seed=42; rule-of-three upper bound \u2248 0.003. "
+        "<b>ETAS note:</b> FPR=1000/1000 at seed=42 (mean 15.4 spurious series); N_obs=27 exceeds ETAS max (24). "
         "<b>Tectonic audit:</b> 98% GC fallback of 4987 pairs (fig07).",
         s["body"]
     ))
@@ -427,14 +429,15 @@ def build(s):
         story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
         story.append(Spacer(1, 0.1 * cm))
     story.append(Paragraph(
-        "<b>Future work:</b> \u0394CFS for S047, S095 with GCMT; full ETAS MLE; multi-seed; Zenodo.",
+        "<b>Future work / supplement:</b> Static \u0394CFS and dynamic stress for "
+        "S170, S047, S095; full ETAS MLE and multi-seed robustness.",
         s["body_ni"]
     ))
 
     story += SEC("DATA AND CODE AVAILABILITY", s)
     story.append(Paragraph(
         "Data and code: github.com/marshalkin-ux/paleoseismic-clustering "
-        "(docs/data_availability.md).",
+        "(docs/data_availability.md). External DOI deposition (Zenodo) deferred \u2014 GitHub only.",
         s["body_ni"]
     ))
 
