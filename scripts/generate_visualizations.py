@@ -475,36 +475,40 @@ def viz5_heatmap_regions():
         return r[:45]
 
     df["region_short"] = df[region_col].apply(shorten)
-    top_regions = (df.groupby("region_short").size()
+    # Instrumental window only — pre-1900 decades crowd the x-axis
+    df_inst = df[df["year"] >= 1900].copy()
+    top_regions = (df_inst.groupby("region_short").size()
                      .sort_values(ascending=False)
-                     .head(20).index.tolist())
+                     .head(12).index.tolist())
 
-    df_top = df[df["region_short"].isin(top_regions)].copy()
+    decades_inst = [d for d in decades if d >= 1900]
+    df_top = df_inst[df_inst["region_short"].isin(top_regions)].copy()
     pivot = df_top.pivot_table(
         index="region_short", columns="decade",
         values="event_id", aggfunc="count", fill_value=0
     )
-    pivot = pivot.reindex(columns=decades, fill_value=0)
+    pivot = pivot.reindex(columns=decades_inst, fill_value=0)
     pivot = pivot.loc[top_regions]
     pivot.columns = [decade_labels.get(d, str(d)) for d in pivot.columns]
 
     # find max-activity row
     max_row = pivot.sum(axis=1).idxmax()
 
-    fig_h = max(8, len(top_regions) * 0.45)
-    fig, ax = plt.subplots(figsize=(14, fig_h))
+    fig_w = max(14, len(decades_inst) * 0.85)
+    fig_h = max(7, len(top_regions) * 0.55)
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
     fig.patch.set_facecolor(BG)
     ax.set_facecolor(CARD)
 
     data = pivot.values.astype(float)
     im = ax.imshow(data, aspect="auto", cmap="YlOrRd",
-                   vmin=0, vmax=data.max())
+                   vmin=0, vmax=max(data.max(), 1))
 
     ax.set_xticks(range(len(pivot.columns)))
-    ax.set_xticklabels(pivot.columns, rotation=45, ha="right",
+    ax.set_xticklabels(pivot.columns, rotation=90, ha="center", va="top",
                        color=TEXT, fontsize=10)
     ax.set_yticks(range(len(top_regions)))
-    ax.set_yticklabels(pivot.index, color=TEXT, fontsize=8)
+    ax.set_yticklabels(pivot.index, color=TEXT, fontsize=9)
 
     # cell annotations
     for i in range(len(top_regions)):
@@ -532,13 +536,13 @@ def viz5_heatmap_regions():
     plt.setp(cbar.ax.yaxis.get_ticklabels(), color=MUTED)
     cbar.outline.set_edgecolor(BORDER)
 
-    ax.set_title("Активность по регионам и десятилетиям (M ≥ 6.5)",
+    ax.set_title("Активность по регионам и десятилетиям (M ≥ 6.5, 1900–2026)",
                  fontsize=13, pad=14, color=TEXT, fontweight="bold")
-    ax.tick_params(colors=MUTED)
+    ax.tick_params(colors=MUTED, axis="x", pad=6)
     for sp in ax.spines.values():
         sp.set_edgecolor(BORDER)
 
-    plt.tight_layout(pad=1.5)
+    fig.subplots_adjust(bottom=0.22, left=0.28, right=0.92, top=0.90)
     save(fig, "viz5_heatmap_regions")
     plt.close(fig)
 
@@ -611,13 +615,10 @@ def viz6_series_s170():
     x_min = s170["year_float"].min()
     x_max = s170["year_float"].max()
     x_pad = max(1.0, (x_max - x_min) * 0.05)
-    label_x_left = x_min - x_pad * 0.9
 
     # horizontal bands per group
     for g, yi in group_y.items():
         ax.axhspan(yi - 0.4, yi + 0.4, color=group_colors[g], alpha=0.08, zorder=1)
-        ax.text(label_x_left, yi, g, va="center", ha="right", fontsize=8,
-                color=group_colors[g], fontstyle="italic")
 
     for idx_ev, (_, ev) in enumerate(s170.iterrows()):
         yi = group_y[ev["group"]]
@@ -646,8 +647,12 @@ def viz6_series_s170():
                 zorder=11,
             )
 
+    ytick_labels = list(group_y.keys())
     ax.set_yticks(list(group_y.values()))
-    ax.set_yticklabels(list(group_y.keys()), fontsize=9, color=TEXT)
+    ax.set_yticklabels(
+        ytick_labels, fontsize=9, color=TEXT, ha="right",
+    )
+    ax.tick_params(axis="y", pad=8)
     ax.set_xlim(x_min - x_pad, x_max + x_pad)
     ax.set_ylim(-0.9, len(groups) - 0.1)
 
@@ -679,7 +684,7 @@ def viz6_series_s170():
     for txt in legend.get_texts():
         txt.set_color(TEXT)
 
-    plt.tight_layout()
+    fig.subplots_adjust(left=0.16, right=0.98, top=0.88, bottom=0.14)
     save(fig, "viz6_series_s170")
     plt.close(fig)
 

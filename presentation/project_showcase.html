@@ -582,6 +582,89 @@
       line-height: 1.7;
       font-size: 0.92rem;
     }
+    .viz-figure-wrap {
+      overflow-x: auto;
+      overflow-y: visible;
+      margin-bottom: 0.5rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    .viz-figure-wrap img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: none;
+      min-width: 520px;
+      border-radius: 10px;
+      border: 1px solid #30363d;
+    }
+    .findings-summary {
+      margin: 2.5rem 0 2rem;
+      padding: 2rem 2.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    .findings-summary h3 {
+      color: var(--accent);
+      font-size: 1.25rem;
+      margin: 0 0 1.25rem;
+    }
+    .findings-summary-grid {
+      display: grid;
+      gap: 1.25rem;
+    }
+    .findings-block {
+      padding: 1rem 1.25rem;
+      background: rgba(13, 17, 23, 0.55);
+      border-radius: 10px;
+      border-left: 3px solid var(--border);
+    }
+    .findings-block--problem { border-left-color: #ffa657; }
+    .findings-block--results { border-left-color: var(--green); }
+    .findings-block--honest { border-left-color: var(--purple); }
+    .findings-block--scope { border-left-color: var(--accent); }
+    .findings-block h4 {
+      color: #79c0ff;
+      font-size: 0.95rem;
+      margin: 0 0 0.6rem;
+      font-weight: 600;
+    }
+    .findings-block p,
+    .findings-block ul {
+      color: var(--text-dim);
+      font-size: 0.93rem;
+      line-height: 1.75;
+      margin: 0;
+    }
+    .findings-block ul {
+      padding-left: 1.2rem;
+    }
+    .findings-block li { margin-bottom: 0.35rem; }
+    .findings-block li:last-child { margin-bottom: 0; }
+    .findings-kpi {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+      margin: 0.75rem 0 0;
+    }
+    .findings-kpi span {
+      display: block;
+      text-align: center;
+      padding: 8px 6px;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+    .findings-kpi strong {
+      display: block;
+      font-family: var(--heading-font);
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
 
     /* ===== METHOD SECTION ===== */
     #method { background: #0a0e14; }
@@ -1646,6 +1729,71 @@
       <p>Главные числа исследования</p>
     </div>
 
+    <!-- Подробное резюме: проблематика / находки / выводы / рамки -->
+    <div class="findings-summary fade-in">
+      <h3>Резюме исследования</h3>
+      <div class="findings-summary-grid">
+
+        <div class="findings-block findings-block--problem">
+          <h4>Проблематика</h4>
+          <p>
+            Крупные землетрясения M≥6.5 не распределены как независимый
+            <span class="term-tip">пуассоновский процесс<span class="term-tip-box">Случайные события с постоянной средней частотой; «чистый шум» для сравнения с наблюдаемой кластеризацией.<a href="https://ru.wikipedia.org/wiki/Пуассоновский_процесс" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>.
+            После Суматры 2004 г. (M9.1) зафиксирована повышенная активность в удалённых регионах, но
+            <strong>корреляция в одной серии не доказывает причинность</strong> — возможны общая тектоническая нагрузка,
+            viscoelastic coupling или артефакты неполного каталога. Задача: отделить статистически значимую
+            глобальную кластеризацию от случайного фона и от локальных афтершоковых цепочек.
+          </p>
+        </div>
+
+        <div class="findings-block findings-block--results">
+          <h4>Ключевые находки (канонические числа проекта)</h4>
+          <ul>
+            <li><strong>4267</strong> уникальных событий M≥6.5 в merged-каталоге (4418 CSV-строк; ~151 запись NOAA M&lt;6.5 сохранена для провенанса, исключена из кластеризации)</li>
+            <li><strong>2041</strong> событие в современном окне <strong>1973–2026</strong> — основа заявлений о значимости</li>
+            <li><strong>47</strong> глобальных серий (≥3 зон Флинна–Энгдала); <strong>27</strong> современных с <strong>p ≤ 0.0001</strong></li>
+            <li><span class="term-tip">FDR<span class="term-tip-box">False Discovery Rate — поправка Benjamini–Hochberg на множественное тестирование.<a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>: <strong>45/47</strong> серий значимы при q &lt; 0.05</li>
+            <li><span class="term-tip">ETAS<span class="term-tip-box">Epidemic Type Aftershock Sequence — стандартная модель кластеризации Ogata (1988); n=1000 синтетических каталогов.<a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>: FPR <strong>1000/1000</strong>, среднее <strong>~15.4 ± 1.7</strong> ложных серий vs <strong>N<sub>obs</sub>=27</strong>; p<sub>ETAS</sub>≤0.001</li>
+            <li>Monte Carlo (10 000 перестановок): <strong>z = −6.17</strong>, p ≤ 0.0001</li>
+            <li>Декластеризация <span class="term-tip">Gardner–Knopoff<span class="term-tip-box">Основной метод отделения главных толчков от афтершоков; 98–100% событий — независимые M≥6.5.<a href="https://en.wikipedia.org/wiki/Leon_Knopoff" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> — первичный; тектоническое расстояние Bird (2003): <strong>98%</strong> пар на GC-фолбэке 1.5×, ~2% — реальный путь Дейкстры</li>
+            <li>Предварительные тесты <span class="term-tip">ΔCFS<span class="term-tip-box">Coulomb failure stress change; порог триггеринга ~0.01 МПа (Stein 1999). S170: +0.008 kPa — на три порядка ниже.<a href="https://en.wikipedia.org/wiki/Coulomb_stress_transfer" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> и динамического стресса для S170 <strong>не достигают порогов</strong> на телесейсмических расстояниях</li>
+          </ul>
+          <div class="findings-kpi">
+            <span><strong>4267</strong>M≥6.5 каталог</span>
+            <span><strong>2041</strong>1973–2026</span>
+            <span><strong>47</strong>глоб. серий</span>
+            <span><strong>27</strong>p≤0.0001</span>
+            <span><strong>45/47</strong>FDR</span>
+            <span><strong>15.4</strong>ETAS mean FPR</span>
+          </div>
+        </div>
+
+        <div class="findings-block findings-block--honest">
+          <h4>Честные выводы</h4>
+          <p>
+            <strong>Глобальный дальнодействующий триггеринг не доказан.</strong>
+            Обнаружены статистически устойчивые пространственно-временные серии (η-метрика, permutation test, FDR, ETAS),
+            но физический механизм не установлен. Проект даёт <strong>воспроизводимый пайплайн</strong>
+            (curator → η + тектоническое расстояние → серии → null-тесты) и явно разделяет
+            <em>статистическую значимость</em> и <em>причинность</em>.
+            Совместное появление событий в серии S170 (12 регионов, 18 100 км) — корреляция, не доказанный механизм передачи стресса.
+          </p>
+        </div>
+
+        <div class="findings-block findings-block--scope">
+          <h4>Рамки и разрешение исследования</h4>
+          <p>
+            Заявления о значимости опираются на <strong>современное инструментальное окно 1973–2026</strong>
+            (2041 событие) и ранний инструментальный период 1900–1972 (15 серий, p = 0.007).
+            Записи <strong>до 1900</strong> (5 исторических кандидатов, p = 0.46) сохранены для контекста,
+            но <strong>не используются для эпохальных заявлений о значимости</strong> из-за неполноты каталога и dating uncertainty.
+            η-метрика не включает глубину очага и механизмы очагов; ΔCFS/динамический стресс — exploratory future work.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
     <div class="results-stats">
       <div class="stat-card fade-in">
         <div class="stat-number" data-target="2041" data-suffix="">0</div>
@@ -2075,8 +2223,11 @@
       Чем темнее клетка — тем больше крупных землетрясений в этом регионе
       в данный период. Тихоокеанский регион лидирует — он находится в «Огненном кольце».
       Хорошо виден всплеск активности в 2000-е годы.
+      Ось X — десятилетия 1900–2020-х (до 1900 исключены, чтобы метки не накладывались).
     </p>
-    <img src="../figures/viz5_heatmap_regions.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Тепловая карта регионов">
+    <div class="viz-figure-wrap">
+      <img src="../figures/viz5_heatmap_regions.png" alt="Тепловая карта регионов">
+    </div>
   </div>
 
   <!-- VIZ 6 -->
@@ -2088,7 +2239,9 @@
       землетрясение 2004 года (M9.1). До и после него — серия мощных толчков
       на разных концах Земли.
     </p>
-    <img src="../figures/viz6_series_s170.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Серия S170">
+    <div class="viz-figure-wrap">
+      <img src="../figures/viz6_series_s170.png" alt="Серия S170">
+    </div>
   </div>
 </section>
 
