@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CALIBRATION_PATH = ROOT / "results" / "etas_calibration.json"
+B0911_CALIBRATION_PATH = ROOT / "results" / "etas_calibration_b0911.json"
 
 # Literature defaults (Helmstetter & Sornette 2003) — comparison only, NOT primary inference
 LITERATURE_ETAS = {
@@ -41,6 +42,26 @@ def load_calibrated_etas_params(
     fallback["_calibration_status"] = "missing_calibration_json"
     fallback["_source"] = "literature fallback (run scripts/calibrate_etas.py)"
     return fallback
+
+
+def load_b0911_etas_params(
+    calibration_path: Path | None = None,
+) -> dict[str, float]:
+    """Return ETAS params with alpha fixed to catalog b=0.911 (sensitivity run)."""
+    path = calibration_path or B0911_CALIBRATION_PATH
+    if path.exists():
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        params = dict(data["parameters_calibrated"])
+        params["_calibration_status"] = data.get("calibration_status", "")
+        params["_source"] = data.get("source", str(path))
+        return params
+    # Fallback: primary calibration with alpha overridden
+    params = load_calibrated_etas_params()
+    params["alpha"] = 0.911
+    params["b_value"] = 0.911
+    params["_calibration_status"] = "alpha_fixed_b0911_fallback"
+    return params
 
 
 def load_literature_etas_params() -> dict[str, float]:

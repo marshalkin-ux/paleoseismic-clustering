@@ -63,6 +63,9 @@ if "year" in df.columns:
     df = df[df["magnitude"] >= 6.5].copy()
     logger.info("После фильтра 1973+ M>=6.5: %d событий", len(df))
 
+from src.analysis.etas_validation import assign_fe_regions
+df = assign_fe_regions(df)
+
 # ---------------------------------------------------------------------------
 # Инициализация
 # ---------------------------------------------------------------------------
@@ -137,6 +140,7 @@ results["etas_parameters_primary"] = "catalog_mle_1973_2026"
 results["etas_parameters_literature_comparison"] = load_literature_etas_params()
 results["n_background_per_catalog"] = n_background
 results["catalog_span_years"] = t_span_years
+results["clustering_criterion"] = "mean_pairwise_gc_km > 1500"
 
 # ---------------------------------------------------------------------------
 # Вывод результатов

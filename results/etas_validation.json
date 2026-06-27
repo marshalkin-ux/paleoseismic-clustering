@@ -2017,7 +2017,9 @@
     "alpha": 0.06250066767034286,
     "c": 0.0001,
     "p": 1.363250203658662,
-    "max_trigger_distance_km": 500.0
+    "max_trigger_distance_km": 500.0,
+    "b_value": 0.911,
+    "magnitude_scaling": "K * 10^(alpha * (M - M0)); alpha fixed to catalog b when requested"
   },
   "etas_parameters_primary": "catalog_mle_1973_2026",
   "etas_parameters_literature_comparison": {
@@ -2030,5 +2032,6 @@
     "source": "Helmstetter & Sornette (2003) — literature comparison only"
   },
   "n_background_per_catalog": 2001,
-  "catalog_span_years": 53.0
+  "catalog_span_years": 53.0,
+  "clustering_criterion": "mean_pairwise_gc_km > 1500"
 }

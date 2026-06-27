@@ -1,0 +1,567 @@
+{
+  "catalog_n_m65": 4267,
+  "modern_n_m65": 2041,
+  "modern_gc1500": {
+    "n_series": 27,
+    "time_window_years": 2.0,
+    "min_events": 4,
+    "min_mean_gc_km": 1500.0,
+    "criterion": "mean_pairwise_gc_km > 1500 (all unordered pairs)",
+    "fe_regions": "diagnostic only, not a gate",
+    "series": [
+      {
+        "n_events": 52,
+        "mean_pairwise_gc_km": 9261.420994744687,
+        "n_fe_regions": 29,
+        "year_start": 1973,
+        "year_end": 1975
+      },
+      {
+        "n_events": 69,
+        "mean_pairwise_gc_km": 9034.008283995165,
+        "n_fe_regions": 34,
+        "year_start": 1975,
+        "year_end": 1977
+      },
+      {
+        "n_events": 52,
+        "mean_pairwise_gc_km": 8233.755581952271,
+        "n_fe_regions": 22,
+        "year_start": 1977,
+        "year_end": 1979
+      },
+      {
+        "n_events": 49,
+        "mean_pairwise_gc_km": 8891.714580065074,
+        "n_fe_regions": 28,
+        "year_start": 1979,
+        "year_end": 1981
+      },
+      {
+        "n_events": 62,
+        "mean_pairwise_gc_km": 9125.076475735603,
+        "n_fe_regions": 23,
+        "year_start": 1981,
+        "year_end": 1983
+      },
+      {
+        "n_events": 79,
+        "mean_pairwise_gc_km": 8396.877639127977,
+        "n_fe_regions": 30,
+        "year_start": 1983,
+        "year_end": 1985
+      },
+      {
+        "n_events": 86,
+        "mean_pairwise_gc_km": 7698.8667787128725,
+        "n_fe_regions": 26,
+        "year_start": 1985,
+        "year_end": 1987
+      },
+      {
+        "n_events": 84,
+        "mean_pairwise_gc_km": 8157.2338547093905,
+        "n_fe_regions": 24,
+        "year_start": 1987,
+        "year_end": 1989
+      },
+      {
+        "n_events": 80,
+        "mean_pairwise_gc_km": 8312.822421116562,
+        "n_fe_regions": 31,
+        "year_start": 1989,
+        "year_end": 1991
+      },
+      {
+        "n_events": 89,
+        "mean_pairwise_gc_km": 8631.474097403103,
+        "n_fe_regions": 28,
+        "year_start": 1991,
+        "year_end": 1993
+      },
+      {
+        "n_events": 93,
+        "mean_pairwise_gc_km": 8538.027466299769,
+        "n_fe_regions": 26,
+        "year_start": 1993,
+        "year_end": 1995
+      },
+      {
+        "n_events": 99,
+        "mean_pairwise_gc_km": 8958.140837161367,
+        "n_fe_regions": 31,
+        "year_start": 1995,
+        "year_end": 1997
+      },
+      {
+        "n_events": 76,
+        "mean_pairwise_gc_km": 8813.247193493213,
+        "n_fe_regions": 27,
+        "year_start": 1997,
+        "year_end": 1999
+      },
+      {
+        "n_events": 80,
+        "mean_pairwise_gc_km": 8509.481461455318,
+        "n_fe_regions": 28,
+        "year_start": 1999,
+        "year_end": 2001
+      },
+      {
+        "n_events": 74,
+        "mean_pairwise_gc_km": 8723.89565335034,
+        "n_fe_regions": 28,
+        "year_start": 2001,
+        "year_end": 2003
+      },
+      {
+        "n_events": 90,
+        "mean_pairwise_gc_km": 8649.841754483357,
+        "n_fe_regions": 27,
+        "year_start": 2003,
+        "year_end": 2005
+      },
+      {
+        "n_events": 66,
+        "mean_pairwise_gc_km": 8383.931911947882,
+        "n_fe_regions": 23,
+        "year_start": 2005,
+        "year_end": 2007
+      },
+      {
+        "n_events": 90,
+        "mean_pairwise_gc_km": 8833.705461620319,
+        "n_fe_regions": 27,
+        "year_start": 2007,
+        "year_end": 2009
+      },
+      {
+        "n_events": 104,
+        "mean_pairwise_gc_km": 7956.298441748816,
+        "n_fe_regions": 29,
+        "year_start": 2009,
+        "year_end": 2011
+      },
+      {
+        "n_events": 87,
+        "mean_pairwise_gc_km": 8835.444699169158,
+        "n_fe_regions": 32,
+        "year_start": 2011,
+        "year_end": 2013
+      },
+      {
+        "n_events": 84,
+        "mean_pairwise_gc_km": 8748.517302993496,
+        "n_fe_regions": 28,
+        "year_start": 2013,
+        "year_end": 2015
+      },
+      {
+        "n_events": 83,
+        "mean_pairwise_gc_km": 9351.152095764863,
+        "n_fe_regions": 29,
+        "year_start": 2015,
+        "year_end": 2017
+      },
+      {
+        "n_events": 75,
+        "mean_pairwise_gc_km": 9101.779817196113,
+        "n_fe_regions": 27,
+        "year_start": 2017,
+        "year_end": 2019
+      },
+      {
+        "n_events": 68,
+        "mean_pairwise_gc_km": 9548.140795815509,
+        "n_fe_regions": 26,
+        "year_start": 2019,
+        "year_end": 2021
+      },
+      {
+        "n_events": 77,
+        "mean_pairwise_gc_km": 8917.63519323987,
+        "n_fe_regions": 30,
+        "year_start": 2021,
+        "year_end": 2023
+      },
+      {
+        "n_events": 66,
+        "mean_pairwise_gc_km": 8385.263028090129,
+        "n_fe_regions": 25,
+        "year_start": 2023,
+        "year_end": 2025
+      },
+      {
+        "n_events": 27,
+        "mean_pairwise_gc_km": 9139.02739104264,
+        "n_fe_regions": 15,
+        "year_start": 2025,
+        "year_end": 2026
+      }
+    ]
+  },
+  "full_gc1500_windows": {
+    "modern_2yr": {
+      "n_series": 27,
+      "time_window_years": 2.0,
+      "min_events": 4,
+      "min_mean_gc_km": 1500.0,
+      "criterion": "mean_pairwise_gc_km > 1500 (all unordered pairs)",
+      "fe_regions": "diagnostic only, not a gate",
+      "series": [
+        {
+          "n_events": 52,
+          "mean_pairwise_gc_km": 9261.420994744687,
+          "n_fe_regions": 29,
+          "year_start": 1973,
+          "year_end": 1975
+        },
+        {
+          "n_events": 69,
+          "mean_pairwise_gc_km": 9034.008283995165,
+          "n_fe_regions": 34,
+          "year_start": 1975,
+          "year_end": 1977
+        },
+        {
+          "n_events": 52,
+          "mean_pairwise_gc_km": 8233.755581952271,
+          "n_fe_regions": 22,
+          "year_start": 1977,
+          "year_end": 1979
+        },
+        {
+          "n_events": 49,
+          "mean_pairwise_gc_km": 8891.714580065074,
+          "n_fe_regions": 28,
+          "year_start": 1979,
+          "year_end": 1981
+        },
+        {
+          "n_events": 62,
+          "mean_pairwise_gc_km": 9125.076475735603,
+          "n_fe_regions": 23,
+          "year_start": 1981,
+          "year_end": 1983
+        },
+        {
+          "n_events": 79,
+          "mean_pairwise_gc_km": 8396.877639127977,
+          "n_fe_regions": 30,
+          "year_start": 1983,
+          "year_end": 1985
+        },
+        {
+          "n_events": 86,
+          "mean_pairwise_gc_km": 7698.8667787128725,
+          "n_fe_regions": 26,
+          "year_start": 1985,
+          "year_end": 1987
+        },
+        {
+          "n_events": 84,
+          "mean_pairwise_gc_km": 8157.2338547093905,
+          "n_fe_regions": 24,
+          "year_start": 1987,
+          "year_end": 1989
+        },
+        {
+          "n_events": 80,
+          "mean_pairwise_gc_km": 8312.822421116562,
+          "n_fe_regions": 31,
+          "year_start": 1989,
+          "year_end": 1991
+        },
+        {
+          "n_events": 89,
+          "mean_pairwise_gc_km": 8631.474097403103,
+          "n_fe_regions": 28,
+          "year_start": 1991,
+          "year_end": 1993
+        },
+        {
+          "n_events": 93,
+          "mean_pairwise_gc_km": 8538.027466299769,
+          "n_fe_regions": 26,
+          "year_start": 1993,
+          "year_end": 1995
+        },
+        {
+          "n_events": 99,
+          "mean_pairwise_gc_km": 8958.140837161367,
+          "n_fe_regions": 31,
+          "year_start": 1995,
+          "year_end": 1997
+        },
+        {
+          "n_events": 76,
+          "mean_pairwise_gc_km": 8813.247193493213,
+          "n_fe_regions": 27,
+          "year_start": 1997,
+          "year_end": 1999
+        },
+        {
+          "n_events": 80,
+          "mean_pairwise_gc_km": 8509.481461455318,
+          "n_fe_regions": 28,
+          "year_start": 1999,
+          "year_end": 2001
+        },
+        {
+          "n_events": 74,
+          "mean_pairwise_gc_km": 8723.89565335034,
+          "n_fe_regions": 28,
+          "year_start": 2001,
+          "year_end": 2003
+        },
+        {
+          "n_events": 90,
+          "mean_pairwise_gc_km": 8649.841754483357,
+          "n_fe_regions": 27,
+          "year_start": 2003,
+          "year_end": 2005
+        },
+        {
+          "n_events": 66,
+          "mean_pairwise_gc_km": 8383.931911947882,
+          "n_fe_regions": 23,
+          "year_start": 2005,
+          "year_end": 2007
+        },
+        {
+          "n_events": 90,
+          "mean_pairwise_gc_km": 8833.705461620319,
+          "n_fe_regions": 27,
+          "year_start": 2007,
+          "year_end": 2009
+        },
+        {
+          "n_events": 104,
+          "mean_pairwise_gc_km": 7956.298441748816,
+          "n_fe_regions": 29,
+          "year_start": 2009,
+          "year_end": 2011
+        },
+        {
+          "n_events": 87,
+          "mean_pairwise_gc_km": 8835.444699169158,
+          "n_fe_regions": 32,
+          "year_start": 2011,
+          "year_end": 2013
+        },
+        {
+          "n_events": 84,
+          "mean_pairwise_gc_km": 8748.517302993496,
+          "n_fe_regions": 28,
+          "year_start": 2013,
+          "year_end": 2015
+        },
+        {
+          "n_events": 83,
+          "mean_pairwise_gc_km": 9351.152095764863,
+          "n_fe_regions": 29,
+          "year_start": 2015,
+          "year_end": 2017
+        },
+        {
+          "n_events": 75,
+          "mean_pairwise_gc_km": 9101.779817196113,
+          "n_fe_regions": 27,
+          "year_start": 2017,
+          "year_end": 2019
+        },
+        {
+          "n_events": 68,
+          "mean_pairwise_gc_km": 9548.140795815509,
+          "n_fe_regions": 26,
+          "year_start": 2019,
+          "year_end": 2021
+        },
+        {
+          "n_events": 77,
+          "mean_pairwise_gc_km": 8917.63519323987,
+          "n_fe_regions": 30,
+          "year_start": 2021,
+          "year_end": 2023
+        },
+        {
+          "n_events": 66,
+          "mean_pairwise_gc_km": 8385.263028090129,
+          "n_fe_regions": 25,
+          "year_start": 2023,
+          "year_end": 2025
+        },
+        {
+          "n_events": 27,
+          "mean_pairwise_gc_km": 9139.02739104264,
+          "n_fe_regions": 15,
+          "year_start": 2025,
+          "year_end": 2026
+        }
+      ]
+    },
+    "early_5yr": {
+      "n_series": 15,
+      "time_window_years": 5.0,
+      "min_events": 3,
+      "min_mean_gc_km": 1500.0,
+      "criterion": "mean_pairwise_gc_km > 1500 (all unordered pairs)",
+      "fe_regions": "diagnostic only, not a gate",
+      "series": [
+        {
+          "n_events": 66,
+          "mean_pairwise_gc_km": 8038.439513607347,
+          "n_fe_regions": 26,
+          "year_start": 1900,
+          "year_end": 1904
+        },
+        {
+          "n_events": 193,
+          "mean_pairwise_gc_km": 8194.694168171998,
+          "n_fe_regions": 43,
+          "year_start": 1905,
+          "year_end": 1910
+        },
+        {
+          "n_events": 176,
+          "mean_pairwise_gc_km": 8214.914383352703,
+          "n_fe_regions": 35,
+          "year_start": 1910,
+          "year_end": 1915
+        },
+        {
+          "n_events": 152,
+          "mean_pairwise_gc_km": 8996.798948670541,
+          "n_fe_regions": 39,
+          "year_start": 1915,
+          "year_end": 1920
+        },
+        {
+          "n_events": 159,
+          "mean_pairwise_gc_km": 8454.62259925456,
+          "n_fe_regions": 37,
+          "year_start": 1920,
+          "year_end": 1925
+        },
+        {
+          "n_events": 141,
+          "mean_pairwise_gc_km": 8979.232908018195,
+          "n_fe_regions": 36,
+          "year_start": 1925,
+          "year_end": 1929
+        },
+        {
+          "n_events": 137,
+          "mean_pairwise_gc_km": 8823.509057864965,
+          "n_fe_regions": 35,
+          "year_start": 1930,
+          "year_end": 1935
+        },
+        {
+          "n_events": 152,
+          "mean_pairwise_gc_km": 7140.013106726617,
+          "n_fe_regions": 36,
+          "year_start": 1935,
+          "year_end": 1940
+        },
+        {
+          "n_events": 152,
+          "mean_pairwise_gc_km": 8742.741703975067,
+          "n_fe_regions": 37,
+          "year_start": 1940,
+          "year_end": 1945
+        },
+        {
+          "n_events": 133,
+          "mean_pairwise_gc_km": 8305.598875190113,
+          "n_fe_regions": 38,
+          "year_start": 1945,
+          "year_end": 1950
+        },
+        {
+          "n_events": 142,
+          "mean_pairwise_gc_km": 8257.917381890044,
+          "n_fe_regions": 34,
+          "year_start": 1950,
+          "year_end": 1955
+        },
+        {
+          "n_events": 119,
+          "mean_pairwise_gc_km": 8505.17828629141,
+          "n_fe_regions": 31,
+          "year_start": 1955,
+          "year_end": 1960
+        },
+        {
+          "n_events": 166,
+          "mean_pairwise_gc_km": 9067.902005534725,
+          "n_fe_regions": 35,
+          "year_start": 1960,
+          "year_end": 1965
+        },
+        {
+          "n_events": 186,
+          "mean_pairwise_gc_km": 8496.004928181306,
+          "n_fe_regions": 41,
+          "year_start": 1965,
+          "year_end": 1970
+        },
+        {
+          "n_events": 105,
+          "mean_pairwise_gc_km": 8422.734318565055,
+          "n_fe_regions": 29,
+          "year_start": 1970,
+          "year_end": 1972
+        }
+      ]
+    },
+    "historical_50yr": {
+      "n_series": 5,
+      "time_window_years": 50.0,
+      "min_events": 3,
+      "min_mean_gc_km": 1500.0,
+      "criterion": "mean_pairwise_gc_km > 1500 (all unordered pairs)",
+      "fe_regions": "diagnostic only, not a gate",
+      "series": [
+        {
+          "n_events": 3,
+          "mean_pairwise_gc_km": 5264.983516927954,
+          "n_fe_regions": 3,
+          "year_start": 89,
+          "year_end": 138
+        },
+        {
+          "n_events": 6,
+          "mean_pairwise_gc_km": 4393.2721339787195,
+          "n_fe_regions": 4,
+          "year_start": 500,
+          "year_end": 528
+        },
+        {
+          "n_events": 6,
+          "mean_pairwise_gc_km": 4486.841854613673,
+          "n_fe_regions": 5,
+          "year_start": 734,
+          "year_end": 763
+        },
+        {
+          "n_events": 3,
+          "mean_pairwise_gc_km": 2769.2349140882707,
+          "n_fe_regions": 3,
+          "year_start": 788,
+          "year_end": 818
+        },
+        {
+          "n_events": 6,
+          "mean_pairwise_gc_km": 6066.715882165086,
+          "n_fe_regions": 4,
+          "year_start": 856,
+          "year_end": 887
+        }
+      ]
+    }
+  },
+  "legacy_fe_min3_modern_2yr_n_series": 27,
+  "note": "Primary gate: mean pairwise great-circle distance > 1500 km. 4267 unique M>=6.5 events; 4418 CSV rows include ~151 NOAA M<6.5 retained for provenance, excluded from clustering.",
+  "n_series_total_three_epochs": 47
+}

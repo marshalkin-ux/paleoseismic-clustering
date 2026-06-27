@@ -137,6 +137,7 @@ def analyze_epoch(
 ) -> dict:
     """Polnyj analiz odnoj vremennoj epokhi."""
     from src.analysis.clustering import SeismicClusterAnalyzer
+    from src.analysis.etas_validation import assign_fe_regions
 
     logger.info("\n" + "=" * 60)
     logger.info("EPOKHA: %s (%d sobytij)", epoch_name, len(df))
@@ -161,21 +162,26 @@ def analyze_epoch(
         return result
 
     analyzer = SeismicClusterAnalyzer()
+    df = assign_fe_regions(df)
     series_list = analyzer.global_series(
         df,
         time_window_years=time_window_years,
         min_events=min_events,
         min_magnitude=6.5,
     )
-    # Filter by min_regions
-    series_list = [s for s in series_list if s['fe_region'].nunique() >= min_regions]
+    result['min_mean_gc_km'] = 1500.0
+    result['criterion'] = 'mean_pairwise_gc_km > 1500'
+    # Legacy FE count stored per series; not a gate unless min_regions set
+    result['min_regions'] = min_regions if min_regions is not None else 'diagnostic_only'
     result['n_series'] = len(series_list)
 
     series_stats = []
     for s in series_list:
         stats = {
             'n_events': len(s),
-            'n_regions': int(s['fe_region'].nunique()),
+            'n_regions': int(s['fe_region'].nunique()) if 'fe_region' in s.columns else None,
+            'mean_pairwise_gc_km': float(s['mean_pairwise_gc_km'].iloc[0])
+            if 'mean_pairwise_gc_km' in s.columns else None,
             'year_start': int(s['year'].min()),
             'year_end': int(s['year'].max()),
             'max_magnitude': (float(s['magnitude'].max())

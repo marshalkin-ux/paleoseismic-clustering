@@ -1,5 +1,5 @@
 {
-  "calibration_status": "catalog_mle_1973_2026",
+  "calibration_status": "catalog_mle_1973_2026_alpha_fixed_0.911",
   "catalog_modern_n": 2041,
   "catalog_modern_span_years": 53.43309377138946,
   "gk_mainshocks": 2017,
@@ -11,14 +11,14 @@
     "success": true
   },
   "branching_fit": {
-    "K": 0.4945527632119062,
-    "alpha": 0.06250066767034286,
-    "alpha_fixed": false
+    "K": 0.35832135715428326,
+    "alpha": 0.911,
+    "alpha_fixed": true
   },
   "parameters_calibrated": {
     "mu": 0.1033487797145355,
-    "K": 0.4945527632119062,
-    "alpha": 0.06250066767034286,
+    "K": 0.35832135715428326,
+    "alpha": 0.911,
     "c": 0.0001,
     "p": 1.363250203658662,
     "max_trigger_distance_km": 500.0,
@@ -36,5 +36,11 @@
   "mu_homogeneous_total_rate": 0.1045785123437615,
   "n_background_synthetic": 2017,
   "source": "scripts/calibrate_etas.py (GK + Omori MLE + branching regression)",
-  "note": "Minimal MLE on 2041 modern M>=6.5 events; spatial ETAS kernel approximated via 500 km trigger cap matching ETASCatalogGenerator."
+  "note": "Branching productivity K·10^{α(M-M0)} with α fixed to catalog b=0.911 (base-10 Gutenberg–Richter exponent; equivalent to exp(α ln 10 · ΔM) in natural-log form). K re-fitted; μ, c, p unchanged from GK+Omori pipeline.",
+  "comparison_baseline": {
+    "source": "results/etas_calibration.json",
+    "alpha": 0.06250066767034286,
+    "K": 0.4945527632119062,
+    "mu": 0.1033487797145355
+  }
 }

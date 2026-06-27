@@ -149,14 +149,14 @@ Implementation: `src/analysis/clustering.py` (`SeismicClusterAnalyzer`), orchest
 | 2 | `find_nearest_neighbor` | η NN forest: i* = argmin ηij; rij = tectonic Bird 2003 (1.5× GC fallback); **b=1.0, r^1.6** — not catalog-calibrated |
 | 3 | `global_series` | Sliding windows **1, 2, 5 yr** (1-yr step): anchor t, window [t, t+Δt] |
 | 4 | epoch merge | Overlapping candidates merged → **47** merged (142 windows before merge) |
-| 5 | Criteria | N ≥ 4, M ≥ 6.5, ≥ 3 FE zones — weak administrative proxy (§5.5) |
+| 5 | Criteria | N ≥ 4, M ≥ 6.5, mean pairwise GC > 1500 km (`clustering_gc1500.json`) |
 | 6 | Permutation | Global **mean log10(ηNN)**, n = 10,000; H0 = independent event times |
 | 7 | ETAS null | Calibrated μ, K, α, c, p; pETAS = 1.0, mean = 27.0 (modern window) |
 | 8 | Output | Candidate list + FDR post-hoc (not a discovery claim) |
 
 ```
 catalog M≥6.5 (4267) → GK mainshocks → η NN forest → windows 1/2/5 yr
-  → merge overlapping → filter (N≥4, ≥3 FE) → candidates → MC + ETAS
+  → merge overlapping → filter (N≥4, mean GC>1500 km) → candidates → MC + ETAS
 ```
 
 ### 3.4 Data pipeline
@@ -176,7 +176,7 @@ Raw catalogs (USGS / ISC / NOAA)
         ↓
  Merge overlapping groups
         ↓
- Series criteria (N≥4, M≥6.5, ≥3 FE regions)
+ Series criteria (N≥4, M≥6.5, mean GC>1500 km)
         ↓
  MC / ETAS / FDR validation
 ```
@@ -200,7 +200,7 @@ GK applies conservative local window rules; ZBZ classifies only events with exce
 1. **Declustering** via [Gardner–Knopoff](https://en.wikipedia.org/wiki/Aftershock) (1974) — mainshocks for NN search.
 2. **Nearest-neighbor forest:** for each event j, parent i* = argmin ηij.
 3. **Threshold η0:** automatic selection from the distribution of nearest-neighbor η values. Primary method: KDE valley detection between bimodal modes in log10(η) (Zaliapin & Ben-Zion, 2013). Default cluster cut when unspecified: η0 = 10^(median log10 η). The threshold is validated against a Poisson temporal-permutation null (Monte Carlo, n = 10,000).
-4. **Global series criterion:** N ≥ 4 events; M ≥ 6.5; ≥ 3 [Flinn–Engdahl](https://en.wikipedia.org/wiki/Flinn%E2%80%93Engdahl_regions) regions.
+4. **Global series criterion:** N ≥ 4 events; M ≥ 6.5; **mean pairwise great-circle distance > 1500 km** (all unordered pairs in the sliding window). Flinn–Engdahl region count is diagnostic only (`results/clustering_gc1500.json`).
 5. **Sliding windows** (1, 2, 5 yr; 1-yr step); overlapping groups merged.
 
 **ETAS null-model parameters (catalog-calibrated).** Minimal MLE (`scripts/calibrate_etas.py`, `results/etas_calibration.json`) on the **2,041**-event modern catalog after GK: **μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36**.
@@ -214,7 +214,7 @@ Multi-seed: **10 seeds (42–51)**, n=1000 catalogs/seed (`scripts/run_etas_mult
 
 #### Multiple comparisons
 
-Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wiki/False_discovery_rate) procedure on **N = 47** merged-series p-values (after sliding windows 1/2/5 yr, merge, and series criteria N ≥ 4, M ≥ 6.5, ≥ 3 FE regions; see `results/fdr_correction_results.csv`): **45/47** at q = 0.05. This **does not** correct the 142 window candidates × search parameters and is **not** a discovery claim — detector sensitivity only (see §5.6).
+Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wiki/False_discovery_rate) procedure on **N = 47** merged-series p-values (after sliding windows 1/2/5 yr, merge, and series criteria N ≥ 4, M ≥ 6.5, mean GC > 1500 km; see `results/fdr_correction_results.csv`): **45/47** at q = 0.05. This **does not** correct the 142 window candidates × search parameters and is **not** a discovery claim — detector sensitivity only (see §5.6).
 
 **ETAS null model.** We generate synthetic catalogs with **catalog-calibrated** parameters (`results/etas_calibration.json`: μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36; GK+Omori MLE on 2,041 events). On the real modern catalog the algorithm finds **N_obs = 27** series.
 
@@ -238,6 +238,8 @@ Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wi
 **Overall:** mean = **27.0**, σ = **0.0** across all seeds — perfect stability because calibrated ETAS generates catalogs with ~2,001 background events and local-only triggering (>500 km cutoff), matching the event rate and clustering scale of the real catalog; the detector then yields **exactly 27** spurious multi-regional series on every realization (see §5.6).
 
 **Literature-default comparison only** (Helmstetter & Sornette 2003: μ=0.008, K=0.08; earlier exploratory runs with n=100 catalogs/seed): mean≈**15.5**, max=24, pETAS ≤ 0.001 — sensitive to parameter choice, **not** the primary null model.
+
+**Sensitivity: α fixed to catalog b = 0.911** (`results/etas_calibration_b0911.json`, `results/etas_validation_b0911.json`): branching term K·10^{α(M−M₀)} with α = 0.911 (base-10 Gutenberg–Richter exponent; Ogata natural-log equivalent α_nat ≈ 2.097); K refitted to **≈0.358**. Qualitative conclusion unchanged: **pETAS = 1.0**, mean false series **≈27** on the modern window (GC > 1500 km gate).
 
 | Test | Parameters | Result |
 |------|------------|--------|
@@ -342,7 +344,7 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 - **Paleoseismic and historical data** (~1% of catalog; 47 NOAA records pre-1900, p = 0.46) — **not significant**; not used for significance claims (see §2).
 - **η parameters:** b = 1.0, df = 1.6 — BP (2004) convention, not calibrated; Zaliapin (2008): D ≈ b — sensitivity not run.
 - **ETAS calibration:** minimal MLE, not full Ogata MLE; **K** may be overestimated (WLS, 24 aftershocks, K clipped at 5); bounds in `results/etas_calibration.json`; **μ** is GK-mainshock rate, not full-catalog rate.
-- **Flinn–Engdahl zones:** large administrative regions; **3 zones ≠ 3 tectonic provinces** (Sumatra and Java are distinct FE zones on one arc); criterion is an **administrative proxy**, not proof of global structure; future work: min great-circle separation >1000 km between pairs in a series.
+- **Global-series gate:** mean pairwise GC **> 1500 km** (primary); Flinn–Engdahl counts diagnostic only (legacy ≥3 FE zones gave the same N=27 on the modern window).
 - **Heuristic metric with tectonic hint:** **98%** of pairs use 1.5× GC fallback — **failed hypothesis test**, not a global-analysis improvement.
 - **ETAS calibrated but detector liberal** — mean = 27.0 matches N_obs = 27; see §5.6.
 - **No physical mechanism established** — η metric is correlational; ΔCFS/dynamic stress — **future work only**.
@@ -355,7 +357,7 @@ Additionally: **GK is primary** for inference, ZBZ sensitivity-only; post-hoc BH
 The global-series search is **liberal by construction**:
 
 1. **Sliding windows** — three sizes (1, 2, and 5 yr; 1-yr step) over the η NN forest yield **142 cluster candidates** before merging overlapping groups (`global_series()`).
-2. **Series criteria** — N ≥ 4, M ≥ 6.5, ≥ 3 [Flinn–Engdahl](https://en.wikipedia.org/wiki/Flinn%E2%80%93Engdahl_regions) regions — relatively permissive at global scale.
+2. **Series criteria** — N ≥ 4, M ≥ 6.5, mean pairwise GC > 1500 km — relatively permissive at global scale.
 3. **ETAS calibration** — on synthetic catalogs without long-range links (>500 km), the detector finds **mean = 27.0** “series” when **N_obs = 27** on the real modern window; **FPR = 1000/1000**, **pETAS = 1.0** (n = 1000, seed = 42). Multiseed (seeds 42–51): mean = 27.0, σ = 0.0, FPR = 1.0 stable (`results/etas_multiseed.json`).
 4. **Threshold sensitivity** — min_events = 5, min_regions = 4 (and stricter) **do not reduce** N = 27 on the modern window (`results/clustering_sensitivity_strict.json`): liberalness lies in **search space** (142 windows), not small N.
 

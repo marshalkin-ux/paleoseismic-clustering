@@ -154,6 +154,8 @@ class ETASCatalogGenerator:
             max_trigger_distance_km = cal.get(
                 "max_trigger_distance_km", max_trigger_distance_km
             )
+            if b == 1.0 and "b_value" in cal:
+                b = float(cal["b_value"])
         # Explicit overrides or legacy literature comparison
         if mu is None:
             mu = 0.008
@@ -264,6 +266,7 @@ class ETASCatalogGenerator:
         lon_range: tuple[float, float] = (-180.0, 180.0),
         max_local_radius_km: float | None = None,
         seed: int | None = None,
+        max_total_events: int = 50_000,
     ) -> pd.DataFrame:
         """Генерирует синтетический каталог ETAS через ветвящийся пуассоновский процесс.
 
@@ -313,7 +316,7 @@ class ETASCatalogGenerator:
         ))
 
         max_generation = 5
-        max_total = 50_000
+        max_total = max_total_events
 
         while queue and len(records) < max_total:
             parent_t, parent_lat, parent_lon, parent_mag, gen = queue.pop(0)
@@ -323,6 +326,8 @@ class ETASCatalogGenerator:
 
             n_off = self._n_offspring(parent_mag, rng)
             for _ in range(n_off):
+                if len(records) >= max_total:
+                    break
                 child_t = self._sample_offspring_time(parent_t, rng)
                 if child_t > t_span_days:
                     continue
@@ -349,7 +354,7 @@ class ETASCatalogGenerator:
         df = df.sort_values("time_days").reset_index(drop=True)
         df = df.drop(columns=["time_days"])
 
-        logger.info(
+        logger.debug(
             "ETAS каталог: %d событий (%d фоновых, %d дочерних)",
             len(df),
             df["is_background"].sum(),
@@ -363,8 +368,13 @@ class ETASCatalogGenerator:
 
     def _run_one_catalog(self, args: tuple) -> int:
         """Запускает кластеризацию на одном ETAS-каталоге."""
-        i, seed_i, cluster_analyzer, min_events, time_window_years, n_background, t_end = args
-        df = self.generate(n_background=n_background, t_end=t_end, seed=seed_i)
+        i, seed_i, cluster_analyzer, min_events, time_window_years, n_background, t_end, max_total = args
+        df = self.generate(
+            n_background=n_background,
+            t_end=t_end,
+            seed=seed_i,
+            max_total_events=max_total,
+        )
         df["year"] = df["time_years"].astype(int)
         df["month"] = (
             ((df["time_years"] - df["year"]) * 12) + 1
@@ -389,6 +399,7 @@ class ETASCatalogGenerator:
         seed: int = 42,
         n_background: int = 80,
         t_span_years: float = 50.0,
+        max_total_events: int = 50_000,
     ) -> dict:
         """Параллельная ETAS-валидация: оценка частоты ложных открытий.
 
@@ -437,8 +448,11 @@ class ETASCatalogGenerator:
                 time_window_years,
                 n_background,
                 t_span_years,
+                max_total_events,
             )
             series_counts[i] = self._run_one_catalog(args)
+            if (i + 1) % 50 == 0:
+                logger.info("ETAS validation progress: %d/%d catalogs", i + 1, n_catalogs)
 
         counts_list = series_counts.tolist()
         n_with_false = int(np.sum(series_counts > 0))

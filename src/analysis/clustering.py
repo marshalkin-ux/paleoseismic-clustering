@@ -416,5 +416,5 @@ class SeismicClusterAnalyzer:
                 len(window_events), mean_gc, n_reg, int(sub.loc[i, "year"]),
             )
 
-        logger.info("Найдено %d глобальных серий (mean GC > %.0f km)", len(series_list), min_mean_gc_km)
+        logger.debug("Найдено %d глобальных серий (mean GC > %.0f km)", len(series_list), min_mean_gc_km)
         return series_list

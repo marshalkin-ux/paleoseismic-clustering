@@ -35,6 +35,8 @@ logger = logging.getLogger(__name__)
 M_MIN = 6.5
 MAX_TRIGGER_KM = 500.0
 MAX_AFTERHOCK_DAYS = 365.0
+# Catalog Gutenberg-Richter b (MLE, Mc=6.55); used for fixed-alpha ETAS sensitivity
+B_CATALOG = 0.911
 
 # Literature defaults (Helmstetter & Sornette 2003) — fallback / comparison
 DEFAULT_ETAS = {
@@ -131,25 +133,43 @@ def _fit_omori(delays: np.ndarray) -> dict[str, float]:
 def _fit_branching(
     mainshock_mags: np.ndarray,
     offspring_counts: np.ndarray,
+    *,
+    alpha_fixed: float | None = None,
 ) -> dict[str, float]:
-    """Fit log E[N] = log K + alpha * (M - M_min) via weighted least squares."""
+    """Fit log E[N] = log K + alpha * (M - M_min) via least squares.
+
+    If ``alpha_fixed`` is set, only K is estimated (alpha tied to catalog b-value
+    in the base-10 productivity term K·10^{α(M-M0)} per Ogata/Helmstetter convention).
+    """
     mags = mainshock_mags.astype(float)
     counts = offspring_counts.astype(float)
     y = np.log(counts + 0.5)
     x = mags - M_MIN
     if len(mags) < 10 or np.std(x) < 1e-6:
-        return {"K": DEFAULT_ETAS["K"], "alpha": DEFAULT_ETAS["alpha"]}
-    # y = intercept + alpha * x  =>  K = exp(intercept)
+        alpha = alpha_fixed if alpha_fixed is not None else DEFAULT_ETAS["alpha"]
+        return {"K": DEFAULT_ETAS["K"], "alpha": alpha}
+
+    if alpha_fixed is not None:
+        intercept = float(np.mean(y - alpha_fixed * x))
+        K = float(np.exp(intercept))
+        K = float(np.clip(K, 1e-4, 5.0))
+        return {"K": K, "alpha": float(alpha_fixed), "alpha_fixed": True}
+
     A = np.column_stack([np.ones_like(x), x])
     coef, _, _, _ = np.linalg.lstsq(A, y, rcond=None)
     intercept, alpha = float(coef[0]), float(coef[1])
     K = float(np.exp(intercept))
     K = float(np.clip(K, 1e-4, 5.0))
     alpha = float(np.clip(alpha, 0.0, 2.5))
-    return {"K": K, "alpha": alpha}
+    return {"K": K, "alpha": alpha, "alpha_fixed": False}
 
 
-def calibrate_etas_mle(events: pd.DataFrame) -> dict:
+def calibrate_etas_mle(
+    events: pd.DataFrame,
+    *,
+    alpha_fixed: float | None = None,
+    b_value: float = B_CATALOG,
+) -> dict:
     """Run minimal ETAS MLE on modern catalog."""
     times = _to_time_days(events)
     t_span_days = float(times.max() - times.min())
@@ -165,7 +185,7 @@ def calibrate_etas_mle(events: pd.DataFrame) -> dict:
     )
     omori = _fit_omori(delays)
     ms_mags = mainshocks["magnitude"].astype(float).values
-    branching = _fit_branching(ms_mags, offspring_counts)
+    branching = _fit_branching(ms_mags, offspring_counts, alpha_fixed=alpha_fixed)
 
     params = {
         "mu": float(mu),
@@ -174,10 +194,16 @@ def calibrate_etas_mle(events: pd.DataFrame) -> dict:
         "c": omori["c"],
         "p": omori["p"],
         "max_trigger_distance_km": MAX_TRIGGER_KM,
+        "b_value": float(b_value),
+        "magnitude_scaling": "K * 10^(alpha * (M - M0)); alpha fixed to catalog b when requested",
     }
 
+    status = "catalog_mle_1973_2026"
+    if alpha_fixed is not None:
+        status = f"catalog_mle_1973_2026_alpha_fixed_{alpha_fixed:.3f}"
+
     return {
-        "calibration_status": "catalog_mle_1973_2026",
+        "calibration_status": status,
         "catalog_modern_n": n_events,
         "catalog_modern_span_years": float(t_span_days / 365.25),
         "gk_mainshocks": int(len(mainshocks)),
@@ -199,10 +225,12 @@ def calibrate_etas_mle(events: pd.DataFrame) -> dict:
 def main() -> None:
     events = _load_modern_catalog()
     logger.info("Modern catalog: %d events (1973+, M>=6.5)", len(events))
+
+    # Primary MLE (free alpha)
     result = calibrate_etas_mle(events)
     p = result["parameters_calibrated"]
     logger.info(
-        "Calibrated ETAS: mu=%.6f K=%.4f alpha=%.3f c=%.5f p=%.3f",
+        "Calibrated ETAS (free alpha): mu=%.6f K=%.4f alpha=%.3f c=%.5f p=%.3f",
         p["mu"], p["K"], p["alpha"], p["c"], p["p"],
     )
 
@@ -211,6 +239,30 @@ def main() -> None:
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
     logger.info("Saved %s", out_path)
+
+    # Sensitivity: alpha fixed to catalog b=0.911 in base-10 branching term
+    result_b = calibrate_etas_mle(events, alpha_fixed=B_CATALOG, b_value=B_CATALOG)
+    pb = result_b["parameters_calibrated"]
+    logger.info(
+        "Calibrated ETAS (alpha=b=%.3f fixed): mu=%.6f K=%.4f alpha=%.3f c=%.5f p=%.3f",
+        B_CATALOG, pb["mu"], pb["K"], pb["alpha"], pb["c"], pb["p"],
+    )
+    result_b["comparison_baseline"] = {
+        "source": "results/etas_calibration.json",
+        "alpha": p["alpha"],
+        "K": p["K"],
+        "mu": p["mu"],
+    }
+    result_b["note"] = (
+        "Branching productivity K·10^{α(M-M0)} with α fixed to catalog b=0.911 "
+        "(base-10 Gutenberg–Richter exponent; equivalent to exp(α ln 10 · ΔM) in natural-log form). "
+        "K re-fitted; μ, c, p unchanged from GK+Omori pipeline."
+    )
+
+    out_b = ROOT / "results" / "etas_calibration_b0911.json"
+    with open(out_b, "w", encoding="utf-8") as f:
+        json.dump(result_b, f, indent=2, ensure_ascii=False)
+    logger.info("Saved %s", out_b)
 
 
 if __name__ == "__main__":
