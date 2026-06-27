@@ -199,11 +199,14 @@ def build(s):
         "We analyse a merged catalog of <b>4,267 unique M\u22656.5 events</b> "
         "(from 4,418 CSV rows; ~151 NOAA M&lt;6.5 excluded from clustering) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
-        "Primary result — <b>negative (null/falsification)</b>: catalog-calibrated ETAS "
-        "reproduces N_obs=27 (mean 27.0, p_ETAS=1.0, FPR=1000/1000). Permutation "
-        "p=0.0001 (1/10,001) rejects temporal Poisson null only — not teleseismic "
-        "triggering. 47 <b>detector candidates</b>; "
-        "no evidence for physical multi-regional global series.",
+        "The detector yields <b>47 algorithmic candidates</b> (27 modern); however, "
+        "ETAS validation (p_ETAS=1.0) shows these candidates are indistinguishable "
+        "from background activity. Primary result \u2014 <b>negative (null/falsification)</b>: "
+        "the detector finds on average 27.0 candidates in catalog-calibrated ETAS "
+        "synthetic catalogs, matching N_obs=27 \u2014 not specific to global series; "
+        "reflects catalog background structure (see Sec. 5.5\u20135.6). Permutation "
+        "p=0.0001 (1/10,001) rejects temporal Poisson null only \u2014 not teleseismic "
+        "triggering. Limitations \u2014 Sec. 5.5.",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -243,9 +246,10 @@ def build(s):
         s["body"]
     ))
     story.append(Paragraph(
-        "<b>Objective.</b> We test the hypothesis that multi-regional seismic series "
-        "exist in a four-millennium catalog of M&gt;=6.5 earthquakes, using an adapted "
-        "eta metric with heuristic tectonic hint along Bird (2003) plate boundaries. "
+        "<b>Objective.</b> Test (and if warranted, <b>falsify</b>) the hypothesis that "
+        "physically meaningful multi-regional global series exist, with "
+        "<b>primary inference on the modern window (1973\u20132026)</b>, using complementary "
+        "null tests (permutation vs ETAS) and explicit detector liberalness assessment. "
         "<b>Scope.</b> We combine nearest-neighbor clustering with heuristic tectonic hint "
         "and ETAS validation; this complements global rate tests "
         "(Michael 2011; Shearer &amp; Stark 2012) with a different \u03b7-linkage statistic "
@@ -369,7 +373,8 @@ def build(s):
     story += SEC("3. RESULTS", s)
     story += SSEC("3.1 Identified series", s)
     story.append(Paragraph(
-        "Full historical analysis yields <b>47 global seismic series</b>: 27 modern "
+        "Full historical analysis yields <b>47 detector candidates</b> (not validated "
+        "global series): 27 modern "
         "(p \u2264 0.0001), 15 early instrumental (p = 0.007; pre-1960 incompleteness "
         "caveat), 5 historical candidates (<b>not significant</b>, p = 0.46; "
         "47 M\u22656.5 events pre-1900). 142 cluster candidates before filtering.",
@@ -419,9 +424,10 @@ def build(s):
 
     story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
-        "Catalog-calibrated ETAS shows that multi-regional clusters flagged by the detector (see \u00a75.6) "
-        "detector <b>do not exceed</b> local aftershock expectations. The global-series "
-        "hypothesis is <b>not supported</b>. The permutation test rejects only a temporal "
+        "The detector finds on average 27.0 candidates in catalog-calibrated ETAS "
+        "synthetic catalogs, matching N_obs=27 \u2014 not specific to global series; "
+        "reflects catalog background structure. The global-series "
+        "hypothesis is <b>not supported</b> (see Sec. 5.5). The permutation test rejects only a temporal "
         "Poisson null \u2014 trivial for earthquake catalogs with aftershocks.",
         s["body"]
     ))

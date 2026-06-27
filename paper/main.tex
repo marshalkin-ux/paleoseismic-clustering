@@ -30,32 +30,35 @@
 \begin{abstract}
 We test the hypothesis of physically meaningful multi-regional \textbf{global seismic series}
 in a catalog of \textbf{4{,}267 unique $M \ge 6.5$ events} (4{,}418 CSV rows).
+The detector yields \textbf{47 algorithmic candidates} (142 windows before merge;
+27 modern); \textbf{however, ETAS validation ($p_\mathrm{ETAS} = 1.0$) shows that
+these candidates are indistinguishable from background activity}.
 \textbf{Primary result --- negative (null/falsification):} on the modern window
-(1973--2026, 2{,}041 events), catalog-calibrated ETAS without long-range links
-($>500$~km) reproduces $N_\mathrm{obs}=27$ detector episodes
-(mean~$= 27.0$, $p_\mathrm{ETAS} = 1.0$, FPR~$= 1000/1000$, $n=1000$) ---
-\textbf{no excess ``global'' structure beyond ETAS-like local clustering}.
+(1973--2026, 2{,}041 events), the detector finds on average \textbf{27.0} candidates
+in catalog-calibrated ETAS synthetic catalogs, matching the observed count of
+\textbf{27} --- the detector is \textbf{not specific} to global series; it reflects
+catalog background structure (see \S\ref{sec:limitations}--\ref{sec:detector-liberal}).
 A permutation test ($n = 10{,}000$) rejects a \textbf{global temporal Poisson null}
 ($p = 0.0001$, 1/10{,}001 permutations\footnote{Discrete permutation test:
 $p = (k+1)/(n+1)$, $k=0$.}, $z = -6.17$) --- expected with aftershocks/local
 clustering; \textbf{not} a test of teleseismic/multi-regional series and
 \textbf{not} evidence for remote triggering.
-The detector yields \textbf{47 algorithmic candidates} (142 windows before merge;
-27 modern).
 Tectonic-path distance is \textbf{not validated} (98\% 1.5$\times$ GC fallback,
 $\sim$2\% Dijkstra). $\Delta$CFS/dynamic stress --- future work only;
 ``series'' are algorithmic constructs, not proven triggering chains.
+Limitations --- \S\ref{sec:limitations}.
 \end{abstract}
 
 \begin{keypoints}
-  \item Catalog-calibrated ETAS: $N_\mathrm{obs}=27$, mean~$= 27.0$,
-        $p_\mathrm{ETAS}=1.0$ --- \textbf{no evidence for excess global structure}
-        beyond local ETAS-like clustering (null/falsification result).
+  \item 47 detector candidates (27 modern); ETAS validation ($p_\mathrm{ETAS}=1.0$)
+        shows they are indistinguishable from background activity.
+  \item Detector mean = 27.0 on calibrated ETAS null matches $N_\mathrm{obs}=27$ ---
+        \textbf{not specific} to global series; reflects catalog background structure
+        (null/falsification result; see \S\ref{sec:limitations}).
   \item Permutation test $p = 0.0001$ (1/10{,}001) rejects \textbf{temporal Poisson}
         null only --- \textbf{not} proof of multi-regional global series.
-  \item 47 detector candidates are indistinguishable from
-        ETAS null plus search-space artifacts (see \S\ref{sec:detector-liberal}); tectonic distance failed as a
-        global metric (98\% GC fallback).
+  \item Tectonic distance failed as a global metric (98\% GC fallback);
+        detector liberalism --- \S\ref{sec:detector-liberal} (FPR technical detail).
 \end{keypoints}
 
 %% =====================================================================
@@ -446,9 +449,10 @@ the sensitivity analysis (Section~\ref{sec:robustness}).
 \section{Results}
 \label{sec:results}
 
-The full historical analysis covers 4{,}267 events ($M \ge 6.5$, BCE--2026,
-4{,}418 CSV records) and identifies 47 global seismic series in three
-temporal windows (Table~\ref{tab:epochs}).
+The full historical analysis covers 4{,}267 events ($M \ge 6.5$, 1900--2026 with
+pre-1900 tail; 4{,}418 CSV records) and yields \textbf{47 detector candidates}
+in three temporal windows (Table~\ref{tab:epochs}) --- algorithmic outputs,
+not validated physical global series (ETAS $p_\mathrm{ETAS}=1.0$ on the modern window).
 
 \subsection{Catalog Completeness}
 
@@ -758,8 +762,32 @@ windows explored here; an exhaustive sensitivity analysis
 (Section~\ref{sec:robustness}) is therefore essential before a definitive
 null result can be stated.
 
+\subsection{Limitations}
+\label{sec:limitations}
+
+\begin{itemize}
+\item \textbf{Paleoseismic and historical data} ($\sim$1\% of catalog; 47 NOAA records
+      pre-1900, $p = 0.46$) --- not significant; not used for significance claims.
+\item \textbf{Heuristic tectonic metric:} 98\% of pairs use 1.5$\times$ GC fallback;
+      failed hypothesis test, not a global-analysis improvement.
+\item \textbf{ETAS calibrated but detector liberal} --- mean $= 27.0$ matches
+      $N_\mathrm{obs}=27$; see \S\ref{sec:detector-liberal} for FPR and search-space detail.
+\item \textbf{No physical mechanism established} --- $\Delta$CFS/dynamic stress future work only.
+\item \textbf{Negative result:} the global-series hypothesis is \textbf{not confirmed}.
+\end{itemize}
+
+\subsection{Detector Liberalism}
+\label{sec:detector-liberal}
+
+The global-series search is liberal by construction: sliding windows (1, 2, 5~yr)
+yield 142 cluster candidates before merge; series criteria ($N \ge 4$, $\ge 3$ zones)
+are permissive at global scale. On catalog-calibrated ETAS synthetic catalogs without
+long-range links ($>500$~km), the detector finds mean~$= 27.0$ ``series'' when
+$N_\mathrm{obs}=27$ on the real modern window; \textbf{FPR~$= 1000/1000$},
+$p_\mathrm{ETAS}=1.0$ ($n=1000$, seed~$= 42$; multiseed stable).
+
 \subsection{Methodological Limitations and Their Mitigation}
-\label{subsec:limitations}
+\label{subsec:limitations-mitigation}
 
 We identify six principal limitations and describe the mitigation strategy
 adopted for each.
@@ -934,12 +962,13 @@ The adopted thresholds ($N \ge 4$, $n_z \ge 3$) yield $F_1 = 0.74$
         ($p = 0.0001$, 1/10{,}001; $z = -6.17$) --- expected with
         aftershocks/local clustering; \textbf{not} a test of multi-regional
         global series.
-  \item Catalog-calibrated ETAS reproduces $N_\mathrm{obs}=27$
-        (mean~$= 27.0$, $p_\mathrm{ETAS} = 1.0$, FPR~$= 1000/1000$) ---
-        \textbf{no excess global structure} beyond ETAS-like local clustering;
-        the multi-regional global-series hypothesis is \textbf{falsified}.
-  \item 47 detector candidates are indistinguishable
-        from ETAS null plus search-space artifacts (see \S\ref{sec:detector-liberal}); tectonic distance is
+  \item The detector finds on average 27.0 candidates in catalog-calibrated ETAS
+        synthetic catalogs, matching $N_\mathrm{obs}=27$ --- the detector is
+        \textbf{not specific} to global series; it reflects catalog background
+        structure; the multi-regional global-series hypothesis is \textbf{not confirmed}
+        (see \S\ref{sec:limitations}).
+  \item 47 detector candidates are indistinguishable from ETAS null plus
+        search-space artifacts (see \S\ref{sec:detector-liberal}); tectonic distance is
         not validated (98\% GC fallback); $\Delta$CFS/dynamic stress ---
         future work only.
 \end{enumerate}

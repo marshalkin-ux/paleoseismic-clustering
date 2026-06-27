@@ -241,18 +241,19 @@ def build(s):
         "4418\u00a0записей CSV (вкл. ~151\u00a0M&lt;6.5 из NOAA), "
         "4267\u00a0уникальных событий M\u22656.5 (4418\u00a0строк CSV; анализ M\u22656.5; "
         "2041\u00a0событие в современном окне 1973\u20132026). "
-        "Обнаружение кандидатов\u00a0\u2014 выход либерального детектора; "
-        "главный вывод\u00a0\u2014 null/falsification: ETAS p_ETAS=1,0 (mean 27,0). "
+        "Алгоритм находит 47\u00a0кандидатов детектора "
+        "(27\u00a0на современном окне); однако ETAS-валидация (p_ETAS=1,0) показывает, "
+        "что эти кандидаты неотличимы от фоновой активности. "
+        "Главный вывод\u00a0\u2014 null/falsification: детектор находит в среднем 27,0 "
+        "кандидатов в ETAS-каталогах с калиброванными параметрами, что совпадает с "
+        "наблюдаемым числом 27\u00a0\u2014 детектор не специфичен для глобальных серий, "
+        "он отражает фоновую структуру каталога (см. \u00a75.5\u20135.6). "
         "Permutation p=0.0001 (1/10,001) отвергает пуассоновские времена, "
         "не доказывает глобальные серии. "
         "Источники: USGS\u00a0ComCat, ISC\u00a0Bulletin, NOAA\u00a0NGDC "
         "(M<sub>c</sub>=6.55, b=0.911+/-0.018). "
         "На основе метрики Байеси\u2013Пачуски с эвристической метрикой с тектонической подсказкой "
-        "(граф Bird\u00a02003) алгоритм находит 47\u00a0кандидатов детектора "
-        "(27\u00a0на современном окне). "
-        "Permutation (n=10\u202f000, p=0.0001, 1/10,001) отвергает пуассоновские "
-        "времена; ETAS (1000\u00a0кат., FPR=1000/1000, mean 27,0, p_ETAS=1,0) "
-        "показывает отсутствие избыточной глобальной структуры.",
+        "(граф Bird\u00a02003). Ограничения\u00a0\u2014 \u00a75.5.",
         s["abstract"]
     ))
 
@@ -290,18 +291,16 @@ def build(s):
         "Whether large earthquakes cluster in space and time beyond chance is a "
         "foundational question in seismic hazard assessment. We analyse a merged "
         "catalog of <b>4,267 unique M&gt;=6.5 events</b> (from 4,418 CSV rows; "
-        "~151 NOAA M&lt;6.5 rows excluded from clustering), "
-        "identifying 47 global seismic series in three temporal windows. "
-        "Significance is assessed by a three-level framework: permutation test "
-        "(n=10,000, p=0.0001 (1/10,001), z=-6.17), ETAS null-model validation "
-        "(1000 synthetic catalogs, FPR=1000/1000; catalog-calibrated null: mean 27.0, "
-        "p_ETAS=1.0; literature defaults \u03bc=0.008: mean 15.4, p\u22640.001; "
-        "N_obs=27). "
-        "Largest early-instrumental candidate: 1905\u20131910 (193 events, catalog incomplete before ~1960); "
-        "modern detector candidate S170 "
-        "(46 events, 12 Flinn\u2013Engdahl regions, 2002\u20132023, Mmax=9.1). "
-        "Heuristic with tectonic hint (Bird 2003): 98% GC fallback — failed hypothesis test; "
-        "median \u0394log\u2081\u2080\u03b7 = +0.28.",
+        "~151 NOAA M&lt;6.5 rows excluded from clustering). "
+        "The detector yields 47 algorithmic candidates (27 modern); however, "
+        "ETAS validation (p_ETAS=1.0) shows these candidates are indistinguishable "
+        "from background activity. Primary result \u2014 negative (null/falsification): "
+        "the detector finds on average 27.0 candidates in catalog-calibrated ETAS "
+        "synthetic catalogs, matching N_obs=27 \u2014 not specific to global series. "
+        "Significance is assessed by permutation test "
+        "(n=10,000, p=0.0001 (1/10,001), z=-6.17). "
+        "Heuristic with tectonic hint (Bird 2003): 98% GC fallback \u2014 failed hypothesis test. "
+        "Limitations \u2014 Sec. 5.5.",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -541,7 +540,7 @@ def build(s):
     story += SSEC("3. Результаты", s)
     story += SSSEC("3.1 Идентифицированные серии", s)
     story.append(Paragraph(
-        "Полный анализ выявил <b>47 глобальных серий</b>: 27\u00a0современных "
+        "Полный анализ выдаёт <b>47 кандидатов детектора</b> (не «открытые серии»): 27\u00a0современных "
         "(p=0.0001, 1/10,001), 15\u00a0ранних (p=0.007, но quality_score&lt;0.7 до 1960\u00a0г. "
         "ограничивает интерпретацию), 5\u00a0исторических кандидатов "
         "(<b>статистически не значимы</b>, p=0.46; только 47\u00a0событий M\u22656.5 "
@@ -643,11 +642,12 @@ def build(s):
     # === SECTION: ВЫВОДЫ =======================================================
     story += SEC("РЕЗУЛЬТАТЫ ИССЛЕДОВАНИЯ (ВЫВОДЫ)", s)
     story.append(Paragraph(
-        "Применение калиброванной ETAS-модели показывает, что число мультирегиональных "
-        "кластеров, обнаруживаемых детектором (см. \u00a75.6), <b>не превышает</b> ожидаемого "
-        "от локальной афтершоковой активности. Гипотеза о существовании глобальных "
-        "сейсмических серий <b>не подтверждается</b>. Перестановочный тест отвергает "
-        "лишь пуассоновскую нулевую гипотезу — тривиально для сейсмических каталогов.",
+        "Детектор находит в среднем 27,0 кандидатов в ETAS-каталогах с калиброванными "
+        "параметрами, что совпадает с наблюдаемым числом 27\u00a0\u2014 детектор не "
+        "специфичен для глобальных серий, он отражает фоновую структуру каталога. "
+        "Гипотеза о существовании глобальных сейсмических серий <b>не подтверждается</b> "
+        "(см. \u00a75.5). Перестановочный тест отвергает "
+        "лишь пуассоновскую нулевую гипотезу \u2014 тривиально для сейсмических каталогов.",
         s["body"]
     ))
     conclusions = [

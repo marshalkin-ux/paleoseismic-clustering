@@ -4,7 +4,7 @@
 [![GitHub Pages](https://img.shields.io/badge/demo-GitHub%20Pages-58a6ff)](https://marshalkin-ux.github.io/paleoseismic-clustering/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-green.svg)](https://www.python.org/)
 
-**Negative (null/falsification) result:** catalog-calibrated **ETAS** reproduces **N_obs=27** detector episodes (**mean=27.0, p_ETAS=1.0**, FPR 1000/1000) — **no excess global structure** beyond ETAS-like local clustering. Permutation test rejects **temporal Poisson null** (p=0.0001, 1/10,001) — trivial for catalogs with aftershocks; **not** evidence for teleseismic triggering. **47 algorithmic candidates** (not “discovered series”).
+**Negative (null/falsification) result:** catalog-calibrated **ETAS** validation shows detector candidates are **indistinguishable from background activity** (**mean=27.0, p_ETAS=1.0**, matching N_obs=27) — the detector reflects catalog background structure, not excess global series. Permutation test rejects **temporal Poisson null** (p=0.0001, 1/10,001) — trivial for catalogs with aftershocks; **not** evidence for teleseismic triggering. **47 algorithmic candidates** (not “discovered series”); limitations — §5.5.
 
 > **Живая демонстрация:** [marshalkin-ux.github.io/paleoseismic-clustering](https://marshalkin-ux.github.io/paleoseismic-clustering/)  
 > **Научная статья (PDF):** [RU](paper/article_ru.pdf) · [EN](paper/article_en.pdf)  
@@ -21,7 +21,7 @@
 | Каталог | **4267** событий M≥6.5 (4418 записей CSV; USGS + ISC + NOAA) |
 | Кандидаты детектора | **47** merged (27 modern; **не** физически доказанные «серии») |
 | Permutation (Poisson times) | n = 10 000, **p = 0.0001 (1/10 001)**, z = −6.17 — **≠** global-series proof |
-| ETAS-null (калибр.) | n = 1000 → **mean 27.0, p_ETAS=1.0**, FPR 1000/1000 |
+| ETAS-null (калибр.) | n = 1000 → **mean 27.0, p_ETAS=1.0** (совпадает с N_obs=27; FPR — §5.6) |
 | Multiseed ETAS | seeds **42–51** (10 seeds), n=1000/seed, **mean=27.0, σ=0.0**, FPR=1.0 (`results/etas_multiseed.json`) |
 | Декластеризация | **GK primary** (24 афтерш.); ZBZ sensitivity only (1 завис.) — не равноправные методы |
 | Эвристика с тект. подсказкой | **98%** GC-фолбэк 1.5× — **failed hypothesis**, not innovation |
@@ -32,7 +32,7 @@
 
 Проект **проверяет и опровергает** гипотезу о физически значимых **мультирегиональных «глобальных сериях»** в каталоге M≥6.5 (1973–2026 — основное окно).
 
-**Вывод:** применение калиброванной ETAS показывает, что число мультирегиональных кластеров детектора **не превышает** ожидаемого от локальной афтершоковой активности; гипотеза о глобальных сейсмических сериях **не подтверждается**. Permutation отвергает лишь пуассоновский null — тривиально для сейсмических каталогов.
+**Вывод:** детектор находит в среднем 27,0 кандидатов в ETAS-каталогах с калиброванными параметрами, что совпадает с наблюдаемым числом 27 — детектор не специфичен для глобальных серий, он отражает фоновую структуру каталога; гипотеза о глобальных сейсмических сериях **не подтверждается** (§5.5). Permutation отвергает лишь пуассоновский null — тривиально для сейсмических каталогов.
 
 **Методы (без marketing):** η Baiesi–Paczuski; эвристическая метрика с тектонической подсказкой Bird 2003 (98% ≈ scaled Euclidean); permutation test; ETAS validation; BH post-hoc (Methods §3.5 only).
 

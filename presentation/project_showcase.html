@@ -1386,7 +1386,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern, p=0.0001 perm.). Экстраполяция на ранний инструментальный период 1900–1972.
+      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern); однако ETAS-валидация (p<sub>ETAS</sub>=1,0) показывает, что кандидаты неотличимы от фоновой активности. Детектор находит mean=27,0 на ETAS-null — совпадает с N<sub>obs</sub>=27 (§5.5). Экстраполяция на 1900–1972.
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -1404,11 +1404,11 @@
       </div>
       <div class="counter-card fade-in">
         <div class="counter-number" data-target="47" data-suffix="">0</div>
-        <div class="counter-label">глобальных серий (3 эпохи)</div>
+        <div class="counter-label">кандидатов детектора (3 эпохи)</div>
       </div>
       <div class="counter-card fade-in">
-        <div class="counter-number" data-target="" data-literal="p = 0.0001 (1/10,001)">p = 0.0001 (1/10,001)</div>
-        <div class="counter-label">уровень значимости (n=10 000)</div>
+        <div class="counter-number" data-target="" data-literal="p_ETAS = 1,0">p<sub>ETAS</sub> = 1,0</div>
+        <div class="counter-label">ETAS-null (mean=27,0 = N<sub>obs</sub>)</div>
       </div>
     </div>
 
@@ -1745,7 +1745,7 @@
         <span class="card-icon">🤖</span>
         <h3 style="color:var(--accent);">Уровень 2 — ETAS-валидация</h3>
         <p style="margin-bottom:14px; color:var(--text-muted);">
-          Нулевая модель: <strong style="color:var(--text-dim);"><span class="term-tip">ETAS<span class="term-tip-box">Epidemic-type aftershock sequence — модель локальных афтершоков без дальних (&gt;500&nbsp;км) связей. 1000 синтетических каталогов; FPR=1000/1000; калибр. null mean=27,0, p<sub>ETAS</sub>=1,0.<a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> без дальних межрегиональных связей</strong>
+          Нулевая модель: <strong style="color:var(--text-dim);"><span class="term-tip">ETAS<span class="term-tip-box">Epidemic-type aftershock sequence — модель локальных афтершоков без дальних (&gt;500&nbsp;км) связей. 1000 синтетических каталогов; калибр. null mean=27,0, p<sub>ETAS</sub>=1,0.<a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> без дальних межрегиональных связей</strong>
         </p>
         <ul style="list-style:none; padding:0; font-size:0.9rem;">
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
@@ -1784,7 +1784,7 @@
           </table>
         </div>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">p<sub>ETAS</sub>=1,0</strong> (калибр.) &nbsp;|&nbsp; FPR=1000/1000 — см. §5.6 «Либеральность детектора»; σ=0,0 потому что калибр. ETAS (~2001 фоновых соб./кат.) даёт детерминированные 27 ложных серий; permutation p=0.0001 сохраняется.
+          <strong style="color:var(--accent);">p<sub>ETAS</sub>=1,0</strong> (калибр.) — детектор находит mean=27,0 на ETAS-null, совпадает с N<sub>obs</sub>=27; см. §5.5–5.6; σ=0,0 потому что калибр. ETAS (~2001 фоновых соб./кат.) даёт детерминированные 27 ложных серий; permutation p=0.0001 сохраняется.
         </div>
       </div>
 
@@ -1940,8 +1940,8 @@
             <li><strong>4267</strong> событий M≥6.5; <strong>2041</strong> в окне 1973–2026</li>
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
             <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
-            <li><strong>ETAS (калибр.):</strong> mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong>, N<sub>obs</sub>=27, FPR 1000/1000 — <strong>нет избыточной глобальной структуры</strong></li>
-            <li><strong>Либеральность детектора (§5.6):</strong> FPR=1000/1000; mean=27 на ETAS-null; 142 скользящих окна × merge — exploratory search, не «открытые серии»</li>
+            <li><strong>ETAS (калибр.):</strong> mean <strong>27.0</strong>, p<sub>ETAS</sub>=<strong>1.0</strong>, N<sub>obs</sub>=27 — детектор не специфичен для глобальных серий, отражает фоновую структуру каталога (§5.5)</li>
+            <li><strong>Либеральность детектора (§5.6):</strong> mean=27 на ETAS-null; 142 скользящих окна × merge — exploratory search, не «открытые серии»</li>
             <li><strong>Multiseed ETAS</strong> (seeds 42–51, n=1000/seed): mean=27.0, σ=0.0, FPR=1.0 (<code>results/etas_multiseed.json</code>)</li>
             <li>Эвристика с тект. подсказкой: <strong>98%</strong> GC-фолбэк — отрицательный тест гипотезы</li>
           </ul>
@@ -1957,9 +1957,8 @@
         <div class="findings-block findings-block--honest">
           <h4>Единый вывод (null/falsification)</h4>
           <p>
-            Применение калиброванной ETAS-модели показывает, что число мультирегиональных кластеров, обнаруживаемых детектором (§5.6),
-            <strong>не превышает</strong> ожидаемого от локальной афтершоковой активности. Таким образом,
-            <strong>гипотеза о существовании глобальных сейсмических серий не подтверждается</strong>.
+            Детектор находит в среднем 27,0 кандидатов в ETAS-каталогах с калиброванными параметрами, что совпадает с наблюдаемым числом 27 — детектор не специфичен для глобальных серий, он отражает фоновую структуру каталога (§5.5).
+            <strong>Гипотеза о существовании глобальных сейсмических серий не подтверждается</strong>.
             Перестановочный тест отвергает лишь пуассоновскую нулевую гипотезу — тривиально для сейсмических каталогов.
             ΔCFS/динамический стресс — <strong>future work</strong>; «серии» — алгоритмические конструкты.
           </p>
@@ -2282,8 +2281,8 @@
     <h3 style="color:#3fb950; margin-bottom:0.5rem;">ETAS-валидация — главный null-результат</h3>
     <p class="viz-block-desc">
       Каталог-откалиброванный ETAS (μ≈0,103, K≈0,495, α≈0,063, c≈10⁻⁴ сут., p≈1,36; порог 500&nbsp;км):
-      multiseed seeds 42–51, n=1000/seed → mean=27,0, σ=0,0, FPR=1000/1000, p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) —
-      <strong>неотличимо от локального ETAS-null; избыточной «глобальной» структуры нет.</strong>
+      multiseed seeds 42–51, n=1000/seed → mean=27,0, σ=0,0, p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) —
+      <strong>детектор не специфичен для глобальных серий; отражает фоновую структуру каталога (§5.5–5.6).</strong>
       Permutation p=0.0001 (1/10,001) отвергает <em>пуассоновские времена</em>, не телесейсмические «серии».
     </p>
     <img src="../figures/grl/fig02_etas_validation.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="ETAS null-model validation">
@@ -2420,10 +2419,9 @@
   <div style="margin-bottom: 2rem;">
     <h3 style="color:#79c0ff; margin-bottom:0.5rem;">Временна́я шкала серии S170</h3>
     <p style="color:#8b949e; margin-bottom:1rem; line-height:1.7;">
-      Крупнейшая из найденных глобальных серий: 46 событий в 12 регионах планеты
-      с 2002 по 2023 год. Центральное событие — катастрофическое Суматранское
-      землетрясение 2004 года (M9.1). До и после него — серия мощных толчков
-      на разных концах Земли.
+      Крупнейший <strong>описательный кандидат</strong> детектора (S170): 46 событий в 12 регионах
+      с 2002 по 2023 год — <em>не</em> доказанная глобальная серия. Центральное событие —
+      Суматра 2004 (M9.1); корреляция ≠ причинность.
     </p>
     <div class="viz-figure-wrap">
       <img src="../figures/viz6_series_s170.png" alt="Серия S170">
@@ -2542,7 +2540,7 @@
           <pre style="margin:0;color:#3fb950;font-size:12px;line-height:1.8;">python scripts/run_etas_validation.py
 <span style="color:#8b949e;"># → Загружено событий: 4418
 # → Запуск ETAS-валидации (1000 каталогов)...
-# → Реальных глобальных серий:  27 (совр. окно)
+# → Кандидатов детектора (совр. окно):  27
 # → В ETAS-каталогах (среднее): 27.00 ± 0.00  (калибр. null)
 # → FPR (>=1 ложной серии):       1000/1000
 # → p-value (ETAS):               1.0000 (калибр.; лит. μ=0.008 → ≤ 0.001)
