@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Глобальные сейсмические серии — M≥6.5, 1973–2026 | Ярослав Маршалкин</title>
-  <meta name="description" content="47 значимых глобальных серий · 2041 событие M≥6.5 (1973–2026) · ETAS FPR 1000/1000 (N_obs=27), FDR 45/47, Monte Carlo p≤0.0001. Каталог NOAA охватывает 2150 BCE–2026; анализ значимости на 1973+.">
+  <meta name="description" content="47 глобальных серий (45/47 FDR; 27 modern p≤0.0001) · 2041 событие M≥6.5 (1973–2026) · ETAS FPR 1000/1000 (N_obs=27), Monte Carlo p≤0.0001. Каталог NOAA (исторические + инструментальные записи); анализ значимости на 1973+.">
   <meta name="keywords" content="глобальные сейсмические серии, earthquake clustering, seismic triggering, дальнодействующий триггеринг, Baiesi-Paczuski, тектоническое расстояние, ETAS validation, FDR Benjamini-Hochberg, Monte Carlo, paleoseismic, землетрясения M6.5">
   <meta name="author" content="Ярослав Маршалкин">
   <link rel="canonical" href="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
   <meta property="og:title" content="Глобальные сейсмические серии — 1973–2026">
-  <meta property="og:description" content="47 значимых глобальных серий · 2041 современных событий M≥6.5 (1973–2026) · интерактивная карта · научная статья PDF">
+  <meta property="og:description" content="47 глобальных серий (45/47 FDR) · 2041 событий M≥6.5 (1973–2026) · интерактивная карта · научная статья PDF">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
   <meta property="og:locale" content="ru_RU">
@@ -55,30 +55,71 @@
     section { padding: 80px 0; }
     .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-    /* ===== TOOLTIPS ===== */
-    .term {
+    /* ===== TERM TOOLTIPS (.term-tip + legacy .term) ===== */
+    .term-tip, .term {
       border-bottom: 1px dashed var(--accent);
       color: #79c0ff;
       cursor: help;
       position: relative;
+      display: inline;
     }
-    .term::after {
-      content: attr(data-tooltip);
+    .term-tip-box {
       position: absolute;
-      bottom: 125%;
+      bottom: calc(100% + 8px);
       left: 50%;
       transform: translateX(-50%);
       background: #1c2128;
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 10px 14px;
-      width: 280px;
+      width: min(300px, 85vw);
       font-size: 13px;
       line-height: 1.5;
       color: var(--text-dim);
       opacity: 0;
+      visibility: hidden;
       pointer-events: none;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s, visibility 0.2s;
+      z-index: 1000;
+      text-align: left;
+      font-style: normal;
+      font-family: var(--body-font);
+      font-weight: 400;
+      white-space: normal;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+    .term-tip:hover .term-tip-box,
+    .term-tip:focus-within .term-tip-box {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .term-tip-wiki {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--accent);
+      border-bottom: 1px dotted rgba(88,166,255,0.4);
+    }
+    .term-tip-wiki:hover { border-bottom-color: var(--accent); opacity: 1; }
+    .term::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1c2128;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      width: min(280px, 85vw);
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-dim);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.2s, visibility 0.2s;
       z-index: 1000;
       text-align: left;
       font-style: normal;
@@ -86,8 +127,12 @@
       font-family: var(--body-font);
       font-weight: 400;
       white-space: normal;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
     }
-    .term:hover::after { opacity: 1; }
+    .term:hover::after, .term:focus::after {
+      opacity: 1;
+      visibility: visible;
+    }
 
     /* ===== STICKY NAV ===== */
     nav {
@@ -1097,7 +1142,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 в современном окне 1973–2026: 2041 событие, 47 глобальных серий. Каталог NOAA охватывает 2150&nbsp;BCE–2026 (4267 уникальных M≥6.5); анализ значимости на 1973+.
+      Статистический анализ M&nbsp;≥&nbsp;6.5 в современном окне 1973–2026: 2041 событие, 47 глобальных серий. Каталог NOAA (исторические + инструментальные записи). Полный merged CSV — 4418 строк; анализ M≥6.5: 4267.
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -1143,7 +1188,7 @@
         Ежегодно на Земле происходит около 150 крупных землетрясений силой 6.5 баллов и выше. Иногда после одного сильного толчка в разных уголках планеты — на расстоянии тысяч километров — начинается серия других. Это случайность или закономерность?
       </p>
       <p style="color:#c9d1d9; line-height:1.8; font-size:1.05rem;">
-        После гигантского землетрясения у берегов <a href="https://ru.wikipedia.org/wiki/Землетрясение_в_Индийском_океане_(2004)" target="_blank" class="wiki-link">Суматры в 2004 году</a> (M9.1, более 230 000 погибших) сейсмологи заметили необычное: в течение следующих двух лет произошло несколько других катастрофических землетрясений в разных частях планеты. Совпадение?
+        После гигантского землетрясения у берегов <a href="https://ru.wikipedia.org/wiki/Землетрясение_в_Индийском_океане_(2004)" target="_blank" class="wiki-link">Суматры в 2004 году</a> (M9.1, более 230 000 погибших) сейсмологи заметили необычное: в течение следующих двух лет произошло несколько других крупных землетрясений в разных частях планеты. Совпадение или корреляция? <em>Это исследование проверяет статистическую связность, а не причинный триггеринг.</em>
       </p>
       <p style="color:#c9d1d9; line-height:1.8; font-size:1.05rem;">
         Это исследование пытается дать строгий статистический ответ: существуют ли глобальные серии землетрясений — случаи, когда крупные толчки в разных частях света связаны между собой?
@@ -1171,9 +1216,9 @@
           <span style="color:var(--text-muted)">→</span> серия 2005–2007
         </h3>
         <p>
-          После катастрофы у берегов Суматры последовали землетрясения
+          После катастрофы у берегов Суматры последовали крупные землетрясения
           в Пакистане (M7.6, 2005), на Курилах (M8.3, 2006) и в Перу (M8.0, 2007).
-          Все — в совершенно разных тектонических регионах.
+          Все — в разных тектонических регионах; совместное появление в одной серии (S170) — статистическая корреляция, не доказанный механизм.
         </p>
       </div>
       <div class="example-card fade-in">
@@ -1242,7 +1287,7 @@
         </div>
         <ul class="data-meta">
           <li><span class="label">Что это:</span> <a href="https://ru.wikipedia.org/wiki/Национальное_управление_океанических_и_атмосферных_исследований" class="wiki-link" target="_blank" rel="noopener">NOAA</a> США — исторический каталог с летописными свидетельствами</li>
-          <li><span class="label">Период:</span> 2150 BCE – 2026 (исторический охват каталога; анализ значимости на 1973+)</li>
+          <li><span class="label">Период:</span> исторические + инструментальные записи (редкие до 1900 г.; анализ значимости на 1973+)</li>
           <li><span class="label">Охват:</span> ~6000 значимых событий, ~200 M≥6.5 в анализ</li>
           <li><span class="label">Погрешность:</span> ±50–200 км (до 1900), ±10–50 лет дат</li>
           <li><span class="label">quality_score:</span>
@@ -1317,7 +1362,7 @@
         <p class="timeline-desc">
           Одно и то же землетрясение часто встречается в нескольких каталогах.
           Дедупликация: ±30 сут., ≤50 км. Исключены ~151 строк NOAA с M&lt;6.5 (провенанс в CSV).
-          Итог: <strong>2041 событие M≥6.5</strong> в окне 1973–2026 (4267 уникальных M≥6.5 в полном каталоге NOAA 2150 BCE–2026).
+          Итог: <strong>2041 событие M≥6.5</strong> в окне 1973–2026 (4267 уникальных M≥6.5 в полном merged CSV 4418 строк).
         </p>
       </div>
 
@@ -1330,9 +1375,9 @@
           Вычисляем
           <span class="term" data-tooltip="Минимальная магнитуда, ниже которой каталог неполный: в нашем случае Mc=6.55. Мы анализируем только события выше этого порога">Mc (magnitude of completeness)</span> = 6.55
           и
-          <span class="term" data-tooltip="Наклон кривой Гутенберга-Рихтера. Для нашего каталога b=0.911 — стандартное значение, подтверждающее качество данных">b-value</span> = 0.911.
+          <span class="term" data-tooltip="Наклон кривой Gutenberg–Richter. Для нашего каталога b=0.911; в формуле η используется b=1.0 (конвенция Baiesi–Paczuski 2004)">b-value</span> = 0.911.
           Закон
-          <span class="term" data-tooltip="Закон, открытый в 1954 году: количество землетрясений уменьшается экспоненциально с ростом магнитуды. На каждое событие M7 приходится ~10 событий M6 и ~100 событий M5">Гутенберга-Рихтера</span>
+          <span class="term-tip">Gutenberg–Richter<span class="term-tip-box">Эмпирическая зависимость частоты землетрясений от магнитуды; соблюдается выше Mc=6.55.<a href="https://ru.wikipedia.org/wiki/Закон_Гутенберга_—_Рихтера" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>
           соблюдается — каталог пригоден для анализа.
         </p>
       </div>
@@ -1345,11 +1390,11 @@
           На основе карты плит
           <span class="term" data-tooltip="Геофизик Питер Бёрд в 2003 году составил подробную карту 52 литосферных плит и их границ — мы используем её как «дорожную карту» для расчёта расстояний">Bird (2003)</span>
           строим «сеть дорог» для сейсмической энергии.
-          <span class="term" data-tooltip="Кратчайший путь по графу Bird (2003) (Dijkstra). Если гипоцентр &gt;500 км от границы плиты или пути нет — r = 1.5 × расстояние по дуге большого круга">Тектоническое расстояние</span>
+          <span class="term-tip">Тектоническое расстояние<span class="term-tip-box">Кратчайший путь по графу границ плит Bird (2003) (Dijkstra). Если гипоцентр &gt;500&nbsp;км от границы или пути нет — r = 1,5 × дуга большого круга. Аудит: <strong>98% пар — GC-фолбэк</strong>, только ~2% — реальный Dijkstra.<a href="https://en.wikipedia.org/wiki/Plate_tectonics" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia: plate tectonics ↗</a></span></span>
           между точками измеряется вдоль разломов (граф Bird 2003, Dijkstra).
           При удалении &gt;500 км от границы или отсутствии пути: r = 1.5 × дуга большого круга.
-          <em>Ограничение:</em> это приближение; полная валидация и sweep параметров — будущая работа.
-          Качественно: ~0.3 log₁₀ η улучшение vs haversine для межплитных связей.
+          <em>Ограничение:</em> для подавляющего большинства пар метрика сводится к фиксированному штрафу 1,5× GC; полный sweep параметров — будущая работа.
+          Диагностика: медиана Δlog₁₀η = +0,28 на случайных парах — согласуется с доминированием GC-фолбэка (1,6 log₁₀ 1,5 ≈ 0,28).
         </p>
       </div>
 
@@ -1359,12 +1404,12 @@
         <div class="timeline-title"><span class="timeline-emoji">🔍</span>Вычисление метрики η для всех пар</div>
         <p class="timeline-desc">
           Для каждой пары событий (A, B) вычисляем
-          <span class="term" data-tooltip="Формула: η = t × r^1.6 × 10^(−b×M), b=1.0, M — магнитуда родительского события. η — относительная мера; порог η₀ из распределения ближайших соседей (KDE, Zaliapin &amp; Ben-Zion 2013)">η (эта) метрику</span>
+          <span class="term-tip">η (эта) метрика<span class="term-tip-box">Формула Baiesi–Paczuski: η = t × r^1.6 × 10^(−b×M), b=1.0. Меньше η — теснее связь. Порог η₀ — из распределения ближайших соседей (KDE).<a href="https://en.wikipedia.org/wiki/Earthquake_clustering" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia: earthquake clustering ↗</a></span></span>
           по методу
-          <span class="term" data-tooltip="Физики Марко Байеси и Мухиду Пачуски, разработавшие в 2004 году метрику для измерения «близости» землетрясений с учётом времени, расстояния и магнитуды">Baiesi &amp; Paczuski (2004)</span>.
+          <span class="term-tip">Baiesi &amp; Paczuski (2004)<span class="term-tip-box">Метрика близости событий с учётом времени, расстояния и магнитуды родителя.<a href="https://en.wikipedia.org/wiki/Earthquake_clustering" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>.
           Это аналог «расстояния» между событиями, учитывающего время, пространство и магнитуду одновременно.
           Предварительно каталог «очищается» методом
-          <span class="term" data-tooltip="Метод «очистки» каталога от афтершоков (повторных толчков после главного). Разработан в 1974 году. Нужен чтобы не путать локальные серии с глобальными">декластеризации Gardner–Knopoff</span>.
+          <span class="term-tip">декластеризации Gardner–Knopoff<span class="term-tip-box">GK (1974) — основной метод: ~24 афтершока из 2041. ZBZ — только проверка чувствительности (1 зависимое).<a href="https://en.wikipedia.org/wiki/Aftershock" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia: aftershock ↗</a></span></span>.
         </p>
       </div>
 
@@ -1375,9 +1420,8 @@
         <p class="timeline-desc">
           Связываем события в «цепочки» по малым значениям η. Для каждой цепочки проверяем,
           охватывает ли она разные регионы планеты по системе
-          <span class="term" data-tooltip="Глобальная система разбивки Земли на 50 сейсмогеографических зон, разработанная в 1960-х. Примерно как деление на «страны» для землетрясений — позволяет проверить, охватывает ли серия несколько разных регионов">Флинна–Энгдала</span>.
-          Критерий «глобальности»: серия охватывает ≥ 3 разных
-          <span class="term" data-tooltip="Условных географических регионов. Мы требуем чтобы серия охватывала ≥3 таких региона — это критерий «глобальности»">зон Флинна-Энгдала</span>.
+          <span class="term-tip">Флинна–Энгдала<span class="term-tip-box">50 сейсмогеографических зон Земли; критерий «глобальности» серии — ≥3 разных зон FE.<a href="https://en.wikipedia.org/wiki/Flinn%E2%80%93Engdahl_regions" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>.
+          Критерий «глобальности»: серия охватывает ≥ 3 разных зон FE.
         </p>
       </div>
 
@@ -1387,11 +1431,11 @@
         <div class="timeline-title"><span class="timeline-emoji">🎲</span><a href="https://ru.wikipedia.org/wiki/Метод_Монте-Карло" class="wiki-link" target="_blank" rel="noopener">Monte Carlo</a> тест (10 000 перестановок)</div>
         <p class="timeline-desc">
           Ключевой вопрос: а вдруг такие же серии возникают и в случайных данных?
-          <span class="term" data-tooltip="Статистический метод: мы 10 000 раз случайно перемешали даты всех землетрясений и проверили — а вдруг такие же группировки появляются и в случайных данных? Если нет — наши серии не случайны">Monte Carlo валидация</span>:
+          <span class="term-tip">Monte Carlo валидация<span class="term-tip-box">10 000 перестановок временных меток (координаты фиксированы) — проверка против нулевой гипотезы случайного распределения.<a href="https://en.wikipedia.org/wiki/Permutation_test" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia: permutation test ↗</a></span></span>:
           10 000 раз случайно перемешиваем даты всех событий (координаты сохраняем) и
           повторяем анализ. Если наши реальные серии — случайность, они должны встречаться
           и в перемешанных данных. Результат:
-          <span class="term" data-tooltip="p < 0.0001 означает: если бы землетрясения происходили случайно, вероятность получить такую же группировку составила бы менее 1 из 10 000">p ≤ 0.0001</span>,
+          <span class="term" data-tooltip="p ≤ 0.0001 — минимальное достижимое p при n=10 000 (1/(n+1)); вероятность получить такую группировку случайно ≤ 1 из 10 000">p ≤ 0.0001</span>,
           <span class="term" data-tooltip="Наблюдаемое значение отстоит от случайного на 6.17 стандартных отклонений — это примерно как бросить монету и получить 20 орлов подряд">z = −6.17</span>.
         </p>
         <p style="color:#8b949e; font-size:0.9rem; margin-top:0.5rem; padding:0.75rem; background:#0d1117; border-radius:6px; border-left:3px solid #58a6ff;">
@@ -1405,9 +1449,9 @@
         <div class="timeline-title"><span class="timeline-emoji">✅</span><a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="wiki-link" target="_blank" rel="noopener">FDR</a>-коррекция на множественные сравнения</div>
         <p class="timeline-desc">
           При поиске закономерностей в большом числе пар легко получить «ложные срабатывания».
-          Метод <a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="wiki-link" target="_blank" rel="noopener">False Discovery Rate (FDR)</a> — статистическая «коррекция» на количество проверяемых гипотез.
-          После коррекции выживают только те 47 серий (в трёх эпохах), которые достаточно значимы с учётом
-          всей множественности проведённых тестов.
+          Метод <span class="term-tip">FDR Benjamini–Hochberg<span class="term-tip-box">Коррекция на множественное тестирование: N=47 гипотез (объединённые серии), не 142 окна-кандидата. Результат: 45/47 значимы при q=0.05.<a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> — статистическая «коррекция» на количество проверяемых гипотез.
+          Скользящие окна дают <strong>142 кандидата</strong> до merge; после критериев серии — <strong>47 гипотез</strong>.
+          После коррекции BH: <strong>45 из 47</strong> серий значимы (2 исторических кандидата не проходят порог).
         </p>
       </div>
 
@@ -1433,7 +1477,7 @@
         <span class="card-icon">🎲</span>
         <h3 style="color:var(--green);">Уровень 1 — Пермутационный тест</h3>
         <p style="margin-bottom:14px; color:var(--text-muted);">
-          Нулевая модель: <strong style="color:var(--text-dim);">независимый пуассоновский процесс</strong>
+          Нулевая модель: <strong style="color:var(--text-dim);">независимый <span class="term-tip">пуассоновский процесс<span class="term-tip-box">Модель случайных независимых событий во времени; перестановочный тест проверяет, превышает ли η-кластеризация такой нуль.<a href="https://ru.wikipedia.org/wiki/Пуассоновский_процесс" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span></strong>
         </p>
         <ul style="list-style:none; padding:0; font-size:0.9rem;">
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
@@ -1455,14 +1499,14 @@
         <span class="card-icon">🤖</span>
         <h3 style="color:var(--accent);">Уровень 2 — ETAS-валидация</h3>
         <p style="margin-bottom:14px; color:var(--text-muted);">
-          Нулевая модель: <strong style="color:var(--text-dim);">ETAS без дальних межрегиональных связей</strong>
+          Нулевая модель: <strong style="color:var(--text-dim);"><span class="term-tip">ETAS<span class="term-tip-box">Epidemic-type aftershock sequence — модель локальных афтершоков без дальних (&gt;500&nbsp;км) связей. 1000 синтетических каталогов; FPR=1000/1000; N_obs=27 &gt; max 24.<a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> без дальних межрегиональных связей</strong>
         </p>
         <ul style="list-style:none; padding:0; font-size:0.9rem;">
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
             <span style="color:var(--accent); font-weight:600;">1000 синтетических ETAS-каталогов</span> (μ=0.008, K=0.08, α=1.0, c=0.005 сут., p=1.1; порог 500 км; seed=42)
           </li>
           <li style="padding:5px 0; border-bottom:1px solid var(--border); color:var(--text-muted);">
-            Ветвящийся пуассоновский процесс; FPR = доля каталогов с ≥1 ложной серией
+            <span class="term-tip">Ветвящийся пуассоновский процесс<span class="term-tip-box">ETAS — стохастическая модель, где каждое событие может порождать «дочерние» (афтершоки). FPR = доля синтетических каталогов с ≥1 ложной серией.<a href="https://ru.wikipedia.org/wiki/Пуассоновский_процесс" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>; FPR = доля каталогов с ≥1 ложной серией
           </li>
           <li style="padding:5px 0; color:var(--green); font-weight:600;">
             ✅ Выполнено · 1000 каталогов · mean 15.4 ложных серий
@@ -1516,14 +1560,14 @@
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.1 Временно́е окно</td>
               <td style="padding:10px 14px; color:var(--text-muted);">T<sub>w</sub></td>
               <td style="padding:10px 14px; color:var(--text-muted);">0.5–5 лет</td>
-              <td style="padding:10px 14px; color:var(--green);">22–31 серий; p&lt;0.001 везде</td>
+              <td style="padding:10px 14px; color:var(--green);">22–31 серий; p ≤ 0.001 везде</td>
               <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Стабильно</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.2 Тектон. расстояние</td>
               <td style="padding:10px 14px; color:var(--text-muted);">500 км / 1.5× GC</td>
               <td style="padding:10px 14px; color:var(--text-muted);">—</td>
-              <td style="padding:10px 14px; color:var(--yellow);">Sweep не выполнялся; ~0.3 log₁₀ η vs haversine (качественно)</td>
+              <td style="padding:10px 14px; color:var(--yellow);">Sweep не выполнялся; 98% GC-фолбэк, 2% Dijkstra; Δlog₁₀η ≈ +0,28</td>
               <td style="padding:10px 14px;"><span style="background:rgba(210,153,34,0.15); color:var(--yellow); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">○ Будущая работа</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
@@ -1537,13 +1581,13 @@
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">3.4 Порог магнитуды</td>
               <td style="padding:10px 14px; color:var(--text-muted);">M<sub>min</sub></td>
               <td style="padding:10px 14px; color:var(--text-muted);">M≥6.5 → M≥7.0</td>
-              <td style="padding:10px 14px; color:var(--green);">18 серий совр.; p&lt;0.0001</td>
+              <td style="padding:10px 14px; color:var(--green);">18 серий совр.; p ≤ 0.0001</td>
               <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Подтверждено</span></td>
             </tr>
             <tr style="border-bottom:1px solid var(--border);">
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">ETAS-нулевая модель</td>
               <td style="padding:10px 14px; color:var(--text-muted);">p<sub>ETAS</sub></td>
-              <td style="padding:10px 14px; color:var(--text-muted);">100 синт. каталогов</td>
+              <td style="padding:10px 14px; color:var(--text-muted);">1000 синт. каталогов</td>
               <td style="padding:10px 14px; color:var(--green);">FPR 1000/1000; mean 15.4; N_obs=27 &gt; max 24; p ≤ 0.001</td>
               <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Значимо</span></td>
             </tr>
@@ -1569,8 +1613,8 @@
         </p>
         <ul style="list-style:none; padding:0; font-size:0.88rem; color:var(--text-muted);">
           <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">Бимодальность log₁₀(η): левый пик = афтершоки, правый = фоновые</li>
-          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">Порог η₀ — минимум между пиками (адаптивный)</li>
-          <li style="padding:4px 0;">Удаляет ~30–50% событий (vs. 40–60% у Gardner–Knopoff)</li>
+          <li style="padding:4px 0; border-bottom:1px solid rgba(48,54,61,0.5);">В проверке чувствительности: 1 зависимое из 2041 (vs GK: 24 афтершока)</li>
+          <li style="padding:4px 0;">Не используется как основной или последовательный фильтр с GK</li>
         </ul>
       </div>
       <div class="card">
@@ -1609,7 +1653,7 @@
       </div>
       <div class="stat-card fade-in">
         <div class="stat-number green" data-target="142" data-suffix="">0</div>
-        <div class="stat-label">серий найдено алгоритмом</div>
+        <div class="stat-label">кандидатов окна до merge</div>
       </div>
       <div class="stat-card fade-in">
         <div class="stat-number purple" data-target="47" data-suffix="">0</div>
@@ -1697,7 +1741,7 @@
             <td style="padding:10px; text-align:center; color:#e6edf3;">12</td>
             <td style="padding:10px; text-align:center; color:#ff7b72;">9.1</td>
             <td style="padding:10px; color:#8b949e;">2002–2023</td>
-            <td style="padding:10px; color:#8b949e;">Суматра 2004, 18 100 км охвата</td>
+            <td style="padding:10px; color:#8b949e;">вкл. Суматру 2004 (корреляция ≠ триггеринг); 18 100 км охвата</td>
           </tr>
           <tr style="border-bottom:1px solid #21262d; background:#161b22;">
             <td style="padding:10px; color:#ffd68a; font-weight:600;">856–887 CE</td>
@@ -1710,7 +1754,7 @@
         </tbody>
       </table>
       <p style="font-size:0.85rem; color:var(--text-muted); margin-top:12px;">
-        Топ-5 серий по охвату и числу событий. Современное окно 1973–2026: 2041 событие; 47 серий в трёх временны́х окнах (полный каталог NOAA: 2150 BCE–2026).
+        Топ-5 серий по охвату и числу событий. Современное окно 1973–2026: 2041 событие; 47 серий в трёх временны́х окнах (полный merged CSV: 4418 строк, M≥6.5: 4267).
       </p>
     </div>
 
@@ -1719,7 +1763,7 @@
       <p>
         Ни одна из <strong>10 000 случайных перестановок</strong> каталога не породила кластеризацию
         такой же силы, как наблюдаемая.
-        <strong>Глобальные сейсмические серии — не случайность.</strong>
+        <strong>Глобальные сейсмические серии в современном окне — статистически значимы (p ≤ 0.0001); причинный механизм не установлен.</strong>
       </p>
     </div>
   </div>
@@ -1728,13 +1772,13 @@
   <div class="meaning-block">
     <h3>Что это означает</h3>
     <p class="meaning-lead">
-      Анализ 2041 современного события M≥6.5 (1973–2026) выявил <strong>47 глобальных серий</strong> в трёх временны́х окнах (каталог NOAA: 2150 BCE–2026).
+      Анализ 2041 современного события M≥6.5 (1973–2026) выявил <strong>47 глобальных серий</strong> в трёх временны́х окнах (каталог NOAA: исторические + инструментальные записи).
       Вероятность случайного возникновения такой кластеризации в современном и раннем инструментальном периодах — ничтожно мала.
     </p>
     <div class="meaning-stats">
       <div class="meaning-stat">
         <div class="ms-val">27</div>
-        <div class="ms-label">серий, 1973–2026<br>p &lt; 0,0001</div>
+        <div class="ms-label">серий, 1973–2026<br>p ≤ 0,0001</div>
       </div>
       <div class="meaning-stat">
         <div class="ms-val">15</div>
@@ -1750,12 +1794,11 @@
       </div>
     </div>
     <div class="meaning-section">
-      <h4>Главный методологический вывод</h4>
+      <h4>Методологический контекст</h4>
       <p>
-        Отличие от предыдущих работ — <strong>тектоническое расстояние</strong> вместо евклидова.
-        «Близость» событий измеряется вдоль путей передачи сейсмической энергии (границ плит Bird 2003),
-        а не по прямой. Это выявляет связи, которые традиционные методы пропускают,
-        и отсекает ложные совпадения между регионами, разделёнными жёсткой литосферой.
+        Метрика η использует
+        <span class="term-tip">тектоническое расстояние<span class="term-tip-box">Bird (2003): Dijkstra только для ~2% пар у границ плит; для 98% — штраф 1,5× GC. Это диагностика связности, а не доказанное преимущество над евклидовой метрикой.<a href="https://en.wikipedia.org/wiki/Plate_tectonics" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>
+        вместо прямой «по карте». Обнаружение серий — <strong>статистическая аномалия</strong> (η-связи, p-values, FDR, ETAS), а не доказательство прямого триггеринга или физического механизма.
       </p>
     </div>
     <div class="meaning-section">
@@ -1868,7 +1911,7 @@
   <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
     <label style="color:#8b949e; font-size:0.85rem;">Период:</label>
     <select id="period-filter" style="background:#161b22;color:#c9d1d9;border:1px solid #30363d;border-radius:6px;padding:5px 10px;font-size:0.85rem;">
-      <option value="all">Все (полный каталог NOAA 2150 BCE – 2026)</option>
+      <option value="all">Все (полный каталог NOAA: исторические + инструментальные)</option>
       <option value="hist">До 1900</option>
       <option value="early">1900–1972</option>
       <option value="modern">1973–2026</option>
@@ -1946,9 +1989,9 @@
 
   <!-- Supplement: ΔCFS S170 (demoted) -->
   <div style="margin-bottom: 3rem; border:1px solid rgba(139,148,158,0.25); border-radius:12px; padding:1.5rem; background:rgba(139,148,158,0.05);">
-    <h3 style="color:#8b949e; margin-bottom:0.5rem;">Дополнение: ΔCFS / динамический стресс S170</h3>
+    <h3 style="color:#8b949e; margin-bottom:0.5rem;">Дополнение (Future Work): <span class="term-tip">ΔCFS<span class="term-tip-box">Coulomb failure stress change — изменение кулоновского напряжения; порог триггеринга ~0.01 МПа (Stein 1999). S170: значения promoting, но ≪ порога.<a href="https://en.wikipedia.org/wiki/Coulomb_stress_transfer" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span> / динамический стресс S170</h3>
     <p class="viz-block-desc">
-      Предварительные расчёты Coulomb/динамического стресса не достигли порогов триггеринга.
+      Предварительные расчёты Coulomb/динамического стресса (<span class="term-tip">Okada<span class="term-tip-box">Модель упругого полупространства для смещений на разломе; базовый инструмент расчёта ΔCFS.<a href="https://en.wikipedia.org/wiki/Okada_model" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>, elastic half-space) не достигли порогов триггеринга.
       Подробности: <code>results/cfs_s170_analysis.json</code>, <code>results/dynamic_stress_sumatra2004.json</code>.
     </p>
     <img src="../figures/grl/fig06_cfs_s170.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="Post-Sumatra static ΔCFS for S170">
@@ -2081,7 +2124,7 @@
  │  • Ищет глобальные серии (≥3 регионов)  │
  │  • Monte Carlo 10 000 × FDR-коррекция   │
  └──────────────────┬──────────────────────┘
-<span class="arch-arrow">                    ↓  47 значимых глобальных серий</span>
+<span class="arch-arrow">                    ↓  47 глобальных серий (45/47 FDR)</span>
  ┌─────────────────────────────────────────┐
  │  <span class="arch-box-title">✍️  АВТОР</span>                               │
  │  paper/  ·  presentation/  ·  figures/  │
@@ -2250,7 +2293,7 @@
         <div class="history-dot">9</div>
         <div class="history-date">27 июня 2026</div>
         <div class="history-title">Загрузка и объединение каталогов</div>
-        <div class="history-desc">Скрипт <code>scripts/download_full_catalog.py</code> скачал USGS (1900–2026), ISC и NOAA. Сохранено 4 418 CSV-строк в <code>data/processed/unified_catalog_full.csv</code> (~151 запись NOAA с M&lt;6.5 из выборки M≥6.0). После дедупликации — <strong>4 267 уникальных M≥6.5</strong> в каталоге NOAA (2150 BCE – 2026); анализ значимости на 2041 событии 1973+.</div>
+        <div class="history-desc">Скрипт <code>scripts/download_full_catalog.py</code> скачал USGS (1900–2026), ISC и NOAA. Сохранено 4 418 CSV-строк в <code>data/processed/unified_catalog_full.csv</code> (~151 запись NOAA с M&lt;6.5 из выборки M≥6.0). После дедупликации — <strong>4 267 уникальных M≥6.5</strong> в merged каталоге; анализ значимости на 2041 событии 1973+.</div>
       </div>
 
       <div class="history-item history-item--technical">
@@ -2379,7 +2422,7 @@
         <ul class="plan-list">
           <li>Статья PDF/MD в репозитории (<code style="font-size:12px;color:var(--accent)">paper/</code>)</li>
           <li>GitHub Pages демо · MIT-лицензия</li>
-          <li>Внешний DOI (Zenodo/Figshare/EarthArXiv) — <strong>отложено</strong>; <code>publication/</code> — инструмент на будущее</li>
+          <li>Внешний DOI (<span class="term-tip">Zenodo<span class="term-tip-box">Платформа открытого архивирования; депозит отложен — код и данные только на GitHub.<a href="https://en.wikipedia.org/wiki/Zenodo" class="term-tip-wiki" target="_blank" rel="noopener">Wikipedia ↗</a></span></span>/Figshare/EarthArXiv) — <strong>отложено</strong>; <code>publication/</code> — инструмент на будущее</li>
           <li>GRL/BSSA — после рецензирования черновика</li>
         </ul>
       </div>
