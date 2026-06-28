@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import unicodedata
 from pathlib import Path
 
 from reportlab.lib.colors import HexColor, white
@@ -149,6 +150,31 @@ def register_pdf_fonts() -> str:
     )
 
 
+def pdf_safe_text(s: str) -> str:
+    """Normalize text so ReportLab never falls back to Helvetica beside Cyrillic.
+
+    Modifier-letter subscripts (U+1D62 etc.) and combining stress marks (U+0301)
+    are absent from WinAnsi/Helvetica; mixed runs then render Cyrillic as mojibake.
+    """
+    s = unicodedata.normalize("NFC", s)
+    s = s.replace("\u0301", "")
+    _glyph_subs = [
+        ("t\u1d62\u2c7c", "t<sub>ij</sub>"),
+        ("r\u1d62\u2c7c", "r<sub>ij</sub>"),
+        ("m\u1d62", "m<sub>i</sub>"),
+        ("n\u209b\u1d62\u2098", "n<sub>sim</sub>"),
+        ("\u03b7\u2080", "&eta;<sub>0</sub>"),
+        ("log\u2081\u2080", "log<sub>10</sub>"),
+        ("\u0394log\u2081\u2080\u03b7", "&Delta;log<sub>10</sub>&eta;"),
+        ("H\u2080", "H<sub>0</sub>"),
+        ("M\u2090", "M<sub>c</sub>"),
+        ("\u207b\u2076", "<sup>-6</sup>"),
+    ]
+    for old, new in _glyph_subs:
+        s = s.replace(old, new)
+    return s
+
+
 def pdf_math_text(s: str) -> str:
     """ASCII-safe substitutions for formula boxes only (not body Cyrillic)."""
     _phrase_subs = [
@@ -285,7 +311,7 @@ def build_top5_table(
     wrap_style = styles.get("tbl_wrap", cell_style)
 
     data: list[list[Paragraph]] = [
-        [Paragraph(f"<b>{h}</b>", hdr_style) for h in headers]
+        [Paragraph(f"<b>{pdf_safe_text(h)}</b>", hdr_style) for h in headers]
     ]
     for series_id, n, reg, mmax, period, note_key in rows:
         lat = format_latlon_range(*_TOP5_LATLON[series_id])
@@ -302,7 +328,7 @@ def build_top5_table(
         ]
         data.append(
             [
-                Paragraph(c, cell_style if i < 7 else wrap_style)
+                Paragraph(pdf_safe_text(c), cell_style if i < 7 else wrap_style)
                 for i, c in enumerate(cells)
             ]
         )
@@ -332,6 +358,7 @@ def build_pdf_table(
     for ri, row in enumerate(rows):
         row_cells: list[Paragraph] = []
         for ci, text in enumerate(row):
+            text = pdf_safe_text(text)
             if ri == 0:
                 st = hdr_style
                 content = f"<b>{text}</b>"

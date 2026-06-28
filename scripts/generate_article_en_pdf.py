@@ -33,11 +33,15 @@ TM = BM = 2.5 * cm
 
 
 class FormulaBox(Flowable):
-    def __init__(self, text, width=None, height=2.0 * cm):
+    def __init__(self, text, style, width=None, height=2.0 * cm):
         super().__init__()
         self.text = text
+        self.style = style
         self.box_w = width or (PAGE_W - LM - RM)
         self.height = height
+
+    def wrap(self, availWidth, availHeight):
+        return self.box_w, self.height
 
     def draw(self):
         c = self.canv
@@ -45,9 +49,9 @@ class FormulaBox(Flowable):
         c.setStrokeColor(ACCENT)
         c.setLineWidth(1.2)
         c.roundRect(0, 0, self.box_w, self.height, 5, fill=1, stroke=1)
-        c.setFillColor(DARK)
-        c.setFont("MainBold", 13)
-        c.drawCentredString(self.box_w / 2, self.height / 2 - 5, pdf_math_text(self.text))
+        para = Paragraph(pdf_math_text(self.text), self.style)
+        pw, ph = para.wrap(self.box_w - 16, self.height)
+        para.drawOn(c, (self.box_w - pw) / 2, (self.height - ph) / 2)
 
 
 def on_page(canvas, doc):
@@ -107,6 +111,8 @@ def make_styles():
                                    textColor=white, alignment=TA_CENTER)
     s["tbl_cell"] = ParagraphStyle("tbl_cell", fontName="Main", fontSize=8, textColor=TEXT, wordWrap="CJK", leading=11)
     s["tbl_wrap"] = ParagraphStyle("tbl_wrap", fontName="Main", fontSize=7, textColor=TEXT, wordWrap="CJK", leading=10)
+    s["formula"] = ParagraphStyle("formula", fontName="MainBold", fontSize=13,
+                                    textColor=DARK, alignment=TA_CENTER, leading=16)
     return s
 
 
@@ -246,7 +252,7 @@ def build(s):
         s["body"]
     ))
     story.append(Spacer(1, 0.15 * cm))
-    story.append(FormulaBox("b = 0.911 \u00b1 0.018  (n = 1,688 events)", w))
+    story.append(FormulaBox("b = 0.911 \u00b1 0.018  (n = 1,688 events)", s["formula"], w))
     story.append(Spacer(1, 0.15 * cm))
 
     story += SSEC("2.2 Tectonic heuristic (deprecated)", s)
@@ -259,7 +265,8 @@ def build(s):
     story.append(Spacer(1, 0.15 * cm))
     story.append(FormulaBox(
         "eta_ij  =  t_ij  *  r_ij^1.6  *  10^(-b*mi)",
-        w
+        s["formula"],
+        w,
     ))
     story.append(Paragraph(
         "b=1.0 — deliberate Baiesi &amp; Paczuski (2004) simplification; catalog b=0.911\u00b10.018 "
