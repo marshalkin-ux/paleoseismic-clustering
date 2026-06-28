@@ -1,0 +1,242 @@
+{
+  "baseline": {
+    "time_window_years": 2.0,
+    "decluster": "gardner_knopoff",
+    "b_param": 1.0,
+    "n_series": 27,
+    "n_unique_events_in_series": 2017
+  },
+  "parameter_matrix": [
+    {
+      "label": "dt1_gardner_knopoff_b1",
+      "time_window_years": 1.0,
+      "decluster": "gardner_knopoff",
+      "b_param": 1.0,
+      "is_baseline": false,
+      "n_events_input": 2017,
+      "n_series": 53,
+      "n_unique_events_in_series": 2017,
+      "jaccard_series_vs_baseline": 0.0,
+      "jaccard_events_vs_baseline": 1.0
+    },
+    {
+      "label": "dt1_gardner_knopoff_b0.911",
+      "time_window_years": 1.0,
+      "decluster": "gardner_knopoff",
+      "b_param": 0.911,
+      "is_baseline": false,
+      "n_events_input": 2017,
+      "n_series": 53,
+      "n_unique_events_in_series": 2017,
+      "jaccard_series_vs_baseline": 0.0,
+      "jaccard_events_vs_baseline": 1.0
+    },
+    {
+      "label": "dt1_zaliapin_b1",
+      "time_window_years": 1.0,
+      "decluster": "zaliapin",
+      "b_param": 1.0,
+      "is_baseline": false,
+      "n_events_input": 2040,
+      "n_series": 53,
+      "n_unique_events_in_series": 2040,
+      "jaccard_series_vs_baseline": 0.0,
+      "jaccard_events_vs_baseline": 0.9887254901960785
+    },
+    {
+      "label": "dt1_none_b1",
+      "time_window_years": 1.0,
+      "decluster": "none",
+      "b_param": 1.0,
+      "is_baseline": false,
+      "n_events_input": 2041,
+      "n_series": 53,
+      "n_unique_events_in_series": 2041,
+      "jaccard_series_vs_baseline": 0.0,
+      "jaccard_events_vs_baseline": 0.9882410583047526
+    },
+    {
+      "label": "dt2_gardner_knopoff_b1",
+      "time_window_years": 2.0,
+      "decluster": "gardner_knopoff",
+      "b_param": 1.0,
+      "is_baseline": true,
+      "n_events_input": 2017,
+      "n_series": 27,
+      "n_unique_events_in_series": 2017,
+      "jaccard_series_vs_baseline": 1.0,
+      "jaccard_events_vs_baseline": 1.0
+    },
+    {
+      "label": "dt2_gardner_knopoff_b0.911",
+      "time_window_years": 2.0,
+      "decluster": "gardner_knopoff",
+      "b_param": 0.911,
+      "is_baseline": false,
+      "n_events_input": 2017,
+      "n_series": 27,
+      "n_unique_events_in_series": 2017,
+      "jaccard_series_vs_baseline": 1.0,
+      "jaccard_events_vs_baseline": 1.0
+    },
+    {
+      "label": "dt2_zaliapin_b1",
+      "time_window_years": 2.0,
+      "decluster": "zaliapin",
+      "b_param": 1.0,
+      "is_baseline": false,
+      "n_events_input": 2040,
+      "n_series": 27,
+      "n_unique_events_in_series": 2040,
+      "jaccard_series_vs_baseline": 0.3170731707317073,
+      "jaccard_events_vs_baseline": 0.9887254901960785
+    },
+    {
+      "label": "dt2_none_b1",
+      "time_window_years": 2.0,
+      "decluster": "none",
+      "b_param": 1.0,
+      "is_baseline": false,
+      "n_events_input": 2041,
+      "n_series": 27,
+      "n_unique_events_in_series": 2041,
+      "jaccard_series_vs_baseline": 0.3170731707317073,
+      "jaccard_events_vs_baseline": 0.9882410583047526
+    },
+    {
+      "label": "dt5_gardner_knopoff_b1",
+      "time_window_years": 5.0,
+      "decluster": "gardner_knopoff",
+      "b_param": 1.0,
+      "is_baseline": false,
+      "n_events_input": 2017,
+      "n_series": 11,
+      "n_unique_events_in_series": 2017,
+      "jaccard_series_vs_baseline": 0.0,
+      "jaccard_events_vs_baseline": 1.0
+    },
+    {
+      "label": "dt5_gardner_knopoff_b0.911",
+      "time_window_years": 5.0,
+      "decluster": "gardner_knopoff",
+      "b_param": 0.911,
+      "is_baseline": false,
+      "n_events_input": 2017,
+      "n_series": 11,
+      "n_unique_events_in_series": 2017,
+      "jaccard_series_vs_baseline": 0.0,
+      "jaccard_events_vs_baseline": 1.0
+    },
+    {
+      "label": "dt5_zaliapin_b1",
+      "time_window_years": 5.0,
+      "decluster": "zaliapin",
+      "b_param": 1.0,
+      "is_baseline": false,
+      "n_events_input": 2040,
+      "n_series": 11,
+      "n_unique_events_in_series": 2040,
+      "jaccard_series_vs_baseline": 0.0,
+      "jaccard_events_vs_baseline": 0.9887254901960785
+    },
+    {
+      "label": "dt5_none_b1",
+      "time_window_years": 5.0,
+      "decluster": "none",
+      "b_param": 1.0,
+      "is_baseline": false,
+      "n_events_input": 2041,
+      "n_series": 11,
+      "n_unique_events_in_series": 2041,
+      "jaccard_series_vs_baseline": 0.0,
+      "jaccard_events_vs_baseline": 0.9882410583047526
+    }
+  ],
+  "intersection_analysis": {
+    "n_configs": 12,
+    "n_configs_with_n_series_27": 4,
+    "core_events_all_configs": 2017,
+    "union_events_any_config": 2041,
+    "core_fraction_of_baseline_events": 1.0,
+    "baseline_only_events": 0
+  },
+  "pairwise_jaccard_events_sample": [
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt1_gardner_knopoff_b0.911",
+      "jaccard_events": 1.0
+    },
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt1_zaliapin_b1",
+      "jaccard_events": 0.9887254901960785
+    },
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt1_none_b1",
+      "jaccard_events": 0.9882410583047526
+    },
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt2_gardner_knopoff_b1",
+      "jaccard_events": 1.0
+    },
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt2_gardner_knopoff_b0.911",
+      "jaccard_events": 1.0
+    },
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt2_zaliapin_b1",
+      "jaccard_events": 0.9887254901960785
+    },
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt2_none_b1",
+      "jaccard_events": 0.9882410583047526
+    },
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt5_gardner_knopoff_b1",
+      "jaccard_events": 1.0
+    },
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt5_gardner_knopoff_b0.911",
+      "jaccard_events": 1.0
+    },
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt5_zaliapin_b1",
+      "jaccard_events": 0.9887254901960785
+    },
+    {
+      "a": "dt1_gardner_knopoff_b1",
+      "b": "dt5_none_b1",
+      "jaccard_events": 0.9882410583047526
+    },
+    {
+      "a": "dt1_gardner_knopoff_b0.911",
+      "b": "dt1_zaliapin_b1",
+      "jaccard_events": 0.9887254901960785
+    },
+    {
+      "a": "dt1_gardner_knopoff_b0.911",
+      "b": "dt1_none_b1",
+      "jaccard_events": 0.9882410583047526
+    },
+    {
+      "a": "dt1_gardner_knopoff_b0.911",
+      "b": "dt2_gardner_knopoff_b1",
+      "jaccard_events": 1.0
+    },
+    {
+      "a": "dt1_gardner_knopoff_b0.911",
+      "b": "dt2_gardner_knopoff_b0.911",
+      "jaccard_events": 1.0
+    }
+  ],
+  "interpretation": "Core stable events appear in every parameter set; N=27 at baseline reflects detector gates; window width dominates N_series variation.",
+  "script": "scripts/compute_series_stability.py"
+}

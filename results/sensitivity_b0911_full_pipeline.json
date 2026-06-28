@@ -1,0 +1,39 @@
+{
+  "catalog": "modern_1973_2026_M65",
+  "pipeline": "GK_mainshocks -> find_nearest_neighbor -> identify_clusters -> global_series",
+  "n_events_raw": 2041,
+  "n_gk_mainshocks": 2017,
+  "gates": {
+    "time_window_years": 2.0,
+    "min_mean_gc_km": 1500.0,
+    "min_events": 4
+  },
+  "b_comparison": {
+    "b_1.0": {
+      "b_param": 1.0,
+      "n_gk_mainshocks": 2017,
+      "n_series": 27,
+      "n_cluster_labels": 70,
+      "eta0": 7.107191077237056e-06
+    },
+    "b_0.911": {
+      "b_param": 0.911,
+      "n_gk_mainshocks": 2017,
+      "n_series": 27,
+      "n_cluster_labels": 29,
+      "eta0": 7.107191077237056e-06
+    },
+    "n_series_b1.0": 27,
+    "n_series_b0911": 27,
+    "jaccard_series_event_sets": 1.0,
+    "n_series_only_b1.0": 0,
+    "n_series_only_b0911": 0
+  },
+  "upstream_identify_clusters": {
+    "eta0": 7.107191077237056e-06,
+    "n_events_label_mismatch": 165,
+    "fraction_label_mismatch": 0.08180466038671294
+  },
+  "interpretation": "Full GK pipeline re-run at b=0.911 vs b=1.0. global_series gates dominate N_series; upstream cluster labels differ.",
+  "script": "scripts/run_sensitivity_b0911_full.py"
+}
