@@ -2,20 +2,16 @@
 
 ## RU
 
-**Дизайн:** (1) **Детекция** — пространственно-временной поиск кандидатов (η + GC>1500 км). (2) **Валидация** — только temporal ETAS MLE + hold-out; spatial linkage **не тестировалась**.
+**Заголовок:** Временная кластеризация глобальных землетрясений M≥6.5 согласована с ETAS: hold-out валидация.
 
-**Структура:** Введение → Данные → Методы (§3.1–3.5) → **Результаты** (ETAS in-sample + hold-out в §4.1) → Обсуждение → Выводы. Permutation — диагностика Methods, не primary validation.
+**Цель:** temporal ETAS falsification + воспроизводимый конвейер (детектор использует пространственные ворота; валидация temporal-only).
 
-**Ключевой итог:** N=27 **не** скорректирован за 142 окна; сообщаем **согласованность с in-sample temporal ETAS** (p_ETAS=1,0), не multiplicity-corrected significance.
-
-**Вклад:** методология и честные границы null-результата — **не** открытие.
+**Ключевой итог:** p_ETAS=1,0 (in-sample + hold-out); Bonferroni по 142 окнам — **0** значимых; пространственный вопрос открыт.
 
 ## EN
 
-**Design:** (1) **Detection** — spatiotemporal candidate search (η + GC>1500 km gates). (2) **Validation** — temporal-only ETAS MLE + hold-out; spatial linkage **was not tested**.
+**Title:** Temporal clustering of global M≥6.5 earthquakes is consistent with ETAS: a hold-out validation.
 
-**Structure:** Introduction → Data → Methods (§3.1–3.5) → **Results** (ETAS in-sample + hold-out in §4.1 only) → Discussion → Conclusions. Permutation is a Methods diagnostic, not primary validation.
+**Goal:** Temporal ETAS falsification + reproducible pipeline (detector uses spatial gates; validation temporal-only).
 
-**Key result:** N=27 is **not** multiplicity-corrected for 142 windows; we report **consistency with in-sample temporal ETAS** (p_ETAS=1.0), not corrected temporal significance.
-
-**Contribution:** methodology and honest null-result bounds — **not** a discovery.
+**Key result:** p_ETAS=1.0 (in-sample + hold-out); Bonferroni over 142 windows — **0** significant; spatial question remains open.

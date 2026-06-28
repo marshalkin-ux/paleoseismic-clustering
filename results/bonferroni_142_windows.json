@@ -1,0 +1,36 @@
+{
+  "source": "scripts/apply_bonferroni_windows.py",
+  "n_tests_canonical": 142,
+  "global_permutation_p_diagnostic": 9.999000099990002e-05,
+  "bonferroni_per_comparison_threshold": 0.00035211267605633805,
+  "family_adjusted_min_p": 0.014198580141985802,
+  "corrections": {
+    "bonferroni": {
+      "threshold_raw_p": 0.00035211267605633805,
+      "threshold_formula": "0.05/142",
+      "n_significant": 0
+    },
+    "bh_fdr": {
+      "q": 0.05,
+      "n_significant": 0
+    }
+  },
+  "summary_table": [
+    {
+      "correction": "Bonferroni",
+      "threshold": "0.05/142 ≈ 0.000352",
+      "n_significant": 0
+    },
+    {
+      "correction": "BH FDR",
+      "threshold": "q=0.05",
+      "n_significant": 0
+    }
+  ],
+  "post_hoc_merged_series_bh_exploratory": {
+    "n_candidates": 47,
+    "n_significant_bh_q005": 45,
+    "note": "Does not correct the 142-window search — exploratory only."
+  },
+  "interpretation": "After multiplicity correction over the 142-window search, 0 windows/series support a discovery claim. Global permutation p=0.0001 is a catalog-wide diagnostic (Methods); family Bonferroni-adjusted p=0.0142. Primary inference remains in-sample temporal ETAS consistency (p_ETAS=1.0)."
+}

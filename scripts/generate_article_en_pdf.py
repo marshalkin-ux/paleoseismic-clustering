@@ -137,12 +137,12 @@ def build(s):
     w = PAGE_W - LM - RM
 
     story.append(Paragraph(
-        "Global Seismic Series: Statistical Analysis of Spatiotemporal "
-        "Clustering in M\u22656.5 Earthquake Catalogs, 1973\u20132026 CE",
+        "Temporal clustering of global M\u22656.5 earthquakes is consistent with ETAS: "
+        "a hold-out validation",
         s["title"]
     ))
     story.append(Paragraph(
-        "<i>Temporal ETAS null and hold-out validation</i>",
+        "<i>Detector uses spatial gates; validation temporal-only</i>",
         s["copyright"]
     ))
     story.append(Paragraph("\u00a9 2026  Yaroslav Marshalkin", s["copyright"]))
@@ -192,11 +192,11 @@ def build(s):
         s["body"]
     ))
     story.append(Paragraph(
-        "<b>Objective.</b> Bound what reproducible tests can establish about multi-regional "
-        "global series in M\u22656.5 (1973\u20132026). "
+        "<b>Objective.</b> Temporal ETAS falsification plus a reproducible M\u22656.5 "
+        "pipeline (1973\u20132026). "
         "<b>Scope.</b> Phase (1) yields detector candidates; phase (2) reports temporal "
-        "excess vs catalog-calibrated ETAS only. Bird (2003) explored early, "
-        "<b>excluded from primary analysis</b> (Supplementary S1).",
+        "excess vs catalog-calibrated ETAS only. Bird (2003) \u2014 preliminary idea, "
+        "not validated (Supplementary S1; excluded from primary pipeline).",
         s["body"]
     ))
     story.append(Paragraph(
@@ -345,10 +345,11 @@ def build(s):
     story.append(build_pdf_table(etas_rows, [0.42, 0.18, 0.18, 0.22], w, s))
     story.append(Paragraph(
         "Hold-out \u2014 partial out-of-time check, not spatial validation. "
-        "<b>Multiple testing:</b> 27 modern from 142 sliding windows; "
-        "<b>NOT multiplicity-corrected</b>. Bonferroni \u03b1/142 \u2248 0.00035 &gt; "
-        "permutation p=0.0001. We report <b>consistency with in-sample temporal ETAS</b>, "
-        "not corrected temporal significance. BH on N=47 \u2014 exploratory only.",
+        "<b>Multiplicity correction (142 windows):</b> Bonferroni 0.05/142 \u2248 0.00035 \u2014 "
+        "<b>0</b> significant windows/series; BH FDR q=0.05 \u2014 <b>0</b>. "
+        "No claim of temporal anomalies after correction. Primary inference: "
+        "<b>consistency with in-sample temporal ETAS</b> (p<sub>ETAS</sub>=1.0). "
+        "Post-hoc BH on 47 merged \u2014 exploratory only.",
         s["body_ni"]
     ))
 
@@ -412,9 +413,10 @@ def build(s):
 
     story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
-        "<b>Temporal ETAS:</b> No excess candidates beyond catalog-calibrated null "
-        "(Sec. 3.2). Spatial linkage not tested. Permutation rejects Poisson times only. "
-        "Bird/WLS/pre-1900 \u2014 paper/supplementary.md \u00a7S1\u2013S3.",
+        "We found <b>no evidence of temporal anomalies</b> per Bonferroni-corrected window "
+        "tests; the <b>spatial question remains open</b>. "
+        "<b>Temporal ETAS:</b> consistent with catalog-calibrated null (p<sub>ETAS</sub>=1.0). "
+        "Spatial linkage not tested. Bird/WLS/pre-1900 \u2014 paper/supplementary.md \u00a7S1\u2013S3.",
         s["body"]
     ))
 

@@ -176,14 +176,12 @@ def build(s):
 
     # === PAGE 1: Header ========================================================
     story.append(P(
-        "Глобальные сейсмические серии: статистический анализ "
-        "пространственно-временно\u0301й кластеризации землетрясений "
-        "M\u22656.5 за 1973\u20132026\u00a0гг.",
+        "Временная кластеризация глобальных землетрясений M\u22656.5 "
+        "согласована с ETAS: hold-out валидация",
         s["title_ru"]
     ))
     story.append(P(
-        "<i>\u0412\u0440\u0435\u043c\u0435\u043d\u043d\u0430\u044f ETAS-null \u0438 hold-out "
-        "\u0432\u0430\u043b\u0438\u0434\u0430\u0446\u0438\u044f</i>",
+        "<i>Детектор использует пространственные ворота; валидация только temporal</i>",
         s["meta"]
     ))
     story.append(P("\u00a9 2026\u00a0г.\u00a0\u00a0Ярослав Маршалкин",
@@ -233,12 +231,12 @@ def build(s):
 
     # --- EN metadata ---
     story.append(P(
-        "Global Seismic Series: Statistical Analysis of Spatiotemporal "
-        "Clustering in M\u22656.5 Earthquake Catalogs, 1973\u20132026 CE",
+        "Temporal clustering of global M\u22656.5 earthquakes is consistent with ETAS: "
+        "a hold-out validation",
         s["title_en"]
     ))
     story.append(P(
-        "<i>Temporal ETAS null and hold-out validation</i>",
+        "<i>Detector uses spatial gates; validation temporal-only</i>",
         s["meta"]
     ))
     story.append(P(
@@ -286,10 +284,10 @@ def build(s):
         s["body"]
     ))
     story.append(P(
-        "<b>Цель.</b> Ограничить, что могут установить воспроизводимые тесты о "
-        "мультирегиональных сериях (1973\u20132026). "
-        "<b>Охват.</b> Bird (2003) изучался ранее, <b>исключён из первичного анализа</b> "
-        "(Supplementary S1).",
+        "<b>Цель.</b> Temporal ETAS falsification и воспроизводимый конвейер M\u22656.5 "
+        "(1973\u20132026). "
+        "<b>Охват.</b> Bird (2003) \u2014 <b>предварительная идея, не валидирована</b> "
+        "(Supplementary S1; исключён из первичного конвейера).",
         s["body"]
     ))
     story.append(P(
@@ -469,10 +467,11 @@ def build(s):
     story.append(build_pdf_table(etas_rows, [0.28, 0.22, 0.14, 0.14, 0.14], PAGE_W - LM - RM, s))
     story.append(P(
         "Hold-out \u2014 partial out-of-time check. "
-        "<b>Множественные сравнения:</b> 27 modern из 142 окон; "
-        "<b>НЕ скорректированы</b> за кратность. Bonferroni \u03b1/142 \u2248 0,00035 &gt; "
-        "permutation p=0,0001. Сообщаем <b>согласованность с in-sample temporal ETAS</b>, "
-        "не corrected significance. BH N=47 \u2014 exploratory.",
+        "<b>Множественные сравнения (142 окна):</b> Bonferroni 0,05/142 \u2248 0,00035 \u2014 "
+        "<b>0</b> значимых окон/серий; BH FDR q=0,05 \u2014 <b>0</b>. "
+        "После коррекции кратности нет заявления о temporal аномалиях. "
+        "Первичный вывод \u2014 <b>согласованность с in-sample temporal ETAS</b> "
+        "(p<sub>ETAS</sub>=1,0). Post-hoc BH на 47 merged \u2014 exploratory.",
         s["body_ni"]
     ))
 
@@ -537,9 +536,10 @@ def build(s):
 
     story += SEC("4. Обсуждение и выводы", s)
     story.append(P(
-        "<b>Temporal ETAS:</b> согласованность с catalog-calibrated null (§3.2). "
-        "Spatial linkage не тестировалась. Мы <b>не</b> заявляем corrected temporal "
-        "significance. Bird/WLS/pre-1900 — paper/supplementary.md §S1–S3.",
+        "Мы <b>не нашли доказательств временных аномалий</b> (после Bonferroni-коррекции "
+        "по 142 окнам); <b>пространственный вопрос остаётся открытым</b>. "
+        "<b>Temporal ETAS:</b> согласованность с catalog-calibrated null (p<sub>ETAS</sub>=1,0). "
+        "Spatial linkage не тестировалась. Bird/WLS/pre-1900 — paper/supplementary.md §S1–S3.",
         s["body"]
     ))
     story.append(PageBreak())

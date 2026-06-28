@@ -348,3 +348,23 @@ Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, тольк
 | index.html hero/results trim | **Done** |
 | take_home_message.md | **Done** |
 | PDF generators + verify_ru_pdf_cyrillic | **Done** |
+
+---
+
+## ROUND 7: Temporal focus — new title, Bonferroni 142 windows, honest conclusions
+
+**Замечание:** сузить фокус до temporal analysis; новый заголовок; Bonferroni/FDR на 142 окна; честные выводы.
+
+**Исправлено:**
+- **Заголовки (RU+EN+main.tex+index.html+PDF):** EN `Temporal clustering of global M≥6.5 earthquakes is consistent with ETAS: a hold-out validation`; RU `Временная кластеризация глобальных землетрясений M≥6.5 согласована с ETAS: hold-out валидация`.
+- **Introduction:** Bird — preliminary idea, not validated (S1); цель = temporal ETAS falsification + reproducible pipeline.
+- **Bonferroni:** `scripts/apply_bonferroni_windows.py` → `results/bonferroni_142_windows.json`; таблица §4.1: Bonferroni **0**, BH FDR **0** significant windows/series.
+- **Conclusions (RU+EN):** «Мы не нашли доказательств временных аномалий; пространственный вопрос остаётся открытым» / EN equivalent.
+- **Permutation:** Methods diagnostic only; removed from primary Results ETAS table.
+
+| Пункт | Статус |
+|-------|--------|
+| New titles synced | **Done** |
+| Bonferroni 142 windows computed | **Done** |
+| Honest conclusions | **Done** |
+| ROUND 7 documented | **Done** |

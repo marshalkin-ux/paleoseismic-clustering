@@ -16,8 +16,7 @@
 
 \begin{document}
 
-\title{Global Seismic Series: Statistical Analysis of Spatiotemporal Clustering in M$\ge$6.5 Earthquake Catalogs, 1973--2026 CE\\
-{\large Temporal ETAS null and hold-out validation}}
+\title{Temporal clustering of global $M \ge 6.5$ earthquakes is consistent with ETAS: a hold-out validation}
 
 \authors{
   Yaroslav Marshalkin\affil{1}
@@ -39,7 +38,6 @@ A Baiesi--Paczuski $\eta$ detector with \textbf{great-circle distance} yields
 in-sample temporal null; full numbers --- \S\ref{subsec:primary-counts}).
 The title refers to \textbf{detection geometry} ($\eta$ + GC $> 1500$~km gates);
 \textbf{inferential tests are temporal-only}.
-The spatial component was not modeled (\S\ref{sec:limitations}).
 Pre-1900 NOAA records --- Supplementary Material S3.
 \end{abstract}
 
@@ -82,15 +80,14 @@ plus hold-out split; this phase does \textbf{not} test whether geographically
 dispersed candidates form a physically linked global series (spatial Ogata 1998
 kernel---future work).
 
-\textbf{Objective.} Bound what reproducible tests can establish about
-multi-regional global series in the $M \ge 6.5$ catalog (primary window
-1973--2026).
+\textbf{Objective.} Temporal ETAS falsification plus a reproducible pipeline
+for global $M \ge 6.5$ detector output (primary window 1973--2026).
 
 \textbf{Scope.} Phase~(1) yields \textbf{detector candidates}; phase~(2) reports
 \textbf{temporal excess} vs.\ catalog-calibrated ETAS only; spatial linkage is
 \textbf{not tested}.
-Bird (2003) tectonic distance was explored early and \textbf{excluded from
-primary analysis} (Supplementary S1).
+Bird (2003) tectonic distance was a \textbf{preliminary idea, not validated}
+(Supplementary S1; excluded from the primary pipeline).
 Conclusions are limited to temporal clustering in detector windows.
 
 \textbf{Contribution.} This work provides a \textbf{reproducible} global
@@ -115,8 +112,8 @@ spatial Ogata (1998) kernel $r^{-d}$ and therefore does \textbf{not} test whethe
 geographically dispersed candidates (mean pairwise GC $> 1500$~km) form a
 \textbf{physically linked} global series.
 That spatial linkage question requires spatial ETAS calibration (future work).
-We retain the title's spatiotemporal framing for the detector and $\eta$-metric,
-but conclusions are limited accordingly (see \S\ref{sec:limitations}).
+The detector uses spatial gates (mean GC $> 1500$~km); inferential tests are
+temporal-only (see \S\ref{sec:limitations}).
 
 Four distinct statistical targets must not be conflated
 (Table~\ref{tab:hypotheses}; see also \S\ref{subsec:hypothesis-separation}).
@@ -723,6 +720,24 @@ Train-calibrated hold-out (2001--2026) & 13 & 13.0 & 1.0 \\
 \noindent Hold-out complements in-sample calibration (\S\ref{subsec:holdout-methods});
 partial out-of-time check, not spatial validation.
 Permutation diagnostic ($p=0.0001$)---Methods only; not a detector significance claim.
+
+\begin{table}[htbp]
+\centering
+\caption{Multiplicity correction over the 142-window discovery search.}
+\label{tab:bonferroni_142}
+\begin{tabular}{lrr}
+\hline
+Correction & Threshold & Significant windows/series \\
+\hline
+Bonferroni & $0.05/142 \approx 3.5\times 10^{-4}$ & 0 \\
+BH FDR & $q = 0.05$ & 0 \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent After multiplicity correction, \textbf{no claim} of significant temporal
+anomalies from the window search (\texttt{results/bonferroni\_142\_windows.json}).
+Post-hoc BH on 47 merged series (45/47 at $q=0.05$) is exploratory only.
 
 \noindent\fbox{\parbox{0.97\linewidth}{\small\textbf{Multiple testing (discovery search).}
 The 27 modern series derive from \textbf{142 sliding-window candidates}
@@ -1363,12 +1378,11 @@ tail of the inter-event time distribution and to test whether global
 connectivity persists on millennial timescales.
 
 \paragraph{Summary conclusions.}
-Under catalog-calibrated temporal MLE, no anomalous temporal clustering beyond
-the null; spatial linkage was not tested.
-Permutation rejects Poisson times only --- not global chains (see
-\S\ref{sec:results}).
-GK/ZBZ/none invariant at fixed gates reflects detector dominance
-(\texttt{results/sensitivity\_declustering.json}).
+We found no evidence of temporal anomalies after Bonferroni-corrected window tests;
+the spatial question remains open.
+Under catalog-calibrated temporal MLE, detector output is consistent with the
+in-sample and hold-out ETAS null ($p_\mathrm{ETAS}=1.0$).
+Permutation rejects Poisson times only---diagnostic (Methods), not global chains.
 Bird and WLS excluded from primary pipeline (\texttt{paper/supplementary.md}).
 
 \section{Robustness and Sensitivity Analysis}

@@ -1,4 +1,4 @@
-"""Verify Cyrillic text in article_ru.pdf after round-4 layout."""
+"""Verify Cyrillic text in article_ru.pdf after round-7 layout."""
 
 from __future__ import annotations
 
@@ -11,15 +11,15 @@ import pypdf
 ROOT = Path(__file__).resolve().parent.parent
 PDF = ROOT / "paper" / "article_ru.pdf"
 
-# page index (0-based) -> substrings that must appear (round-6 layout)
+# page index (0-based) -> substrings that must appear
 CHECKS: dict[int, list[str]] = {
-    0: ["Временная ETAS-null", "in-sample temporal null", "валидация только temporal"],
-    2: ["Двухфазный", "spatial ETAS open"],
-    3: ["identify_clusters", "benchmark", "great-circle"],
-    4: ["permutation", "пуассоновские", "ETAS-null"],
-    5: ["Bonferroni", "скорректированы", "согласованность"],
-    6: ["corrected temporal significance", "Spatial linkage"],
-    7: ["Ограничение", "Supplementary", "paper/supplementary.md"],
+    0: ["Временная кластеризация", "согласована с ETAS", "валидация только temporal"],
+    1: ["Двухфазный", "предварительная идея", "spatial ETAS open"],
+    2: ["great-circle", "supplementary.md"],
+    3: ["ETAS-null", "merge 142"],
+    4: ["Bonferroni", "0 значимых", "согласованность"],
+    5: ["временных аномалий", "пространственный вопрос"],
+    6: ["Supplementary", "paper/supplementary.md", "Ограничение"],
 }
 
 
