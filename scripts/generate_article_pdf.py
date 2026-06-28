@@ -8,7 +8,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _pdf_fonts import register_pdf_fonts, pdf_math_text, build_pdf_table
+from _pdf_fonts import register_pdf_fonts, pdf_math_text, build_pdf_table, build_top5_table
 
 register_pdf_fonts()
 from reportlab.lib.pagesizes import A4
@@ -228,7 +228,7 @@ def build(s):
     story.append(Paragraph(
         "Whether large earthquakes cluster in space and time beyond chance is a "
         "foundational question in seismic hazard assessment. We analyse a merged "
-        "catalog of <b>4,267 unique M&gt;=6.5 events</b> (from 4,418 CSV rows; "
+        "catalog of <b>4,267 unique M\u22656.5 events</b> (from 4,418 CSV rows; "
         "~151 NOAA M&lt;6.5 rows excluded from clustering). "
         "The detector yields 47 algorithmic candidates (27 modern). "
         "<b>Primary ETAS null</b> (literature H&amp;S 2003, decoupled): mean\u224815.4, "
@@ -312,6 +312,12 @@ def build(s):
     # --- 1. Данные ---
     story += SSEC("1. Данные", s)
     story += SSSEC("1.1 Источники и формирование каталога", s)
+    story.append(Paragraph(
+        "<b>Обозначение магнитуды.</b> Пороги каталога и критерии детектора \u2014 "
+        "<b>M\u22656.5</b> (USGS ComCat, преимущественно M<sub>w</sub>); отдельные события "
+        "цитируются с типом из каталога (напр. M<sub>w</sub> 7.3).",
+        s["body_ni"]
+    ))
     story.append(Paragraph(
         "Исследование основано на трёх каталогах: <b>USGS ComCat</b>\u00a0\u2014 "
         "инструментальный, с 1900\u00a0г., M\u22654.5, использованы записи M\u22656.5 "
@@ -467,54 +473,7 @@ def build(s):
         s["body"]
     ))
 
-    tbl_cols = [(PAGE_W - LM - RM) * f for f in [0.07, 0.05, 0.07, 0.06, 0.12, 0.10, 0.10, 0.43]]
-    tbl_data = [
-        [Paragraph("<b>ID</b>", s["tbl_hdr"]),
-         Paragraph("<b>N</b>", s["tbl_hdr"]),
-         Paragraph("<b>Рег.</b>", s["tbl_hdr"]),
-         Paragraph("<b>Mmax</b>", s["tbl_hdr"]),
-         Paragraph("<b>Период</b>", s["tbl_hdr"]),
-         Paragraph("<b>lat</b>", s["tbl_hdr"]),
-         Paragraph("<b>lon</b>", s["tbl_hdr"]),
-         Paragraph("<b>Примечание</b>", s["tbl_hdr"])],
-        [Paragraph("1905\u20131910", s["tbl_cell"]), Paragraph("193", s["tbl_cell"]),
-         Paragraph("43", s["tbl_cell"]), Paragraph("8.8", s["tbl_cell"]),
-         Paragraph("1905\u20131910", s["tbl_cell"]),
-         Paragraph("-60..72", s["tbl_cell"]), Paragraph("-180..180", s["tbl_cell"]),
-         Paragraph("Ранний инструментальный; каталог неполный до ~1960", s["tbl_cell"])],
-        [Paragraph("S047", s["tbl_cell"]), Paragraph("53", s["tbl_cell"]),
-         Paragraph("5", s["tbl_cell"]), Paragraph("8.0", s["tbl_cell"]),
-         Paragraph("1982\u20132024", s["tbl_cell"]),
-         Paragraph("-21.5..18.9", s["tbl_cell"]), Paragraph("-175.5..155.2", s["tbl_cell"]),
-         Paragraph("Западная Пацифика", s["tbl_cell"])],
-        [Paragraph("S170", s["tbl_cell"]), Paragraph("46", s["tbl_cell"]),
-         Paragraph("12", s["tbl_cell"]), Paragraph("9.1", s["tbl_cell"]),
-         Paragraph("2002\u20132023", s["tbl_cell"]),
-         Paragraph("-14.3..33.8", s["tbl_cell"]), Paragraph("-113.1..167.3", s["tbl_cell"]),
-         Paragraph("Суматра 2004 (M 9.1)", s["tbl_cell"])],
-        [Paragraph("S095", s["tbl_cell"]), Paragraph("25", s["tbl_cell"]),
-         Paragraph("4", s["tbl_cell"]), Paragraph("7.9", s["tbl_cell"]),
-         Paragraph("1989\u20132017", s["tbl_cell"]),
-         Paragraph("-8.1..16.5", s["tbl_cell"]), Paragraph("120.4..146.4", s["tbl_cell"]),
-         Paragraph("Западно-тихоокеанская дуга", s["tbl_cell"])],
-        [Paragraph("S116", s["tbl_cell"]), Paragraph("22", s["tbl_cell"]),
-         Paragraph("5", s["tbl_cell"]), Paragraph("8.2", s["tbl_cell"]),
-         Paragraph("1993\u20132021", s["tbl_cell"]),
-         Paragraph("-31.7..10.8", s["tbl_cell"]), Paragraph("-179.5..179.4", s["tbl_cell"]),
-         Paragraph("Южная Пацифика", s["tbl_cell"])],
-    ]
-    main_tbl = Table(tbl_data, colWidths=tbl_cols)
-    main_tbl.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, 0), DARK),
-        ("TEXTCOLOR",  (0, 0), (-1, 0), white),
-        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [white, LGREY]),
-        ("BOX",       (0, 0), (-1, -1), 0.5, RULE),
-        ("INNERGRID", (0, 0), (-1, -1), 0.3, RULE),
-        ("TOPPADDING",    (0, 0), (-1, -1), 4),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-        ("LEFTPADDING",   (0, 0), (-1, -1), 5),
-    ]))
-    story.append(main_tbl)
+    story.append(build_top5_table(s, PAGE_W - LM - RM, lang="ru"))
     story.append(Paragraph(
         "Таблица 1. Топ-5 кандидатов детектора (не ETAS-валидированные физические серии).",
         s["caption"]
@@ -531,7 +490,7 @@ def build(s):
         PAGE_W - LM - RM
     ))
     story.append(FormulaBox(
-        "lit. ETAS: mean 15,4, p_ETAS <= 0,001   (N_obs=27)",
+        "lit. ETAS: mean 15,4, p_ETAS \u2264 0,001   (N_obs=27)",
         PAGE_W - LM - RM
     ))
     story.append(Paragraph(
@@ -668,6 +627,23 @@ def build(s):
         "run_full_historical_analysis.py, но не входят в первичные заявления о значимости.",
         s["body"]
     ))
+
+    story += SEC("ПРИЛОЖЕНИЕ B. НЕГАТИВНЫЙ КОНТРОЛЬ WLS (ВОСПРОИЗВОДИМОСТЬ)", s)
+    story.append(Paragraph(
+        "<b>Только воспроизводимость \u2014 не inference.</b> Каталог-калиброванная WLS "
+        "(results/etas_calibration.json: \u03bc\u22480,103, K\u22480,495) даёт mean=27,0, "
+        "p_ETAS=1,0 (n=1000, multiseed стабилен). <b>Артефакт связки детектор+калибровка</b>; "
+        "<b>не</b> для выводов. <b>Не цитировать</b> p_ETAS=1,0 в аннотации, выводах и hero-метриках.",
+        s["body"]
+    ))
+    wls_rows = [
+        ["Компонент", "Метод"],
+        ["\u03bc", "GK mainshocks / T (замкнутая форма)"],
+        ["c, p", "Omori MLE, Nelder\u2013Mead на 24 задержках"],
+        ["K, \u03b1", "WLS (numpy.linalg.lstsq) на тех же 24 GK-афтершоках"],
+    ]
+    story.append(build_pdf_table(wls_rows, [0.22, 0.78], PAGE_W - LM - RM, s))
+    story.append(Spacer(1, 0.15 * cm))
 
     story.append(Paragraph(
         "<b>Доступность данных:</b> github.com/marshalkin-ux/paleoseismic-clustering "

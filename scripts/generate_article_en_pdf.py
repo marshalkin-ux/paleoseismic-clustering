@@ -8,7 +8,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from _pdf_fonts import register_pdf_fonts, pdf_math_text, build_pdf_table
+from _pdf_fonts import register_pdf_fonts, pdf_math_text, build_pdf_table, build_top5_table
 
 register_pdf_fonts()
 from reportlab.lib.pagesizes import A4
@@ -210,12 +210,18 @@ def build(s):
     story += SEC("2. DATA AND METHODS", s)
     story += SSEC("2.1 Catalog compilation", s)
     story.append(Paragraph(
+        "<b>Magnitude notation.</b> Catalog thresholds and detector gates use "
+        "<b>M\u22656.5</b> (USGS ComCat, predominantly M<sub>w</sub>); individual events "
+        "are cited with catalog type where relevant (e.g. M<sub>w</sub> 7.3).",
+        s["body_ni"]
+    ))
+    story.append(Paragraph(
         "Three catalogs were merged: <b>USGS ComCat</b> (1900\u20132026, primary "
         "instrumental); <b>ISC Bulletin</b> (relocated hypocenters); and <b>NOAA NGDC</b> "
         "(historical and paleoseismic records pre-1900, 47 events). Duplicates were merged "
         "using \u00b130 days and \u226450 km tolerance; source priority: ISC &gt; USGS &gt; NOAA. "
         "After deduplication, the catalog contains "
-        "<b>4,267</b> unique M&gt;=6.5 events (from <b>4,418</b> CSV rows; ~151 M&lt;6.5 "
+        "<b>4,267</b> unique M\u22656.5 events (from <b>4,418</b> CSV rows; ~151 M&lt;6.5 "
         "excluded from clustering). "
         "USGS ComCat: <b>2,088</b> raw (1973\u20132026) \u2192 <b>2,041</b> after merge/ISC. "
         "GK: 24 aftershocks (2,017/2,041); ZBZ: 1 dependent (2,040/2,041). "
@@ -313,33 +319,7 @@ def build(s):
         s["body"]
     ))
 
-    tbl_cols = [w * f for f in [0.07, 0.05, 0.07, 0.06, 0.12, 0.10, 0.10, 0.43]]
-    tbl_data = [
-        [Paragraph("<b>ID</b>", s["tbl_hdr"]), Paragraph("<b>N</b>", s["tbl_hdr"]),
-         Paragraph("<b>Reg.</b>", s["tbl_hdr"]), Paragraph("<b>Mmax</b>", s["tbl_hdr"]),
-         Paragraph("<b>Period</b>", s["tbl_hdr"]), Paragraph("<b>lat</b>", s["tbl_hdr"]),
-         Paragraph("<b>lon</b>", s["tbl_hdr"]), Paragraph("<b>Notes</b>", s["tbl_hdr"])],
-        ["1905\u20131910", "193", "43", "8.8", "1905\u20131910", "-60..72", "-180..180", "Early instrumental; incomplete before ~1960"],
-        ["S047", "53", "5", "8.0", "1982\u20132024", "-21.5..18.9", "-175.5..155.2", "Western Pacific"],
-        ["S170", "46", "12", "9.1", "2002\u20132023", "-14.3..33.8", "-113.1..167.3", "Sumatra 2004 (M 9.1)"],
-        ["S095", "25", "4", "7.9", "1989\u20132017", "-8.1..16.5", "120.4..146.4", "Western Pacific arc"],
-        ["S116", "22", "5", "8.2", "1993\u20132021", "-31.7..10.8", "-179.5..179.4", "South Pacific"],
-    ]
-    tbl_data_fmt = [tbl_data[0]] + [
-        [Paragraph(c, s["tbl_cell"]) for c in row] for row in tbl_data[1:]
-    ]
-    tbl = Table(tbl_data_fmt, colWidths=tbl_cols)
-    tbl.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, 0), DARK),
-        ("TEXTCOLOR", (0, 0), (-1, 0), white),
-        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [white, LGREY]),
-        ("BOX", (0, 0), (-1, -1), 0.5, RULE),
-        ("INNERGRID", (0, 0), (-1, -1), 0.3, RULE),
-        ("TOPPADDING", (0, 0), (-1, -1), 4),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-        ("LEFTPADDING", (0, 0), (-1, -1), 5),
-    ]))
-    story.append(tbl)
+    story.append(build_top5_table(s, w, lang="en"))
     story.append(Paragraph(
         "Table 1. Top-5 detector candidates (not ETAS-validated physical series).",
         s["caption"]
@@ -467,6 +447,24 @@ def build(s):
         "run_full_historical_analysis.py but do not enter primary significance claims.",
         s["body"]
     ))
+
+    story += SEC("APPENDIX B. CATALOG-MATCHED WLS NEGATIVE CONTROL", s)
+    story.append(Paragraph(
+        "<b>Reproducibility negative control only \u2014 not inference.</b> Catalog-matched WLS "
+        "(results/etas_calibration.json: \u03bc\u22480.103, K\u22480.495) yields mean=27.0, "
+        "p_ETAS=1.0 (n=1000; multiseed stable). Illustrates <b>detector\u2013calibration coupling</b>; "
+        "<b>not</b> used for inference. <b>Do not cite</b> p_ETAS=1.0 in abstract, conclusions, "
+        "or hero metrics.",
+        s["body"]
+    ))
+    wls_rows = [
+        ["Component", "Method"],
+        ["\u03bc", "GK mainshocks / T (closed form)"],
+        ["c, p", "Omori MLE, Nelder\u2013Mead on 24 delays"],
+        ["K, \u03b1", "WLS (numpy.linalg.lstsq) on same 24 GK aftershocks"],
+    ]
+    story.append(build_pdf_table(wls_rows, [0.22, 0.78], w, s))
+    story.append(Spacer(1, 0.15 * cm))
 
     story += SEC("DATA AND CODE AVAILABILITY", s)
     story.append(Paragraph(

@@ -54,6 +54,8 @@ The [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) mode
 
 ### 2.1 Catalog compilation
 
+**Magnitude notation.** Catalog thresholds and detector gates use **M ≥ 6.5** (USGS ComCat, predominantly M_w); individual events are cited with catalog type where relevant (e.g. M_w 7.3).
+
 | Source | Period | Role |
 |--------|--------|------|
 | USGS ComCat | 1900–2026 | Primary instrumental catalog |

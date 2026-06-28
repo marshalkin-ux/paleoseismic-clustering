@@ -164,6 +164,127 @@ def default_table_style() -> TableStyle:
     )
 
 
+def format_latlon_range(lo: str, hi: str) -> str:
+    """Journal-style coordinate range: minus sign U+2212, ellipsis U+2026."""
+
+    def _fmt(v: str) -> str:
+        return v.replace("-", "\u2212", 1) if v.startswith("-") else v
+
+    return f"{_fmt(lo)}\u2026{_fmt(hi)}"
+
+
+# Top-5 detector candidates (shared by RU/EN PDF generators).
+TOP5_CANDIDATES: list[tuple[str, str, str, str, str, str]] = [
+    ("1905\u20131910", "193", "43", "8.8", "1905\u20131910", "early"),
+    ("S047", "53", "5", "8.0", "1982\u20132024", "S047"),
+    ("S170", "46", "12", "9.1", "2002\u20132023", "S170"),
+    ("S095", "25", "4", "7.9", "1989\u20132017", "S095"),
+    ("S116", "22", "5", "8.2", "1993\u20132021", "S116"),
+]
+
+_TOP5_LATLON: dict[str, tuple[str, str]] = {
+    "1905\u20131910": ("-60", "72"),
+    "S047": ("-21.5", "18.9"),
+    "S170": ("-14.3", "33.8"),
+    "S095": ("-8.1", "16.5"),
+    "S116": ("-31.7", "10.8"),
+}
+
+_TOP5_LON: dict[str, tuple[str, str]] = {
+    "1905\u20131910": ("-180", "180"),
+    "S047": ("-175.5", "155.2"),
+    "S170": ("-113.1", "167.3"),
+    "S095": ("120.4", "146.4"),
+    "S116": ("-179.5", "179.4"),
+}
+
+TOP5_NOTES_RU: dict[str, str] = {
+    "early": "Ранний инструментальный; каталог неполный до ~1960",
+    "S047": "Западная Пацифика",
+    "S170": "Суматра 2004 (M 9.1)",
+    "S095": "Западно-тихоокеанская дуга",
+    "S116": "Южная Пацифика",
+}
+
+TOP5_NOTES_EN: dict[str, str] = {
+    "early": "Early instrumental; incomplete before ~1960",
+    "S047": "Western Pacific",
+    "S170": "Sumatra 2004 (M 9.1)",
+    "S095": "Western Pacific arc",
+    "S116": "South Pacific",
+}
+
+
+def build_top5_table(
+    styles: dict,
+    total_width: float,
+    *,
+    lang: str = "ru",
+) -> Table:
+    """Table 1 — top-5 detector candidates with non-wrapping numeric columns."""
+    if lang == "en":
+        headers = [
+            "Series ID",
+            "Events",
+            "Regions",
+            "Mmax",
+            "Years",
+            "Mean lat\u00b0",
+            "Mean lon\u00b0",
+            "Notes",
+        ]
+        notes = TOP5_NOTES_EN
+    else:
+        headers = [
+            "Серия",
+            "N",
+            "Рег.",
+            "Mmax",
+            "Период",
+            "lat\u00b0",
+            "lon\u00b0",
+            "Примечание",
+        ]
+        notes = TOP5_NOTES_RU
+
+    rows: list[tuple[str, ...]] = TOP5_CANDIDATES
+    col_fracs = [0.09, 0.06, 0.06, 0.06, 0.11, 0.12, 0.12, 0.38]
+    cw = [total_width * f for f in col_fracs]
+    hdr_style = styles["tbl_hdr"]
+    cell_style = styles["tbl_cell"]
+    wrap_style = styles.get("tbl_wrap", cell_style)
+
+    data: list[list[Paragraph]] = [
+        [Paragraph(f"<b>{h}</b>", hdr_style) for h in headers]
+    ]
+    for series_id, n, reg, mmax, period, note_key in rows:
+        lat = format_latlon_range(*_TOP5_LATLON[series_id])
+        lon = format_latlon_range(*_TOP5_LON[series_id])
+        cells = [
+            series_id,
+            n,
+            reg,
+            mmax,
+            period,
+            lat,
+            lon,
+            notes[note_key],
+        ]
+        data.append(
+            [
+                Paragraph(c, cell_style if i < 7 else wrap_style)
+                for i, c in enumerate(cells)
+            ]
+        )
+
+    tbl = Table(data, colWidths=cw, repeatRows=1)
+    sty = default_table_style()
+    sty.add("ALIGN", (1, 1), (6, -1), "CENTER")
+    sty.add("VALIGN", (0, 0), (-1, -1), "MIDDLE")
+    tbl.setStyle(sty)
+    return tbl
+
+
 def build_pdf_table(
     rows: list[list[str]],
     col_fracs: list[float],
