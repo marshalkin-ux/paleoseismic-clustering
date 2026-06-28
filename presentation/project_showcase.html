@@ -1577,7 +1577,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern). <strong>Первичная ETAS-null</strong> (лит. H&amp;S 2003): mean≈15,4, p<sub>ETAS</sub>≤0,001 — отклонение от литературной ETAS указывает на кластеризацию, которую эта null не полностью описывает; пространственный анализ остатков ETAS <strong>не проводился</strong>; отклонение <strong>не интерпретируется</strong> как доказательство глобальных серий; циркум-Тихоокеан; возможные региональные афтершоки/неполнота/либеральность (142 окна); не глобальные цепочки (§5.4). GK/ZBZ/none: <strong>N=27</strong> при фикс. воротах; b=1.0/0.911→N=27 (Jaccard=1,0). Тектоническая метрика удалена из первичного конвейера. Гипотеза не подтверждается.
+      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern). <strong>Первичная ETAS-null</strong> (temporal MLE, GK mainshocks): mean=27,0, p<sub>ETAS</sub>=1,0 — N<sub>obs</sub>=27 согласован с catalog-calibrated null; гипотеза о физически значимых глобальных сериях <strong>не подтверждается</strong>. GK/ZBZ/none: <strong>N=27</strong> при фикс. воротах; b=1.0/0.911→N=27 (Jaccard=1,0). Тектоническая метрика удалена из первичного конвейера.
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -1599,7 +1599,7 @@
       </div>
       <div class="counter-card fade-in">
         <div class="counter-number" data-target="" data-literal="p ≤ 0,001">p<sub>ETAS</sub> ≤ 0,001</div>
-        <div class="counter-label">лит. ETAS-null (mean≈15,4; локальный избыток)</div>
+        <div class="counter-label">primary ETAS MLE (mean=27,0; p=1,0)</div>
       </div>
     </div>
 
@@ -1975,7 +1975,7 @@
           </table>
         </div>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">Первичная ETAS-null:</strong> лит. H&amp;S 2003 (p<sub>ETAS</sub>≤0,001, mean≈15,4) — отклонение от литературной ETAS; остатки ETAS не анализировались; не доказательство глобальных серий; циркум-Тихоокеан; не глобальные цепочки. Permutation p=0.0001 отвергает пуассоновские времена.
+          <strong style="color:var(--accent);">Первичная ETAS-null:</strong> temporal MLE (p<sub>ETAS</sub>=1,0, mean=27,0) — N<sub>obs</sub>=27 согласован с catalog-calibrated null; гипотеза глобальных серий не подтверждается.
         </div>
       </div>
 
@@ -2050,7 +2050,7 @@
               <td style="padding:10px 14px; color:var(--text-dim); font-weight:600;">ETAS-нулевая модель</td>
               <td style="padding:10px 14px; color:var(--text-muted);">p<sub>ETAS</sub></td>
               <td style="padding:10px 14px; color:var(--text-muted);">1000 синт. каталогов</td>
-              <td style="padding:10px 14px; color:var(--yellow);">Первичная лит.: mean≈15,4, p≤0,001 (N<sub>obs</sub>=27 превышает локальное афтершоковое ожидание)</td>
+              <td style="padding:10px 14px; color:var(--green);">Primary MLE: mean=27,0, p=1,0 (N<sub>obs</sub>=27 согласован с null)</td>
               <td style="padding:10px 14px;"><span style="background:rgba(63,185,80,0.15); color:var(--green); padding:2px 8px; border-radius:5px; font-size:0.8rem; font-weight:600;">✓ Подтверждено</span></td>
             </tr>
             <tr>
@@ -2285,7 +2285,7 @@
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
             <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
             <li><strong>Три различных теста (§5):</strong> permutation → Poisson-времена; ETAS лит. → кластеризация вне модели; глобальные серии → <em>не подтверждены</em></li>
-            <li><strong>ETAS (лит. H&amp;S):</strong> mean <strong>15.4</strong>, p<sub>ETAS</sub>≤0.001 — отклонение от литературной ETAS; остатки ETAS не анализировались; <em>не</em> доказательство глобальных серий</li>
+            <li><strong>ETAS MLE (primary):</strong> mean <strong>27.0</strong>, p<sub>ETAS</sub>=1.0 — N_obs согласован с catalog-calibrated null</li>
             <li><strong>Декластеризация:</strong> GK/ZBZ/none → N=27 при фикс. воротах; 24 vs 1 удалённых — <em>разные метки главных</em>, не «несущественный выбор» (<code>sensitivity_declustering.json</code>)</li>
             <li><strong>Чувствительность:</strong> b=1.0 vs 0.911 → N=27; GC 1000/1500/2000 км → N=27; окна 1/2/5/10 лет → 53/27/11/6; strict N≥8 → 27</li>
             <li><strong>Либеральность детектора (§5.7):</strong> 142 скользящих окна × merge — exploratory search</li>
@@ -2303,9 +2303,8 @@
         <div class="findings-block findings-block--honest">
           <h4>Отрицательный результат (честная рамка)</h4>
           <p>
-            Детектор <strong>либерален</strong>: при согласованной калибровке ETAS mean=27,0 = N<sub>obs</sub> (p<sub>ETAS</sub>=1,0) — связка «детектор+калибровка», не единоличная фальсификация.
-            Детектор <strong>либерален</strong> (142 окна до merge). При литературных параметрах H&amp;S 2003 mean≈15,4, p<sub>ETAS</sub>≤0,001 — N<sub>obs</sub> превышает литературное ETAS-ожидание; отклонение указывает на кластеризацию вне модели, но пространственный анализ остатков ETAS <strong>не проводился</strong> и отклонение <strong>не интерпретируется</strong> как доказательство глобальных серий (циркум-Тихоокеан; возможные региональные афтершоки/неполнота/либеральность; GK mainshocks only → N=27 без изменений).
-            <strong>Гипотеза о глобальных сериях не подтверждается</strong> (нет механизма, тектоника 98% GC, ETAS-null чувствителен к параметрам).
+            Детектор <strong>либерален</strong> (142 окна до merge). Primary temporal MLE ETAS: mean=27,0, p<sub>ETAS</sub>=1,0 — N<sub>obs</sub> согласован с catalog-calibrated null.
+            <strong>Гипотеза о глобальных сериях не подтверждается</strong> (нет механизма, тектоника 98% GC).
           </p>
         </div>
 
@@ -2349,7 +2348,7 @@
       <h3 style="margin-bottom:16px; font-family:var(--heading-font); color:var(--green);">Согласование null-моделей</h3>
       <ul style="margin:0; padding-left:1.25rem; color:var(--text-muted); line-height:1.7;">
         <li><strong style="color:var(--text-dim);">Permutation:</strong> p=0.0001 (1/10,001) — отвергает пуассоновские <em>времена</em> (ожидаемо при афтершоках)</li>
-        <li><strong style="color:var(--text-dim);">ETAS (лит. H&amp;S 2003):</strong> p<sub>ETAS</sub>≤0,001, mean≈15,4 — отклонение от литературной ETAS; остатки ETAS не анализировались; не доказательство глобальных серий; циркум-Тихоокеан; не глобальные цепочки</li>
+        <li><strong style="color:var(--text-dim);">ETAS MLE (primary):</strong> p<sub>ETAS</sub>=1,0, mean=27,0 — N<sub>obs</sub> согласован с catalog-calibrated null</li>
         <li><strong style="color:var(--text-dim);">Вывод:</strong> гипотеза глобальных серий не подтверждается; permutation отвергает лишь Poisson-null</li>
       </ul>
     </div>
@@ -3093,7 +3092,7 @@
       <div class="plan-card">
         <h3>✅ Статистика — выполнено</h3>
         <ul class="plan-list">
-          <li><strong>ETAS-валидация:</strong> 1000 каталогов → FPR 1000/1000; калибр. mean 27,0, p<sub>ETAS</sub>=1,0; лит. μ=0,008 → mean≈15,4, p≤0,001</li>
+          <li><strong>ETAS-валидация:</strong> 1000 каталогов → primary MLE mean 27,0, p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27)</li>
           <li><strong>Множественные сравнения:</strong> BH post-hoc N=47 — Methods only (не discovery)</li>
           <li><strong>Декластеризация:</strong> GK 2017/2041 (24 афтершока) · ZBZ 2040/2041 (1 зависимое) — проверка чувствительности</li>
           <li><strong>Monte Carlo:</strong> n = 10 000, p = 0.0001 (1/10,001), z = −6.17</li>

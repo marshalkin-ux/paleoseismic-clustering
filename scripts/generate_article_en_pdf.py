@@ -147,17 +147,9 @@ def build(s):
     story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
-        "We analyse an <b>analysis catalog of 4,267 unique M\u22656.5 events</b> "
-        "(modern window 1973\u20132026: 2,041 events; provenance: 4,418 CSV rows, "
-        "~151 NOAA M&lt;6.5 excluded from clustering) "
-        "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
-        "The detector yields <b>47 algorithmic candidates</b> (27 modern); historical NOAA records "
-        "(n=47) reported in Appendix A only. <b>Primary ETAS null</b> (temporal MLE, "
-        "catalog-calibrated): mean=27.0, p_ETAS=1.0 \u2014 N_obs consistent with calibrated "
-        "ETAS; detector finds no excess series "
-        "(Sec. 5.3). GK mainshocks: N=27 unchanged. "
-        "Global-series hypothesis <b>not supported</b> (Sec. 5.3\u20135.6). Permutation "
-        "p=0.0001 (1/10,001) rejects temporal Poisson null only. Limitations \u2014 Sec. 5.6.",
+        "Catalog-calibrated temporal ETAS predicts N=27 series (<b>p_ETAS=1.0</b>); "
+        "the observed pattern is consistent with the null. "
+        "<b>The hypothesis of physically meaningful global multi-regional series is not supported.</b>",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -212,8 +204,7 @@ def build(s):
         "series exist in M\u22656.5 (1973\u20132026)? (a) Permutation: p=0.0001 rejects "
         "Poisson times only. (b) ETAS MLE: mean=27.0, p_ETAS=1.0. "
         "(c) Global-series hypothesis: <b>not confirmed</b>. "
-        "(d) Literature H&amp;S: comparison only. "
-        "(e) WLS control (App.\u00a0B): p=1.0 \u2014 falsification, not primary null.",
+        "(d) WLS control (App.\u00a0B): p=1.0 \u2014 coupling illustration, not primary null.",
         s["body_ni"]
     ))
 
@@ -418,14 +409,17 @@ def build(s):
 
     story += SSEC("5.5 ETAS null limitations", s)
     story.append(Paragraph(
-        "Primary null uses <b>temporal MLE on GK mainshocks</b>; spatial Ogata (1998) MLE with "
-        "confidence intervals is not implemented. WLS calibration \u2014 Appendix B "
-        "(reproducibility, not inference). The negative outcome also rests on no physical "
-        "mechanism, failed tectonic metric (98% GC fallback), and liberal search (142 windows).",
+        "Primary null uses <b>temporal MLE on GK mainshocks</b>; WLS \u2014 Appendix B "
+        "(negative control). See Sec. 5.6.",
         s["body"]
     ))
 
     story += SSEC("5.6 Limitations", s)
+    story.append(Paragraph(
+        "<b>We used temporal ETAS only; the spatial component was not modeled; "
+        "conclusions are strictly limited to temporal clustering.</b>",
+        s["body_ni"]
+    ))
     lim_rows = [
         ["Limitation", "Affected step", "Impact on main conclusion"],
         [
@@ -442,7 +436,7 @@ def build(s):
         [
             "No spatial Ogata MLE",
             "ETAS null",
-            "Literature null only; not publication-grade catalog fit",
+            "Temporal MLE primary; spatial MLE future work",
         ],
         [
             "142 windows + merge",
@@ -450,9 +444,9 @@ def build(s):
             "Main source of liberalness",
         ],
         [
-            "Literature p \u2264 0.001",
+            "Calibrated p_ETAS = 1.0",
             "ETAS test",
-            "ETAS-unexplained clustering; circum-Pacific; not global chains",
+            "Consistent with null; supports negative conclusion",
         ],
     ]
     story.append(build_pdf_table(lim_rows, [0.24, 0.22, 0.54], w, s, wrap_col=2))
@@ -485,8 +479,7 @@ def build(s):
         "<b>Reproducibility negative control only \u2014 not inference.</b> Catalog-matched WLS "
         "(results/etas_calibration.json: \u03bc\u22480.103, K\u22480.495) yields mean=27.0, "
         "p_ETAS=1.0 (n=1000; multiseed stable). Illustrates <b>detector\u2013calibration coupling</b>; "
-        "<b>not</b> used for inference. <b>Do not cite</b> p_ETAS=1.0 in abstract, conclusions, "
-        "or hero metrics.",
+        "<b>not</b> the primary null.",
         s["body"]
     ))
     wls_rows = [

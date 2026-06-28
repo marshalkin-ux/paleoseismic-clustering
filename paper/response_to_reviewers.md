@@ -28,7 +28,20 @@
 
 Выводы **начинаются** с: гипотеза о мультирегиональных глобальных сериях **не подтверждена**; permutation и ETAS — разные под-гипотезы.
 
-Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, только сравнение.
+Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, только сравнение (историческая сноска в Introduction).
+
+---
+
+## ERROR 4: Annotation schizophrenia (RU/EN abstracts, §5.5, Appendix B)
+
+**Замечание:** противоречивые RU/EN abstracts (H&S primary vs MLE p=1.0); устаревшее правило Appendix B «не цитировать p_ETAS=1.0».
+
+**Исправлено:**
+- **Abstracts (RU+EN):** MLE primary, p_ETAS=1.0 — главный результат; без permutation p и без H&S.
+- **H&S 2003:** удалён из Methods, Results, Conclusions, §5.5, hypothesis table; оставлен только в Introduction как историческая сноска.
+- **Appendix B:** удалено правило «do not cite p_ETAS=1.0»; WLS = coupling illustration, не primary.
+- **§5.5–5.6:** MLE primary; **bold** temporal-only limitation.
+- Синхронизированы: `main.tex`, `article_ru.md`, `article_en.md`, `take_home_message.md`, `index.html`, `project_showcase.html`; PDF перегенерированы.
 
 ---
 
