@@ -18,7 +18,8 @@
 - Современных кандидатов детектора (N_obs): **27**
 - ETAS FPR (калибр.): **1000/1000**; mean **27.0 ± 0.0**; **p_ETAS = 1.0**
 - ETAS sensitivity α=b=0.911: `results/etas_validation_b0911.json` (n=50, p_ETAS=1.0, mean=27.0)
-- ETAS literature comparison (μ=0.008): mean **15.44 ± 1.65** (max **24**); p ≤ 0.001
+- Hold-out ETAS (train 1973–2000, validate 2001–2026): **N_obs=13**, mean=13.0, **p=1.0**
+- ETAS literature comparison (μ=0.008, H&S 2003 defaults): mean **15.44 ± 1.65** (max **24**); p ≤ 0.001 — **comparison only, not primary**
 - Permutation test: **p = 0.0001 (1/10,001 permutations)**, z = **−6.17** (k=0 nulls ≥ observed; formula (k+1)/(n+1))
 - FDR BH (q=0.05, N=47): **45/47**
 

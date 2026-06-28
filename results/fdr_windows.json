@@ -1,23 +1,32 @@
 {
   "source": "scripts/compute_fdr_windows.py",
-  "raw_window_counts_by_config": {
-    "modern_1yr": 2038,
-    "modern_2yr": 2038,
-    "modern_5yr": 2038,
-    "early_5yr": 2177,
-    "historical_50yr": 16
-  },
-  "raw_window_candidates_total": 8307,
-  "canonical_pipeline_142_note": "142 = pre-merge hits across epochs × Δt (repo historical run)",
-  "union_three_epochs_gc1500": 47,
+  "raw_window_candidates": 8307,
+  "merged_groups_union": 1,
   "greedy_merged_series_reported": 47,
   "modern_greedy_2yr": 27,
-  "pipeline_note": "142 → 47 → 27: raw hits (no greedy mask) → union-merge → greedy modern Δt=2 yr.",
-  "fdr_applicability": "Window-level BH on overlapping sliding tests is not a valid discovery procedure (M_eff << n_windows; tests are strongly correlated). Post-hoc BH on 47 merged-series Monte Carlo p-values is reported in fdr_correction_results.csv — not a discovery claim.",
-  "merged_series_fdr_posthoc": {
+  "pipeline_note": "142 → 47 → 27: 142 = raw hits across epochs × window sizes (no greedy mask); 47 = union-merge of overlapping windows (full historical); 27 = greedy global_series on modern Δt=2 yr.",
+  "fdr_applicability": "BH on 142 correlated sliding-window tests is exploratory only — windows overlap strongly; M_eff << 142. Primary FDR in paper applies post-hoc to 47 merged-series p-values (not window-level discovery).",
+  "modern_2yr_window_fdr": {
+    "n_windows": 2038,
+    "n_mc_per_window": 500,
+    "significant_raw_p005": 2038,
+    "significant_bh_q005": 2038,
+    "p_values_sample": [
+      0.001996007984031936,
+      0.001996007984031936,
+      0.001996007984031936,
+      0.001996007984031936,
+      0.001996007984031936,
+      0.001996007984031936,
+      0.001996007984031936,
+      0.001996007984031936,
+      0.001996007984031936,
+      0.001996007984031936
+    ]
+  },
+  "merged_series_fdr": {
     "n_candidates": 47,
     "significant_bh_q005": 45,
-    "significant_bh_recomputed": 45,
-    "source_file": "results/fdr_correction_results.csv"
+    "source_file": "results\\fdr_correction_results.csv"
   }
 }
