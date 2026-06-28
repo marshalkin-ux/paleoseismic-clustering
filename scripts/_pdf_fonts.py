@@ -101,6 +101,28 @@ def _font_tuples() -> list[tuple[Path, Path, Path, Path]]:
 
 def register_pdf_fonts() -> str:
     """Register Main/MainBold/MainItalic/MainBI; return path to regular TTF."""
+    script_fonts = Path(__file__).resolve().parent / "fonts"
+    script_fonts.mkdir(exist_ok=True)
+
+    # Bootstrap DejaVu from matplotlib if scripts/fonts is empty.
+    if not (script_fonts / "DejaVuSans.ttf").is_file():
+        try:
+            import shutil
+            import matplotlib
+
+            mpl_fonts = Path(matplotlib.get_data_path()) / "fonts" / "ttf"
+            for name in (
+                "DejaVuSans.ttf",
+                "DejaVuSans-Bold.ttf",
+                "DejaVuSans-Oblique.ttf",
+                "DejaVuSans-BoldOblique.ttf",
+            ):
+                src = mpl_fonts / name
+                if src.is_file():
+                    shutil.copy2(src, script_fonts / name)
+        except Exception:
+            pass
+
     for regular, bold, italic, bold_italic in _font_tuples():
         if regular.is_file() and bold.is_file():
             pdfmetrics.registerFont(TTFont("Main", str(regular)))
