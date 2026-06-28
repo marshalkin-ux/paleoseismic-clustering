@@ -147,9 +147,14 @@ def build(s):
     story.append(Spacer(1, 0.3 * cm))
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
-        "Catalog-calibrated temporal ETAS predicts N=27 series (<b>p_ETAS=1.0</b>); "
-        "the observed pattern is consistent with the null. "
-        "<b>The hypothesis of physically meaningful global multi-regional series is not supported.</b>",
+        "We analyze an <b>analysis catalog of 4,267 unique M\u22656.5 events</b> "
+        "(modern window 1973\u20132026: 2,041). A Baiesi\u2013Paczuski \u03b7 detector "
+        "with <b>great-circle distance</b> yields <b>27 algorithmic candidates</b> "
+        "in the modern window. <b>Catalog-calibrated temporal ETAS</b> (GK mainshocks): "
+        "mean=27.0, <b>p_ETAS=1.0</b> \u2014 N_obs consistent with the null. "
+        "Under the temporal ETAS model used, no anomalous temporal clustering beyond "
+        "calibrated ETAS; spatial component not modeled. "
+        "<b>Limitation:</b> spatial component not modeled (Sec.\u00a05.6).",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -203,7 +208,8 @@ def build(s):
         "<b>§1.1 Research question.</b> Do physically meaningful multi-regional global "
         "series exist in M\u22656.5 (1973\u20132026)? (a) Permutation: p=0.0001 rejects "
         "Poisson times only. (b) ETAS MLE: mean=27.0, p_ETAS=1.0. "
-        "(c) Global-series hypothesis: <b>not confirmed</b>. "
+        "(c) Global-series hypothesis: <b>not tested</b> by temporal-only ETAS; "
+        "spatial null open. "
         "(d) WLS control (App.\u00a0B): p=1.0 \u2014 coupling illustration, not primary null.",
         s["body_ni"]
     ))
@@ -394,8 +400,9 @@ def build(s):
     story += SEC("5. CONCLUSIONS", s)
     story.append(Paragraph(
         "Primary ETAS-null (temporal MLE): mean = 27.0, p_ETAS = 1.0. "
-        "Global-series hypothesis <b>not supported</b>. "
-        "WLS control: p = 1.0 \u2014 falsification framing, not primary null. "
+        "No anomalous temporal clustering beyond catalog-calibrated ETAS; "
+        "spatial linkage among remote events remains open. "
+        "WLS control: p = 1.0 \u2014 coupling illustration, not primary null. "
         "Permutation rejects Poisson times only (Ogata 1988).",
         s["body"]
     ))
@@ -417,7 +424,9 @@ def build(s):
     story += SSEC("5.6 Limitations", s)
     story.append(Paragraph(
         "<b>We used temporal ETAS only; the spatial component was not modeled; "
-        "conclusions are strictly limited to temporal clustering.</b>",
+        "conclusions are strictly limited to temporal clustering.</b> "
+        "Rejecting global series as a <b>tested</b> null would require spatial ETAS "
+        "(Ogata 1998); we <b>do not</b> claim that rejection here.",
         s["body_ni"]
     ))
     lim_rows = [

@@ -37,7 +37,7 @@ Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, тольк
 **Замечание:** противоречивые RU/EN abstracts (H&S primary vs MLE p=1.0); устаревшее правило Appendix B «не цитировать p_ETAS=1.0».
 
 **Исправлено:**
-- **Abstracts (RU+EN):** MLE primary, p_ETAS=1.0 — главный результат; без permutation p и без H&S.
+- **Abstracts (RU+EN):** minimal structure — catalog N=4267/2041 modern, detector 27 candidates, ETAS mean=27.0 p_ETAS=1.0; без permutation p и без Bird; ограничение §5.6.
 - **H&S 2003:** удалён из Methods, Results, Conclusions, §5.5, hypothesis table; оставлен только в Introduction как историческая сноска.
 - **Appendix B:** удалено правило «do not cite p_ETAS=1.0»; WLS = coupling illustration, не primary.
 - **§5.5–5.6:** MLE primary; **bold** temporal-only limitation.
@@ -57,6 +57,25 @@ Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, тольк
 
 ---
 
+## ERROR 5: Overstatement — temporal ETAS vs spatial linkage
+
+**Замечание:** §5.6 честно указывает temporal-only ETAS, но заголовок/введение заявляют «spatiotemporal clustering», а выводы — «global series hypothesis NOT supported». Temporal ETAS (p=1.0) тестирует лишь временную кластеризацию в 2-летних окнах, **не** физическую связанность географически разнесённых событий (>1500 км GC). Без spatial kernel r^{-d} тест не отвечает на вопрос пространственной связи.
+
+**Исправлено — скромные канонические выводы (RU+EN):**
+
+- RU: «Мы не обнаружили аномалий временной кластеризации сверх калиброванной ETAS. Пространственная компонента не моделировалась, поэтому вопрос о физической связанности удалённых событий остаётся открытым для будущих исследований.»
+- EN: «We found no anomalous temporal clustering beyond catalog-calibrated ETAS. The spatial component was not modeled; the question of physical linkage among geographically remote events remains open for future work.»
+
+**Изменения:**
+- Abstracts (RU/EN): modest conclusion + MLE p=1.0; без permutation p; MLE primary, WLS App. B only.
+- §6 Conclusions / Discussion: различие established (N=27 temporal ETAS) vs not tested (spatial linkage).
+- §1.1 Introduction: scope paragraph — primary ETAS = temporal excess; spatial linkage = future work.
+- Hypothesis table row (c): «Not tested by temporal-only ETAS; detector candidates lack validated physical mechanism; spatial null open».
+- §5.6: bold temporal limitation + explicit sentence that «global series rejected» would require spatial ETAS.
+- Синхронизированы: `take_home_message.md`, `index.html`, `project_showcase.html`, PDF-генераторы.
+
+---
+
 ## Статус по пунктам
 
 | Замечание | Статус |
@@ -65,4 +84,4 @@ Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, тольк
 | Spatial Ogata (1998) MLE | **Future work** — documented |
 | p-value schizophrenia | **Fixed** — three-layer logic |
 | GK reproducibility tables | **Added** — code-accurate |
-| PDF regeneration | `generate_article_pdf.py`, `generate_article_en_pdf.py` |
+| Temporal vs spatial scope | **Fixed** — modest conclusions |

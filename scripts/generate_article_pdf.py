@@ -174,11 +174,14 @@ def build(s):
 
     story.append(Paragraph("<b>Аннотация.</b>", s["abstract_label"]))
     story.append(Paragraph(
-        "Калиброванная по каталогу temporal ETAS (GK mainshocks, 1973\u20132026) "
-        "предсказывает N=27 серий (<b>p_ETAS=1,0</b>); наблюдаемая картина согласована с null. "
-        "<b>Гипотеза о физически значимых мультирегиональных глобальных сериях не подтверждается.</b> "
-        "Анализ-каталог 4267 уникальных M\u22656.5 (современное окно 1973\u20132026: 2041); "
-        "47 кандидатов детектора (27 modern). Ограничения \u2014 \u00a75.5\u20135.6.",
+        "В <b>анализ-каталоге 4267 уникальных M\u22656.5</b> (современное окно "
+        "1973\u20132026: 2041); 47 записей NOAA \u2014 Приложение\u00a0A. Детектор "
+        "(\u03b7, great-circle) выдаёт <b>27 кандидатов</b> в современном окне. "
+        "<b>Калиброванная temporal ETAS</b> (GK mainshocks): mean=27,0, "
+        "<b>p_ETAS=1,0</b>. "
+        "<b>Мы не обнаружили аномалий временной кластеризации сверх калиброванной ETAS. "
+        "Пространственная компонента не моделировалась, поэтому вопрос о физической "
+        "связанности удалённых событий остаётся открытым для будущих исследований.</b>",
         s["abstract"]
     ))
 
@@ -213,20 +216,14 @@ def build(s):
     story.append(Spacer(1, 0.2 * cm))
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
-        "Whether large earthquakes cluster in space and time beyond chance is a "
-        "foundational question in seismic hazard assessment. We analyse a merged "
-        "catalog of <b>4,267 unique M\u22656.5 events</b> (from 4,418 CSV rows; "
-        "~151 NOAA M&lt;6.5 rows excluded from clustering). "
-        "The detector yields 47 algorithmic candidates (27 modern). "
-        "<b>Primary ETAS null</b> (temporal MLE, catalog-calibrated): mean=27.0, "
-        "p_ETAS=1.0 — N_obs consistent with calibrated ETAS; "
-        "<b>not</b> teleseismic proof "
-        "(Sec. 5.3). GK mainshocks: N=27 unchanged. "
-        "Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.6). "
-        "Significance is assessed by permutation test "
-        "(n=10,000, p=0.0001 (1/10,001), z=-6.17). "
-        "Heuristic with tectonic hint (Bird 2003): 98% GC fallback \u2014 failed hypothesis test. "
-        "Limitations \u2014 Sec. 5.6.",
+        "We analyze <b>4,267 unique M\u22656.5 events</b> (modern window 1973\u20132026: "
+        "2,041); NOAA pre-1900 records in Appendix\u00a0A. "
+        "Baiesi\u2013Paczuski \u03b7 detector (great-circle) yields <b>27 candidates</b> "
+        "in the modern window. <b>Catalog-calibrated temporal ETAS</b> (GK mainshocks): "
+        "mean=27.0, <b>p_ETAS=1.0</b>. "
+        "<b>We found no anomalous temporal clustering beyond catalog-calibrated ETAS. "
+        "The spatial component was not modeled; the question of physical linkage among "
+        "geographically remote events remains open for future work.</b>",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -298,7 +295,7 @@ def build(s):
         "мультирегиональные глобальные серии в каталоге M\u22656.5 (1973\u20132026)? "
         "(a) Permutation: H\u2080 независимые времена \u2192 p=0,0001 (не тест глобальных серий). "
         "(b) ETAS MLE: mean=27,0, p_ETAS=1,0 \u2014 N_obs согласован с null. "
-        "(c) Гипотеза глобальных серий: <b>не подтверждена</b>. "
+        "(c) Гипотеза глобальных серий: <b>не тестируется</b> temporal-only ETAS; spatial null открыт. "
         "(d) WLS-контроль (Прил.\u00a0B): p=1,0 \u2014 coupling illustration, не первичная null.",
         s["body_ni"]
     ))
@@ -555,8 +552,8 @@ def build(s):
         s["body_ni"]
     ))
     story.append(Paragraph(
-        "<b>Отрицательный результат:</b> детектор либерален; primary MLE p_ETAS=1,0, N=27. "
-        "Гипотеза глобальных серий не подтверждается. "
+        "<b>Вывод:</b> детектор либерален; primary MLE p_ETAS=1,0, N=27. "
+        "Нет аномалий временной кластеризации; spatial linkage не тестировалась. "
         "Тектоника Bird исключена; провал \u2014 непригодность метрики.",
         s["body"]
     ))
@@ -566,8 +563,8 @@ def build(s):
     story += SEC("5. Выводы", s)
     story.append(Paragraph(
         "Детектор <b>либерален</b>. Primary temporal MLE ETAS: mean=27,0, "
-        "p_ETAS=1,0 \u2014 N_obs согласован с catalog-calibrated null. "
-        "Гипотеза о глобальных сериях <b>не подтверждается</b>. "
+        "p_ETAS=1,0 \u2014 нет аномалий временной кластеризации сверх calibrated null. "
+        "Spatial linkage не тестировалась. "
         "WLS-контроль: p=1,0 \u2014 coupling illustration, не первичная null. "
         "Permutation отвергает пуассоновские времена (Ogata, 1988).",
         s["body"]
@@ -592,7 +589,9 @@ def build(s):
     story += SSEC("5.6 Ограничения", s)
     story.append(Paragraph(
         "<b>Использована только temporal ETAS; пространственный компонент не моделировался; "
-        "выводы строго ограничены временной кластеризацией.</b>",
+        "выводы строго ограничены временной кластеризацией.</b> "
+        "Отверждение «глобальных серий» как протестированной null потребовало бы spatial ETAS; "
+        "мы <b>не</b> заявляем такого отвержения здесь.",
         s["body"]
     ))
     lim_rows = [
@@ -650,15 +649,17 @@ def build(s):
 
     story += SEC("ПРИЛОЖЕНИЕ B. НЕГАТИВНЫЙ КОНТРОЛЬ WLS (ВОСПРОИЗВОДИМОСТЬ)", s)
     story.append(Paragraph(
-        "<b>Только воспроизводимость \u2014 не inference.</b> Каталог-калиброванная WLS "
-        "(results/etas_calibration.json: \u03bc\u22480,103, K\u22480,495) даёт mean=27,0, "
-        "p_ETAS=1,0 (n=1000, multiseed стабилен). <b>Артефакт связки детектор+калибровка</b>; "
-        "<b>не</b> для выводов. Иллюстрирует coupling детектора и калибровки; <b>не</b> первичная null.",
+        "<b>Только воспроизводимость \u2014 не inference.</b> "
+        "Каталог-калиброванная WLS (results/etas_calibration.json: "
+        "\u03bc\u22480,103, K\u22480,495) даёт mean=27,0, p_ETAS=1,0 "
+        "(n=1000, multiseed стабилен). <b>Артефакт связки детектор+калибровка</b> "
+        "на 24 GK-афтершоках; <b>не</b> для выводов. "
+        "Иллюстрирует coupling детектора и калибровки; <b>не</b> первичная null.",
         s["body"]
     ))
     wls_rows = [
         ["Компонент", "Метод"],
-        ["\u03bc", "GK mainshocks / T (замкнутая форма)"],
+        ["\u03bc (мю)", "GK mainshocks / T (замкнутая форма)"],
         ["c, p", "Omori MLE, Nelder\u2013Mead на 24 задержках"],
         ["K, \u03b1", "WLS (numpy.linalg.lstsq) на тех же 24 GK-афтершоках"],
     ]

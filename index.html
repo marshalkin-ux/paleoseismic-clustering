@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Глобальные сейсмические серии: M≥6.5 за 1973–2026 | Ярослав Маршалкин</title>
-  <meta name="description" content="Null result: primary literature ETAS p≤0.001 (clustering beyond model; circum-Pacific). Declustering GK/ZBZ/none N=27. No evidence for physical global series.">
+  <meta name="description" content="Temporal ETAS MLE p=1.0 (N=27): no anomalous temporal clustering beyond catalog-calibrated null. Spatial linkage among remote events not tested. GK/ZBZ/none N=27.">
   <meta name="keywords" content="глобальные сейсмические серии, earthquake clustering, seismic triggering, дальнодействующий триггеринг, Baiesi-Paczuski, тектоническое расстояние, ETAS validation, FDR Benjamini-Hochberg, Monte Carlo, paleoseismic, землетрясения M6.5">
   <meta name="author" content="Ярослав Маршалкин">
   <link rel="canonical" href="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
   <meta property="og:title" content="Глобальные сейсмические серии: M≥6.5 за 1973–2026">
-  <meta property="og:description" content="Null result (falsification of global-series hypothesis): ETAS-indistinguishable detector output.">
+  <meta property="og:description" content="No anomalous temporal clustering beyond catalog-calibrated ETAS (p=1.0). Spatial linkage among remote events remains open.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://marshalkin-ux.github.io/paleoseismic-clustering/presentation/project_showcase.html">
   <meta property="og:locale" content="ru_RU">
@@ -1577,7 +1577,7 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern). <strong>Первичная ETAS-null</strong> (temporal MLE, GK mainshocks): mean=27,0, p<sub>ETAS</sub>=1,0 — N<sub>obs</sub>=27 согласован с catalog-calibrated null; гипотеза о физически значимых глобальных сериях <strong>не подтверждается</strong>. GK/ZBZ/none: <strong>N=27</strong> при фикс. воротах; b=1.0/0.911→N=27 (Jaccard=1,0). Тектоническая метрика удалена из первичного конвейера.
+      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг.: 2041 событие, 47 кандидатов детектора (27 modern). <strong>Первичная ETAS-null</strong> (temporal MLE, GK mainshocks): mean=27,0, p<sub>ETAS</sub>=1,0 — нет аномалий <strong>временной</strong> кластеризации сверх catalog-calibrated null. Пространственная связанность удалённых событий <strong>не тестировалась</strong>. GK/ZBZ/none: <strong>N=27</strong> при фикс. воротах; b=1.0/0.911→N=27 (Jaccard=1,0). Тектоническая метрика удалена из первичного конвейера.
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -1978,7 +1978,7 @@
           </table>
         </div>
         <div style="margin-top:12px; padding:10px; background:rgba(88,166,255,0.08); border-radius:8px; border:1px solid rgba(88,166,255,0.2); font-size:0.85rem; color:var(--text-muted);">
-          <strong style="color:var(--accent);">Первичная ETAS-null:</strong> temporal MLE (p<sub>ETAS</sub>=1,0, mean=27,0) — N<sub>obs</sub>=27 согласован с catalog-calibrated null; гипотеза глобальных серий не подтверждается.
+          <strong style="color:var(--accent);">Первичная ETAS-null:</strong> temporal MLE (p<sub>ETAS</sub>=1,0, mean=27,0) — нет избытка <strong>временной</strong> кластеризации; spatial linkage не тестировалась.
         </div>
       </div>
 
@@ -2121,7 +2121,7 @@
     <div class="section-header fade-in">
       <span class="section-tag">04 · Результаты</span>
       <h2>Итог: null-результат</h2>
-      <p>ETAS-validated falsification гипотезы о физических «глобальных сериях»</p>
+      <p>Temporal ETAS: нет аномалий временной кластеризации сверх calibrated null; spatial linkage — открыт</p>
     </div>
 
     <div class="findings-plain fade-in">
@@ -2300,9 +2300,9 @@
           <ul>
             <li><strong>4267</strong> событий M≥6.5; <strong>2041</strong> в окне 1973–2026</li>
             <li><strong>47</strong> кандидатов детектора после merge (142 окна) — <em>не</em> «открытые серии»</li>
-            <li><strong>Permutation:</strong> p = 0.0001 (1/10,001) — отвергает <em>пуассоновские времена</em>, не доказывает дальний триггеринг</li>
-            <li><strong>Три различных теста (§5):</strong> permutation → Poisson-времена; ETAS MLE → согласован с null; глобальные серии → <em>не подтверждены</em></li>
-            <li><strong>ETAS MLE (primary):</strong> mean <strong>27.0</strong>, p<sub>ETAS</sub>=1.0 — N_obs согласован с catalog-calibrated null; <em>не</em> избыток серий</li>
+            <li><strong>ETAS MLE (primary):</strong> mean <strong>27.0</strong>, p<sub>ETAS</sub>=1.0 — N<sub>obs</sub> согласован с null</li>
+            <li><strong>Ключевой итог (§4–5):</strong> под temporal-only ETAS кластеры (27) не отличаются от случайного; глобальные пространственно-временные серии не подтверждены — нужна spatiotemporal ETAS (Ogata, 1998)</li>
+            <li><strong>Permutation (§5, не abstract):</strong> p = 0.0001 — пуассоновские времена; не доказательство дальнего триггеринга</li>
             <li><strong>Декластеризация:</strong> GK/ZBZ/none → N=27 при фикс. воротах; 24 vs 1 удалённых — <em>разные метки главных</em>, не «несущественный выбор» (<code>sensitivity_declustering.json</code>)</li>
             <li><strong>Чувствительность:</strong> b=1.0 vs 0.911 → N=27; GC 1000/1500/2000 км → N=27; окна 1/2/5/10 лет → 53/27/11/6; strict N≥8 → 27</li>
             <li><strong>Либеральность детектора (§5.7):</strong> 142 скользящих окна × merge — exploratory search</li>
@@ -2321,7 +2321,7 @@
           <h4>Отрицательный результат (честная рамка)</h4>
           <p>
             Детектор <strong>либерален</strong> (142 окна до merge). Primary temporal MLE ETAS: mean=27,0, p<sub>ETAS</sub>=1,0 — N<sub>obs</sub> согласован с catalog-calibrated null.
-            <strong>Гипотеза о глобальных сериях не подтверждается</strong> (нет механизма, тектоника 98% GC).
+            <strong>Нет аномалий временной кластеризации сверх calibrated ETAS</strong>; spatial linkage удалённых событий — открыт.
           </p>
         </div>
 
@@ -2366,7 +2366,7 @@
       <ul style="margin:0; padding-left:1.25rem; color:var(--text-muted); line-height:1.7;">
         <li><strong style="color:var(--text-dim);">Permutation:</strong> p=0.0001 (1/10,001) — отвергает пуассоновские <em>времена</em> (ожидаемо при афтершоках)</li>
         <li><strong style="color:var(--text-dim);">ETAS MLE (primary):</strong> p<sub>ETAS</sub>=1,0, mean=27,0 — N<sub>obs</sub> согласован с catalog-calibrated null</li>
-        <li><strong style="color:var(--text-dim);">Вывод:</strong> гипотеза глобальных серий не подтверждается; permutation отвергает лишь Poisson-null</li>
+        <li><strong style="color:var(--text-dim);">Вывод:</strong> нет избытка временной кластеризации (p<sub>ETAS</sub>=1,0); spatial linkage не тестировалась</li>
       </ul>
     </div>
 
@@ -2655,7 +2655,7 @@
     <p class="viz-block-desc">
       Каталог-откалиброванный ETAS (μ≈0,103, K≈0,495, α≈0,063, c≈10⁻⁴ сут., p≈1,36; порог 500&nbsp;км):
       multiseed seeds 42–51, n=1000/seed → mean=27,0, σ=0,0, p<sub>ETAS</sub>=1,0 (N<sub>obs</sub>=27) —
-      <strong>детектор не специфичен для глобальных серий; отражает фоновую структуру каталога (§5.6–5.7).</strong>
+      <strong>детектор не находит избытка временной кластеризации; spatial linkage разнесённых кандидатов не тестировалась (§5.6–5.7).</strong>
       Permutation p=0.0001 (1/10,001) отвергает <em>пуассоновские времена</em>, не телесейсмические «серии».
     </p>
     <img src="figures/grl/fig02_etas_validation.png" style="width:100%; border-radius:10px; border:1px solid #30363d;" alt="ETAS null-model validation">

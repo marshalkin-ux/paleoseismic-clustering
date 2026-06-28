@@ -20,17 +20,11 @@
 
 ## Abstract
 
-Catalog-calibrated temporal ETAS predicts N=27 series (**p_ETAS=1.0**); the observed pattern is consistent with the null. **The hypothesis of physically meaningful global multi-regional series is not supported.**
-
-**Analysis scope:** **Primary analysis set:** events **1900–2026** (4,218 unique M≥6.5); **47 pre-1900 NOAA records** remain in CSV for provenance only — see **Appendix A**. **Primary significance claims — modern window 1973–2026 only** (2,041 events).
-
-We test physically meaningful **multi-regional global seismic series** in an **analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041 events); historical NOAA records (*n*=47) are reported in **Appendix A** only. We use the Baiesi–Paczuski metric η with **great-circle distance** for η-linkage and series detection at global scale. A Bird (2003) tectonic-path heuristic was tested and **removed from the primary pipeline** (Appendix diagnostic only; 98% GC fallback). *Provenance:* 4,418 CSV rows include ~151 NOAA M<6.5 rows excluded from clustering. The [permutation test](https://en.wikipedia.org/wiki/Permutation_test) (n = 10,000, **p = 0.0001 (1/10,001 permutations)**[^mc-p], z = −6.17) is a **secondary** test: it rejects a **global temporal Poisson null** — **expected for aftershock catalogs** (Ogata, 1988); **not** a test of the multi-regional global-series hypothesis and **not** proof of teleseismic triggering. Tectonic-path distance: **98%** 1.5× GC fallback — labeled sensitivity/failed hypothesis test; **primary spatial gate is mean pairwise GC > 1500 km**. **ΔCFS/dynamic stress — future work only**; “series” are algorithmic constructs, not proven triggering chains. Limitations — §5.5.
+We analyze an **analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041 events); historical NOAA records (*n*=47) are reported in **Appendix A** only. A Baiesi–Paczuski η detector with **great-circle distance** yields **27 algorithmic candidates** in the modern window. **Catalog-calibrated temporal ETAS** (GK mainshocks, 1973–2026): mean = 27.0, **p_ETAS = 1.0** — N_obs is consistent with the null. Under the temporal ETAS model used, we find no anomalous temporal clustering beyond catalog-calibrated ETAS; the spatial component was not modeled, so questions of long-range spatial linkage remain open. **Limitation:** spatial component not modeled (§5.6).
 
 [^catalog-n]: Canonical analysis N: **4,267** unique M≥6.5 after deduplication (±30 days, ≤50 km; ISC > USGS > NOAA; cf. Waldhauser & Schaff, 2008). **4,418** saved CSV rows include ~151 NOAA M<6.5 rows (provenance only).
 
-[^mc-p]: Discrete permutation test with n = 10,000: p = (k+1)/(n+1) where k is the count of null replicates at least as extreme as observed. Here k = 0, so p = 1/10,001 ≈ 0.0001. We report **p = 0.0001 (1/10,001 permutations)**; equivalently p < 0.001.
-
-**Keywords:** global seismicity; seismic series; earthquake clustering; heuristic metric with tectonic hint; Baiesi–Paczuski metric; ETAS validation; Monte Carlo; paleoseismology; Flinn–Engdahl
+**Keywords:** global seismicity; seismic series; earthquake clustering; Baiesi–Paczuski metric; ETAS validation; paleoseismology; Flinn–Engdahl
 
 > **Terminology.** *Detector candidate* — algorithmic output (N≥4, M≥6.5, mean pairwise GC >1500 km, merged from sliding windows). *Series* in tables denotes such a candidate, **not** a validated physical chain. *Validated global chain* would require a physical mechanism and confirmation beyond the primary calibrated ETAS null; none established.
 
@@ -52,13 +46,15 @@ The [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) mode
 
 **Research question (RQ):** Do physically meaningful multi-regional global series exist in the M ≥ 6.5 catalog (primary window 1973–2026)?
 
+**Scope.** The **primary ETAS test** addresses **temporal** excess clustering in 2-yr detector windows only; it does **not** apply a spatial Ogata (1998) kernel and therefore does **not** test whether geographically dispersed candidates (mean GC > 1500 km) form a **physically linked** global series. That spatial linkage question requires spatial ETAS calibration (future work). We retain the title's spatiotemporal framing for the detector and η-metric, but conclusions are limited accordingly (§5.6).
+
 Four distinct statistical targets must not be conflated (table below; see also §3.8).
 
 | Test / hypothesis | H₀ (null) | H₁ (alternative) | Statistic | Result (modern) |
 |-------------------|-----------|------------------|-----------|-----------------|
 | **(a) Permutation** | Event times **independent** (Poisson process, fixed coordinates) | Times **dependent** (clustering) | mean log₁₀(η_NN); n = 10,000 | **Reject H₀:** p = 0.0001 (1/10,001) |
 | **(b) ETAS-null (primary MLE)** | N_series ≤ **catalog-calibrated** temporal ETAS expectation (GK mainshocks) | N_series **exceeds** calibrated ETAS | series count in 1000 synthetic catalogs | **Do not reject H₀:** p_ETAS = 1.0; N_obs = 27 = mean = 27.0 |
-| **(c) Global series** | **No** physically meaningful multi-regional series (no mechanism; liberal detector) | Teleseismic chains explainable by physics | detector + mechanism + null tests | **H₀ not rejected** (negative result) |
+| **(c) Global series** | **No** physically meaningful multi-regional series (no mechanism; liberal detector) | Teleseismic chains explainable by physics | detector + mechanism + null tests | **Not tested by temporal-only ETAS**; detector candidates lack validated physical mechanism; spatial null open |
 | **(d) WLS negative control** (App. B) | Detector--calibration coupling artifact on same catalog | — | p_ETAS = 1.0, mean = 27 = N_obs | Coupling illustration; **not** primary null |
 
 **Methodological statement (permutation):** rejecting H₀ in test (a) does **not** confirm global series or teleseismic triggering — it rejects Poisson time independence only (expected with aftershocks; Ogata, 1988).
@@ -311,7 +307,9 @@ Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wi
 | Early instrumental (1900–1972) | 15 | 2,179 | 0.007 | −2.43 |
 | Historical (pre-1900) | 5 | 47 | 0.46 | — |
 
-**Modern period.** Twenty-seven candidates; permutation p = 0.0001; primary ETAS MLE: mean = 27.0, p_ETAS = 1.0, N_obs = 27.
+**Modern period.** Twenty-seven candidates; primary ETAS MLE: mean = 27.0, p_ETAS = 1.0, N_obs = 27.
+
+**Key results summary (modern window).** Within the temporal ETAS model used, the observed cluster count (27) does not differ from random (p = 1.0). This does not confirm the hypothesis of global spatiotemporal series; however, a definitive conclusion requires spatiotemporal ETAS (Ogata, 1998), which is beyond the scope of this work.
 
 **Early instrumental period.** Fifteen series, p = 0.007; quality_score < 0.7 before 1960.
 
@@ -379,19 +377,19 @@ The two null tests **do not contradict** each other — they target **different 
 
 ### 5.3 Three-layer test interpretation
 
-**Primary conclusion:** the global multi-regional series hypothesis is **not confirmed**.
+**Primary conclusion.** Within the temporal ETAS model used, the observed cluster count (27) does not differ from random (p = 1.0). This does not confirm the hypothesis of global spatiotemporal series; however, a definitive conclusion requires spatiotemporal ETAS (Ogata, 1998), which is beyond the scope of this work.
 
 | Layer | p | Interpretation |
 |-------|---|----------------|
 | Permutation | 0.0001 | Rejects Poisson times; temporal clustering; **not** global chains |
-| ETAS MLE (primary) | 1.0 | N_obs = 27 = mean = 27; consistent with calibrated null; **not** excess series |
-| Global-series hypothesis | — | **Not confirmed** |
+| ETAS MLE (primary) | 1.0 | N_obs = 27 = mean = 27; no excess **temporal** clustering in detector windows |
+| Global-series hypothesis | — | **Not tested** by temporal-only ETAS; dispersed candidates; spatial null open |
 
 **WLS negative control (Appendix B):** p_ETAS = 1.0, mean = 27 = N_obs — coupling illustration; **not** primary null.
 
-**Established (negative result):** under **primary temporal MLE**, p_ETAS = 1.0 — the detector **does not find excess** series relative to catalog-calibrated ETAS; the global-series hypothesis is **not confirmed** (no mechanism, tectonic metric failed, 142 windows).
+**Established:** under **primary temporal MLE**, p_ETAS = 1.0 — N_obs = 27 consistent with catalog-calibrated ETAS; no excess temporal clustering in detector windows.
 
-**Not established (physics):** η is correlative; **no physical mechanism** explains remote links in candidates. Preliminary Coulomb/dynamic stress tests for S170 **did not** reach triggering thresholds — **future work only**. Candidates are **algorithmic constructs**, not proven triggering chains.
+**Not established/tested:** physical teleseismic linkage of dispersed clusters (mean GC > 1500 km); spatial null not applied; no validated mechanism.
 
 **Early instrumental period (1900–1972).** Fifteen series reach p = 0.007 (z = −2.43), but quality_score < 0.7 before 1960 limits interpretation of individual episodes (including 1905–1910).
 
@@ -417,13 +415,15 @@ Co-occurrence within a series may reflect any of these (or other) processes, or 
 
 **We used temporal ETAS only; the spatial component was not modeled; conclusions are strictly limited to temporal clustering.**
 
+Rejecting "global series" as a **tested** null would require spatial ETAS with an explicit long-range kernel (Ogata 1998); we **do not** claim that rejection here.
+
 | Limitation | Affected step | Impact on main conclusion |
 |------------|---------------|---------------------------|
 | η₀ unverified at global scale | GK/ZBZ `identify_clusters()` | KDE valley of log₁₀(η_NN), η₀ ≈ 7.1×10⁻⁶; weak bimodality at M≥6.5; `global_series` skips η₀ → N = 27 stable; mis-specified η₀ shifts GK/ZBZ labels only |
 | b = 1.0 vs 0.911 in η | η upstream | N_series = 27 both; Jaccard of series sets = 1.0 (`sensitivity_b0911_series_overlap.json`); upstream ~9.8% label mismatch; `identify_clusters()` at b = 0.911 not re-run |
 | No spatial Ogata MLE | ETAS null | Temporal MLE primary; spatial MLE — future work |
 | 142 windows + merge | Detector | Main source of liberalness |
-| Calibrated p_ETAS = 1.0 | ETAS test | Consistent with null; supports negative conclusion |
+| Calibrated p_ETAS = 1.0 | ETAS test | No excess temporal clustering; spatial linkage not tested |
 
 **Impact analysis.** If the KDE-derived η₀ threshold were mis-specified at global M ≥ 6.5 scale, GK/ZBZ declustering labels could shift, but the reported series count N = 27 is computed by `global_series()`, which does **not** apply η₀ filtering; the main negative conclusion is therefore stable to η₀ uncertainty on this path. Holding detector gates fixed, substituting catalog b = 0.911 for the BP (2004) b = 1.0 convention in η also leaves N_series = 27 unchanged (`results/sensitivity_b_eta0.json`), but **equal N does not prove candidate identity:** `global_series()` does not use b (Jaccard = 1.0), and upstream `identify_clusters()` at b = 0.911 was **not** re-run (~9.8% label mismatch, `results/sensitivity_b0911_series_overlap.json`). Spatial Ogata MLE — future work; WLS in Appendix B is a reproducibility control only. The 142 sliding-window candidates are the dominant source of detector liberalness.
 
@@ -449,15 +449,16 @@ The global-series search is **liberal by construction**:
 3. **Primary temporal MLE ETAS null** — p_ETAS = 1.0, mean = 27: detector consistent with calibrated null; **not** excess series.
 4. **Parameter sensitivity** — consolidated table §4.4: GC 1000/1500/2000 → 27; windows 1/2/5/10 → 53/27/11/6; b 1.0/0.911 → 27 (Jaccard = 1.0); GK/ZBZ/none → 27; strict N ≥ 8 → 27; η₀ not_applied.
 
-**Conclusion:** 47 merged candidates reflect liberal exploratory search; the global-series hypothesis is **not supported**.
+**Conclusion:** 47 merged candidates reflect liberal exploratory search; no anomalous temporal clustering beyond catalog-calibrated ETAS; spatial linkage among dispersed events remains open.
 
 ---
 
 ## 6. Conclusions
 
-1. **Global multi-regional series hypothesis not confirmed.**
-2. **Permutation** p = 0.0001 — rejects Poisson times only; **not** proof of global chains.
-3. **Primary ETAS-null** (temporal MLE): mean = 27.0, p_ETAS = 1.0 — N_obs consistent with calibrated ETAS.
+1. **No anomalous temporal clustering** beyond catalog-calibrated ETAS (N_obs = 27, mean = 27.0, p_ETAS = 1.0) in 2-yr detector windows.
+2. **Spatial linkage not tested:** temporal-only ETAS; dispersed candidates (mean GC > 1500 km) lack validated physical mechanism; spatial null remains open.
+3. **Permutation** p = 0.0001 — rejects Poisson times only; **not** proof of global chains.
+4. **Primary ETAS-null** (temporal MLE): see §5.3 table.
 
 Additionally: tectonic heuristic removed from primary pipeline; ΔCFS — future work.
 
