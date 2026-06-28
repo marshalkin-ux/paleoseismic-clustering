@@ -160,3 +160,87 @@ Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, тольк
 ## STRUCTURE §5: GK/ZBZ/none все N=27
 
 **Исправлено:** честное объяснение — `global_series()` gates доминируют; декластеризация влияет на upstream labels; liberal-detector red flag; cite `results/sensitivity_declustering.json`.
+
+---
+
+## ROUND 4: Linear IMRAD, hold-out Methods, b=0.911 full pipeline, N=27 stability
+
+**Исправлено:**
+- Линейная структура RU+EN+`main.tex`: §3.1 GK → §3.2 η → §3.3 детектор → §3.4 ETAS MLE → §3.5 hold-out; все числа в §4.1; Discussion без stats; Conclusions §6 без чисел.
+- Appendix A (pre-1900) + B (WLS) удалены из основного текста; сноски на `paper/supplementary.md` §S2/S3.
+- §3.5 hold-out: train 1024 GK mainshocks (1973–2000), hold-out 1010 events / 25 yr, detector Δt=2, n=1000 seed=42, max_total_events=5000.
+- `scripts/run_sensitivity_b0911_full.py` → `results/sensitivity_b0911_full_pipeline.json`: N_series=27 при b=1.0 и 0.911; Jaccard=1.0; 8.2% upstream label mismatch.
+- `scripts/compute_series_stability.py` → `results/series_stability_venn.json`: матрица Δt×decluster×b; N=27 стабилен при Δt=2 (4/12 configs); доминирует ширина окна.
+- `index.html`, `take_home_message.md`: указатели на структуру; stats → §4.1.
+
+
+**Замечание 2.1 (title / scope honesty):** заголовок «spatiotemporal» читается как полная пространственно-временная валидация; фактически — детекция с пространственными воротами + **только temporal** ETAS hold-out.
+
+**Исправлено:**
+- Подзаголовок EN: *Temporal ETAS null and hold-out validation*; RU: *Временная ETAS-null и hold-out валидация*.
+- Аннотации (RU+EN): явное предложение — заголовок = **detection**; **validation** = temporal-only.
+- §1 Introduction (RU+EN): анализируем **кандидатов детектора** с GC>1500 км; валидируем **только временной избыток**; spatial linkage **не тестируется**.
+- `main.tex`: `\title{...\\{\large Temporal ETAS null and hold-out validation}}`; abstract + scope paragraph синхронизированы.
+
+**Замечание 2.2 (Bird):** формулировка «validation failed proves unsuitability» без synthetic benchmark.
+
+**Исправлено:**
+- Основной текст: «excluded from primary pipeline; **no synthetic benchmark** in this work; comparison deferred to supplementary/future work».
+- `paper/supplementary.md` §S1: убрана фраза про «metric unsuitability» как доказательство; audit 98% GC-fallback сохранён.
+- `generate_article_en_pdf.py`: Bird paragraph синхронизирован.
+
+**Замечание 2.3 (FDR / multiple testing):** 27 modern не скорректированы за поиск по 142 окнам.
+
+**Исправлено:**
+- §4.1 Results (RU+EN, `main.tex`): новый абзац — FDR на 142 **не** применялась к 27; Bonferroni 0,05/142≈0,00035 vs permutation p=0,0001; BH на 47 merged — exploratory, **не** discovery claim.
+- `results/fdr_windows.json` — pipeline 142→47→27 задокументирован (`scripts/compute_fdr_windows.py`).
+
+**Замечание 2.4 (b=0.911):** Jaccard=1.0 при фиксированных воротах не доказывает идентичность upstream-кластеров.
+
+**Исправлено:**
+- §3 / §4.4 (RU+EN): Jaccard=1.0 для **наборов событий серий** ≠ доказательство upstream identity; полный конвейер при b=0,911 **не перезапускался** (~9,8% label mismatch).
+- Убраны формулировки, подразумевающие полный re-run.
+
+**Typo (CRITICAL):** EN abstract «N_obs cornacovan c in-sample» → «N_obs **consistent with in-sample temporal null**»; grep по репозиторию — других вхождений «cornacovan» нет.
+
+**Future work (не в этой сессии):** spatial Ogata (1998) MLE — journal requirement; synthetic Bird benchmark — `docs/future_work_etas_mle.md`.
+
+| Пункт | Статус |
+|-------|--------|
+| Title/subtitle reframe | **Done** |
+| Abstract detection vs validation | **Done** |
+| EN typo cornacovan | **Done** (grep clean) |
+| Bird unsuitability claim | **Removed** |
+| FDR/Bonferroni paragraph | **Done** |
+| b=0.911 Jaccard disclaimer | **Done** |
+| Spatial Ogata MLE | **Future work** — documented |
+
+---
+
+## ROUND 4: Dedupe stats, appendices → supplementary, hold-out Methods/Results
+
+**Замечание:** N=27/p_ETAS/p повторяются в abstract, intro, discussion; Appendices A/B в теле; hold-out без Methods; hero/index дублируют числа.
+
+**Исправлено:**
+
+1. **§4.1 canonical table (RU+EN+main.tex):** единственное полное сообщение p_ETAS/N_obs — таблица Split | N_obs | mean | p_ETAS (in-sample + hold-out); permutation p=0.0001 один раз там же.
+
+2. **Abstract (RU+EN+PDF):** catalog, 27 candidates, p_ETAS=1.0 одной строкой; без hold-out чисел; без mean=27.
+
+3. **Introduction hypothesis table:** Result → «см. §4.1»; WLS → Supplementary S2.
+
+4. **Discussion/Conclusions:** интерпретация без повторения N=27/p; generalizing phrases only.
+
+5. **Appendices A/B удалены** из article_ru/en.md, main.tex, PDF-генераторов; контент в `paper/supplementary.md` §S2 (WLS) + **§S3 (pre-1900)**; ссылки Supplementary S1/S2/S3; index materials link обновлён.
+
+6. **Hold-out Methods §3.7/3.8 (RU) / §3.8 (EN) / main.tex §subsec:holdout-methods:** train GK 1973–2000, hold-out 2001–2026, Δt=2 yr, GC>1500, N≥4, n=1000 seed=42, `results/etas_holdout_validation.json`; partial out-of-time note.
+
+7. **Trim:** hero/index — без hold-out в hero; PDF generators deduped.
+
+| Пункт | Статус |
+|-------|--------|
+| Canonical §4.1 table | **Done** |
+| Abstract minimal | **Done** |
+| Appendices → supplementary | **Done** |
+| Hold-out Methods + Results | **Done** |
+| Discussion dedupe | **Done** |

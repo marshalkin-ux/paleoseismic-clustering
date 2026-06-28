@@ -1,4 +1,4 @@
-"""Verify Cyrillic text in article_ru.pdf on pages 5, 7, 8."""
+"""Verify Cyrillic text in article_ru.pdf after round-4 layout."""
 
 from __future__ import annotations
 
@@ -11,11 +11,14 @@ import pypdf
 ROOT = Path(__file__).resolve().parent.parent
 PDF = ROOT / "paper" / "article_ru.pdf"
 
-# page index (0-based) -> substrings that must appear
+# page index (0-based) -> substrings that must appear (round-3 layout)
 CHECKS: dict[int, list[str]] = {
-    4: ["Компонент", "Штраф", "Физический смысл", "временно"],
-    6: ["Пространственно", "распределение", "циркум-тихоокеанского", "Камчатка"],
-    7: ["Только воспроизводимость", "Компонент", "замкнутая форма", "афтершоках"],
+    0: ["Временная ETAS-null", "in-sample temporal null"],
+    2: ["событий", "полноты"],
+    3: ["Jaccard", "Штраф", "Компонент"],
+    4: ["Bonferroni", "пуассоновские", "Split"],
+    5: ["Параметр", "Сводная", "чувствительности"],
+    6: ["Ограничение", "Supplementary"],
 }
 
 
@@ -51,21 +54,12 @@ def main() -> int:
                 failed = True
 
         h_blocks = _helvetica_blocks(_page_stream(reader.pages[page_idx]))
-        # Footer uses F1/Helvetica; flag if any Helvetica block has high bytes (non-ASCII).
         for block in h_blocks:
             for raw in re.findall(rb"\(([^)]*)\)", block):
                 if any(b > 127 for b in raw):
                     sample = raw.decode("latin-1", errors="replace")[:60]
                     print(f"  WARN: Helvetica block non-ASCII: {sample!r}")
                     failed = True
-
-    # Page 4 (index 3): formula box with «событий»
-    p4 = reader.pages[3].extract_text() or ""
-    ok4 = "событий" in p4
-    print("=== Page 4 (formula b-value) ===")
-    print(f"  {'OK' if ok4 else 'FAIL'}: 'событий'")
-    if not ok4:
-        failed = True
 
     if failed:
         print("\nVERIFICATION FAILED")

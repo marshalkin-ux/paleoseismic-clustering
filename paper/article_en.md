@@ -1,6 +1,6 @@
 # Global Seismic Series: Statistical Analysis of Spatiotemporal Clustering in M≥6.5 Earthquake Catalogs, 1973–2026 CE
 
-*…with extrapolation to the early instrumental period (1900–1972). Merged NOAA+USGS catalog; 4,267 M≥6.5 events (4,418 CSV rows).*
+*Temporal ETAS null and hold-out validation — with extrapolation to the early instrumental period (1900–1972). Merged NOAA+USGS catalog; 4,267 M≥6.5 events (4,418 CSV rows).*
 
 **DOI:** pending registration
 
@@ -20,10 +20,10 @@
 
 ## Abstract
 
-We analyze an **analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041 events); historical NOAA records (*n*=47)[^pre1900] are descriptive only. A Baiesi–Paczuski η detector with **great-circle distance** yields **27 algorithmic candidates** in the modern window. **Catalog-calibrated temporal ETAS** (GK mainshocks, 1973–2026): mean = 27.0, **p_ETAS = 1.0** — N_obs is consistent with the **in-sample temporal null**. Under the temporal ETAS model used, results are **consistent with the in-sample calibrated null**; the spatial component was not modeled, so questions of long-range spatial linkage remain open. **Limitation:** spatial component not modeled (§5).
+**Analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041); Baiesi–Paczuski η detector (great-circle) yields **27 algorithmic candidates**. **Catalog-calibrated temporal ETAS:** **p_ETAS = 1.0** (consistent with in-sample null; full numbers — §4.1). Spatial component not modeled (§5). Pre-1900 NOAA records — Supplementary Material S3[^pre1900].
 
 [^catalog-n]: Canonical analysis N: **4,267** unique M≥6.5 after deduplication (±30 days, ≤50 km; ISC > USGS > NOAA; cf. Waldhauser & Schaff, 2008). **4,418** saved CSV rows include ~151 NOAA M<6.5 rows (provenance only).
-[^pre1900]: 47 pre-1900 NOAA records retained in CSV for provenance; excluded from primary detector and ETAS calibration window (1973–2026).
+[^pre1900]: 47 pre-1900 NOAA records — `paper/supplementary.md` §S3; excluded from primary detector and ETAS calibration window (1973–2026).
 
 **Keywords:** global seismicity; seismic series; earthquake clustering; Baiesi–Paczuski metric; ETAS validation; paleoseismology; Flinn–Engdahl
 
@@ -37,7 +37,7 @@ Large earthquakes are not independent in time. Michael (2011) tested whether glo
 
 **Objective.** Test whether physically meaningful multi-regional “global series” exist in the M≥6.5 catalog, with **primary inference on the modern window (1973–2026)**.
 
-**Scope.** We extend prior global rate tests with a complementary Baiesi–Paczuski η detector and catalog-calibrated temporal ETAS null (§3.7). Conclusions are limited to temporal clustering in detector windows; spatial linkage requires future spatial ETAS (Ogata, 1998).
+**Scope.** We analyze **detector candidates** with spatial gates (mean GC > 1500 km) but **validate only temporal excess** vs catalog-calibrated ETAS; the spatial linkage hypothesis is **not tested**. We extend prior global rate tests with a complementary Baiesi–Paczuski η detector and temporal ETAS null (§3.7). Conclusions are limited to temporal clustering in detector windows; spatial linkage requires future spatial ETAS (Ogata, 1998).
 
 **Contribution.** This work provides a **reproducible** global M≥6.5 pipeline under explicit **falsification** framing and **bounds of inference**: primary ETAS uses **in-sample** calibration on 1973–2026 GK mainshocks with the **same** detector; spatial long-range linkage is **not** tested. The value is methodology plus honest null-result bounds — **not** a discovery claim. We do **not** claim to have disproved global series as a physical phenomenon; we bound what the implemented tests can establish.
 
@@ -51,10 +51,10 @@ Four distinct statistical targets must not be conflated (table below; see also �
 
 | Test / hypothesis | H₀ (null) | H₁ (alternative) | Statistic | Result (modern) |
 |-------------------|-----------|------------------|-----------|-----------------|
-| **(a) Permutation** | Event times **independent** (Poisson process, fixed coordinates) | Times **dependent** (clustering) | mean log₁₀(η_NN); n = 10,000 | **Reject H₀:** p = 0.0001 (1/10,001) |
-| **(b) ETAS-null (primary MLE)** | N_series ≤ **catalog-calibrated** temporal ETAS expectation (GK mainshocks) | N_series **exceeds** calibrated ETAS | series count in 1000 synthetic catalogs | **Do not reject H₀:** p_ETAS = 1.0; N_obs = 27 = mean = 27.0 |
-| **(c) Global series** | **No** physically meaningful multi-regional series (no mechanism; liberal detector) | Teleseismic chains explainable by physics | detector + mechanism + null tests | **Not tested by temporal-only ETAS**; detector candidates lack validated physical mechanism; spatial null open |
-| **(d) WLS coupling illustration**[^wls] | Detector--calibration artifact on same catalog | — | Appendix B only | **Not** primary null |
+| **(a) Permutation** | Event times **independent** (Poisson process, fixed coordinates) | Times **dependent** (clustering) | mean log₁₀(η_NN); n = 10,000 | see **§4.1** |
+| **(b) ETAS-null (primary MLE)** | N_series ≤ **catalog-calibrated** temporal ETAS expectation (GK mainshocks) | N_series **exceeds** calibrated ETAS | series count in 1000 synthetic catalogs | see **§4.1** |
+| **(c) Global series** | **No** physically meaningful multi-regional series (no mechanism; liberal detector) | Teleseismic chains explainable by physics | detector + mechanism + null tests | **Not tested by temporal-only ETAS**; spatial null open |
+| **(d) WLS coupling illustration**[^wls] | Detector--calibration artifact on same catalog | — | Supplementary S2 | **Not** primary null |
 
 [^wls]: Catalog-matched WLS excluded from primary pipeline; coupling illustration only — see `paper/supplementary.md` §S2.
 
@@ -105,7 +105,7 @@ Duplicate records were merged using ±30 days and ≤50 km spatial tolerance (cf
 |-------|---------------|--------|
 | Early instrumental | 2,179 | 1900–1972 |
 | Modern | 2,041 | 1973–2026 |
-| Pre-1900 (provenance) | 47 | descriptive only |
+| Pre-1900 (provenance) | 47 | Supplementary S3 |
 
 ### 2.2 Catalog completeness
 
@@ -130,17 +130,15 @@ Single list for Methods and Results (`src/analysis/clustering.py`, `pipeline_v2.
 
 ## 3. Methods
 
-Unified pipeline (see §3.3 for detector algorithm): **Data** → **Deduplication** (±30 d, ≤50 km) → **η metric** → **GK declustering** (primary) → **series detection** (GC >1500 km) → **statistical tests** (permutation, ETAS, FDR).
+Pipeline: **Data** (§2) → **GK declustering** → **η NN forest** → **`global_series` detector** → **ETAS validation** (in-sample + hold-out).
 
-### 3.1 Data and deduplication
+### 3.1 Declustering (Gardner–Knopoff)
 
-Catalog sources and merge reconciliation are in §2.1. Duplicates merged at ±30 days and ≤50 km (cf. Waldhauser & Schaff, 2008); ISC > USGS > NOAA priority. **Analysis catalog: 4,267** unique M≥6.5 (4,418 CSV rows = provenance only).
+**Primary method:** Gardner–Knopoff (1974) on M≥6.5 (`GardnerKnopoffDeclustering` in `declustering.py`). `WINDOWS` table: M → (T[days], R[km]); linear interpolation; **magnitude-descending** iteration; aftershocks dt ∈ [0, T], foreshocks dt ∈ [−T/2, 0); haversine distance ≤ R. Mainshocks feed the η NN forest and series search.
 
-### 3.2 Tectonic distance heuristic (excluded)
+Zaliapin–Ben-Zion declustering is **sensitivity only** (`run_declustering_sensitivity.py`), not a co-primary filter. Bird (2003) tectonic distance is excluded (`paper/supplementary.md` §S1).
 
-The Bird (2003) tectonic-path heuristic is **excluded from the primary pipeline**; no synthetic benchmark against Bird geometry in this work (`paper/supplementary.md` §S1).
-
-### 3.3 η connectivity metric
+### 3.2 η-metric (Baiesi–Paczuski)
 
 Following Baiesi & Paczuski (2004) and Zaliapin et al. (2008):
 
@@ -152,123 +150,39 @@ Following Baiesi & Paczuski (2004) and Zaliapin et al. (2008):
 | Distance | rij^1.6 (km) | Great-circle separation (primary pipeline) |
 | Magnitude | 10^(−b·mi) | Weighting by parent-event magnitude mi |
 
-Here df = 1.6 (fractal dimension; Baiesi & Paczuski, 2004) and **b = 1.0** (code default `B_DEFAULT`; parent magnitude mi only—no erroneous bi in the exponent). Smaller η indicates tighter spatiotemporal coupling.
+**b = 1.0** and df = 1.6 follow Baiesi & Paczuski (2004) for cross-study comparability — deliberate convention, not catalog-calibrated. `find_nearest_neighbor` builds a causal NN forest (i* = argmin ηij). `identify_clusters()` applies η₀ from KDE valley of log₁₀(η) (Zaliapin & Ben-Zion, 2013); η₀ affects declustering labels only — **`global_series()` does not filter on η₀** (full counts in §4).
 
-*Note:* b = 1.0 and df = 1.6 follow Baiesi & Paczuski (2004) for cross-study η comparability — **deliberate convention**, not catalog-calibrated. At fixed detector gates, b = 0.911 leaves N_series = 27 (`results/sensitivity_b_eta0.json`); upstream `identify_clusters()` at b = 0.911 was **not** re-run.
+### 3.3 Detector (`global_series`, windows, merge, gates)
 
-**Units note.** η is a relative connectivity measure without absolute physical units; only ratios and log10(η) statistics are interpreted. The threshold η₀ is determined by Zaliapin–Ben-Zion KDE valley detection between bimodal modes in log₁₀(η) (Zaliapin & Ben-Zion, 2013); default η₀ = 10^(median log₁₀ η). Visual verification of bimodality was limited at global M≥6.5 scale (§3.6).
+Implementation: `src/analysis/clustering.py`, `pipeline_v2.py`. **Output = algorithmic candidates**, not physical discoveries.
 
-### 3.4 Global-series detector algorithm
-
-Implementation: `src/analysis/clustering.py` (`SeismicClusterAnalyzer`), orchestrated by `src/analysis/pipeline_v2.py`, ETAS by `src/analysis/etas_validation.py`. **Output = algorithmic candidates**, not physical discoveries.
-
-| Step | Module / function | Content |
-|------|-------------------|---------|
-| 1 | `GardnerKnopoffDeclustering` | GK on M≥6.5 → **2,017** mainshocks (24 aftershocks removed from 2,041) |
-| 2 | `find_nearest_neighbor` | η NN forest: i* = argmin ηij; rij = **great-circle distance** (km); **b=1.0, r^1.6** — not catalog-calibrated |
-| 3 | `global_series` | Sliding windows **1, 2, 5 yr** (1-yr step): anchor t, window [t, t+Δt] |
-| 4 | epoch merge | Overlapping candidates merged → **47** merged (142 windows before merge) |
-| 5 | Criteria | N ≥ 4, M ≥ 6.5, mean pairwise GC > 1500 km (`clustering_gc1500.json`) |
-| 6 | Permutation | Global **mean log10(ηNN)**, n = 10,000; H0 = independent event times |
-| 7 | ETAS null | Temporal MLE primary (§3.7) |
-| 8 | Output | Candidate list + FDR post-hoc (not a discovery claim) |
+**`global_series`.** Greedy `used[]` mask; anchor loop; window [t_i, t_i+Δt); gates: min_events = 4, min_magnitude = 6.5, **mean pairwise GC > 1500 km**; accepted events marked used. Sliding windows **1, 2, 5 yr** (1-yr step); modern primary **Δt = 2 yr**. Overlapping window hits merged across epochs (`run_clustering_gc1500.py`). Flinn–Engdahl region count is diagnostic only.
 
 ```
-catalog M≥6.5 (4267) → GK mainshocks → η NN forest → windows 1/2/5 yr
-  → merge overlapping → filter (N≥4, mean GC>1500 km) → candidates → MC + ETAS
+GK mainshocks → η NN forest → windows 1/2/5 yr → merge → filter (N≥4, mean GC>1500 km) → candidates
 ```
 
-**Detector candidate (formal):** merged group with N ≥ 4, M ≥ 6.5, mean pairwise GC > 1500 km from sliding windows (1/2/5 yr).
+Secondary tests: permutation (mean log₁₀ η_NN, n = 10,000); Benjamini–Hochberg post-hoc on merged candidates (not a discovery claim).
 
-#### 3.4.1 Algorithm specification
+### 3.4 ETAS calibration (temporal MLE, in-sample disclaimer)
 
-Code-accurate definitions (`declustering.py`, `clustering.py`, `pipeline_v2.py`, `run_clustering_gc1500.py`):
+**Primary null:** catalog-calibrated temporal Ogata (1988) MLE on GK mainshocks 1973–2026 (`scripts/calibrate_etas_mle.py` → `results/etas_mle_calibration.json`). Validation: `scripts/run_etas_validation.py` → `results/etas_validation.json` (n = 1000 synthetics, seed = 42).
 
-**Gardner–Knopoff.** `WINDOWS` table: M → (T[days], R[km]); linear interpolation; **magnitude-descending** iteration; aftershocks dt ∈ [0, T], foreshocks dt ∈ [−T/2, 0); haversine distance ≤ R.
+**In-sample disclaimer.** Calibration and validation use the **same** modern window and **same** detector — we report consistency with the **in-sample temporal null**, not proof of no anomalies. ETAS is fit on GK-**declustered** mainshocks — acknowledged model mismatch. Catalog-matched WLS excluded (`paper/supplementary.md` §S2). Spatial Ogata (1998) MLE — future work.
 
-**`find_nearest_neighbor`.** Causal argmin η_ij: η = t_ij · r_ij^1.6 · 10^(−b·m_i); t_ij in years, r_ij = great-circle km, b = 1.0.
+### 3.5 Hold-out validation (train 1973–2000, test 2001–2026)
 
-**`identify_clusters`.** Union–Find for η < η₀; η₀ from KDE valley of log₁₀(η) or median fallback; clusters with <2 events → background.
+Complements §3.4 (`scripts/calibrate_etas_holdout.py` → `results/etas_holdout_validation.json`):
 
-**`global_series`.** Greedy `used[]` mask; anchor loop; window [t_i, t_i+Δt); gates min_events, min_magnitude, mean pairwise GC > 1500 km; accepted events marked used — no further windows from them.
+| Item | Specification |
+|------|---------------|
+| Train window | 1973–2000 GK mainshocks |
+| Train MLE | μ ≈ 0.095, K ≈ 10⁻⁴, α = 0, c = 0.001 d, p ≈ 1.93 |
+| Hold-out catalog | 2001–2026, M ≥ 6.5 |
+| Detector | Δt = 2 yr, mean GC > 1500 km, N ≥ 4 (same as primary) |
+| Synthetics | n = 1000, seed = 42, max_total_events = 5000 |
 
-**Merge.** Runs at 1/2/5 yr plus epoch-specific windows yield **142** window hits; union of overlapping event sets → **47** merged (27 modern). Stopping: no new windows from unused anchors.
-
-### 3.5 Declustering and pipeline
-
-```
-Raw catalogs (USGS / ISC / NOAA)
-        ↓
-   Dedup (±30 d, ≤50 km)
-        ↓
-   Exclude M<6.5 (~151 NOAA rows) → 4,267 unique M≥6.5
-        ↓
- GK declustering (primary) → mainshocks for η NN forest
-        ↓
- η NN forest (great-circle distance)
-        ↓
- Sliding windows (1 / 2 / 5 yr)
-        ↓
- Merge overlapping groups
-        ↓
- Series criteria (N≥4, M≥6.5, mean GC>1500 km)
-        ↓
- MC / ETAS / FDR validation
-```
-
-**Primary declustering (GK only in reporting pipeline).** In the canonical pipeline (`pipeline_v2.py`, `decluster_method='gardner_knopoff'`), **Gardner–Knopoff (GK) is the sole primary** pre-processing step: mainshocks feed the η NN forest and sliding-window series search. For the modern window (1973–2026), GK removes ~24 local aftershocks (2,017/2,041, 98.8%). The epoch script `run_full_historical_analysis.py` (47 series across epochs) applies `global_series()` to the full M≥6.5 list **without** an explicit GK pre-filter; GK counts in Table §2.1 come from `run_declustering_comparison.py`.
-
-**ZBZ — supplement/sensitivity only.** Zaliapin–Ben-Zion (2040/2,041 independent) is reported **only as a sensitivity check** in supplementary comparison (`run_declustering_comparison.py`), not as a co-primary or sequential filter. **ZBZ does not replace GK** and is not applied sequentially with it.
-
-**Why GK removes 24 events but ZBZ removes 1 (not a contradiction).** The algorithms use different criteria on the same global M≥6.5 catalog (2,041 events, 1973–2026):
-
-| Aspect | Gardner–Knopoff (primary) | Zaliapin–Ben-Zion (sensitivity) |
-|--------|---------------------------|----------------------------------|
-| Mechanism | Fixed magnitude-dependent time/space windows (1974 table; ~22 d / ~61 km at M≥6.5) | Nearest-neighbor η metric + KDE valley threshold on log₁₀(η) |
-| Scale sensitivity | Designed for regional catalogs; flags short-range fore/aftershocks within windows | At global M≥6.5 scale, events are sparse → most η values are high → permissive |
-| Dependent events | **24** (2,017 mainshocks) | **1** (2,040 mainshocks) |
-
-GK applies conservative local window rules; ZBZ classifies only events with exceptionally low η to a predecessor. **Quantitative sensitivity** (`results/sensitivity_declustering.json`): GK, ZBZ, and no declustering all yield **N = 27** at fixed gates — because `global_series()` gates (mean GC > 1500 km, N ≥ 4, merge) dominate; declustering shifts upstream labels, not series count in this pipeline (**liberal-detector red flag**).
-
-**Declustering sensitivity (modern window, N_series):**
-
-| Method | Role | Events | Removed | N_series | Δ vs GK |
-|--------|------|-------:|--------:|---------:|--------:|
-| Gardner–Knopoff | Primary | 2,017 | 24 | **27** | 0 |
-| Zaliapin–Ben-Zion | Sensitivity | 2,040 | 1 | **27** | 0 |
-| None | Sensitivity | 2,041 | 0 | **27** | 0 |
-
-### 3.6 Threshold η₀
-
-1. **Declustering** via [Gardner–Knopoff](https://en.wikipedia.org/wiki/Aftershock) (1974) — mainshocks for NN search.
-2. **Nearest-neighbor forest:** for each event j, parent i* = argmin ηij.
-3. **Threshold η₀:** KDE valley detection between bimodal modes in log₁₀(η) (Zaliapin & Ben-Zion, 2013); fallback η₀ = 10^(median log₁₀ η). Distribution and threshold — `figures/grl/fig_eta_threshold.png` (`scripts/plot_eta_threshold.py`, `results/eta_threshold_meta.json`). **Limitation:** at global M≥6.5 scale bimodality is weak; KDE stability **not verified** — see figure caption.
-4. **η₀ scope split:** η₀ affects the **GK/ZBZ declustering path** (`identify_clusters()`), **not** **N_obs = 27** — `global_series()` counts without η₀ filtering. η₀ ±20% — `not_applied` (`results/sensitivity_b_eta0.json`); future work via `pipeline_v2`.
-
-**Why η₀ is not applied in the main series path.** The KDE-derived η₀ threshold applies only to `identify_clusters()` in the GK/ZBZ declustering path. The reported **N_obs = 27** from `global_series()` uses fixed gates (2 yr window, mean GC > 1500 km, N ≥ 4) **without** η₀ filtering. Therefore the unverified η₀ status affects declustering labels, not the reported series count directly. Future work (`pipeline_v2`) will integrate η₀ into the series-detection path.
-5. **Detector criteria** — §2.3 (N≥4, M≥6.5, mean GC>1500 km); FE counts diagnostic only.
-
-### 3.7 Primary ETAS null (temporal MLE)
-
-**Primary inference** uses catalog-calibrated temporal Ogata (1988) MLE on GK mainshocks (`scripts/calibrate_etas_mle.py`, `results/etas_mle_calibration.json`): μ ≈ 0.097, K ≈ 10⁻⁴, α ≈ 0.25, c = 0.001 day, p ≈ 1.91. Validation: `scripts/run_etas_validation.py` → `results/etas_validation.json`.
-
-**In-sample disclaimer.** p_ETAS = 1.0 reflects **in-sample** calibration on 1973–2026 with the **same** detector — not independent out-of-sample validation. We report consistency with the **in-sample temporal null**, not proof of no anomalies. ETAS is a triggering model fit on GK-**declustered** mainshocks — acknowledged model mismatch. Complementary hold-out: train 1973–2000, validate 2001–2026 (`scripts/calibrate_etas_holdout.py` → `results/etas_holdout_validation.json`).
-
-Catalog-matched WLS is **excluded from the primary pipeline** (coupling illustration only; `paper/supplementary.md` §S2). Spatial Ogata (1998) MLE — future work (`docs/future_work_etas_mle.md`).
-
-Multi-seed ETAS (MLE primary): seeds 42–51, n = 1000 catalogs/seed (`scripts/run_etas_multiseed.py`, `results/etas_multiseed.json`).
-
-### 3.8 Statistical validation
-
-| Test | Null hypothesis | Role |
-|------|-----------------|------|
-| **ETAS MLE (primary)** | N_obs consistent with calibrated ETAS | **Primary** — full numbers in §4.1 |
-| **Permutation** (n = 10,000) | Poissonian event times | Secondary — p cross-ref §4.1 only |
-| **Benjamini–Hochberg** | — | Post-hoc on 47 merged candidates; not a discovery claim |
-
-Post-hoc Benjamini–Hochberg on **N = 47** merged-series p-values (`results/fdr_correction_results.csv`): **45/47** at q = 0.05. Window-level BH on 142 overlapping tests is **not** a discovery procedure (`results/fdr_windows.json`).
-
-**Verified from code.** `results/analysis_full_historical.json`, `results/montecarlo_full.json`, `results/etas_validation.json`, `results/sensitivity_declustering.json`.
+Partial **out-of-time** check — not spatial validation. Full validation numbers in §4.1.
 
 ---
 
@@ -283,14 +197,23 @@ Post-hoc Benjamini–Hochberg on **N = 47** merged-series p-values (`results/fdr
 | N_series (merged, all epochs) | 47 |
 | N_series (modern) | **27** |
 | Window candidates before merge | 142 |
-| Permutation p (Methods §3.8) | 0.0001 (1/10,001); z = −6.17 |
-| **Primary ETAS MLE** (n = 1000, seed = 42) | **N_obs = 27**, **mean = 27.0**, **p_ETAS = 1.0** (in-sample) |
-| **Hold-out ETAS** (train 1973–2000, hold-out 2001–2026) | **N_obs = 13**, mean = 13.0, **p = 1.0** |
+| Permutation p (Methods §3.9) | 0.0001 (1/10,001); z = −6.17 |
 | ETAS parameters (MLE, full window) | μ ≈ 0.097, K ≈ 10⁻⁴, α ≈ 0.25 |
 
-> **Permutation vs ETAS — different hypotheses (not in abstract).** The permutation test rejects **Poisson event times** (p = 0.0001) — expected with aftershocks (Ogata, 1988). **Primary in-sample ETAS MLE** gives **p_ETAS = 1.0**: N_obs = 27 is **consistent with the in-sample temporal null** — not proof of no anomalies. Hold-out (2001–2026): N_obs = 13, mean = 13.0, p = 1.0. Neither test confirms physically linked global chains; spatial linkage was not modeled.
+**ETAS validation (canonical table):**
+
+| Validation | Period | N_obs | mean | p_ETAS |
+|------------|--------|------:|-----:|-------:|
+| In-sample MLE | 1973–2026 | **27** | 27.0 | **1.0** |
+| Hold-out | 2001–2026 | **13** | 13.0 | **1.0** |
+
+Hold-out train: **1024** GK mainshocks (1973–2000); hold-out catalog **1010** events, span **25 yr** (`results/etas_holdout_validation.json`).
+
+> **Permutation vs ETAS — different hypotheses (not in abstract).** Permutation rejects **Poisson event times** (p = 0.0001), not teleseismic chains. ETAS — consistency with catalog-calibrated temporal null (table above), not proof of no anomalies. Hold-out is a partial out-of-time check (§3.8), not spatial validation. Spatial linkage was not modeled.
 
 **Declustering sensitivity** (`results/sensitivity_declustering.json`): GK, ZBZ, and none all yield **N = 27** at fixed gates (2 yr, mean GC > 1500 km, N ≥ 4). `global_series()` gates dominate; declustering affects upstream labels, not series count — a **liberal-detector red flag**, not proof that declustering is immaterial in general.
+
+**Multiple testing (FDR).** The 27 modern series derive from a search over **142** sliding-window candidates (→ 47 merged across epochs). **FDR correction for this 142-window search was not applied** to the 27 modern count. A conservative Bonferroni threshold α/142 ≈ **0.00035** exceeds the global permutation p = **0.0001** (1/10,001), so the permutation rejection does not survive family-wise correction for all windows explored. Post-hoc Benjamini–Hochberg on **N = 47** merged-series p-values (45/47 at q = 0.05) is exploratory only and **does not** correct the 27 modern candidates for the window search — **not** a discovery claim (`results/fdr_windows.json`).
 
 | Method | Removed | N_series |
 |--------|--------:|---------:|
@@ -318,45 +241,43 @@ Post-hoc Benjamini–Hochberg on **N = 47** merged-series p-values (`results/fdr
 
 Elevated detector-candidate frequency in 1952–1965 and 2002–2016; spatial concentration along the circum-Pacific belt.
 
-### 4.4 Parameter sensitivity (modern window)
+### 4.4 Parameter sensitivity and N=27 stability
 
-| Parameter | Setting | N_series |
-|-----------|---------|--------:|
-| GC gate | 1000 / 1500 / 2000 km | 27 / 27 / 27 |
-| Window | 1 / 2 / 5 / 10 yr | 53 / **27** / 11 / 6 |
-| b in η | 1.0 / 0.911 | 27 / 27 |
-| Declustering | GK / ZBZ / none | 27 / 27 / 27 |
-| min_events | 5 / 6 / 8 | 27 / 27 / 27 |
+| Parameter | Setting | N_series | Jaccard vs baseline† |
+|-----------|---------|--------:|---------------------:|
+| GC gate | 1000 / 1500 / 2000 km | 27 / 27 / 27 | 1.0 / 1.0 / 1.0 |
+| Window Δt | 1 / 2 / 5 / 10 yr | 53 / **27** / 11 / 6 | 0 / 1.0 / 0 / 0 |
+| Declustering | GK / ZBZ / none | 27 / 27 / 27 | 1.0 / 0.32 / 0.32 |
+| b in η | 1.0 / 0.911 | 27 / 27 | 1.0 / 1.0 |
+| min_events | 5 / 6 / 8 | 27 / 27 / 27 | 1.0 |
 
-Sources: `sensitivity_eta_windows_gc.json`, `sensitivity_b_eta0.json`, `sensitivity_declustering.json`.
+†Baseline: Δt = 2 yr, GK, b = 1.0, mean GC > 1500 km (`results/series_stability_venn.json`).
 
----
+**b = 0.911 full pipeline** (`scripts/run_sensitivity_b0911_full.py` → `results/sensitivity_b0911_full_pipeline.json`): GK mainshocks → `identify_clusters()` → `global_series`. **N_series = 27** at both b = 1.0 and b = 0.911; Jaccard = 1.0 for series event sets; **8.2%** upstream cluster-label mismatch (165/2017 events). Equal N does **not** imply unchanged upstream structure — detector gates dominate.
 
-## 5. Discussion and conclusions
+**Stability interpretation.** N = 27 is **stable** across declustering and b at Δt = 2 yr (4/12 parameter configs yield N = 27). **Window width** dominates N_series (53 at 1 yr, 11 at 5 yr). The liberal detector sweeps nearly all GK mainshocks into at least one candidate window at short Δt; at Δt = 2 yr the count collapses to 27 — a **detector-artifact** stability, not proof of a physically invariant “core 27.”
 
-- **Temporal ETAS (primary, in-sample):** N_obs = 27 is **consistent with the in-sample temporal null** (p_ETAS = 1.0); hold-out 2001–2026: N_obs = 13, p = 1.0. Spatial linkage **not tested** (Ogata, 1998 — future work).
-- **Permutation:** Rejects Poisson event times only — **not** proof of teleseismic/global chains (§4.1).
-- **Prior work:** Compatible with Michael (2011) and Shearer & Stark (2012).
-
-**Limitations (§5.6).** Temporal ETAS only; in-sample calibration; GK/ETAS model mismatch; mean GC gate weaker than all-pairs; Bird excluded (no synthetic benchmark); FDR post-hoc on 47 merged series only. See `docs/future_work_etas_mle.md` for spatial Ogata MLE and synthetic benchmarks.
+Sources: `sensitivity_eta_windows_gc.json`, `sensitivity_declustering.json`, `sensitivity_b0911_full_pipeline.json`, `series_stability_venn.json`.
 
 ---
 
-## Appendix A. Pre-1900 NOAA records
+## 5. Discussion
 
-**47** fragmentary paleoseismic/historical M≥6.5 records from NOAA NGDC are retained in `data/processed/unified_catalog_full.csv` for provenance. **Not removed from CSV**; a separate pipeline re-run excluding them **was not performed**.
+Under the **temporal-only** ETAS null implemented, detector output is **consistent with catalog-calibrated expectations** — both in-sample and on the 2001–2026 hold-out (§4.1). This bounds **temporal** excess in sliding-window candidates; it does **not** test long-range spatial linkage (Ogata, 1998 spatial kernel — future work).
 
-These 47 events are **excluded from the primary detector pipeline and ETAS calibration window**: the canonical pipeline (`pipeline_v2.py`) and ETAS fit (`calibrate_etas.py`) use the modern catalog **1973–2026 only** (*N* = 2,041). Epoch-stratified counts in §4.1 include pre-1900 descriptively via `run_full_historical_analysis.py` but do not enter primary significance claims.
+The permutation test addresses a **different** null (independent event times) and is expected to reject under aftershock clustering; it is **not** evidence for teleseismic chains. Prior global rate studies (Michael, 2011; Shearer & Stark, 2012) found no anomalous M≥7 clustering; our η-detector + ETAS framework is complementary but similarly does not establish physically linked global series.
 
-- **quality_score:** 0.30–0.60 (metadata, not an inclusion filter).
-- **Detector:** 5 algorithmic candidates on this epoch; permutation p = 0.46 — **not statistically significant**.
-- **Primary significance path:** detector + ETAS + permutation claims — **1900–2026** (descriptive) and **1973–2026** (primary); pre-1900 is **outside** primary inference.
+**N = 27 “super-stability”** across declustering and b at fixed Δt = 2 yr reflects **liberal detector gates** (mean GC > 1500 km sweeps most global M≥6.5 windows) rather than a robust physical invariant. Window width is the dominant sensitivity axis. We do **not** claim to have disproved global series as a phenomenon — only what these tests can establish.
+
+**Limitations.** In-sample calibration–detector coupling; GK/ETAS model mismatch; mean GC gate weaker than all-pairs requirement; 142-window search without FDR on the 27 modern count; Bird/WLS/pre-1900 diagnostics in `paper/supplementary.md` §S1–S3.
 
 ---
 
-## Appendix B. WLS coupling illustration
+## 6. Conclusions
 
-Excluded from primary pipeline. Full specification: `paper/supplementary.md` §S2 and `results/etas_calibration.json`.
+We present a reproducible global M≥6.5 pipeline combining Baiesi–Paczuski η detection with catalog-calibrated temporal ETAS validation under explicit falsification framing. Primary inference is limited to **temporal** clustering in detector windows on the modern catalog; spatial linkage remains an open question.
+
+The implemented tests do **not** support a discovery claim for physically validated multi-regional global series. The contribution is methodological transparency and honest null-result bounds — not confirmation or definitive rejection of long-range teleseismic coupling.
 
 ---
 

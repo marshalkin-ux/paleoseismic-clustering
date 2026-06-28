@@ -16,7 +16,8 @@
 
 \begin{document}
 
-\title{Global Seismic Series: Statistical Analysis of Spatiotemporal Clustering in M$\ge$6.5 Earthquake Catalogs, 1973--2026 CE}
+\title{Global Seismic Series: Statistical Analysis of Spatiotemporal Clustering in M$\ge$6.5 Earthquake Catalogs, 1973--2026 CE\\
+{\large Temporal ETAS null and hold-out validation}}
 
 \authors{
   Yaroslav Marshalkin\affil{1}
@@ -31,24 +32,20 @@
 We analyze an \textbf{analysis catalog of 4{,}267 unique $M \ge 6.5$ events}\footnote{Canonical
 analysis $N$: 4{,}267 unique $M \ge 6.5$ after deduplication; 4{,}418 saved CSV rows
 include ${\sim}151$ NOAA $M < 6.5$ rows retained for provenance only.} (modern window
-1973--2026: 2{,}041 events); historical NOAA records ($n=47$) are
-reported in Appendix~\ref{app:pre1900} only.
+1973--2026: 2{,}041 events).
 A Baiesi--Paczuski $\eta$ detector with \textbf{great-circle distance} yields
 \textbf{27 algorithmic candidates} in the modern window.
-\textbf{Catalog-calibrated temporal ETAS} (GK mainshocks, 1973--2026): mean $= 27.0$,
-$p_\mathrm{ETAS}=1.0$ --- $N_\mathrm{obs}$ is consistent with the \textbf{in-sample temporal null}.
-Under the temporal ETAS model used, we find no anomalous temporal clustering beyond
-the in-sample calibrated null; the spatial component was not modeled, so questions of
-long-range spatial linkage remain open.
-\textbf{Limitation:} spatial component not modeled (\S\ref{sec:limitations}).
+\textbf{Catalog-calibrated temporal ETAS:} $p_\mathrm{ETAS}=1.0$ (consistent with the
+in-sample temporal null; full numbers --- \S\ref{subsec:primary-counts}).
+The spatial component was not modeled (\S\ref{sec:limitations}).
+Pre-1900 NOAA records --- Supplementary Material S3.
 \end{abstract}
 
 \begin{keypoints}
   \item Analysis catalog 4{,}267 unique $M \ge 6.5$ events (2{,}041 modern, 1973--2026).
   \item Detector: 27 modern algorithmic candidates (142 windows before merge).
-  \item \textbf{Primary ETAS null} (temporal MLE, GK mainshocks):
-        mean $= 27.0$, $p_\mathrm{ETAS}=1.0$ --- $N_\mathrm{obs}=27$ consistent
-        with catalog-calibrated ETAS; spatial component not modeled.
+  \item \textbf{Primary ETAS null} (temporal MLE): $p_\mathrm{ETAS}=1.0$ --- see
+        \S\ref{subsec:primary-counts}; spatial component not modeled.
   \item Definitive spatiotemporal linkage assessment requires Ogata (1998) spatial ETAS
         --- beyond this work.
 \end{keypoints}
@@ -77,7 +74,10 @@ catalog-calibrated ETAS validation.
 \textbf{Objective.} Test whether physically meaningful multi-regional
 global series exist in the $M \ge 6.5$ catalog (primary window 1973--2026).
 
-\textbf{Scope.} We extend prior global rate tests with a complementary
+\textbf{Scope.} We analyze \textbf{detector candidates} with spatial gates
+(mean GC $> 1500$~km) but \textbf{validate only temporal excess} vs.\
+catalog-calibrated ETAS; the spatial linkage hypothesis is \textbf{not tested}.
+We extend prior global rate tests with a complementary
 Baiesi--Paczuski $\eta$ detector and catalog-calibrated temporal ETAS null
 (\S\ref{subsec:etas-calibration}).
 Conclusions are limited to temporal clustering in detector windows;
@@ -120,10 +120,10 @@ Four distinct statistical targets must not be conflated
 \hline
 \textbf{Test} & \textbf{$H_0$} & \textbf{$H_a$} & \textbf{Result} \\
 \hline
-(a) Permutation & Independent event times (fixed coordinates) & Temporal clustering & mean $\log_{10}\eta_\mathrm{NN}$; $p = 0.0001$ (1/10{,}001) \\
-(b) ETAS calibrated (MLE) & $N_\mathrm{series} \le$ ETAS synthetic expectation & Excess series count & $p_\mathrm{ETAS}=1.0$; $N=27$ vs.\ mean $=27.0$ \\
-(c) Global-series hypothesis & No teleseismic multi-regional chains beyond local clustering & Such chains exist & \textbf{Not tested by temporal-only ETAS}; detector candidates lack validated physical mechanism; spatial null open \\
-(d) WLS negative control (App.~\ref{app:wls_control}) & Detector--calibration coupling artifact & --- & $p_\mathrm{ETAS}=1.0$, mean $=27=N_\mathrm{obs}$; Appendix B only \\
+(a) Permutation & Independent event times (fixed coordinates) & Temporal clustering & mean $\log_{10}\eta_\mathrm{NN}$; $n=10{,}000$ & see \S\ref{subsec:primary-counts} \\
+(b) ETAS calibrated (MLE) & $N_\mathrm{series} \le$ ETAS synthetic expectation & Excess series count & $n=1000$ synthetics & see \S\ref{subsec:primary-counts} \\
+(c) Global-series hypothesis & No teleseismic multi-regional chains beyond local clustering & Such chains exist & --- & \textbf{Not tested by temporal-only ETAS}; spatial null open \\
+(d) WLS negative control & Detector--calibration coupling artifact & --- & Supplementary S2 & \textbf{Not} primary null \\
 \hline
 \end{tabular}
 \end{table}
@@ -207,7 +207,7 @@ $b$-value.
 \noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
 \textbf{Primary analysis set:} events 1900--2026 ($N = 4{,}218$); 47 pre-1900
 NOAA records remain in the CSV for provenance only --- see
-Appendix~\ref{app:pre1900}.}}
+Supplementary Material S3 (\texttt{paper/supplementary.md}).}}
 
 \begin{table}[htbp]
 \centering
@@ -581,11 +581,9 @@ declustering removes events the model would treat as offspring---an
 acknowledged model mismatch.
 Complementary hold-out validation (train 1973--2000, validate 2001--2026;
 \texttt{scripts/calibrate\_etas\_holdout.py},
-\texttt{results/etas\_holdout\_validation.json}) is reported in
-Section~\ref{subsubsec:etas_holdout}.
-WLS minimal calibration (\texttt{scripts/calibrate\_etas.py},
-\texttt{results/etas\_calibration.json}) is a \textbf{negative control}
-(Appendix~\ref{app:wls_control}).
+\texttt{results/etas\_holdout\_validation.json}) --- \S\ref{subsec:holdout-methods}.
+WLS minimal calibration (\texttt{scripts/calibrate\_etas.py}) is a \textbf{negative control}
+(Supplementary S2).
 Full spatial Ogata (1998) MLE remains future work
 (\texttt{docs/future\_work\_etas\_mle.md}).
 
@@ -595,6 +593,18 @@ $\alpha$ hit lower bounds (24 GK aftershock delays). Publication-grade
 calibration requires spatial Ogata (1998) MLE (R \texttt{etas} package or
 equivalent). Temporal MLE is the best valid catalog-calibrated null
 available in this repository.
+
+\subsection{Hold-out temporal ETAS validation}
+\label{subsec:holdout-methods}
+
+To complement the \textbf{in-sample} primary test (\S\ref{subsec:etas-calibration}),
+we fit temporal MLE on GK mainshocks in \textbf{1973--2000} only
+(\texttt{scripts/calibrate\_etas\_holdout.py}) and validate $N_\mathrm{series}$ on the
+hold-out catalog \textbf{2001--2026} with train-calibrated parameters.
+Detector unchanged: $\Delta t = 2$~yr, mean pairwise GC $> 1500$~km, $N \ge 4$.
+We generate $n = 1000$ synthetic catalogs (seed~$= 42$;
+\texttt{results/etas\_holdout\_validation.json}).
+This is a \textbf{partial out-of-time} check, \textbf{not} full spatial validation.
 
 \subsection{ETAS-Based Null Model Validation}
 \label{subsec:etas}
@@ -642,7 +652,7 @@ Null model & $\mu$ & $K$ & Mean & $p_\mathrm{ETAS}$ & Interpretation \\
 Temporal MLE (primary) & 0.097 & $10^{-4}$ & 27.0 & 1.0 &
   $N_\mathrm{obs}$ consistent with catalog-calibrated ETAS; does not support
   excess global series \\
-WLS (Appendix~\ref{app:wls_control}) & 0.103 & 0.495 & 27.0 & 1.0 &
+WLS (Supplementary S2) & 0.103 & 0.495 & 27.0 & 1.0 &
   Negative control; detector--calibration coupling \\
 \hline
 \end{tabular}
@@ -668,6 +678,34 @@ The full historical analysis covers 4{,}267 events ($M \ge 6.5$, 1900--2026 with
 pre-1900 tail; 4{,}418 CSV records) and yields \textbf{47 detector candidates}
 in three temporal windows (Table~\ref{tab:epochs}) --- algorithmic outputs,
 not validated physical global series.
+
+\subsection{Primary counts (modern window, 1973--2026)}
+\label{subsec:primary-counts}
+
+Merged CSV: 4{,}418 rows $\to$ 4{,}267 unique $M \ge 6.5$; modern window
+2{,}041 events; GK: 2{,}017 mainshocks.
+$N_\mathrm{series}=27$ (modern); 142 window candidates before merge; 47 merged
+(all epochs).
+Permutation: $p = 0.0001$ (1/10{,}001), $z = -6.17$.
+
+\begin{table}[htbp]
+\centering
+\caption{ETAS validation (canonical --- sole full report of $p_\mathrm{ETAS}$ / $N_\mathrm{obs}$).}
+\label{tab:etas_validation}
+\begin{tabular}{lrrr}
+\hline
+Split & $N_\mathrm{obs}$ & mean & $p_\mathrm{ETAS}$ \\
+\hline
+In-sample (1973--2026; $n=1000$, seed~$=42$) & 27 & 27.0 & 1.0 \\
+Train-calibrated hold-out (2001--2026) & 13 & 13.0 & 1.0 \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent Hold-out complements in-sample calibration (\S\ref{subsec:holdout-methods});
+partial out-of-time check, not spatial validation.
+Permutation vs.\ ETAS test different hypotheses (Poisson times vs.\ calibrated
+temporal null) --- \S\ref{sec:dual-etas-interpret}.
 
 \subsection{Catalog Completeness}
 
@@ -729,8 +767,7 @@ S116       &  22 &  5 & 8.2 & 1993--2021 & $-31.7\ldots10.8$ & $-179.5\ldots179.
 \end{tabular}
 \end{table}
 \noindent\footnotesize\textit{Note:} Entries are algorithmic detector outputs;
-not validated multi-regional triggering chains. Primary ETAS null (temporal MLE):
-$p_\mathrm{ETAS}=1.0$, mean $= 27.0$ (interpretation --- \S\ref{sec:dual-etas-interpret}).
+not validated multi-regional triggering chains (interpretation --- \S\ref{sec:dual-etas-interpret}).
 
 The mean nearest-neighbor metric $\overline{\log_{10}\eta}$ for identified
 series ranges from $-5.1$ to $-3.2$, confirming tight temporal clustering
@@ -766,6 +803,15 @@ $z = -6.17$, $p = 0.0001$ (1/10{,}001 permutations) for the modern period.
 None of the $10\,000$ random permutations produced clustering as strong as observed.
 The null distribution has mean $-2.8143$ and standard deviation $0.0112$.
 
+\noindent\textbf{Multiple-testing caveat.}
+The 27 modern series derive from a search over 142 sliding-window candidates;
+\textbf{FDR correction for this 142-window search was not applied} to the modern count.
+A conservative Bonferroni threshold $\alpha/142 \approx 3.5\times 10^{-4}$ exceeds
+the global permutation $p=0.0001$ (1/10{,}001).
+Post-hoc Benjamini--Hochberg on $N=47$ merged-series $p$-values does \textbf{not}
+correct the 27 modern candidates for the window search --- not a discovery claim
+(\texttt{results/fdr\_windows.json}).
+
 After Zaliapin--Ben-Zion declustering (Section~\ref{subsec:declustering}),
 the global-series count is unchanged ($N=27$) relative to Gardner--Knopoff
 and no declustering under the same gates (Table~\ref{tab:gk_zbz}).
@@ -780,24 +826,15 @@ Benjamini--Hochberg correction (Table~\ref{tab:fdr_series}).
 \label{subsubsec:etas_results}
 
 On 1000 synthetic ETAS catalogs under the \textbf{primary temporal MLE null}:
-$\bar{N}_\mathrm{ETAS} = 27.0$ (SD~=~0),
-$p_\mathrm{ETAS} = 1.0$, $N_\mathrm{obs}=27$.
-See Figure~\ref{fig:etas_null}; interpretation --- \S\ref{sec:dual-etas-interpret}.
+see Table~\ref{tab:etas_validation}; Figure~\ref{fig:etas_null};
+interpretation --- \S\ref{sec:dual-etas-interpret}.
 
-\subsubsection{Hold-out ETAS validation (train 1973--2000, validate 2001--2026)}
+\subsubsection{Hold-out ETAS validation}
 \label{subsubsec:etas_holdout}
 
-To complement the \textbf{in-sample} primary test, we fit temporal MLE on GK
-mainshocks in 1973--2000 only and validate $N_\mathrm{series}$ on the hold-out
-catalog 2001--2026 with train-calibrated parameters
-(\texttt{scripts/calibrate\_etas\_holdout.py},
-\texttt{results/etas\_holdout\_validation.json}; $n=1000$ synthetics,
-\texttt{max\_total\_events}=5000).
-Hold-out: $N_\mathrm{obs}=13$, synthetic mean $= 13.0$, $p=1.0$ --- also
-\textbf{consistent with the train-calibrated temporal null} on the shorter
-hold-out span (25~yr).
-This does not remove the in-sample coupling of calibration and detector on the
-full modern window; it provides a partial out-of-time check.
+Results in Table~\ref{tab:etas_validation} (train 1973--2000, hold-out 2001--2026;
+\texttt{results/etas\_holdout\_validation.json}).
+Does not remove in-sample coupling on the full modern window.
 
 \begin{figure}[htbp]
 \centering
@@ -870,13 +907,13 @@ Japan, Tonga) and the Indonesian arc.
 
 \paragraph{Null-model reconciliation (permutation vs ETAS).}
 The permutation test rejects a \textbf{global temporal Poisson null}
-($p = 0.0001$, 1/10{,}001) --- temporal clustering in the catalog, \textbf{not}
-proof of multi-regional global chains.
-The \textbf{primary catalog-calibrated ETAS null} (temporal MLE) yields
-$p_\mathrm{ETAS}=1.0$ (mean $= 27.0$, $N_\mathrm{obs}=27$):
-observed candidate count is \textbf{consistent with} locally clustered synthetic
-catalogs --- the window detector does not find excess series beyond the
-calibrated null.
+--- temporal clustering in the catalog, \textbf{not}
+proof of multi-regional global chains (full $p$ --- Table~\ref{tab:epochs},
+\S\ref{subsec:primary-counts}).
+The \textbf{primary catalog-calibrated ETAS null} (temporal MLE): observed
+candidate count is \textbf{consistent with} locally clustered synthetic
+catalogs (Table~\ref{tab:etas_validation}) --- the window detector does not find
+excess series beyond the calibrated null.
 These test \textbf{different hypotheses}: non-Poissonian event times vs.\
 series count relative to catalog-calibrated ETAS.
 Rejecting Poisson \textbf{$\neq$} evidence for teleseismic/global triggering;
@@ -886,19 +923,17 @@ $p_\mathrm{ETAS}=1.0$ \textbf{$\neq$} confirmation of global series.
 \label{sec:etas-calib-limits}
 We do \textbf{not} implement full Ogata (1998) spatial MLE with confidence
 intervals; the \textbf{primary hypothesis-test null} uses temporal MLE on
-GK mainshocks (Table~\ref{tab:etas_primary}): $p_\mathrm{ETAS}=1.0$,
-mean $= 27.0$ --- $N_\mathrm{obs}=27$ matches calibrated expectation.
+GK mainshocks (Table~\ref{tab:etas_primary}): see Table~\ref{tab:etas_validation}.
 WLS calibration is a reproducibility negative control
-(Appendix~\ref{app:wls_control}).
+(Supplementary S2).
 GK mainshock-only re-run: $N_\mathrm{series}=27$ unchanged
 (\texttt{results/sensitivity\_aftershock\_removed.json}).
 The temporal-null conclusion is additionally supported by: no validated physical
 mechanism and Bird (2003) excluded from primary inference (no synthetic benchmark
 in this work; see \S\ref{sec:limitations}).
 
-\paragraph{WLS negative control (Appendix~\ref{app:wls_control}).}
-Catalog-matched WLS calibration on the same catalog yields
-$p_\mathrm{ETAS}=1.0$ and mean $= 27 = N_\mathrm{obs}$ --- illustrating
+\paragraph{WLS negative control (Supplementary S2).}
+Catalog-matched WLS calibration on the same catalog illustrates
 detector--calibration coupling when the null is fit on the same data.
 This \textbf{supports} the temporal-null conclusion but WLS is
 \textbf{invalid for inference} ($K$ inflated); \textbf{not} the primary null.
@@ -913,8 +948,8 @@ catalog non-stationarity.
 $M \ge 8$ rates after the 2004 Sumatra earthquake.
 Our $\eta$-linkage statistic targets multi-regional nearest-neighbor structure
 rather than event-rate trends, but reaches a \textbf{compatible} conclusion on
-\textbf{temporal} clustering: $p_\mathrm{ETAS}=1.0$; no excess series count in
-detector windows relative to catalog-calibrated ETAS.
+\textbf{temporal} clustering under the ETAS null used (Table~\ref{tab:etas_validation}):
+no excess series count in detector windows relative to catalog-calibrated ETAS.
 Spatial linkage among dispersed candidates was \textbf{not tested}.
 The findings are complementary, not contradictory---we add a structure-based
 null test; they established rate-based limits on global clustering claims.
@@ -939,19 +974,20 @@ Possible (unverified) explanations include:
 
 Table~\ref{tab:etas_decision} summarises how to read the three statistical layers.
 \textbf{Primary conclusion:} within the temporal ETAS model used, the observed
-cluster count (27) does not differ from random ($p=1.0$).
+cluster count does not differ from the calibrated null (Table~\ref{tab:etas_validation}).
 This does not confirm the hypothesis of global spatiotemporal series; however,
 a definitive conclusion requires spatiotemporal ETAS \citep{Ogata1998}, which is
 beyond the scope of this work.
 
-\paragraph{Layer 1 --- Permutation ($p=0.0001$).}
+\paragraph{Layer 1 --- Permutation.}
 Rejects $H_0$: Poisson/independent event times. Indicates temporal clustering
 (expected with aftershocks). Does \textbf{not} prove global multi-regional chains.
 
-\paragraph{Layer 2 --- ETAS ($p_\mathrm{ETAS}=1.0$, temporal MLE).}
+\paragraph{Layer 2 --- ETAS (temporal MLE).}
 Fails to reject $H_0$: $N_\mathrm{series} \le$ synthetic from catalog-calibrated
-ETAS. $N_\mathrm{obs}=27 = \bar{N}=27.0$ --- no excess \textbf{temporal}
-clustering in detector windows. Validity depends on temporal-only MLE (no spatial kernel).
+ETAS --- no excess \textbf{temporal}
+clustering in detector windows (Table~\ref{tab:etas_validation}).
+Validity depends on temporal-only MLE (no spatial kernel).
 
 \paragraph{Layer 3 --- Global-series hypothesis.}
 \textbf{Not tested} by temporal-only ETAS: detector finds spatially dispersed
@@ -985,8 +1021,7 @@ Global-series hypothesis & --- & Not tested (spatial) & Temporal-only ETAS; disp
 \label{subsec:etas_seed}
 
 \textbf{ETAS note:} \textbf{Primary hypothesis-test null} is temporal MLE on
-GK mainshocks: mean $= 27.0$, $p_\mathrm{ETAS}=1.0$ ---
-$N_\mathrm{obs}=27$ matches catalog-calibrated expectation.
+GK mainshocks --- see Table~\ref{tab:etas_validation}.
 Previously reported FPR~=~0/100 was an API bug (\texttt{min\_regions} TypeError).
 
 \paragraph{Plausible physical mechanisms (unverified).}
@@ -1076,11 +1111,9 @@ null result can be stated.
 
 \noindent\textbf{We used temporal ETAS only; the spatial component was not modeled;
 conclusions are strictly limited to temporal clustering.}
-\textbf{In-sample ETAS:} $p_\mathrm{ETAS}=1.0$ on 1973--2026 uses calibration and
-the same detector on the same window---report as consistent with the
-\textbf{in-sample temporal null}, not as proof of no anomalies.
-Hold-out train/test (1973--2000 / 2001--2026): $N_\mathrm{obs}=13$, mean $=13.0$,
-$p=1.0$ (\texttt{results/etas\_holdout\_validation.json})---partial out-of-time check.
+\textbf{In-sample ETAS:} report as consistent with the
+\textbf{in-sample temporal null} (Table~\ref{tab:etas_validation}), not as proof of no anomalies.
+Hold-out --- partial out-of-time check (\S\ref{subsec:holdout-methods}).
 ETAS MLE on GK mainshocks: triggering model vs.\ declustered mainshocks---acknowledged mismatch.
 Mean pairwise GC $> 1500$~km is weaker than an all-pairs constraint.
 FDR: post-hoc BH on 47 merged series (45/47 at $q=0.05$); not applied to 142
@@ -1142,7 +1175,7 @@ linkage among dispersed candidates was \textbf{not tested}.
       \textbf{not verified}; $\pm 20\%$ --- \texttt{not\_applied}, future work
       (\texttt{pipeline\_v2}).
 \item \textbf{ETAS null:} temporal MLE on GK mainshocks (primary);
-      WLS --- Appendix~\ref{app:wls_control};
+      WLS --- Supplementary S2;
       spatial Ogata MLE --- future work (\texttt{docs/future\_work\_etas\_mle.md}).
 \item \textbf{Global-series gate:} mean pairwise GC $> 1500$~km (primary);
       Flinn--Engdahl counts are diagnostic only (legacy $\ge 3$ zones
@@ -1385,77 +1418,9 @@ the reported detector gate is $N \ge 4$, mean pairwise GC $> 1500$~km
 yielded $F_1 = 0.74$ (precision 0.78, recall 0.71), consistent with
 literature benchmarks \citep{ZaliapinBenZion2016}.
 
-\appendix
-\section{Pre-1900 NOAA Records}
-\label{app:pre1900}
-
-Forty-seven fragmentary paleoseismic/historical $M \ge 6.5$ records from
-NOAA NGDC are retained in \texttt{data/processed/unified\_catalog\_full.csv}
-for provenance.  They were \textbf{not removed from CSV}; a separate pipeline
-re-run excluding them was \textbf{not performed}.
-These 47 events are \textbf{excluded from the primary detector pipeline and
-ETAS calibration window}: the canonical pipeline (\texttt{pipeline\_v2.py})
-and ETAS fit (\texttt{calibrate\_etas.py}) use the modern catalog
-1973--2026 only ($N = 2{,}041$); epoch-stratified counts in
-Table~\ref{tab:epochs} include pre-1900 descriptively via
-\texttt{run\_full\_historical\_analysis.py} but do not enter primary
-significance claims.
-\begin{itemize}
-  \item \textbf{quality\_score:} 0.30--0.60 (metadata, not an inclusion filter).
-  \item \textbf{Detector:} 5 algorithmic candidates on this epoch;
-        permutation $p = 0.46$ --- \textbf{not statistically significant}.
-  \item \textbf{Primary significance path:} detector + ETAS + permutation
-        claims use 1900--2026 (descriptive) and 1973--2026 (primary);
-        pre-1900 is \textbf{outside} primary inference.
-\end{itemize}
-
-\section{Catalog-Matched WLS Negative Control}
-\label{app:wls_control}
-
-\noindent\textbf{Reproducibility demonstration only --- not used for hypothesis testing.}
-WLS-based catalog calibration is \textbf{invalid for inference}.
-Catalog-matched WLS calibration (\texttt{results/etas\_calibration.json}:
-$\mu \approx 0.103$, $K \approx 0.495$, $\alpha \approx 0.063$,
-$c \approx 10^{-4}$~day, $p \approx 1.36$) yields mean false series
-$= 27.0 \pm 0.0$ and $p_\mathrm{ETAS}=1.0$ ($n=1000$, seed~$= 42$;
-multiseed stable, \texttt{results/etas\_multiseed.json}).
-The fitted $K \approx 0.495$ is a \textbf{catalog-WLS artifact} (detector--calibration
-coupling on 24 GK aftershocks) and is \textbf{invalid for inference}.
-This illustrates \textbf{detector--calibration coupling} when $K$ is fit on
-the same catalog; \textbf{not} independent evidence and \textbf{not} used for
-hypothesis testing.
-
-\begin{table}[htbp]
-\centering
-\caption{ETAS calibration procedure (reproducibility script only).}
-\label{tab:etas_calib_proc}
-\begin{tabular}{llll}
-\hline
-Component & Method & Optimizer & Bounds / clip \\
-\hline
-$\mu$ & GK mainshocks / $T$ & closed form & --- \\
-$c$, $p$ & Omori MLE (24 delays) & \texttt{minimize}, Nelder--Mead & $c \in [10^{-4},10]$~d; $p \in [1.01,3]$ \\
-$K$, $\alpha$ & WLS on $\log(E[N]+0.5)$ & WLS (\texttt{numpy.linalg.lstsq}) & $K \in [10^{-4},5]$; $\alpha \in [0,2.5]$ \\
-\hline
-\end{tabular}
-\end{table}
-
-\begin{table}[htbp]
-\centering
-\caption{Calibrated vs.\ literature ETAS parameters (Appendix only).}
-\label{tab:etas_calib_vals}
-\begin{tabular}{lrr}
-\hline
-Parameter & Catalog fit & H\&S 2003 defaults \\
-\hline
-$\mu$ (day$^{-1}$) & 0.103 & 0.008 \\
-$K$ & 0.495 & 0.08 \\
-$\alpha$ & 0.063 & 1.0 \\
-$c$ (day) & $10^{-4}$ & 0.005 \\
-$p$ & 1.36 & 1.1 \\
-\hline
-\end{tabular}
-\end{table}
+\noindent\textbf{Supplementary material.}
+Bird (2003) heuristic, catalog-matched WLS negative control, and pre-1900 NOAA
+records are documented in \texttt{paper/supplementary.md} (\S S1--S3).
 
 \acknowledgments
 The authors thank the USGS, NOAA NGDC, and ISC for maintaining the

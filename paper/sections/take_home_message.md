@@ -4,18 +4,18 @@
 
 **Исследовательский вопрос:** существуют ли физически значимые мультирегиональные глобальные серии в каталоге M≥6.5 (1973–2026)?
 
-**Ключевой итог:** воспроизводимый конвейер + **in-sample** temporal ETAS MLE (p_ETAS=1,0, mean=27,0): N_obs=27 **согласован с in-sample temporal null** — не доказательство отсутствия аномалий. Hold-out 2001–2026: N_obs=13, p=1,0. Spatial linkage не тестировалась.
+**Структура:** Введение → Данные → Методы (§3.1–3.5: GK, η, детектор, ETAS MLE, hold-out) → **Результаты** (все числа) → Обсуждение → Выводы. Supplementary §S2 (WLS), §S3 (pre-1900).
 
-**Вклад:** методология и честные границы null-результата — **не** открытие и **не** «опровержение» глобальных серий как физического явления.
+**Ключевой итог:** воспроизводимый конвейер + temporal ETAS validation; **числа только в §4.1**. Spatial linkage не тестировалась.
 
-Permutation p=0,0001 — только пуассоновские времена (не в аннотации). Bird/WLS — supplementary only.
+**Вклад:** методология и честные границы null-результата — **не** открытие.
 
 ## EN
 
 **Research question:** Do physically meaningful multi-regional global series exist in the M≥6.5 catalog (1973–2026)?
 
-**Key result:** Reproducible pipeline + **in-sample** temporal ETAS MLE (p_ETAS = 1.0, mean = 27.0): N_obs = 27 is **consistent with the in-sample temporal null** — not proof of no anomalies. Hold-out 2001–2026: N_obs = 13, p = 1.0. Spatial linkage was not tested.
+**Structure:** Introduction → Data → Methods (§3.1–3.5: GK, η, detector, ETAS MLE, hold-out) → **Results** (all numbers) → Discussion → Conclusions. Supplementary §S2 (WLS), §S3 (pre-1900).
 
-**Contribution:** methodology and honest null-result bounds — **not** a discovery and **not** disproof of global series as a physical phenomenon.
+**Key result:** Reproducible pipeline + temporal ETAS validation; **all statistics in §4.1 only**. Spatial linkage was not tested.
 
-Permutation p = 0.0001 rejects Poisson times only (not in abstract). Bird/WLS — supplementary only.
+**Contribution:** methodology and honest null-result bounds — **not** a discovery.

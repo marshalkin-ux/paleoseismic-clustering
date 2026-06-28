@@ -141,6 +141,10 @@ def build(s):
         "Clustering in M\u22656.5 Earthquake Catalogs, 1973\u20132026 CE",
         s["title"]
     ))
+    story.append(Paragraph(
+        "<i>Temporal ETAS null and hold-out validation</i>",
+        s["copyright"]
+    ))
     story.append(Paragraph("\u00a9 2026  Yaroslav Marshalkin", s["copyright"]))
     story.append(HR())
     story.append(Paragraph(
@@ -154,12 +158,10 @@ def build(s):
     story.append(Paragraph("<b>Abstract.</b>", s["abstract_label"]))
     story.append(Paragraph(
         "We analyze an <b>analysis catalog of 4,267 unique M\u22656.5 events</b> "
-        "(modern window 1973\u20132026: 2,041). A Baiesi\u2013Paczuski \u03b7 detector "
-        "with <b>great-circle distance</b> yields <b>27 algorithmic candidates</b> "
-        "in the modern window. <b>Catalog-calibrated temporal ETAS</b> (GK mainshocks): "
-        "mean=27.0, <b>p_ETAS=1.0</b> (in-sample) \u2014 N_obs consistent with the <b>in-sample temporal null</b>. "
-        "Hold-out 2001\u20132026: N=13, p=1.0. Spatial component not modeled. "
-        "<b>Limitation:</b> spatial component not modeled (Sec.\u00a05.6).",
+        "(modern window 1973\u20132026: 2,041). Baiesi\u2013Paczuski \u03b7 detector yields "
+        "<b>27 algorithmic candidates</b>. <b>Catalog-calibrated temporal ETAS:</b> "
+        "<b>p_ETAS=1.0</b> (in-sample null; full numbers \u2014 Sec. 4.1). "
+        "Spatial component not modeled. Pre-1900 NOAA \u2014 Supplementary S3.",
         s["abstract"]
     ))
     story.append(Paragraph(
@@ -211,11 +213,10 @@ def build(s):
     ))
     story.append(Paragraph(
         "<b>§1.1 Research question.</b> Do physically meaningful multi-regional global "
-        "series exist in M\u22656.5 (1973\u20132026)? (a) Permutation: p=0.0001 rejects "
-        "Poisson times only. (b) ETAS MLE: mean=27.0, p_ETAS=1.0. "
-        "(c) Global-series hypothesis: <b>not tested</b> by temporal-only ETAS; "
-        "spatial null open. "
-        "(d) WLS control (App.\u00a0B): p=1.0 \u2014 coupling illustration, not primary null.",
+        "series exist in M\u22656.5 (1973\u20132026)? (a) Permutation \u2192 see Sec. 4.1. "
+        "(b) ETAS MLE \u2192 see Sec. 4.1. "
+        "(c) Global-series hypothesis: <b>not tested</b> by temporal-only ETAS. "
+        "(d) WLS (Supplementary S2): coupling illustration, not primary null.",
         s["body_ni"]
     ))
 
@@ -240,7 +241,7 @@ def build(s):
         "quality_score is metadata, not an inclusion filter. "
         "<b>Primary analysis set:</b> events 1900\u20132026 (4,218); 47 pre-1900 records "
         "remain in CSV (provenance) but are excluded from the primary detector pipeline "
-        "and ETAS calibration window (1973\u20132026 only) \u2014 see Appendix A. "
+        "and ETAS calibration window (1973\u20132026 only) \u2014 see Supplementary S3. "
         "<b>Final catalog:</b> 4,267 M\u22656.5 events (4,418 CSV rows).",
         s["body"]
     ))
@@ -256,9 +257,10 @@ def build(s):
 
     story += SSEC("2.2 Tectonic heuristic (deprecated)", s)
     story.append(Paragraph(
-        "The Bird (2003) tectonic-path heuristic is <b>excluded from primary inference</b> "
-        "(Appendix); <b>great-circle only</b>. Failure to validate shows metric "
-        "<b>unsuitability</b>, not evidence against global series.",
+        "The Bird (2003) tectonic-path heuristic is <b>excluded from the primary pipeline</b>; "
+        "<b>no synthetic benchmark</b> in this work; comparison deferred to supplementary "
+        "material and future work. Primary analysis uses <b>great-circle distance only</b> "
+        "(see <code>paper/supplementary.md</code> \u00a7S1).",
         s["body"]
     ))
     story.append(Spacer(1, 0.15 * cm))
@@ -317,21 +319,17 @@ def build(s):
     story += SSEC("2.5 Primary ETAS null", s)
     story.append(Paragraph(
         "<b>Primary ETAS null</b> uses catalog-calibrated temporal MLE on GK mainshocks "
-        "(calibrate_etas_mle.py). WLS calibration scripts are Appendix B reproducibility only.",
+        "(calibrate_etas_mle.py). Hold-out: train 1973\u20132000, hold-out 2001\u20132026 "
+        "(calibrate_etas_holdout.py; n=1000, seed=42). WLS \u2014 Supplementary S2 only.",
         s["body"]
     ))
 
     story += SSEC("2.6 Statistical validation", s)
     story.append(Paragraph(
         "<b>Permutation statement:</b> p=0.0001 rejects <b>Poisson event times only</b> "
-        "(Ogata 1988); does not confirm global series.",
+        "(Ogata 1988); does not confirm global series. ETAS \u2014 Sec. 4.1. "
+        "BH post-hoc \u2014 not discovery.",
         s["body_ni"]
-    ))
-    story.append(Paragraph(
-        "<b>Permutation test:</b> n = 10,000, p \u2264 0.0001, z = -6.17 (modern). "
-        "<b>ETAS (primary MLE):</b> mean = 27.0, p_ETAS = 1.0, N = 27. "
-        "Interpretation \u2014 Sec. 4. GK mainshocks: N = 27. BH post-hoc \u2014 not discovery.",
-        s["body"]
     ))
 
     story += SEC("3. RESULTS", s)
@@ -353,7 +351,22 @@ def build(s):
     ))
     story.append(Spacer(1, 0.2 * cm))
 
-    story += SSEC("3.2 Spatial\u2013temporal distribution", s)
+    story += SSEC("3.2 ETAS validation (Sec. 4.1 canonical)", s)
+    etas_rows = [
+        ["Split", "N_obs", "mean", "p_ETAS"],
+        ["In-sample (1973\u20132026)", "27", "27.0", "1.0"],
+        ["Train-calibrated hold-out (2001\u20132026)", "13", "13.0", "1.0"],
+    ]
+    story.append(build_pdf_table(etas_rows, [0.42, 0.18, 0.18, 0.22], w, s))
+    story.append(Paragraph(
+        "Permutation: p = 0.0001 (1/10,001), z = -6.17. Hold-out \u2014 partial out-of-time "
+        "check, not spatial validation. <b>Multiple testing:</b> the 27 modern series were "
+        "<b>not</b> FDR-corrected for the 142-window search; Bonferroni \u03b1/142 \u2248 0.00035 "
+        "&gt; p = 0.0001. BH post-hoc on N=47 \u2014 not a discovery claim.",
+        s["body_ni"]
+    ))
+
+    story += SSEC("3.3 Spatial\u2013temporal distribution", s)
     story.append(Paragraph(
         "Elevated detector candidate frequency (not validated physical series) "
         "occurs in 1952\u20131965 and 2002\u20132016 "
@@ -363,7 +376,7 @@ def build(s):
         s["body"]
     ))
 
-    story += SSEC("3.3 Consolidated sensitivity table (modern window)", s)
+    story += SSEC("3.4 Consolidated sensitivity table (modern window)", s)
     sens_rows = [
         ["Parameter", "Setting", "N_series"],
         ["GC gate", "1000 km", "27"],
@@ -391,22 +404,17 @@ def build(s):
 
     story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
-        "<b>Temporal ETAS (in-sample):</b> N_obs=27 consistent with in-sample temporal null "
-        "(hold-out N=13, p=1.0). Spatial linkage not tested "
-        "(Sec. 3.1: N_obs=27, mean=27.0, p_ETAS=1.0). Spatial linkage not tested. "
-        "Permutation rejects Poisson times only. Detector liberal (142 windows). "
-        "Bird/WLS — supplementary only.",
+        "<b>Temporal ETAS:</b> No excess candidates beyond catalog-calibrated null "
+        "(Sec. 3.2). Spatial linkage not tested. Permutation rejects Poisson times only. "
+        "Bird/WLS/pre-1900 \u2014 paper/supplementary.md \u00a7S1\u2013S3.",
         s["body"]
     ))
 
     story.append(PageBreak())
 
-    # === APPENDICES ==============================================================
     story.append(Paragraph(
-        "<b>We used temporal ETAS only; the spatial component was not modeled; "
-        "conclusions are strictly limited to temporal clustering.</b> "
-        "Rejecting global series as a <b>tested</b> null would require spatial ETAS "
-        "(Ogata 1998); we <b>do not</b> claim that rejection here.",
+        "<b>Supplementary material.</b> Bird (2003), WLS negative control, pre-1900 NOAA: "
+        "paper/supplementary.md (\u00a7S1\u2013S3).",
         s["body_ni"]
     ))
     lim_rows = [
@@ -451,34 +459,6 @@ def build(s):
         "liberalness.",
         s["body_ni"]
     ))
-
-    story += SEC("APPENDIX A. PRE-1900 NOAA RECORDS", s)
-    story.append(Paragraph(
-        "Forty-seven fragmentary paleoseismic/historical M\u22656.5 records from NOAA NGDC "
-        "are retained in data/processed/unified_catalog_full.csv for provenance (not removed). "
-        "These 47 events are <b>excluded from the primary detector pipeline and ETAS calibration "
-        "window</b>: pipeline_v2.py and calibrate_etas.py use the modern catalog 1973\u20132026 "
-        "only (N=2,041). Epoch-stratified counts include pre-1900 descriptively via "
-        "run_full_historical_analysis.py but do not enter primary significance claims.",
-        s["body"]
-    ))
-
-    story += SEC("APPENDIX B. CATALOG-MATCHED WLS NEGATIVE CONTROL", s)
-    story.append(Paragraph(
-        "<b>Reproducibility negative control only \u2014 not inference.</b> Catalog-matched WLS "
-        "(results/etas_calibration.json: \u03bc\u22480.103, K\u22480.495) yields mean=27.0, "
-        "p_ETAS=1.0 (n=1000; multiseed stable). Illustrates <b>detector\u2013calibration coupling</b>; "
-        "<b>not</b> the primary null.",
-        s["body"]
-    ))
-    wls_rows = [
-        ["Component", "Method"],
-        ["\u03bc", "GK mainshocks / T (closed form)"],
-        ["c, p", "Omori MLE, Nelder\u2013Mead on 24 delays"],
-        ["K, \u03b1", "WLS (numpy.linalg.lstsq) on same 24 GK aftershocks"],
-    ]
-    story.append(build_pdf_table(wls_rows, [0.22, 0.78], w, s))
-    story.append(Spacer(1, 0.15 * cm))
 
     story += SEC("DATA AND CODE AVAILABILITY", s)
     story.append(Paragraph(

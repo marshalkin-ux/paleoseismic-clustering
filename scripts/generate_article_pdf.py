@@ -181,6 +181,11 @@ def build(s):
         "M\u22656.5 за 1973\u20132026\u00a0гг.",
         s["title_ru"]
     ))
+    story.append(P(
+        "<i>\u0412\u0440\u0435\u043c\u0435\u043d\u043d\u0430\u044f ETAS-null \u0438 hold-out "
+        "\u0432\u0430\u043b\u0438\u0434\u0430\u0446\u0438\u044f</i>",
+        s["meta"]
+    ))
     story.append(P("\u00a9 2026\u00a0г.\u00a0\u00a0Ярослав Маршалкин",
                             s["copyright"]))
     story.append(HR())
@@ -199,13 +204,13 @@ def build(s):
     story.append(P("<b>Аннотация.</b>", s["abstract_label"]))
     story.append(P(
         "В <b>анализ-каталоге 4267 уникальных M\u22656.5</b> (современное окно "
-        "1973\u20132026: 2041); 47 записей NOAA \u2014 Приложение\u00a0A. Детектор "
-        "(\u03b7, great-circle) выдаёт <b>27 кандидатов</b> в современном окне. "
-        "<b>Калиброванная temporal ETAS</b> (GK mainshocks): mean=27,0, "
-        "<b>p_ETAS=1,0</b>. "
-        "<b>Мы не обнаружили аномалий временной кластеризации сверх калиброванной ETAS. "
-        "Пространственная компонента не моделировалась, поэтому вопрос о физической "
-        "связанности удалённых событий остаётся открытым для будущих исследований.</b>",
+        "1973\u20132026: 2041). Заголовок \u2014 <b>пространственно-временная детекция</b> "
+        "с воротами (mean GC&gt;1500\u00a0км); <b>валидация только temporal</b> "
+        "(ETAS MLE + hold-out). Детектор \u03b7 (great-circle) \u2014 <b>27 кандидатов</b>. "
+        "<b>Калиброванная temporal ETAS:</b> <b>p_ETAS=1,0</b> \u2014 N_obs "
+        "<b>согласован с in-sample temporal null</b> (числа \u2014 \u00a74.1). "
+        "Пространственный компонент не моделировался (\u00a75). "
+        "NOAA до 1900\u00a0г. \u2014 Supplementary S3.",
         s["abstract"]
     ))
 
@@ -233,6 +238,10 @@ def build(s):
         s["title_en"]
     ))
     story.append(P(
+        "<i>Temporal ETAS null and hold-out validation</i>",
+        s["meta"]
+    ))
+    story.append(P(
         "<b>Ярослав Маршалкин (Yaroslav Marshalkin)</b><br/>"
         "e-mail: marshalkin@gmail.com &nbsp;|&nbsp; Telegram: @MRSHLKN",
         s["meta"]
@@ -241,13 +250,10 @@ def build(s):
     story.append(P("<b>Abstract.</b>", s["abstract_label"]))
     story.append(P(
         "We analyze <b>4,267 unique M\u22656.5 events</b> (modern window 1973\u20132026: "
-        "2,041); NOAA pre-1900 records in Appendix\u00a0A. "
-        "Baiesi\u2013Paczuski \u03b7 detector (great-circle) yields <b>27 candidates</b> "
-        "in the modern window. <b>Catalog-calibrated temporal ETAS</b> (GK mainshocks): "
-        "mean=27.0, <b>p_ETAS=1.0</b>. "
-        "N_obs <b>согласован с in-sample temporal null</b> (p<sub>ETAS</sub>=1,0). "
-        "Hold-out 2001\u20132026: N=13, p=1,0. Пространственный компонент не моделировался; "
-        "вопрос физической связанности удалённых событий остаётся открытым.",
+        "2,041). Baiesi\u2013Paczuski \u03b7 detector yields <b>27 candidates</b>. "
+        "<b>Catalog-calibrated temporal ETAS:</b> <b>p_ETAS=1.0</b> (in-sample null; "
+        "full numbers \u2014 Sec. 4.1). Spatial component not modeled. Pre-1900 NOAA \u2014 "
+        "Supplementary S3.",
         s["abstract"]
     ))
     story.append(P(
@@ -317,10 +323,10 @@ def build(s):
     story.append(P(
         "<b>§1.1 Исследовательский вопрос.</b> Существуют ли физически значимые "
         "мультирегиональные глобальные серии в каталоге M\u22656.5 (1973\u20132026)? "
-        "(a) Permutation: H\u2080 независимые времена \u2192 p=0,0001 (не тест глобальных серий). "
-        "(b) ETAS MLE: mean=27,0, p_ETAS=1,0 \u2014 N_obs согласован с null. "
+        "(a) Permutation: H\u2080 независимые времена \u2192 см. \u00a74.1. "
+        "(b) ETAS MLE \u2192 см. \u00a74.1. "
         "(c) Гипотеза глобальных серий: <b>не тестируется</b> temporal-only ETAS; spatial null открыт. "
-        "(d) WLS-контроль (Прил.\u00a0B): p=1,0 \u2014 coupling illustration, не первичная null.",
+        "(d) WLS (Supplementary S2): coupling illustration, не первичная null.",
         s["body_ni"]
     ))
 
@@ -354,7 +360,7 @@ def build(s):
         "<b>Основной набор анализа:</b> события 1900\u20132026 (4218); "
         "47\u00a0записей до 1900\u00a0г. остаются в CSV (провенанс), но "
         "исключены из первичного конвейера детектора и окна калибровки ETAS "
-        "(1973\u20132026) \u2014 см. Приложение\u00a0A. "
+        "(1973\u20132026) \u2014 см. Supplementary S3. "
         "Итоговый каталог: <b>4267</b> событий M\u22656.5 (<b>4418</b> записей CSV); "
         "2041\u00a0\u2014 современный (1973\u20132026), "
         "2179\u00a0\u2014 ранний (1900\u20131972), "
@@ -457,20 +463,15 @@ def build(s):
     story.append(P(
         "Порог η₀: KDE-долина log₁₀(η) (Zaliapin &amp; Ben-Zion 2013). "
         "<b>Первичная ETAS-null</b> — temporal MLE на GK mainshocks "
-        "(calibrate_etas_mle.py). WLS — Приложение B (negative control).",
+        "(calibrate_etas_mle.py). WLS — Supplementary S2. "
+        "Hold-out: train 1973–2000, hold-out 2001–2026 (calibrate_etas_holdout.py; n=1000, seed=42).",
         s["body"]
     ))
     story += SSSEC("2.6 Статистическая валидация", s)
     story.append(P(
         "<b>Заявление (permutation):</b> p=0,0001 отвергает <b>только</b> пуассоновские "
-        "времена (Ogata, 1988); не подтверждает глобальные серии.",
-        s["body_ni"]
-    ))
-    story.append(P(
-        "<b>Тест Монте-Карло.</b> n=10\u202f000 перестановок: "
-        "p=0.0001 (1/10,001), z=\u22126.17 для современного периода. "
-        "<b>ETAS (первичная MLE).</b> mean=27,0, p_ETAS=1,0, N_obs=27. "
-        "Интерпретация \u2014 §4. GK mainshocks: N=27. BH post-hoc N=47 \u2014 не discovery.",
+        "времена (Ogata, 1988); не подтверждает глобальные серии. "
+        "ETAS \u2014 см. \u00a74.1. BH post-hoc N=47 \u2014 не discovery.",
         s["body"]
     ))
 
@@ -495,25 +496,18 @@ def build(s):
     ))
     story.append(Spacer(1, 0.2 * cm))
 
-    story += SSSEC("3.2 Статистическая значимость", s)
+    story += SSSEC("3.2 ETAS validation (§4.1 canonical)", s)
+    etas_rows = [
+        ["Split", "N_obs", "mean", "p_ETAS"],
+        ["In-sample (1973\u20132026)", "27", "27,0", "1,0"],
+        ["Train-calibrated hold-out (2001\u20132026)", "13", "13,0", "1,0"],
+    ]
+    story.append(build_pdf_table(etas_rows, [0.42, 0.18, 0.18, 0.22], PAGE_W - LM - RM, s))
     story.append(P(
-        "Перестановочный тест (n\u209b\u1d62\u2098=10\u202f000):",
-        s["body"]
-    ))
-    story.append(FormulaBox(
-        "p \u2264 0.0001   (z = \u22126.17,  \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0439 \u043f\u0435\u0440\u0438\u043e\u0434 1973\u20132026)",
-        s["formula"],
-        PAGE_W - LM - RM,
-    ))
-    story.append(FormulaBox(
-        "primary MLE ETAS: mean 27,0, p_ETAS = 1,0   (N_obs=27)",
-        s["formula"],
-        PAGE_W - LM - RM,
-    ))
-    story.append(P(
-        "Коррекция BH (q=0.05) на N=47 — post-hoc, не discovery. "
-        "Permutation p=0,0001 отвергает пуассоновские времена. "
-        "Primary ETAS MLE: mean=27,0, p_ETAS=1,0.",
+        "Permutation: p=0,0001 (1/10,001), z=\u22126,17. Hold-out \u2014 partial out-of-time check, "
+        "not spatial validation. <b>Множественные сравнения:</b> 27 modern <b>не</b> FDR-скорректированы "
+        "за поиск по 142 окнам; Bonferroni \u03b1/142 \u2248 0,00035 &gt; p=0,0001. "
+        "BH post-hoc N=47 \u2014 не discovery.",
         s["body_ni"]
     ))
 
@@ -557,21 +551,17 @@ def build(s):
 
     story += SEC("4. Обсуждение и выводы", s)
     story.append(P(
-        "<b>Temporal ETAS (primary):</b> нет аномалий временной кластеризации сверх null "
-        "(§3.1: N_obs=27, mean=27,0, p_ETAS=1,0). Spatial linkage не тестировалась. "
-        "Permutation — только пуассоновские времена. Детектор либерален (142 окна). "
-        "Bird/WLS — supplementary only.",
+        "<b>Temporal ETAS:</b> нет избытка кандидатов сверх catalog-calibrated null "
+        "(§3.2). Spatial linkage не тестировалась. Permutation — только пуассоновские "
+        "времена. Bird/WLS/pre-1900 — paper/supplementary.md §S1–S3.",
         s["body"]
     ))
     story.append(PageBreak())
 
-    # === APPENDICES ==============================================================
     story.append(P(
-        "<b>Использована только temporal ETAS; пространственный компонент не моделировался; "
-        "выводы строго ограничены временной кластеризацией.</b> "
-        "Отверждение «глобальных серий» как протестированной null потребовало бы spatial ETAS; "
-        "мы <b>не</b> заявляем такого отвержения здесь.",
-        s["body"]
+        "<b>Supplementary material.</b> Bird (2003), WLS negative control, pre-1900 NOAA "
+        "records: paper/supplementary.md (§S1–S3).",
+        s["body_ni"]
     ))
     lim_rows = [
         ["Ограничение", "Затронутый шаг", "Влияние на главный вывод"],
@@ -615,41 +605,9 @@ def build(s):
         s["body_ni"]
     ))
 
-    story += SEC("ПРИЛОЖЕНИЕ A. ЗАПИСИ NOAA ДО 1900 Г.", s)
-    story.append(P(
-        "47 фрагментарных палеосейсмических/исторических записей M\u22656.5 из NOAA NGDC "
-        "сохранены в data/processed/unified_catalog_full.csv для провенанса (не удалялись). "
-        "Эти 47 событий <b>исключены из первичного конвейера детектора и окна калибровки ETAS</b>: "
-        "pipeline_v2.py и calibrate_etas.py используют только современный каталог 1973\u20132026 "
-        "(N=2041). Эпохальные подсчёты включают до 1900\u00a0г. описательно через "
-        "run_full_historical_analysis.py, но не входят в первичные заявления о значимости.",
-        s["body"]
-    ))
-
-    story += SEC("ПРИЛОЖЕНИЕ B. НЕГАТИВНЫЙ КОНТРОЛЬ WLS (ВОСПРОИЗВОДИМОСТЬ)", s)
-    story.append(P(
-        "<b>\u0422\u043e\u043b\u044c\u043a\u043e \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u043c\u043e\u0441\u0442\u044c \u2014 \u043d\u0435 inference.</b> "
-        "Каталог-калиброванная WLS (results/etas_calibration.json: "
-        "\u03bc\u22480,103, K\u22480,495) даёт mean=27,0, p_ETAS=1,0 "
-        "(n=1000, multiseed стабилен). <b>Артефакт связки детектор+калибровка</b> "
-        "на 24 GK-афтершоках; <b>не</b> для выводов. "
-        "Иллюстрирует coupling детектора и калибровки; <b>не</b> первичная null.",
-        s["body"]
-    ))
-    wls_rows = [
-        ["\u041a\u043e\u043c\u043f\u043e\u043d\u0435\u043d\u0442", "\u041c\u0435\u0442\u043e\u0434"],
-        ["\u03bc (\u043c\u044e)", "GK mainshocks / T (\u0437\u0430\u043c\u043a\u043d\u0443\u0442\u0430\u044f \u0444\u043e\u0440\u043c\u0430)"],
-        ["c, p", "Omori MLE, Nelder\u2013Mead \u043d\u0430 24 \u0437\u0430\u0434\u0435\u0440\u0436\u043a\u0430\u0445"],
-        ["K, \u03b1", "WLS (numpy.linalg.lstsq) \u043d\u0430 \u0442\u0435\u0445 \u0436\u0435 24 GK-\u0430\u0444\u0442\u0435\u0440\u0448\u043e\u043a\u0430\u0445"],
-    ]
-    story.append(build_pdf_table(wls_rows, [0.22, 0.78], PAGE_W - LM - RM, s))
-    story.append(Spacer(1, 0.15 * cm))
-
     story.append(P(
         "<b>Доступность данных:</b> github.com/marshalkin-ux/paleoseismic-clustering "
-        "(docs/data_availability.md). Внешний DOI (Zenodo) отложен \u2014 GitHub only. "
-        "<b>Перспективы / дополнение:</b> статический \u0394CFS и динамический стресс "
-        "для S170, S047, S095; полный ETAS MLE; ZBZ-primary re-run.",
+        "(docs/data_availability.md).",
         s["body_ni"]
     ))
 
