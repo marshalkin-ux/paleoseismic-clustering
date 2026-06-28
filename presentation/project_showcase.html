@@ -2801,173 +2801,22 @@
     <div class="section-header fade-in">
       <span class="section-tag">07 · История и план</span>
       <h2>История проекта</h2>
-      <p>Хронология от постановки задачи до публикации на GitHub Pages и подготовки к GRL/BSSA — 26–27 июня 2026</p>
+      <p>От постановки задачи до цикла рецензирования и финальной синхронизации — 26–28 июня 2026</p>
     </div>
 
-    <div class="history-legend fade-in">
-      <span class="history-legend-label">Типы итераций:</span>
-      <span class="history-legend-chip history-legend-chip--content">Контент</span>
-      <span class="history-legend-chip history-legend-chip--technical">Методология / код</span>
-      <span class="history-legend-chip history-legend-chip--data">Данные / каталог</span>
-      <span class="history-legend-chip history-legend-chip--viz">Визуализация</span>
-      <span class="history-legend-chip history-legend-chip--infra">Инфраструктура</span>
-    </div>
+    <div class="history-prose fade-in">
 
-    <div class="history-timeline fade-in">
+      <p class="history-block"><strong>26 июня 2026 — Постановка и архитектура.</strong> Сформулирована цель: статистически значимые глобальные сейсмические серии M≥6.5 (USGS, ISC, NOAA). Спроектирована трёхагентная структура (Куратор / Методолог / Автор), развёрнут каркас репозитория (<code>src/curator</code>, <code>src/analysis</code>, <code>src/viz</code>, ноутбуки, тесты, <code>paper/main.tex</code>). Реализованы загрузчики с дедупликацией KD-дерева, метрика η с тектоническим расстоянием <a href="https://en.wikipedia.org/wiki/Peter_Bird_(geologist)" class="wiki-link" target="_blank" rel="noopener">Bird (2003)</a> (Mc = 6.55; b = 0.911), Cartopy-визуализации и Marp-слайды.</p>
 
-      <div class="history-item history-item--content">
-        <div class="history-dot">1</div>
-        <div class="history-date">26 июня 2026</div>
-        <div class="history-title">Постановка задачи</div>
-        <div class="history-desc">Сформулирована научная цель: выявить статистически значимые глобальные сейсмические серии в многовековом каталоге M≥6.5. Определены критерии значимости (η, Monte Carlo, ETAS, FDR), порог полноты Mc и три источника данных: USGS, ISC, NOAA.</div>
-      </div>
+      <p class="history-block"><strong>27 июня 2026 — Данные, пайплайн и первичный анализ.</strong> Документация (7 MD, 84 теста), расширение методологии (<a href="https://en.wikipedia.org/wiki/Leon_Knopoff" class="wiki-link" target="_blank" rel="noopener">Gardner–Knopoff</a>/Zaliapin, <a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="wiki-link" target="_blank" rel="noopener">FDR</a>, <a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="wiki-link" target="_blank" rel="noopener">ETAS</a>). Объединённый каталог: 4 418 строк → <strong>4 267 уникальных M≥6.5</strong>; анализ 1973+ (2041 событие). Детектор: 47 кандидат-serий (27 современных). Monte Carlo (n = 10 000, p = 0.0001) и ETAS (FPR = 1000/1000, mean = 27) подтвердили null-интерпретацию. GRL-фигуры, HTML-showcase с картой 4 267 событий, релиз на <a href="https://marshalkin-ux.github.io/paleoseismic-clustering/" class="wiki-link" target="_blank" rel="noopener">GitHub Pages</a>.</p>
 
-      <div class="history-item history-item--technical">
-        <div class="history-dot">2</div>
-        <div class="history-date">26 июня 2026</div>
-        <div class="history-title">Проектирование архитектуры</div>
-        <div class="history-desc">Разработана трёхагентная структура (Куратор / Методолог / Автор), выбраны алгоритмы кластеризации и валидации. Зафиксированы конфигурации в <code>config.yaml</code> и план статистических тестов в <code>docs/statistical_testing_plan.md</code>.</div>
-      </div>
+      <p class="history-block"><strong>27 июня 2026 — Статьи RU/EN и первичный аудит.</strong> Параллельные <code>article_ru/en</code> (MD/PDF), SEO, сверка формул η и каталога между кодом и текстами (b = 1.0 в η vs b = 0.911 в MC). Серия 1905–1910 (193 события, M<sub>max</sub> = 8.8), ΔCFS S170 (Sumatra 2004) как future work. Подготовлена автоматизация <code>publication/</code> (Zenodo/Figshare/arXiv — внешний депозит отложен, GitHub-only).</p>
 
-      <div class="history-item history-item--technical">
-        <div class="history-dot">3</div>
-        <div class="history-date">26 июня 2026</div>
-        <div class="history-title">Scaffolding проекта</div>
-        <div class="history-desc">Создана структура репозитория: <code>src/curator</code>, <code>src/analysis</code>, <code>src/viz</code>, 5 Jupyter-ноутбуков, <code>scripts/</code>, <code>tests/</code>, LaTeX-шаблон <code>paper/main.tex</code>. Полный скелет из 20+ Python-модулей за один шаг.</div>
-      </div>
+      <p class="history-block"><strong>27 июня 2026 — Рефрейм «отрицательного результата».</strong> Тексты переформулированы: литературный ETAS-null как primary, FDR и исторический период demoted из discovery-нарратива, честные Limitations (η, pre-1900, качество данных). Полный аудит чисел между showcase, articles, docs и digest; plain-language summary; фокус анализа 1973–2026. Ответ на Michael (2011) и Shearer &amp; Stark (2012): η-тест — дополнительная статистика связей, не отмена их выводов.</p>
 
-      <div class="history-item history-item--data">
-        <div class="history-dot">4</div>
-        <div class="history-date">26 июня 2026</div>
-        <div class="history-title">Реализация Агента №1 — Куратор</div>
-        <div class="history-desc">Написаны загрузчики USGS, NOAA, ISC (<code>src/curator/</code>); унификатор с дедупликацией через KD-дерево (±30 сут., ≤50 км); SQLite-база <code>data/db/paleoseismic.sqlite</code>. Приоритет источников: ISC &gt; USGS &gt; NOAA.</div>
-      </div>
+      <p class="history-block"><strong>27–28 июня 2026 — Цикл рецензирования: ETAS, гипотезы, структура.</strong> ~50 коммитов: peer-review fixes по b/η₀, formal hypotheses и algorithm spec; literature-only ETAS null; catalog-calibrated ETAS MLE как primary; WLS вынесен в Appendix B; таблица чувствительности GK/ZBZ; dedupe Results/Discussion, trim повторов Bird/WLS; supplementary S1–S3. Уточнены p-values, in-sample disclaimer и hold-out split; смягчены выводы (temporal ETAS scope, spatial open); минимальный EN abstract.</p>
 
-      <div class="history-item history-item--technical">
-        <div class="history-dot">5</div>
-        <div class="history-date">26 июня 2026</div>
-        <div class="history-title">Метрика η и эвристика с тектонической подсказкой</div>
-        <div class="history-desc">Реализована метрика Baiesi–Paczuski η (<code>src/analysis/clustering.py</code>) с тектоническим расстоянием по графу <a href="https://en.wikipedia.org/wiki/Peter_Bird_(geologist)" class="wiki-link" target="_blank" rel="noopener">Bird (2003)</a> (<code>tectonic_distance_v2.py</code>). Алгоритм полноты каталога: Mc = 6.55; b-value = 0.911 ± 0.018 по 1 688 событиям.</div>
-      </div>
-
-      <div class="history-item history-item--viz">
-        <div class="history-dot">6</div>
-        <div class="history-date">26 июня 2026</div>
-        <div class="history-title">Реализация Агента №3 — Автор</div>
-        <div class="history-desc">Визуализации Cartopy (<code>src/viz/</code>), LaTeX-шаблон с 70+ источниками (<code>paper/bibliography.bib</code>), научпоп-дайджест, Marp-слайды (<code>presentation/slides.md</code>) и черновик HTML-презентации.</div>
-      </div>
-
-      <div class="history-item history-item--technical">
-        <div class="history-dot">7</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Документация и тестирование</div>
-        <div class="history-desc">7 MD-файлов в <code>docs/</code> (82 KB): API reference, методология, быстрый старт, интерпретация результатов. 84 unit-теста — все зелёные: 46 базовых + 38 для улучшений (<code>tests/test_*.py</code>).</div>
-      </div>
-
-      <div class="history-item history-item--technical">
-        <div class="history-dot">8</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Расширение методологии</div>
-        <div class="history-desc">Добавлены: декластеризация <a href="https://en.wikipedia.org/wiki/Leon_Knopoff" class="wiki-link" target="_blank" rel="noopener">Gardner–Knopoff</a> + Zaliapin, <a href="https://en.wikipedia.org/wiki/False_discovery_rate" class="wiki-link" target="_blank" rel="noopener">FDR</a>-коррекция Benjamini–Hochberg, <a href="https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence" class="wiki-link" target="_blank" rel="noopener">ETAS</a>-генератор, граф с типами границ, разделение динамического/статического триггеринга, калибровка порогов.</div>
-      </div>
-
-      <div class="history-item history-item--data">
-        <div class="history-dot">9</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Загрузка и объединение каталогов</div>
-        <div class="history-desc">Скрипт <code>scripts/download_full_catalog.py</code> скачал USGS (1900–2026), ISC и NOAA. Сохранено 4 418 CSV-строк в <code>data/processed/unified_catalog_full.csv</code> (~151 запись NOAA с M&lt;6.5 из выборки M≥6.0). После дедупликации — <strong>4 267 уникальных M≥6.5</strong> в merged каталоге; анализ значимости на 2041 событии 1973+.</div>
-      </div>
-
-      <div class="history-item history-item--technical">
-        <div class="history-dot">10</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">47 кандидатов детектора (null-интерпретация)</div>
-        <div class="history-desc">Первичный анализ (<code>scripts/run_full_historical_analysis.py</code>): 47 серий в трёх эпохах — 27 современных, 15 ранних инструментальных, 5 исторических кандидатов. Результаты в <code>results/clusters.json</code> и <code>results/fdr_correction_results.csv</code>.</div>
-      </div>
-
-      <div class="history-item history-item--technical">
-        <div class="history-dot">11</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Monte Carlo и ETAS-валидация</div>
-        <div class="history-desc">Перестановочный тест n = 10 000: p = 0.0001 (1/10,001), z = −6.17 (<code>results/montecarlo_full.json</code>). 1000 синтетических ETAS-каталогов (калибр. μ≈0,103; порог 500 км, seed=42) → FPR = 1000/1000, mean=27,0, p<sub>ETAS</sub>=1,0 (<code>results/etas_validation.json</code>). Сравнение декластеризации GK vs ZBZ.</div>
-      </div>
-
-      <div class="history-item history-item--technical">
-        <div class="history-dot">12</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">FDR-коррекция множественных сравнений</div>
-        <div class="history-desc">Benjamini–Hochberg post-hoc на N=47 merged series (<code>scripts/apply_fdr_correction.py</code>): 45/47 при q &lt; 0.05 — <strong>Methods/sensitivity only</strong>, не discovery claim.</div>
-      </div>
-
-      <div class="history-item history-item--viz">
-        <div class="history-dot">13</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Публикационные фигуры GRL</div>
-        <div class="history-desc">Сгенерированы 5 рисунков в <code>figures/grl/</code>: ETAS-валидация, Monte Carlo null, FDR top-series, тектоническое vs евклидово расстояние, карта современных серий. Дополнительно 8 exploratory-фигур и 6 интерактивных визуализаций.</div>
-      </div>
-
-      <div class="history-item history-item--viz">
-        <div class="history-dot">14</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">HTML-showcase и интерактивная карта</div>
-        <div class="history-desc">Собран <code>presentation/project_showcase.html</code> (~2 400 строк): встроенные GRL-визуализации, счётчики, формулы. Исправлена карта: <code>scripts/export_map_data.py</code> экспортирует 4 267 событий в <code>map_events_embed.js</code> (обход ограничения fetch при file://).</div>
-      </div>
-
-      <div class="history-item history-item--infra">
-        <div class="history-dot">15</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Публикация на GitHub Pages</div>
-        <div class="history-desc">Коммит a16333a: 238 файлов, полный репозиторий на GitHub. <code>index.html</code> → showcase, <code>.nojekyll</code>, <code>CITATION.cff</code>. Демо: <a href="https://marshalkin-ux.github.io/paleoseismic-clustering/" class="wiki-link" target="_blank" rel="noopener">marshalkin-ux.github.io/paleoseismic-clustering</a>.</div>
-      </div>
-
-      <div class="history-item history-item--content">
-        <div class="history-dot">16</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Русская статья, PDF и SEO</div>
-        <div class="history-desc">Сгенерированы <code>paper/article_ru.md</code> и <code>article_ru.pdf</code> (<code>scripts/generate_article_pdf.py</code>). Добавлены meta-теги Open Graph, canonical URL, ключевые слова SEO и контакты автора (email, Telegram) в showcase и <code>README.md</code>.</div>
-      </div>
-
-      <div class="history-item history-item--content">
-        <div class="history-dot">17</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Английская статья (IMRAD / GRL-style)</div>
-        <div class="history-desc">Добавлены <code>paper/article_en.md</code>, <code>article_en.pdf</code> и генератор <code>scripts/generate_article_en_pdf.py</code> (419 строк). Параллельная RU/EN версия с перекрёстными ссылками в showcase и docs.</div>
-      </div>
-
-      <div class="history-item history-item--technical">
-        <div class="history-dot">18</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Аудит кода и сверка формул</div>
-        <div class="history-desc">Коммит a2576a8: выровнены формула η, метрика расстояния и таблица слияния каталогов между кодом (<code>src/analysis/</code>) и текстами (<code>main.tex</code>, article_ru/en). Уточнено: η использует b = 1.0 (конвенция BP 2004), Monte Carlo — b = 0.911.</div>
-      </div>
-
-      <div class="history-item history-item--content">
-        <div class="history-dot">19</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Уточнение ETAS-параметров и оговорок</div>
-        <div class="history-desc">Коммит 9034730: temporal ETAS MLE + bootstrap CI (`etas_mle_calibration.json`); исправлена логика GK/ZBZ; §Hypothesis Separation; расширенные Limitations.</div>
-      </div>
-
-      <div class="history-item history-item--content">
-        <div class="history-dot">20</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Серия 1905–1910 и ранний период</div>
-        <div class="history-desc">Коммит 1ebf757: описана крупнейшая серия по числу событий — <strong>1905–1910</strong> (193 события, 43 региона, M<sub>max</sub>=8.8). 15 ранних серий: p = 0.007, но quality_score &lt; 0.7 до 1960 г. ограничивает интерпретацию. Исторические серии: p = 0.46.</div>
-      </div>
-
-      <div class="history-item history-item--infra">
-        <div class="history-dot">21</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Автоматизация публикаций</div>
-        <div class="history-desc">Подготовлена автоматизация публикаций (Zenodo, Figshare, arXiv) в <code>publication/</code>; <strong>внешний депозит отложен</strong> — код и данные на GitHub only.</div>
-      </div>
-
-      <div class="history-item history-item--content">
-        <div class="history-dot">22</div>
-        <div class="history-date">27 июня 2026</div>
-        <div class="history-title">Ответ на рецензионную критику</div>
-        <div class="history-desc">Коммит: Michael (2011) и Shearer &amp; Stark (2012) тестировали дополнительные null-модели частот; наш η-тест добавляет иную статистику связей, не отменяя их выводы.</div>
-      </div>
+      <p class="history-block"><strong>28 июня 2026 — Финализация PDF, сайта и артефактов.</strong> Исправлена кириллица RU PDF (стр. 5/7/9), таблицы, нумерация §3.6, encoding/tables в генераторах. Синхронизированы канонические N каталога, showcase, docs и PDF; скрипт сравнения с H&amp;S (2003). FDR/b disclaimers и contribution reframe — финальный проход перед GRL/BSSA.</p>
 
     </div>
 
