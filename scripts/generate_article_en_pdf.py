@@ -153,8 +153,9 @@ def build(s):
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "The detector yields <b>47 algorithmic candidates</b> (27 modern); historical NOAA records "
         "(n=47) reported in Appendix A only. <b>Primary ETAS null</b> (literature H&amp;S 2003, "
-        "decoupled): mean\u224815.4, p_ETAS\u22640.001 — exceeds local aftershock expectation; "
-        "<b>not</b> teleseismic proof (Sec. 5.4). GK mainshocks: N=27 unchanged. "
+        "decoupled): mean\u224815.4, p_ETAS\u22640.001 \u2014 deviation from ETAS indicates "
+        "clustering the model does not fully explain; circum-Pacific; "
+        "<b>not</b> global chains beyond model scope (Sec. 5.4). GK mainshocks: N=27 unchanged. "
         "Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.6). Permutation "
         "p=0.0001 (1/10,001) rejects temporal Poisson null only. Limitations \u2014 Sec. 5.6.",
         s["abstract"]
@@ -302,8 +303,9 @@ def build(s):
     story.append(Paragraph(
         "<b>Permutation test:</b> n = 10,000, p \u2264 0.0001, z = -6.17 (modern). "
         "<b>ETAS validation (primary):</b> literature H&amp;S 2003: mean \u2248 15.4, "
-        "p_ETAS \u2264 0.001 — N_obs = 27 exceeds local aftershock expectation; "
-        "not teleseismic proof. GK mainshocks only: N = 27 unchanged. "
+        "p_ETAS \u2264 0.001 — N_obs = 27 exceeds literature ETAS expectation; "
+        "clustering not fully explained by model; circum-Pacific; not global chains. "
+        "GK mainshocks only: N = 27 unchanged. "
         "BH post-hoc on N = 47 — not discovery.",
         s["body"]
     ))
@@ -420,7 +422,7 @@ def build(s):
         [
             "Literature p \u2264 0.001",
             "ETAS test",
-            "Local clustering excess, not teleseismic proof",
+            "ETAS-unexplained clustering; circum-Pacific; not global chains",
         ],
     ]
     story.append(build_pdf_table(lim_rows, [0.24, 0.22, 0.54], w, s, wrap_col=2))
