@@ -4,12 +4,12 @@ ETAS (Epidemic Type Aftershock Sequence) — стандартная статис
 сейсмичности. Генерация синтетических каталогов позволяет оценить
 частоту ложных открытий алгоритма кластеризации.
 
-Параметры по умолчанию — **каталог-откалиброванный MLE** на 2041 событии
-(1973–2026, M≥6.5) после GK-декластеризации (``scripts/calibrate_etas.py``,
-``results/etas_calibration.json``): μ≈0.103, K≈0.495, α≈0.063, c≈10⁻⁴ d, p≈1.36.
+Параметры по умолчанию — **каталог-откалиброванный temporal MLE** на 2017 GK
+mainshocks (1973–2026, M≥6.5; ``scripts/calibrate_etas_mle.py``,
+``results/etas_mle_calibration.json``): μ≈0.097, K≈10⁻⁴, α≈0.25, c=0.001 d, p≈1.91.
 
-Литературные defaults (Helmstetter & Sornette 2003: μ=0.008, K=0.08) —
-только для сравнения, не для основного вывода.
+WLS minimal calibration (``results/etas_calibration.json``) — негативный контроль
+(Приложение B). Литература H&S 2003 (μ=0.008, K=0.08) — только сравнение.
 
 Ссылки: Ogata (1988, 1998), Helmstetter & Sornette (2002, 2003).
 """
@@ -94,11 +94,11 @@ class ETASCatalogGenerator:
 
         λ(t, x, y) = μ + Σ_{i: t_i<t} K·10^{α(m_i-M_0)} · (t-t_i+c)^{-p} · (r²+d²)^{-q}
 
-    Параметры по умолчанию — MLE на 2041 modern M≥6.5 (GK + Omori + branching):
+    Параметры по умолчанию — temporal Ogata (1988) MLE на GK mainshocks:
 
-    - mu≈0.103 events/day (GK mainshock rate)
-    - K≈0.495, alpha≈0.063: branching fit on offspring counts
-    - c≈10⁻⁴ d, p≈1.36: Omori MLE on GK aftershock delays
+    - mu≈0.097 events/day (MLE background rate)
+    - K≈10⁻⁴, alpha≈0.25: temporal MLE branching productivity
+    - c=0.001 d, p≈1.91: temporal MLE Omori parameters
     - max_trigger_distance_km=500: КЛЮЧЕВОЕ — только локальные триггеры
 
     Алгоритм генерации (ветвящийся пуассоновский процесс):
@@ -142,7 +142,7 @@ class ETASCatalogGenerator:
             b: наклон закона Гутенберга-Рихтера.
             max_trigger_distance_km: максимальное расстояние триггеринга (км).
             use_calibrated_defaults: if True and params omitted, load from
-                ``results/etas_calibration.json`` (primary null model).
+                ``results/etas_mle_calibration.json`` (primary null model).
         """
         if use_calibrated_defaults and mu is None:
             cal = load_calibrated_etas_params()

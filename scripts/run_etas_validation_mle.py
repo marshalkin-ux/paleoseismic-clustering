@@ -81,8 +81,9 @@ def main() -> None:
     results["etas_parameters_literature_comparison"] = load_literature_etas_params()
     results["mle_calibration_source"] = str(MLE_PATH)
     results["interpretation"] = (
-        "Negative control only if p_ETAS≈1.0 — not independent falsification. "
-        "Compare to literature H&S null for hypothesis test."
+        "Primary null: temporal Ogata (1988) MLE on GK mainshocks. "
+        "p_ETAS≈1.0: N_obs=27 matches synthetic mean — detector output "
+        "consistent with catalog-calibrated ETAS; does not support global-series hypothesis."
     )
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)

@@ -1,55 +1,55 @@
-# Ответ рецензентам (кратко)
+# Ответ рецензентам
 
-## Пакет правок: формальные гипотезы, спецификация алгоритмов, dedupe Results/Discussion
+## ERROR 1: Literature ETAS вместо catalog-calibrated ETAS
 
-### 1. Исследовательский вопрос + H₀/H₁/Ha
+**Замечание:** основной тест с plug-in H&S 2003 (μ=0,008, K=0,08) недействителен — ETAS должна быть откалибрована к каталогу M≥6,5.
 
-- Добавлен §1.1 (RU/EN) и таблица `tab:hypotheses` в `main.tex`: RQ, permutation, ETAS H&S, гипотеза глобальных серий, негативный контроль WLS (строка d).
-- Расширен `Hypothesis Separation` / §3.7–3.8 в markdown.
-- Синхронизированы `take_home_message.md`.
+**Исправлено:**
+- **Первичная null:** temporal Ogata (1988) MLE на **2017 GK mainshocks** (1973–2026), `scripts/calibrate_etas_mle.py` → `results/etas_mle_calibration.json`: μ≈0,097, K≈10⁻⁴, α≈0,25, c=0,001 сут., p≈1,91.
+- **Валидация:** `scripts/run_etas_validation.py` → `results/etas_validation.json`: mean=**27,0**, **p_ETAS=1,0** (N_obs=27).
+- **WLS** (`calibrate_etas.py`, Appendix B): negative control only — p=1,0, не primary.
+- **Literature H&S:** `scripts/run_etas_validation_literature.py` → `results/etas_validation_literature.json` — comparison only; ранее ошибочно использовался как primary.
+- **Ограничение:** spatial Ogata (1998) MLE не реализован; temporal MLE — лучший доступный catalog-calibrated null (`docs/future_work_etas_mle.md`).
+- Обновлены: `main.tex`, `article_ru.md`, `article_en.md`, abstract, results, discussion, conclusions, `take_home_message.md`, HTML/showcase, PDF-генераторы, `etas_params.py`, `etas_validation.py`.
 
-### 2. Спецификация алгоритмов (§3.3.1)
+---
 
-- Новый подраздел с деталями из `declustering.py`, `clustering.py`, `pipeline_v2.py`, `run_clustering_gc1500.py`: GK WINDOWS, η NN, Union–Find, `global_series`, merge 142→47, stopping rule.
+## ERROR 2: Противоречие p-values (abstract vs conclusions)
 
-### 3. Dedupe Results vs Discussion
+**Замечание:** abstract с p=0,0001 и p≤0,001 при выводе «гипотеза не подтверждена» читается как шизофрения.
 
-- §4 (Results): **только числа** — таблицы, p-values, пространственное описание; длинные ETAS-абзацы удалены; ссылка «Интерпретация — §5.1–5.4».
-- §5 (Discussion): интерпретация сохранена; дублирующие ETAS-параграфы в Results убраны.
+**Исправлено — явная трёхслойная логика** (abstract, §1.1, results, discussion, conclusions):
 
-### 4. η₀ в Table 3
+| Тест | Что означает p | Связь с глобальными сериями |
+|------|----------------|----------------------------|
+| Permutation p=0,0001 | Отвергает H₀: пуассоновские/независимые времена | Временная кластеризация; **не** доказательство глобальных цепочек |
+| ETAS p=1,0 (temporal MLE) | **Не** отвергает H₀: N_series ≤ синтетика calibrated ETAS | N_obs=27 = mean=27; детектор согласован с null; **не** подтверждает гипотезу |
+| Глобальные серии | **Не подтверждена** | Первичное научное утверждение — отрицательный результат |
 
-- Расширена ячейка: KDE-долина ≈7,1×10⁻⁶, слабая бимодальность, N=27 стабилен (`global_series` без η₀), влияние только на GK/ZBZ-метки.
+Выводы **начинаются** с: гипотеза о мультирегиональных глобальных сериях **не подтверждена**; permutation и ETAS — разные под-гипотезы.
 
-### 5. Permutation — методологическое заявление
+Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, только сравнение.
 
-- Выделено в Methods (`main.tex` §Permutation test) и §3.7/3.8 markdown: p=0,0001 отвергает **только** пуассоновские времена (Ogata 1988).
+---
 
-### 6. Тектоническая метрика
+## ERROR 3: Неполная спецификация GK / детектора
 
-- Явно: Bird 2003 **исключена из primary**; провал валидации — непригодность метрики, **не** доказательство против глобальных серий.
+**Замечание:** в Methods не указаны точные окна GK, Δt, параметры η.
 
-### 7. Appendix B в выводах
+**Исправлено — §3.3 / `subsubsec:algo-spec` + Table `tab:gk_windows`:**
+- **GK:** таблица T(M), R(M) из `GardnerKnopoffDeclustering.WINDOWS`; линейная интерполяция; порядок по убыванию M; aftershock [0,T], foreshock [-T/2,0); haversine km.
+- **Series detection:** Δt = 1, 2, 5 лет (шаг 1 год); modern primary Δt=2 г.; min_events=4, min_magnitude=6,5, mean GC>1500 км; greedy `used[]`.
+- **η:** η_ij = t_ij · r_ij^1,6 · 10^(−b·m_i); b=1,0; r_ij = GC km.
+- **Merge:** 142 окна → 47 merged (`clustering_gc1500.json`: n_series_total_three_epochs=47, modern n=27).
 
-- Один абзац в Discussion §5.2 и Conclusions §6: WLS p=1,0, mean=27; supports negative conclusion; WLS invalid; лит. H&S primary; spatial MLE — future work.
+---
 
-### 8. MLE / Limitations
-
-- Честно: catalog spatial Ogata MLE не реализован; литературная null до MLE; отмечено в Limitations и §1.1.
-
-### PDF
-
-- Перегенерированы `article_ru.pdf`, `article_en.pdf`.
-
-## ETAS-null (ранее)
-
-- **Первичная null:** литература H&S 2003; WLS — только Приложение B.
-- **Spatial Ogata MLE:** future work (`docs/future_work_etas_mle.md`).
-
-## Не исправлено → статус
+## Статус по пунктам
 
 | Замечание | Статус |
 |-----------|--------|
-| Spatial Ogata (1998) MLE с ДИ | Документировано; лит. null в основном тексте | **Полная реализация** — future work |
-| η₀ / b upstream | Таблица + prose + overlap JSON | Перезапуск GK/ZBZ при b=0,911 |
-| 142 окна → либеральность | Prose + §5.7 + algorithm spec | Ужесточение search space — future work |
+| Catalog-calibrated ETAS primary | **Done** — temporal MLE |
+| Spatial Ogata (1998) MLE | **Future work** — documented |
+| p-value schizophrenia | **Fixed** — three-layer logic |
+| GK reproducibility tables | **Added** — code-accurate |
+| PDF regeneration | `generate_article_pdf.py`, `generate_article_en_pdf.py` |

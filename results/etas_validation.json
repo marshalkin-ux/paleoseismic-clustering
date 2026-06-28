@@ -2012,16 +2012,16 @@
   "n_catalogs_with_false_series": 1000,
   "false_positive_rate": 1.0,
   "etas_parameters": {
-    "mu": 0.1033487797145355,
-    "K": 0.4945527632119062,
-    "alpha": 0.06250066767034286,
-    "c": 0.0001,
-    "p": 1.363250203658662,
-    "max_trigger_distance_km": 500.0,
-    "b_value": 0.911,
-    "magnitude_scaling": "K * 10^(alpha * (M - M0)); alpha fixed to catalog b when requested"
+    "mu": 0.09656934603255093,
+    "K": 0.00010000000000000009,
+    "alpha": 0.2539129846254942,
+    "c": 0.0010000000000000002,
+    "p": 1.9142688472613791,
+    "max_trigger_distance_km": 500.0
   },
-  "etas_parameters_primary": "catalog_mle_1973_2026",
+  "etas_parameters_primary": "temporal_etas_mle_gk_mainshocks_1973_2026",
+  "mle_calibration_source": "results/etas_mle_calibration.json",
+  "interpretation": "Primary null: temporal Ogata (1988) MLE on GK mainshocks. p_ETAS=1.0: N_obs=27 matches synthetic mean.",
   "etas_parameters_literature_comparison": {
     "mu": 0.008,
     "K": 0.08,

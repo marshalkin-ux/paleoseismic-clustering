@@ -27,19 +27,17 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-from src.analysis.etas_params import load_calibrated_etas_params, load_literature_etas_params
+from src.analysis.etas_params import load_literature_etas_params, load_mle_etas_params
 from src.analysis.etas_validation import ETASCatalogGenerator
 from src.analysis.clustering import SeismicClusterAnalyzer
 
-CALIBRATION_PATH = Path("results/etas_calibration.json")
-
 
 def load_etas_params() -> dict:
-    """Load catalog-calibrated ETAS params (diagnostic null; literature is primary for inference)."""
-    params = load_calibrated_etas_params(CALIBRATION_PATH)
+    """Load catalog-calibrated temporal MLE params (primary null for inference)."""
+    params = load_mle_etas_params()
     clean = {k: v for k, v in params.items() if not k.startswith("_")}
     logger.info(
-        "Primary ETAS (catalog MLE): mu=%.6f K=%.4f alpha=%.3f c=%.5f p=%.3f",
+        "Primary ETAS (temporal MLE): mu=%.6f K=%.4f alpha=%.3f c=%.5f p=%.3f",
         clean["mu"], clean["K"], clean["alpha"], clean["c"], clean["p"],
     )
     return clean
@@ -136,8 +134,14 @@ results = generator.run_false_positive_analysis(
 )
 
 results["etas_parameters"] = etas_params
-results["etas_parameters_primary"] = "catalog_mle_1973_2026"
+results["etas_parameters_primary"] = "temporal_etas_mle_gk_mainshocks_1973_2026"
+results["mle_calibration_source"] = "results/etas_mle_calibration.json"
 results["etas_parameters_literature_comparison"] = load_literature_etas_params()
+results["interpretation"] = (
+    "Primary null: temporal Ogata (1988) MLE on GK mainshocks. "
+    "p_ETAS≈1.0 indicates N_obs consistent with catalog-calibrated ETAS "
+    "(detector liberalism / background structure, not excess global series)."
+)
 results["n_background_per_catalog"] = n_background
 results["catalog_span_years"] = t_span_years
 results["clustering_criterion"] = "mean_pairwise_gc_km > 1500"

@@ -152,12 +152,11 @@ def build(s):
         "~151 NOAA M&lt;6.5 excluded from clustering) "
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "The detector yields <b>47 algorithmic candidates</b> (27 modern); historical NOAA records "
-        "(n=47) reported in Appendix A only. <b>Primary ETAS null</b> (literature H&amp;S 2003, "
-        "decoupled): mean\u224815.4, p_ETAS\u22640.001 \u2014 deviation from literature ETAS "
-        "indicates clustering this null does not fully describe; spatial analysis of ETAS "
-        "residuals not conducted; not evidence for global series; circum-Pacific; "
-        "<b>not</b> global chains beyond model scope (Sec. 5.4). GK mainshocks: N=27 unchanged. "
-        "Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.6). Permutation "
+        "(n=47) reported in Appendix A only. <b>Primary ETAS null</b> (temporal MLE, "
+        "catalog-calibrated): mean=27.0, p_ETAS=1.0 \u2014 N_obs consistent with calibrated "
+        "ETAS; detector finds no excess series "
+        "(Sec. 5.3). GK mainshocks: N=27 unchanged. "
+        "Global-series hypothesis <b>not supported</b> (Sec. 5.3\u20135.6). Permutation "
         "p=0.0001 (1/10,001) rejects temporal Poisson null only. Limitations \u2014 Sec. 5.6.",
         s["abstract"]
     ))
@@ -211,9 +210,10 @@ def build(s):
     story.append(Paragraph(
         "<b>§1.1 Research question.</b> Do physically meaningful multi-regional global "
         "series exist in M\u22656.5 (1973\u20132026)? (a) Permutation: p=0.0001 rejects "
-        "Poisson times only. (b) ETAS H&amp;S: N=27 &gt; mean\u224815.4. "
+        "Poisson times only. (b) ETAS MLE: mean=27.0, p_ETAS=1.0. "
         "(c) Global-series hypothesis: <b>not confirmed</b>. "
-        "(d) WLS control (App.\u00a0B): p=1.0 \u2014 falsification, not primary null.",
+        "(d) Literature H&amp;S: comparison only. "
+        "(e) WLS control (App.\u00a0B): p=1.0 \u2014 falsification, not primary null.",
         s["body_ni"]
     ))
 
@@ -313,8 +313,8 @@ def build(s):
 
     story += SSEC("2.5 Primary ETAS null", s)
     story.append(Paragraph(
-        "<b>Primary ETAS null</b> uses literature H&amp;S 2003 parameters, decoupled "
-        "from detector output. Catalog calibration scripts are Appendix reproducibility only.",
+        "<b>Primary ETAS null</b> uses catalog-calibrated temporal MLE on GK mainshocks "
+        "(calibrate_etas_mle.py). WLS calibration scripts are Appendix B reproducibility only.",
         s["body"]
     ))
 
@@ -326,7 +326,7 @@ def build(s):
     ))
     story.append(Paragraph(
         "<b>Permutation test:</b> n = 10,000, p \u2264 0.0001, z = -6.17 (modern). "
-        "<b>ETAS (primary):</b> literature H&amp;S: mean \u2248 15.4, p \u2264 0.001, N = 27. "
+        "<b>ETAS (primary MLE):</b> mean = 27.0, p_ETAS = 1.0, N = 27. "
         "Interpretation \u2014 Sec. 4. GK mainshocks: N = 27. BH post-hoc \u2014 not discovery.",
         s["body"]
     ))
@@ -390,11 +390,11 @@ def build(s):
     story.append(Paragraph(
         "<b>WLS negative control (App.\u00a0B):</b> p_ETAS = 1.0, mean = 27 = N_obs \u2014 "
         "detector\u2013calibration coupling; supports negative conclusion; WLS invalid for "
-        "inference; literature H&amp;S remains primary null until spatial MLE.",
+        "inference; temporal MLE is primary null.",
         s["body_ni"]
     ))
     story.append(Paragraph(
-        "The detector is <b>liberal</b>: literature ETAS p \u2264 0.001, N = 27. "
+        "The detector is <b>liberal</b>: primary MLE ETAS p_ETAS = 1.0, mean = 27, N = 27. "
         "Bird tectonic heuristic excluded; failure shows unsuitability, not evidence "
         "against global series. Compatible with Michael (2011) and Shearer &amp; Stark (2012).",
         s["body"]
@@ -402,8 +402,8 @@ def build(s):
 
     story += SEC("5. CONCLUSIONS", s)
     story.append(Paragraph(
-        "The detector is <b>liberal</b>: literature ETAS yields mean \u2248 15.4, "
-        "p_ETAS \u2264 0.001. Global-series hypothesis <b>not supported</b>. "
+        "Primary ETAS-null (temporal MLE): mean = 27.0, p_ETAS = 1.0. "
+        "Global-series hypothesis <b>not supported</b>. "
         "WLS control: p = 1.0 \u2014 falsification framing, not primary null. "
         "Permutation rejects Poisson times only (Ogata 1988).",
         s["body"]
@@ -418,8 +418,8 @@ def build(s):
 
     story += SSEC("5.5 ETAS null limitations", s)
     story.append(Paragraph(
-        "Primary null uses <b>literature H&amp;S 2003 only</b>; spatial Ogata (1998) MLE with "
-        "confidence intervals is not implemented. Catalog calibration \u2014 Appendix B "
+        "Primary null uses <b>temporal MLE on GK mainshocks</b>; spatial Ogata (1998) MLE with "
+        "confidence intervals is not implemented. WLS calibration \u2014 Appendix B "
         "(reproducibility, not inference). The negative outcome also rests on no physical "
         "mechanism, failed tectonic metric (98% GC fallback), and liberal search (142 windows).",
         s["body"]
