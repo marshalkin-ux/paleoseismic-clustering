@@ -7,44 +7,28 @@
 
 - **μ, K, α, c, p** fit via L-BFGS-B on 2017 GK mainshocks (1973–2026, M≥6.5)
 - Bootstrap 95% CIs (n = 50 resamples)
-- Validation: `scripts/run_etas_validation.py` → `results/etas_validation.json`
-- **Result:** mean false series = 27.0, **p_ETAS = 1.0** (N_obs = 27)
+- **In-sample validation:** `scripts/run_etas_validation.py` → `results/etas_validation.json` (mean = 27.0, **p_ETAS = 1.0**, N_obs = 27)
+- **Partial hold-out:** `scripts/calibrate_etas_holdout.py` → `results/etas_holdout_validation.json` (train 1973–2000, validate 2001–2026: N_obs = 13, p = 1.0)
 
-**Limitation:** no spatial kernel — publication-grade calibration requires spatial Ogata (1998) MLE.
+**Limitation:** no spatial kernel; in-sample calibration uses the same detector as validation; ETAS triggering model vs GK-declustered mainshocks — acknowledged mismatch.
 
 ## Negative controls (not primary)
 
 ### WLS minimal calibration (`scripts/calibrate_etas.py`)
 
-- **μ** — closed-form GK-mainshock rate
-- **c, p** — Nelder–Mead on 24 GK aftershock delays (≤500 km)
-- **K, α** — weighted least squares on the same 24 events
-
-**Invalid for inference.** Yields **p_ETAS = 1.0** when mean false series equals **N_obs = 27** —
-illustrates detector–calibration coupling. **Appendix B only.**
+- **Appendix B only** — detector–calibration coupling illustration.
 
 ### Literature H&S 2003
 
-Plug-in values (μ = 0.008, K = 0.08) were **wrongly used as primary null** in earlier drafts.
-`scripts/run_etas_validation_literature.py` → `results/etas_validation_literature.json` for comparison.
+Comparison only (`scripts/run_etas_validation_literature.py`).
 
-## Target: Ogata (1998) spatial ETAS MLE
+## Future work (not implemented in current session)
 
-Publication-grade ETAS calibration requires:
-
-1. **Full spatial–temporal likelihood** (Ogata 1998) with background rate μ(x,y,t) or regional partitioning
-2. **Maximum likelihood** with profile likelihood or bootstrap **confidence intervals** for K, α, c, p
-3. **Decoupling** from the global-series detector — parameters estimated on declustered mainshocks
-
-### Recommended toolchain (R)
-
-```r
-library(etas)
-# Export GK mainshocks → etasfit() with fixed M0 = 6.5
-# Compare to results/etas_mle_calibration.json
-```
-
-See `scripts/calibrate_etas_mle.py` for the implemented temporal-only path.
+- **Full spatial Ogata (1998) MLE** with long-range kernel — publication-grade spatiotemporal null (R `etas` package or equivalent).
+- **Train/test ETAS extensions:** rolling hold-out, pre-1973 exclusion, detector frozen before calibration.
+- **Synthetic benchmark:** Bird (2003) plate-boundary geometry or injected global chains with known ground truth.
+- **Window-level FDR:** Benjamini–Hochberg on 142 correlated sliding-window tests requires effective-M correction (Gao et al., 2008) — not a discovery procedure as implemented.
+- **FDR on merged series:** post-hoc BH on 47 candidates (`results/fdr_correction_results.csv`, `results/fdr_windows.json`) — exploratory only.
 
 ## References
 

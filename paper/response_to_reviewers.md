@@ -88,6 +88,38 @@ Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, тольк
 
 ---
 
+## ROUND 2: In-sample ETAS, train/test, FDR, contribution reframe
+
+**Замечание:** p_ETAS=1.0 tautological (in-sample calibration + same detector); contribution reads as disproof; FDR on windows unclear; need hold-out split.
+
+**Исправлено:**
+
+1. **Contribution reframe (RU/EN/main.tex):** явный абзац — reproducible pipeline, falsification framing, bounds of inference; value = methodology + honest null bounds, **not** discovery; **not** «we disproved global series».
+
+2. **In-sample disclaimer (Methods §2.5–2.6, Results, Discussion):** p_ETAS=1.0 = **in-sample** calibration 1973–2026 + same detector; формулировка «consistent with in-sample temporal null»; ETAS triggering vs GK-declustered mainshocks — model mismatch.
+
+3. **Hold-out ETAS:** `scripts/calibrate_etas_holdout.py` → `results/etas_holdout_validation.json` (train 1973–2000, validate 2001–2026: N_obs=13, mean=13.0, p=1.0, n=1000 synthetics).
+
+4. **FDR windows:** `scripts/compute_fdr_windows.py` → `results/fdr_windows.json` — 142→47→27 pipeline; BH post-hoc on 47 merged (45/47); window-level BH **not** discovery procedure (correlated tests).
+
+5. **Trim defensive repetition:** единый блок §5.6 Limitations; detector-liberal subsection сокращён.
+
+6. **Mean GC gate:** одно предложение — mean pairwise слабее all-pairs constraint.
+
+7. **Bird:** только «excluded; no synthetic benchmark in this work».
+
+8. **Future work:** spatial Ogata MLE + synthetic benchmark → `docs/future_work_etas_mle.md`.
+
+| Пункт | Статус |
+|-------|--------|
+| In-sample disclaimer | **Done** |
+| Hold-out split | **Done** — p=1.0, N=13 |
+| FDR windows doc | **Done** — fdr_windows.json |
+| Contribution reframe | **Done** |
+| Spatial ETAS / Bird benchmark | **Future work** — documented |
+
+---
+
 ## STRUCTURE §1: Сократить Introduction, убрать Bird/WLS из основного текста
 
 **Замечание:** избыточное введение с превью методологии; Bird и WLS повторяются в Methods/Results/Discussion.

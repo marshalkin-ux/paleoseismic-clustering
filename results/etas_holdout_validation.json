@@ -1,0 +1,39 @@
+{
+  "calibration_status": "temporal_etas_mle_holdout_train1973_2000_validate2001_2026",
+  "train_period": "1973-2000",
+  "holdout_period": "2001-2026",
+  "train_gk_mainshocks": 1024,
+  "holdout_catalog_n": 1010,
+  "holdout_span_years": 25.0,
+  "parameters_train_mle": {
+    "mu": 0.0949062381661084,
+    "K": 0.00010000000000000009,
+    "alpha": 0.0,
+    "c": 0.0010000000000000002,
+    "p": 1.9261400114884686,
+    "max_trigger_distance_km": 500.0
+  },
+  "train_optimizer": {
+    "method": "L-BFGS-B",
+    "success": true,
+    "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+    "n_iterations": 37
+  },
+  "n_observed_holdout": 13,
+  "n_catalogs": 1000,
+  "max_total_events": 5000,
+  "n_background_per_catalog": 867,
+  "mean_false_series": 13.0,
+  "std_false_series": 0.0,
+  "p_value_empirical": 1.0,
+  "false_positive_rate": 1.0,
+  "max_false_series": 13,
+  "detector": {
+    "time_window_years": 2.0,
+    "min_events": 4,
+    "criterion": "mean_pairwise_gc_km > 1500"
+  },
+  "interpretation": "Out-of-sample temporal ETAS validation: MLE fit on train GK mainshocks only; hold-out detector run on 2001–2026 catalog. Complements (does not replace) in-sample p_ETAS=1.0 on full 1973–2026 window.",
+  "model_mismatch_note": "ETAS is a triggering model fit on GK-declustered mainshocks; declustering removes events the model would treat as offspring — acknowledged limitation.",
+  "source": "scripts/calibrate_etas_holdout.py"
+}

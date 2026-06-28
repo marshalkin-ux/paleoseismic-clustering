@@ -20,7 +20,7 @@
 
 ## Abstract
 
-We analyze an **analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041 events); historical NOAA records (*n*=47)[^pre1900] are descriptive only. A Baiesi–Paczuski η detector with **great-circle distance** yields **27 algorithmic candidates** in the modern window. **Catalog-calibrated temporal ETAS** (GK mainshocks, 1973–2026): mean = 27.0, **p_ETAS = 1.0** — N_obs is consistent with the null. Under the temporal ETAS model used, we find no anomalous temporal clustering beyond catalog-calibrated ETAS; the spatial component was not modeled, so questions of long-range spatial linkage remain open. **Limitation:** spatial component not modeled (§5).
+We analyze an **analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041 events); historical NOAA records (*n*=47)[^pre1900] are descriptive only. A Baiesi–Paczuski η detector with **great-circle distance** yields **27 algorithmic candidates** in the modern window. **Catalog-calibrated temporal ETAS** (GK mainshocks, 1973–2026): mean = 27.0, **p_ETAS = 1.0** — N_obs is consistent with the **in-sample temporal null**. Under the temporal ETAS model used, results are **consistent with the in-sample calibrated null**; the spatial component was not modeled, so questions of long-range spatial linkage remain open. **Limitation:** spatial component not modeled (§5).
 
 [^catalog-n]: Canonical analysis N: **4,267** unique M≥6.5 after deduplication (±30 days, ≤50 km; ISC > USGS > NOAA; cf. Waldhauser & Schaff, 2008). **4,418** saved CSV rows include ~151 NOAA M<6.5 rows (provenance only).
 [^pre1900]: 47 pre-1900 NOAA records retained in CSV for provenance; excluded from primary detector and ETAS calibration window (1973–2026).
@@ -38,6 +38,8 @@ Large earthquakes are not independent in time. Michael (2011) tested whether glo
 **Objective.** Test whether physically meaningful multi-regional “global series” exist in the M≥6.5 catalog, with **primary inference on the modern window (1973–2026)**.
 
 **Scope.** We extend prior global rate tests with a complementary Baiesi–Paczuski η detector and catalog-calibrated temporal ETAS null (§3.7). Conclusions are limited to temporal clustering in detector windows; spatial linkage requires future spatial ETAS (Ogata, 1998).
+
+**Contribution.** This work provides a **reproducible** global M≥6.5 pipeline under explicit **falsification** framing and **bounds of inference**: primary ETAS uses **in-sample** calibration on 1973–2026 GK mainshocks with the **same** detector; spatial long-range linkage is **not** tested. The value is methodology plus honest null-result bounds — **not** a discovery claim. We do **not** claim to have disproved global series as a physical phenomenon; we bound what the implemented tests can establish.
 
 ### 1.1 Research question and testable hypotheses
 
@@ -121,7 +123,7 @@ Single list for Methods and Results (`src/analysis/clustering.py`, `pipeline_v2.
 2. **η NN forest:** i* = argmin ηij; **b = 1.0**, **r^1.6** (Baiesi–Paczuski 2004); rij = **great-circle distance** (km).
 3. **Sliding windows:** 1, 2, 5 yr (1-yr step).
 4. **Merge:** 142 window candidates → **47** merged.
-5. **Detector gate (sole mandatory criteria):** N ≥ 4, M ≥ 6.5, **mean pairwise GC > 1500 km** (`results/clustering_gc1500.json`).
+5. **Detector gate (sole mandatory criteria):** N ≥ 4, M ≥ 6.5, **mean pairwise GC > 1500 km** (`results/clustering_gc1500.json`). Mean pairwise GC is **weaker** than requiring every pair > 1500 km — acknowledged limitation.
 6. **Flinn–Engdahl zone count — diagnostic/reporting only**, not an admission criterion (legacy ≥3 FE threshold gave the same N = 27 on the modern window).
 
 ---
@@ -136,7 +138,7 @@ Catalog sources and merge reconciliation are in §2.1. Duplicates merged at ±30
 
 ### 3.2 Tectonic distance heuristic (excluded)
 
-The Bird (2003) tectonic-path heuristic is **excluded from the primary pipeline**; diagnostic details in `paper/supplementary.md` §S1.
+The Bird (2003) tectonic-path heuristic is **excluded from the primary pipeline**; no synthetic benchmark against Bird geometry in this work (`paper/supplementary.md` §S1).
 
 ### 3.3 η connectivity metric
 
@@ -250,6 +252,8 @@ GK applies conservative local window rules; ZBZ classifies only events with exce
 
 **Primary inference** uses catalog-calibrated temporal Ogata (1988) MLE on GK mainshocks (`scripts/calibrate_etas_mle.py`, `results/etas_mle_calibration.json`): μ ≈ 0.097, K ≈ 10⁻⁴, α ≈ 0.25, c = 0.001 day, p ≈ 1.91. Validation: `scripts/run_etas_validation.py` → `results/etas_validation.json`.
 
+**In-sample disclaimer.** p_ETAS = 1.0 reflects **in-sample** calibration on 1973–2026 with the **same** detector — not independent out-of-sample validation. We report consistency with the **in-sample temporal null**, not proof of no anomalies. ETAS is a triggering model fit on GK-**declustered** mainshocks — acknowledged model mismatch. Complementary hold-out: train 1973–2000, validate 2001–2026 (`scripts/calibrate_etas_holdout.py` → `results/etas_holdout_validation.json`).
+
 Catalog-matched WLS is **excluded from the primary pipeline** (coupling illustration only; `paper/supplementary.md` §S2). Spatial Ogata (1998) MLE — future work (`docs/future_work_etas_mle.md`).
 
 Multi-seed ETAS (MLE primary): seeds 42–51, n = 1000 catalogs/seed (`scripts/run_etas_multiseed.py`, `results/etas_multiseed.json`).
@@ -262,7 +266,7 @@ Multi-seed ETAS (MLE primary): seeds 42–51, n = 1000 catalogs/seed (`scripts/r
 | **Permutation** (n = 10,000) | Poissonian event times | Secondary — p cross-ref §4.1 only |
 | **Benjamini–Hochberg** | — | Post-hoc on 47 merged candidates; not a discovery claim |
 
-Post-hoc Benjamini–Hochberg on **N = 47** merged-series p-values (`results/fdr_correction_results.csv`): **45/47** at q = 0.05. Does **not** correct 142 window candidates × search parameters.
+Post-hoc Benjamini–Hochberg on **N = 47** merged-series p-values (`results/fdr_correction_results.csv`): **45/47** at q = 0.05. Window-level BH on 142 overlapping tests is **not** a discovery procedure (`results/fdr_windows.json`).
 
 **Verified from code.** `results/analysis_full_historical.json`, `results/montecarlo_full.json`, `results/etas_validation.json`, `results/sensitivity_declustering.json`.
 
@@ -280,10 +284,11 @@ Post-hoc Benjamini–Hochberg on **N = 47** merged-series p-values (`results/fdr
 | N_series (modern) | **27** |
 | Window candidates before merge | 142 |
 | Permutation p (Methods §3.8) | 0.0001 (1/10,001); z = −6.17 |
-| **Primary ETAS MLE** (n = 1000, seed = 42) | **N_obs = 27**, **mean = 27.0**, **p_ETAS = 1.0** |
-| ETAS parameters (MLE) | μ ≈ 0.097, K ≈ 10⁻⁴, α ≈ 0.25 |
+| **Primary ETAS MLE** (n = 1000, seed = 42) | **N_obs = 27**, **mean = 27.0**, **p_ETAS = 1.0** (in-sample) |
+| **Hold-out ETAS** (train 1973–2000, hold-out 2001–2026) | **N_obs = 13**, mean = 13.0, **p = 1.0** |
+| ETAS parameters (MLE, full window) | μ ≈ 0.097, K ≈ 10⁻⁴, α ≈ 0.25 |
 
-> **Permutation vs ETAS — different hypotheses (not in abstract).** The permutation test rejects **Poisson event times** (p = 0.0001) — expected with aftershocks (Ogata, 1988). **Primary ETAS MLE** with catalog-calibrated clustering gives **p_ETAS = 1.0**: N_obs = 27 is **consistent** with the temporal null — no excess series in 2-yr detector windows. Neither test confirms physically linked global chains; spatial linkage was not modeled.
+> **Permutation vs ETAS — different hypotheses (not in abstract).** The permutation test rejects **Poisson event times** (p = 0.0001) — expected with aftershocks (Ogata, 1988). **Primary in-sample ETAS MLE** gives **p_ETAS = 1.0**: N_obs = 27 is **consistent with the in-sample temporal null** — not proof of no anomalies. Hold-out (2001–2026): N_obs = 13, mean = 13.0, p = 1.0. Neither test confirms physically linked global chains; spatial linkage was not modeled.
 
 **Declustering sensitivity** (`results/sensitivity_declustering.json`): GK, ZBZ, and none all yield **N = 27** at fixed gates (2 yr, mean GC > 1500 km, N ≥ 4). `global_series()` gates dominate; declustering affects upstream labels, not series count — a **liberal-detector red flag**, not proof that declustering is immaterial in general.
 
@@ -329,14 +334,11 @@ Sources: `sensitivity_eta_windows_gc.json`, `sensitivity_b_eta0.json`, `sensitiv
 
 ## 5. Discussion and conclusions
 
-- **Temporal ETAS (primary):** Under catalog-calibrated temporal MLE, the detector finds **no anomalous temporal clustering** beyond the null (§4.1). This does **not** confirm global spatiotemporal series; spatial linkage among dispersed candidates (mean GC > 1500 km) was **not tested** (Ogata, 1998 spatial kernel — future work).
-- **Permutation:** Rejects Poisson event times only — **not** proof of teleseismic/global chains (see Results box, §4.1).
-- **Detector liberalness:** 142 sliding windows → 47 merged (27 modern); GK/ZBZ/none invariance at fixed gates reflects detector dominance, not declustering immateriality.
-- **Prior work:** Compatible with Michael (2011) and Shearer & Stark (2012) rate-based limits; we add an η-structure null test on a different statistic.
+- **Temporal ETAS (primary, in-sample):** N_obs = 27 is **consistent with the in-sample temporal null** (p_ETAS = 1.0); hold-out 2001–2026: N_obs = 13, p = 1.0. Spatial linkage **not tested** (Ogata, 1998 — future work).
+- **Permutation:** Rejects Poisson event times only — **not** proof of teleseismic/global chains (§4.1).
+- **Prior work:** Compatible with Michael (2011) and Shearer & Stark (2012).
 
-**Limitations.** Temporal ETAS only; b = 1.0 per Baiesi & Paczuski (2004) convention (N_series stable at b = 0.911; upstream clusters not re-run). η₀ affects GK/ZBZ `identify_clusters()` only, not N_obs from `global_series()`. Bird tectonic metric and catalog-matched WLS excluded from primary pipeline (`paper/supplementary.md`). No validated physical mechanism; ΔCFS/dynamic stress — future work.
-
-**Future work:** spatial Ogata MLE; tighter search space (windows, η₀); mechanism tests for candidate episodes (S170, S047, S095).
+**Limitations (§5.6).** Temporal ETAS only; in-sample calibration; GK/ETAS model mismatch; mean GC gate weaker than all-pairs; Bird excluded (no synthetic benchmark); FDR post-hoc on 47 merged series only. See `docs/future_work_etas_mle.md` for spatial Ogata MLE and synthetic benchmarks.
 
 ---
 

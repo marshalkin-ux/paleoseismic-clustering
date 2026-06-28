@@ -157,9 +157,8 @@ def build(s):
         "(modern window 1973\u20132026: 2,041). A Baiesi\u2013Paczuski \u03b7 detector "
         "with <b>great-circle distance</b> yields <b>27 algorithmic candidates</b> "
         "in the modern window. <b>Catalog-calibrated temporal ETAS</b> (GK mainshocks): "
-        "mean=27.0, <b>p_ETAS=1.0</b> \u2014 N_obs consistent with the null. "
-        "Under the temporal ETAS model used, no anomalous temporal clustering beyond "
-        "calibrated ETAS; spatial component not modeled. "
+        "mean=27.0, <b>p_ETAS=1.0</b> (in-sample) \u2014 N_obs consistent with the <b>in-sample temporal null</b>. "
+        "Hold-out 2001\u20132026: N=13, p=1.0. Spatial component not modeled. "
         "<b>Limitation:</b> spatial component not modeled (Sec.\u00a05.6).",
         s["abstract"]
     ))
@@ -392,7 +391,8 @@ def build(s):
 
     story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
-        "<b>Temporal ETAS (primary):</b> no anomalous temporal clustering beyond the null "
+        "<b>Temporal ETAS (in-sample):</b> N_obs=27 consistent with in-sample temporal null "
+        "(hold-out N=13, p=1.0). Spatial linkage not tested "
         "(Sec. 3.1: N_obs=27, mean=27.0, p_ETAS=1.0). Spatial linkage not tested. "
         "Permutation rejects Poisson times only. Detector liberal (142 windows). "
         "Bird/WLS — supplementary only.",

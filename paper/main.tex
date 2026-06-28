@@ -36,9 +36,9 @@ reported in Appendix~\ref{app:pre1900} only.
 A Baiesi--Paczuski $\eta$ detector with \textbf{great-circle distance} yields
 \textbf{27 algorithmic candidates} in the modern window.
 \textbf{Catalog-calibrated temporal ETAS} (GK mainshocks, 1973--2026): mean $= 27.0$,
-$p_\mathrm{ETAS}=1.0$ --- $N_\mathrm{obs}$ is consistent with the null.
+$p_\mathrm{ETAS}=1.0$ --- $N_\mathrm{obs}$ is consistent with the \textbf{in-sample temporal null}.
 Under the temporal ETAS model used, we find no anomalous temporal clustering beyond
-catalog-calibrated ETAS; the spatial component was not modeled, so questions of
+the in-sample calibrated null; the spatial component was not modeled, so questions of
 long-range spatial linkage remain open.
 \textbf{Limitation:} spatial component not modeled (\S\ref{sec:limitations}).
 \end{abstract}
@@ -82,6 +82,16 @@ Baiesi--Paczuski $\eta$ detector and catalog-calibrated temporal ETAS null
 (\S\ref{subsec:etas-calibration}).
 Conclusions are limited to temporal clustering in detector windows;
 spatial linkage requires future spatial ETAS \citep{Ogata1998}.
+
+\textbf{Contribution.} This work provides a \textbf{reproducible} global
+$M \ge 6.5$ pipeline (merged catalog, Baiesi--Paczuski detector,
+catalog-calibrated temporal ETAS null) under explicit \textbf{falsification}
+framing and \textbf{bounds of inference}: primary ETAS uses \textbf{in-sample}
+calibration on 1973--2026 GK mainshocks with the \textbf{same} detector;
+spatial long-range linkage is \textbf{not} tested.
+The value is methodology plus honest null-result bounds---not a discovery claim.
+We do \textbf{not} claim to have disproved global series as a physical phenomenon;
+we bound what the implemented tests can and cannot establish.
 
 \subsection{Research Question and Testable Hypotheses}
 \label{subsec:rq-hypotheses}
@@ -311,7 +321,8 @@ temporal-permutation null ($n = 10\,000$).
 \label{subsec:tectonic-deprecated}
 
 \noindent The Bird (2003) tectonic-path heuristic is \textbf{excluded from the
-primary pipeline}; diagnostic details in \texttt{paper/supplementary.md} \S S1.
+primary pipeline}; no synthetic benchmark against Bird geometry is included in
+this work (see \texttt{paper/supplementary.md} \S S1).
 
 \subsection{Declustering}
 \label{subsec:declustering}
@@ -487,7 +498,7 @@ sub-hypotheses; neither constitutes a spatial test of teleseismic linkage.
 \hline
 Permutation ($n=10{,}000$) & Independent event times (fixed coordinates) & Rejects temporal independence ($p=0.0001$); expected for aftershock catalogs; does \textbf{not} test global series \\
 ETAS MLE ($n=1000$, primary) & $N_\mathrm{series} \le$ catalog-calibrated ETAS synthetics & $p_\mathrm{ETAS}=1.0$: $N_\mathrm{obs}=27 = \bar{N}=27.0$; consistent with calibrated null; does not support excess global series \\
-Benjamini--Hochberg & --- & Post-hoc on 47 candidates; not a discovery claim \\
+Benjamini--Hochberg & --- & Post-hoc on 47 merged candidates; window-level BH on 142 overlapping tests not a discovery procedure (\texttt{results/fdr\_windows.json}) \\
 \hline
 \end{tabular}
 \end{table}
@@ -542,6 +553,9 @@ Canonical list (Methods and Results; \texttt{src/analysis/clustering.py},
   \item \textbf{Detector gate (sole mandatory criteria):} $N \ge 4$,
         $M \ge 6.5$, mean pairwise GC $> 1500$~km
         (\texttt{results/clustering\_gc1500.json}).
+        Mean pairwise GC exceeds a threshold on \textbf{averaged} pairs and is
+        \textbf{weaker} than requiring every unordered pair to exceed 1500~km;
+        we acknowledge this as a permissive spatial gate.
   \item Flinn--Engdahl zone count --- \textbf{diagnostic/reporting only},
         not an admission criterion (legacy $\ge 3$ FE zones gave the same
         $N=27$ on the modern window).
@@ -556,6 +570,19 @@ on 2017 GK mainshocks (1973--2026, $M \ge 6.5$;
 \texttt{results/etas\_mle\_calibration.json}):
 $\mu = 0.097$, $K = 10^{-4}$, $\alpha = 0.25$, $c = 0.001$~day, $p = 1.91$
 (Table~\ref{tab:etas_primary}).
+\textbf{In-sample note:} $p_\mathrm{ETAS}=1.0$ reflects calibration and
+validation on the \textbf{same} modern window (1973--2026) with the
+\textbf{same} detector---not independent out-of-sample proof of absence of
+anomalies.
+We report ``consistent with the \textbf{in-sample temporal null}'' rather
+than ``proves no anomalies.''
+ETAS is a \textbf{triggering} model fit on GK-\textbf{declustered} mainshocks;
+declustering removes events the model would treat as offspring---an
+acknowledged model mismatch.
+Complementary hold-out validation (train 1973--2000, validate 2001--2026;
+\texttt{scripts/calibrate\_etas\_holdout.py},
+\texttt{results/etas\_holdout\_validation.json}) is reported in
+Section~\ref{subsubsec:etas_holdout}.
 WLS minimal calibration (\texttt{scripts/calibrate\_etas.py},
 \texttt{results/etas\_calibration.json}) is a \textbf{negative control}
 (Appendix~\ref{app:wls_control}).
@@ -598,8 +625,8 @@ We generate 1000 synthetic ETAS catalogs (seed~=~42) under the
 $n_\mathrm{background} \approx \mu T$ events matching the observed span,
 but with no spatial coupling beyond 500~km.
 On catalog-calibrated ETAS nulls: mean false series $= 27.0$ (SD~=~0),
-$p_\mathrm{ETAS} = 1.0$ --- $N_\mathrm{obs}=27$ is \textbf{consistent with}
-the calibrated null: no excess \textbf{temporal} clustering in detector windows.
+$p_\mathrm{ETAS} = 1.0$ --- $N_\mathrm{obs}=27$ is \textbf{consistent with the
+in-sample temporal null}, not proof of absence of clustering in general.
 Rejecting ``global series'' as a \textbf{tested} null would require spatial ETAS;
 we \textbf{do not} claim that rejection here.
 Table~\ref{tab:etas_primary} summarises null models.
@@ -757,6 +784,21 @@ $\bar{N}_\mathrm{ETAS} = 27.0$ (SD~=~0),
 $p_\mathrm{ETAS} = 1.0$, $N_\mathrm{obs}=27$.
 See Figure~\ref{fig:etas_null}; interpretation --- \S\ref{sec:dual-etas-interpret}.
 
+\subsubsection{Hold-out ETAS validation (train 1973--2000, validate 2001--2026)}
+\label{subsubsec:etas_holdout}
+
+To complement the \textbf{in-sample} primary test, we fit temporal MLE on GK
+mainshocks in 1973--2000 only and validate $N_\mathrm{series}$ on the hold-out
+catalog 2001--2026 with train-calibrated parameters
+(\texttt{scripts/calibrate\_etas\_holdout.py},
+\texttt{results/etas\_holdout\_validation.json}; $n=1000$ synthetics,
+\texttt{max\_total\_events}=5000).
+Hold-out: $N_\mathrm{obs}=13$, synthetic mean $= 13.0$, $p=1.0$ --- also
+\textbf{consistent with the train-calibrated temporal null} on the shorter
+hold-out span (25~yr).
+This does not remove the in-sample coupling of calibration and detector on the
+full modern window; it provides a partial out-of-time check.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.92\textwidth]{../figures/grl/fig_eta_threshold.png}
@@ -851,10 +893,8 @@ WLS calibration is a reproducibility negative control
 GK mainshock-only re-run: $N_\mathrm{series}=27$ unchanged
 (\texttt{results/sensitivity\_aftershock\_removed.json}).
 The temporal-null conclusion is additionally supported by: no validated physical
-mechanism,
-\textbf{tectonic distance excluded from primary pipeline} (Bird heuristic
-unsuitable at global scale; great-circle only), and liberal search space;
-spatial linkage was \textbf{not tested}.
+mechanism and Bird (2003) excluded from primary inference (no synthetic benchmark
+in this work; see \S\ref{sec:limitations}).
 
 \paragraph{WLS negative control (Appendix~\ref{app:wls_control}).}
 Catalog-matched WLS calibration on the same catalog yields
@@ -1036,9 +1076,20 @@ null result can be stated.
 
 \noindent\textbf{We used temporal ETAS only; the spatial component was not modeled;
 conclusions are strictly limited to temporal clustering.}
+\textbf{In-sample ETAS:} $p_\mathrm{ETAS}=1.0$ on 1973--2026 uses calibration and
+the same detector on the same window---report as consistent with the
+\textbf{in-sample temporal null}, not as proof of no anomalies.
+Hold-out train/test (1973--2000 / 2001--2026): $N_\mathrm{obs}=13$, mean $=13.0$,
+$p=1.0$ (\texttt{results/etas\_holdout\_validation.json})---partial out-of-time check.
+ETAS MLE on GK mainshocks: triggering model vs.\ declustered mainshocks---acknowledged mismatch.
+Mean pairwise GC $> 1500$~km is weaker than an all-pairs constraint.
+FDR: post-hoc BH on 47 merged series (45/47 at $q=0.05$); not applied to 142
+correlated window tests (\texttt{results/fdr\_windows.json}).
 Rejecting ``global series'' as a \textbf{tested} null would require spatial ETAS
 with an explicit long-range kernel (Ogata 1998); we \textbf{do not} claim that
 rejection here.
+Spatial Ogata (1998) MLE and synthetic Bird-geometry benchmark---future work
+(\texttt{docs/future\_work\_etas\_mle.md}).
 
 \begin{table}[htbp]
 \centering
@@ -1114,14 +1165,8 @@ linkage among dispersed candidates was \textbf{not tested}.
 \subsection{Detector Liberalism}
 \label{sec:detector-liberal}
 
-The global-series search is liberal by construction: sliding windows (1, 2, 5~yr)
-yield 142 cluster candidates before merge; series criteria ($N \ge 4$,
-mean pairwise GC $> 1500$~km) are permissive at global scale.
-Under the \textbf{primary temporal MLE ETAS null}, $N_\mathrm{obs}=27$
-matches mean $= 27.0$ ($p_\mathrm{ETAS}=1.0$) --- no excess \textbf{temporal}
-clustering in detector windows.
-The detector finds spatially dispersed candidates (mean GC $> 1500$~km), but
-spatial null was \textbf{not} applied; physical linkage remains open.
+Sliding windows (1, 2, 5~yr) yield 142 cluster candidates before merge
+(Section~\ref{sec:limitations}).
 
 \subsection{Methodological Limitations and Their Mitigation}
 \label{subsec:limitations-mitigation}

@@ -245,9 +245,9 @@ def build(s):
         "Baiesi\u2013Paczuski \u03b7 detector (great-circle) yields <b>27 candidates</b> "
         "in the modern window. <b>Catalog-calibrated temporal ETAS</b> (GK mainshocks): "
         "mean=27.0, <b>p_ETAS=1.0</b>. "
-        "<b>We found no anomalous temporal clustering beyond catalog-calibrated ETAS. "
-        "The spatial component was not modeled; the question of physical linkage among "
-        "geographically remote events remains open for future work.</b>",
+        "N_obs <b>согласован с in-sample temporal null</b> (p<sub>ETAS</sub>=1,0). "
+        "Hold-out 2001\u20132026: N=13, p=1,0. Пространственный компонент не моделировался; "
+        "вопрос физической связанности удалённых событий остаётся открытым.",
         s["abstract"]
     ))
     story.append(P(

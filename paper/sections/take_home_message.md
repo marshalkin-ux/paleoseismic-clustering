@@ -4,14 +4,18 @@
 
 **Исследовательский вопрос:** существуют ли физически значимые мультирегиональные глобальные серии в каталоге M≥6.5 (1973–2026)?
 
-**Ключевой итог:** temporal ETAS MLE (p_ETAS=1,0, mean=27,0): N_obs=27 согласован с null; аномалий временной кластеризации не выявлено. Spatial linkage не тестировалась (Ogata, 1998 — future work).
+**Ключевой итог:** воспроизводимый конвейер + **in-sample** temporal ETAS MLE (p_ETAS=1,0, mean=27,0): N_obs=27 **согласован с in-sample temporal null** — не доказательство отсутствия аномалий. Hold-out 2001–2026: N_obs=13, p=1,0. Spatial linkage не тестировалась.
 
-Permutation p=0,0001 — пуассоновские времена (не в аннотации); не доказательство глобальных цепочек. Детектор либерален (142 окна → 47 merged). Bird/WLS — только supplementary.
+**Вклад:** методология и честные границы null-результата — **не** открытие и **не** «опровержение» глобальных серий как физического явления.
+
+Permutation p=0,0001 — только пуассоновские времена (не в аннотации). Bird/WLS — supplementary only.
 
 ## EN
 
 **Research question:** Do physically meaningful multi-regional global series exist in the M≥6.5 catalog (1973–2026)?
 
-**Key result:** Under temporal ETAS MLE (p_ETAS = 1.0, mean = 27.0), N_obs = 27 is consistent with the null; no anomalous temporal clustering. Spatial linkage was not tested (Ogata, 1998 — future work).
+**Key result:** Reproducible pipeline + **in-sample** temporal ETAS MLE (p_ETAS = 1.0, mean = 27.0): N_obs = 27 is **consistent with the in-sample temporal null** — not proof of no anomalies. Hold-out 2001–2026: N_obs = 13, p = 1.0. Spatial linkage was not tested.
 
-Permutation p = 0.0001 rejects Poisson times only (not in abstract); not proof of global chains. Detector is liberal (142 windows → 47 merged). Bird/WLS — supplementary only.
+**Contribution:** methodology and honest null-result bounds — **not** a discovery and **not** disproof of global series as a physical phenomenon.
+
+Permutation p = 0.0001 rejects Poisson times only (not in abstract). Bird/WLS — supplementary only.
