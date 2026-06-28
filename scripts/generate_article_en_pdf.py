@@ -208,6 +208,14 @@ def build(s):
         "but does not supersede their conclusions.",
         s["body"]
     ))
+    story.append(Paragraph(
+        "<b>§1.1 Research question.</b> Do physically meaningful multi-regional global "
+        "series exist in M\u22656.5 (1973\u20132026)? (a) Permutation: p=0.0001 rejects "
+        "Poisson times only. (b) ETAS H&amp;S: N=27 &gt; mean\u224815.4. "
+        "(c) Global-series hypothesis: <b>not confirmed</b>. "
+        "(d) WLS control (App.\u00a0B): p=1.0 \u2014 falsification, not primary null.",
+        s["body_ni"]
+    ))
 
     story += SEC("2. DATA AND METHODS", s)
     story += SSEC("2.1 Catalog compilation", s)
@@ -246,8 +254,9 @@ def build(s):
 
     story += SSEC("2.2 Tectonic heuristic (deprecated)", s)
     story.append(Paragraph(
-        "The Bird (2003) tectonic-path heuristic is a <b>deprecated diagnostic only</b> "
-        "(Appendix); <b>primary analysis uses great-circle distance only</b>.",
+        "The Bird (2003) tectonic-path heuristic is <b>excluded from primary inference</b> "
+        "(Appendix); <b>great-circle only</b>. Failure to validate shows metric "
+        "<b>unsuitability</b>, not evidence against global series.",
         s["body"]
     ))
     story.append(Spacer(1, 0.15 * cm))
@@ -283,6 +292,14 @@ def build(s):
         "(24 vs 1) could matter for cluster analysis.",
         s["body"]
     ))
+    story.append(Paragraph(
+        "<b>Algorithm specification (§3.4.1).</b> GK WINDOWS, T(M)/R(M) interpolation, "
+        "magnitude-descending; aftershocks [0,T], foreshocks [\u2212T/2,0); haversine. "
+        "find_nearest_neighbor: causal argmin \u03b7, b=1.0, GC km. identify_clusters: "
+        "Union\u2013Find, \u03b7\u2080 KDE. global_series: used[] mask, mean GC&gt;1500 km; "
+        "merge 142\u219247 across epochs.",
+        s["body_ni"]
+    ))
 
     story += SSEC("2.4 Clustering and detector criteria", s)
     for num, text in [
@@ -303,12 +320,14 @@ def build(s):
 
     story += SSEC("2.6 Statistical validation", s)
     story.append(Paragraph(
+        "<b>Permutation statement:</b> p=0.0001 rejects <b>Poisson event times only</b> "
+        "(Ogata 1988); does not confirm global series.",
+        s["body_ni"]
+    ))
+    story.append(Paragraph(
         "<b>Permutation test:</b> n = 10,000, p \u2264 0.0001, z = -6.17 (modern). "
-        "<b>ETAS validation (primary):</b> literature H&amp;S 2003: mean \u2248 15.4, "
-        "p_ETAS \u2264 0.001 — N_obs = 27 exceeds literature ETAS expectation; "
-        "clustering not fully explained by model; circum-Pacific; not global chains. "
-        "GK mainshocks only: N = 27 unchanged. "
-        "BH post-hoc on N = 47 — not discovery.",
+        "<b>ETAS (primary):</b> literature H&amp;S: mean \u2248 15.4, p \u2264 0.001, N = 27. "
+        "Interpretation \u2014 Sec. 4. GK mainshocks: N = 27. BH post-hoc \u2014 not discovery.",
         s["body"]
     ))
 
@@ -319,7 +338,8 @@ def build(s):
         "global series): 27 modern "
         "(p \u2264 0.0001), 15 early instrumental (p = 0.007; pre-1960 incompleteness "
         "caveat), 5 historical candidates (<b>not significant</b>, p = 0.46; "
-        "47 M\u22656.5 events pre-1900). 142 cluster candidates before filtering.",
+        "47 M\u22656.5 events pre-1900). 142 cluster candidates before filtering. "
+        "<i>Interpretation \u2014 Sec. 4.</i>",
         s["body"]
     ))
 
@@ -368,18 +388,24 @@ def build(s):
 
     story += SEC("4. DISCUSSION", s)
     story.append(Paragraph(
-        "The detector is <b>liberal</b>: under literature ETAS (mean \u2248 15.4, "
-        "p_ETAS \u2264 0.001) N_obs exceeds local-clustering null. No physical mechanism; "
-        "tectonic metric failed (98% GC fallback). Compatible with Michael (2011) and "
-        "Shearer &amp; Stark (2012).",
+        "<b>WLS negative control (App.\u00a0B):</b> p_ETAS = 1.0, mean = 27 = N_obs \u2014 "
+        "detector\u2013calibration coupling; supports negative conclusion; WLS invalid for "
+        "inference; literature H&amp;S remains primary null until spatial MLE.",
+        s["body_ni"]
+    ))
+    story.append(Paragraph(
+        "The detector is <b>liberal</b>: literature ETAS p \u2264 0.001, N = 27. "
+        "Bird tectonic heuristic excluded; failure shows unsuitability, not evidence "
+        "against global series. Compatible with Michael (2011) and Shearer &amp; Stark (2012).",
         s["body"]
     ))
 
     story += SEC("5. CONCLUSIONS", s)
     story.append(Paragraph(
         "The detector is <b>liberal</b>: literature ETAS yields mean \u2248 15.4, "
-        "p_ETAS \u2264 0.001. Global-series hypothesis <b>not supported</b> "
-        "(Sec. 5.4\u20135.6). Permutation rejects Poisson times only (Ogata 1988).",
+        "p_ETAS \u2264 0.001. Global-series hypothesis <b>not supported</b>. "
+        "WLS control: p = 1.0 \u2014 falsification framing, not primary null. "
+        "Permutation rejects Poisson times only (Ogata 1988).",
         s["body"]
     ))
     for num, text in [
@@ -404,8 +430,9 @@ def build(s):
         ["Limitation", "Affected step", "Impact on main conclusion"],
         [
             "\u03b7\u2080 unverified at global scale",
-            "GK declustering",
-            "N = 27 unchanged (global_series does not use \u03b7\u2080)",
+            "GK/ZBZ identify_clusters",
+            "KDE valley \u2248 7.1\u00d710\u207b\u2076; global_series skips \u03b7\u2080 \u2192 N=27; "
+            "mis-specified \u03b7\u2080 shifts GK/ZBZ labels only",
         ],
         [
             "b = 1.0 vs 0.911 in \u03b7",

@@ -1,32 +1,55 @@
 # Ответ рецензентам (кратко)
 
-## ETAS-null
+## Пакет правок: формальные гипотезы, спецификация алгоритмов, dedupe Results/Discussion
 
-- **Первичная null для выводов:** литература H&S 2003 (μ=0,008, K=0,08), p_ETAS≤0,001, mean≈15,4 — отклонение от литературной ETAS указывает на кластеризацию, которую эта null не полностью описывает; пространственный анализ остатков ETAS **не проводился**; отклонение **не интерпретируется** как доказательство глобальных серий; циркум-Тихоокеан; возможные региональные афтершоки/неполнота/либеральность (142 окна); не глобальные цепочки.
-- **WLS/MLE каталог-калибровка:** перенесена в **Приложение B** как негативный контроль воспроизводимости; **удалена** из аннотации, Results, Discussion, Conclusions, hero/KPI (`index.html`, `project_showcase.html`), PDF-генераторов.
-- **Spatial Ogata MLE:** не реализован — **обоснованный выбор** временной лит. null H&S 2003 на глобальном масштабе (24 задержки, нет spatial kernel); полная spatial MLE — **future work** (`docs/future_work_etas_mle.md`).
+### 1. Исследовательский вопрос + H₀/H₁/Ha
 
-## Ограничения
+- Добавлен §1.1 (RU/EN) и таблица `tab:hypotheses` в `main.tex`: RQ, permutation, ETAS H&S, гипотеза глобальных серий, негативный контроль WLS (строка d).
+- Расширен `Hypothesis Separation` / §3.7–3.8 в markdown.
+- Синхронизированы `take_home_message.md`.
 
-- Таблица «ограничение → шаг → влияние на вывод» (`tab:limitations_impact` / §5.6 в markdown).
-- **Добавлен prose-анализ** (2–3 абзаца RU+EN): η₀ → GK-метки, N=27 стабилен; b=0,911 → N=27, Jaccard наборов серий=1,0, upstream ~9,8% смена меток (`sensitivity_b0911_series_overlap.json`); нет spatial MLE → лит. null как reasoned choice; 142 окна → либеральность; p≤0,001 → кластеризация вне ETAS, **не** доказательство глобальных серий.
-- b=1.0 vs 0.911: `sensitivity_b_eta0.json` → N=27/27; совпадение N **не доказывает** идентичность кандидатов; разделение scope η₀ (declustering vs `global_series`).
+### 2. Спецификация алгоритмов (§3.3.1)
 
-## Метрика
+- Новый подраздел с деталями из `declustering.py`, `clustering.py`, `pipeline_v2.py`, `run_clustering_gc1500.py`: GK WINDOWS, η NN, Union–Find, `global_series`, merge 142→47, stopping rule.
 
-- Первичный конвейер: **только great-circle**; тектоника Bird — одно предложение + deprecated diagnostic (приложение); длинное описание pipeline удалено из Methods.
+### 3. Dedupe Results vs Discussion
 
-## PDF
+- §4 (Results): **только числа** — таблицы, p-values, пространственное описание; длинные ETAS-абзацы удалены; ссылка «Интерпретация — §5.1–5.4».
+- §5 (Discussion): интерпретация сохранена; дублирующие ETAS-параграфы в Results убраны.
 
-- Исправлена регистрация шрифтов DejaVu (Cyrillic-safe); `safe_text` больше не ломает кириллицу; таблицы с переносом в ячейках; Table 1 lat/lon formatting.
+### 4. η₀ в Table 3
+
+- Расширена ячейка: KDE-долина ≈7,1×10⁻⁶, слабая бимодальность, N=27 стабилен (`global_series` без η₀), влияние только на GK/ZBZ-метки.
+
+### 5. Permutation — методологическое заявление
+
+- Выделено в Methods (`main.tex` §Permutation test) и §3.7/3.8 markdown: p=0,0001 отвергает **только** пуассоновские времена (Ogata 1988).
+
+### 6. Тектоническая метрика
+
+- Явно: Bird 2003 **исключена из primary**; провал валидации — непригодность метрики, **не** доказательство против глобальных серий.
+
+### 7. Appendix B в выводах
+
+- Один абзац в Discussion §5.2 и Conclusions §6: WLS p=1,0, mean=27; supports negative conclusion; WLS invalid; лит. H&S primary; spatial MLE — future work.
+
+### 8. MLE / Limitations
+
+- Честно: catalog spatial Ogata MLE не реализован; литературная null до MLE; отмечено в Limitations и §1.1.
+
+### PDF
+
+- Перегенерированы `article_ru.pdf`, `article_en.pdf`.
+
+## ETAS-null (ранее)
+
+- **Первичная null:** литература H&S 2003; WLS — только Приложение B.
+- **Spatial Ogata MLE:** future work (`docs/future_work_etas_mle.md`).
 
 ## Не исправлено → статус
 
-| Замечание рецензента | Сделано | Остаётся |
-|----------------------|---------|----------|
-| Spatial Ogata (1998) MLE с ДИ | Документировано как reasoned limitation; лит. null в основном тексте | **Полная реализация** — future work |
-| Publication-grade catalog ETAS fit | WLS/MLE только Appendix B | Spatial MLE |
-| η₀ / b upstream sensitivity | Таблица + prose + `sensitivity_b0911_series_overlap.json` | Перезапуск полного GK/ZBZ-пайплайна при b=0,911 |
-| Тектоническая метрика как innovation | Удалена из primary pipeline | Diagnostic figures в приложении |
-| p_ETAS=1,0 как главная фальсификация | Убрано из narrative; Appendix B only | — |
-| 142 окна → либеральность | Prose + §5.7 | Ужесточение search space — future work |
+| Замечание | Статус |
+|-----------|--------|
+| Spatial Ogata (1998) MLE с ДИ | Документировано; лит. null в основном тексте | **Полная реализация** — future work |
+| η₀ / b upstream | Таблица + prose + overlap JSON | Перезапуск GK/ZBZ при b=0,911 |
+| 142 окна → либеральность | Prose + §5.7 + algorithm spec | Ужесточение search space — future work |

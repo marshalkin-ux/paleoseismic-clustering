@@ -46,7 +46,26 @@ The [ETAS](https://en.wikipedia.org/wiki/Epidemic-type_aftershock_sequence) mode
 
 **Objective.** Test (and if warranted, **falsify**) the hypothesis that physically meaningful multi-regional “global series” exist, with **primary inference on the modern window (1973–2026)**, using complementary null tests (permutation vs ETAS) and explicit detector liberalness assessment.
 
-**Scope.** We combine nearest-neighbor clustering with a heuristic metric with tectonic hint and ETAS null-model validation; this extends prior global rate tests (Michael 2011; Shearer & Stark 2012) with a complementary η-linkage statistic but does not supersede their conclusions.
+**Scope.** We combine nearest-neighbor clustering with great-circle distance and ETAS null-model validation; this extends prior global rate tests (Michael 2011; Shearer & Stark 2012) with a complementary η-linkage statistic but does not supersede their conclusions.
+
+### 1.1 Research question and testable hypotheses
+
+**Research question (RQ):** Do physically meaningful multi-regional global series exist in the M ≥ 6.5 catalog (primary window 1973–2026)?
+
+Four distinct statistical targets must not be conflated (table below; see also §3.8).
+
+| Test / hypothesis | H₀ (null) | H₁ (alternative) | Statistic | Result (modern) |
+|-------------------|-----------|------------------|-----------|-----------------|
+| **(a) Permutation** | Event times **independent** (Poisson process, fixed coordinates) | Times **dependent** (clustering) | mean log₁₀(η_NN); n = 10,000 | **Reject H₀:** p = 0.0001 (1/10,001) |
+| **(b) ETAS-null** | N_series ≤ **literature** local ETAS expectation (H&S 2003) | N_series **exceeds** local ETAS expectation | series count in 1000 synthetic catalogs | **Reject H₀:** p_ETAS ≤ 0.001; N_obs = 27 > mean ≈ 15.4 |
+| **(c) Global series** | **No** physically meaningful multi-regional series (no mechanism; liberal detector) | Teleseismic chains explainable by physics | detector + mechanism + null tests | **H₀ not rejected** (negative result) |
+| **(d) WLS negative control** (App. B) | Detector--calibration coupling artifact on same catalog | — | p_ETAS = 1.0, mean = 27 = N_obs | Supports falsification framing; **not** primary null |
+
+**Methodological statement (permutation):** rejecting H₀ in test (a) does **not** confirm global series or teleseismic triggering — it rejects Poisson time independence only (expected with aftershocks; Ogata, 1988).
+
+**Methodological statement (ETAS):** rejecting H₀ in test (b) indicates clustering the literature ETAS null does not fully describe; residual spatial analysis was **not conducted**; this is **not** proof of H₁ in test (c).
+
+**ETAS calibration limitation:** full spatiotemporal Ogata (1998) MLE on our catalog is **not implemented** — primary null remains literature H&S 2003; catalog calibration is **Appendix B** (negative control; see §6). Catalog spatial MLE remains future work (`docs/future_work_etas_mle.md`).
 
 ---
 
@@ -126,7 +145,7 @@ Catalog sources and merge reconciliation are in §2.1. Duplicates merged at ±30
 
 ### 3.2 Tectonic distance heuristic (deprecated diagnostic)
 
-The Bird (2003) tectonic-path heuristic is a **deprecated diagnostic only** (Appendix figures); **primary analysis uses great-circle distance only** for η-linkage and series detection (§3.4).
+The Bird (2003) tectonic-path heuristic is **excluded from primary inference** (Appendix diagnostic only); **primary analysis uses great-circle distance only** for η-linkage and series detection (§3.4). **Failure to validate** this metric at global scale (98% 1.5× GC fallback) shows the metric is **unsuitable**, **not** evidence against global series.
 
 ### 3.3 η connectivity metric
 
@@ -167,6 +186,20 @@ catalog M≥6.5 (4267) → GK mainshocks → η NN forest → windows 1/2/5 yr
 ```
 
 **Detector candidate (formal):** merged group with N ≥ 4, M ≥ 6.5, mean pairwise GC > 1500 km from sliding windows (1/2/5 yr).
+
+#### 3.4.1 Algorithm specification
+
+Code-accurate definitions (`declustering.py`, `clustering.py`, `pipeline_v2.py`, `run_clustering_gc1500.py`):
+
+**Gardner–Knopoff.** `WINDOWS` table: M → (T[days], R[km]); linear interpolation; **magnitude-descending** iteration; aftershocks dt ∈ [0, T], foreshocks dt ∈ [−T/2, 0); haversine distance ≤ R.
+
+**`find_nearest_neighbor`.** Causal argmin η_ij: η = t_ij · r_ij^1.6 · 10^(−b·m_i); t_ij in years, r_ij = great-circle km, b = 1.0.
+
+**`identify_clusters`.** Union–Find for η < η₀; η₀ from KDE valley of log₁₀(η) or median fallback; clusters with <2 events → background.
+
+**`global_series`.** Greedy `used[]` mask; anchor loop; window [t_i, t_i+Δt); gates min_events, min_magnitude, mean pairwise GC > 1500 km; accepted events marked used — no further windows from them.
+
+**Merge.** Runs at 1/2/5 yr plus epoch-specific windows yield **142** window hits; union of overlapping event sets → **47** merged (27 modern). Stopping: no new windows from unused anchors.
 
 ### 3.5 Declustering and pipeline
 
@@ -234,6 +267,8 @@ Multi-seed ETAS (literature null): seeds 42–51, n=1000 catalogs/seed (`scripts
 
 #### What each test checks
 
+**Methodological statement (permutation):** p = 0.0001 rejects **Poisson event times only**; does **not** confirm global series; expected for aftershock catalogs (Ogata, 1988).
+
 | Test | Null hypothesis | Role | Interpretation |
 |------|-----------------|------|----------------|
 | **ETAS literature** (H&S 2003) | N_obs exceeds local aftershock-only synthetics | **Primary** | p_ETAS ≤ 0.001; N_obs = 27 > mean ≈ 15.4 — clustering beyond literature ETAS; ETAS residuals not analyzed; not evidence for global series; circum-Pacific; possible regional aftershocks/incompleteness/liberalness; not global chains |
@@ -278,11 +313,13 @@ Post-hoc demonstration of the [Benjamini–Hochberg](https://en.wikipedia.org/wi
 | Early instrumental (1900–1972) | 15 | 2,179 | 0.007 | −2.43 |
 | Historical (pre-1900) | 5 | 47 | 0.46 | — |
 
-**Modern period.** Twenty-seven candidates; permutation p = 0.0001 (1/10,001) rejects a **temporal Poisson null**; the **primary literature ETAS null** (mean ≈ 15.4, pETAS ≤ 0.001): deviation from literature ETAS (N_obs = 27 > mean ≈ 15.4) indicates clustering this null does not fully describe; spatial analysis of ETAS residuals **not conducted**; deviation **not interpreted** as evidence for global series; circum-Pacific belt, possible regional aftershocks/catalog incompleteness/detector liberalness (142 windows), but not global chains.
+**Modern period.** Twenty-seven candidates; permutation p = 0.0001; ETAS null: mean ≈ 15.4, p_ETAS ≤ 0.001, N_obs = 27.
 
-**Early instrumental period.** Fifteen series reach p = 0.007, but this result must be interpreted cautiously: most pre-1960 events have quality_score < 0.7, and catalog incompleteness inflates inter-event intervals, reducing detection power.
+**Early instrumental period.** Fifteen series, p = 0.007; quality_score < 0.7 before 1960.
 
-**Historical period (pre-1900):** five candidates; p = 0.46 — **not used for significance claims**; see **Appendix A**. Detector criteria — §2.3.
+**Historical period (pre-1900):** five candidates; p = 0.46 — **not used for significance claims**; see **Appendix A**.
+
+*Interpretation of permutation, ETAS, and global-series tests — §5.1–5.4.*
 
 ### 4.2 Top-5 detector candidates
 
@@ -342,6 +379,8 @@ The two null tests **do not contradict** each other — they target **different 
 
 ### 5.2 Statistical sensitivity vs physical mechanism
 
+**WLS negative control (Appendix B).** Catalog-matched WLS calibration on the same catalog yields p_ETAS = 1.0 and mean = 27 = N_obs — illustrating detector--calibration coupling when the null is fit on the same data. This **supports** the negative conclusion on global series, but WLS is **invalid for inference** (K inflated); **literature H&S remains the primary null**. Catalog spatial Ogata MLE is **not implemented** (`docs/future_work_etas_mle.md`).
+
 **Established (negative result):** the detector is **liberal**; under literature ETAS parameters N_obs = 27 **exceeds** mean ≈ 15.4 (pETAS ≤ 0.001) — deviation from literature ETAS indicates clustering this null does not fully describe; spatial analysis of ETAS residuals **not conducted**; deviation **not interpreted** as evidence for global series; circum-Pacific concentration, **possibly** regional aftershocks, catalog incompleteness, or detector liberalness (142 windows), but not global chains. No physical mechanism, tectonic metric, or GC gate **confirmed** global-series claims.
 
 **Not established (physics):** η is correlative; **no physical mechanism** explains remote links in candidates. Preliminary Coulomb/dynamic stress tests for S170 **did not** reach triggering thresholds — **future work only**. Candidates are **algorithmic constructs**, not proven triggering chains.
@@ -389,7 +428,7 @@ Michael (2011) showed apparent global M≥7 clustering can arise from Poisson ra
 
 | Limitation | Affected step | Impact on main conclusion |
 |------------|---------------|---------------------------|
-| η₀ unverified at global scale | GK declustering | N = 27 unchanged (`global_series` does not use η₀) |
+| η₀ unverified at global scale | GK/ZBZ `identify_clusters()` | KDE valley of log₁₀(η_NN), η₀ ≈ 7.1×10⁻⁶; weak bimodality at M≥6.5; `global_series` skips η₀ → N = 27 stable; mis-specified η₀ shifts GK/ZBZ labels only |
 | b = 1.0 vs 0.911 in η | η upstream | N_series = 27 both; Jaccard of series sets = 1.0 (`sensitivity_b0911_series_overlap.json`); upstream ~9.8% label mismatch; `identify_clusters()` at b = 0.911 not re-run |
 | No spatial Ogata MLE | ETAS null | Temporal literature H&S 2003 — reasoned decoupled benchmark; spatial MLE — future work |
 | 142 windows + merge | Detector | Main source of liberalness |
@@ -425,7 +464,7 @@ The global-series search is **liberal by construction**:
 
 ## 6. Conclusions
 
-**Primary ETAS null** (literature H&S 2003): mean ≈ **15.4**, p_ETAS ≤ 0.001 — deviation from literature ETAS indicates clustering this null does not fully describe; spatial analysis of ETAS residuals **not conducted**; deviation **not interpreted** as evidence for global series; circum-Pacific, possible regional aftershocks/incompleteness/liberalness (142 windows), but not global chains (§5.4). The global-series hypothesis is **not supported** (§5.4–5.6). Permutation rejects only a temporal Poisson null (p = 0.0001) — **expected for aftershock catalogs** (Ogata, 1988).
+**Primary ETAS null** (literature H&S 2003): mean ≈ **15.4**, p_ETAS ≤ 0.001 — deviation from literature ETAS indicates clustering this null does not fully describe; spatial analysis of ETAS residuals **not conducted**; deviation **not interpreted** as evidence for global series; circum-Pacific, possible regional aftershocks/incompleteness/liberalness (142 windows), but not global chains (§5.4). **WLS negative control** (Appendix B): p_ETAS = 1.0, mean = 27 = N_obs — detector--calibration coupling; supports falsification framing; **not** primary null; literature H&S until spatial Ogata MLE (`docs/future_work_etas_mle.md`). The global-series hypothesis is **not supported** (§5.4–5.6). Permutation rejects only a temporal Poisson null (p = 0.0001) — **expected for aftershock catalogs** (Ogata, 1988).
 
 Additionally: the heuristic metric with tectonic hint **does not improve** global analysis (98% GC fallback); tectonic heuristic **removed from primary pipeline**; **ΔCFS/dynamic stress — future work**; causal chains **not** established.
 
