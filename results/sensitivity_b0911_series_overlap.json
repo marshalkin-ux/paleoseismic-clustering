@@ -1,0 +1,29 @@
+{
+  "catalog": "modern_1973_2026_M65",
+  "n_events": 2041,
+  "baseline_gates": {
+    "time_window_years": 2.0,
+    "min_mean_gc_km": 1500.0,
+    "min_events": 4
+  },
+  "global_series_comparison": {
+    "b_1.0": {
+      "n_series": 27
+    },
+    "b_0.911": {
+      "n_series": 27
+    },
+    "jaccard_series_event_sets": 1.0,
+    "n_series_only_b1.0": 0,
+    "n_series_only_b0911": 0,
+    "note": "global_series() does not use b_param; identical sets expected when only sliding-window gates apply."
+  },
+  "upstream_identify_clusters": {
+    "eta0": 7.107191077237056e-06,
+    "n_events_label_mismatch": 201,
+    "fraction_label_mismatch": 0.0984811366976972,
+    "note": "find_nearest_neighbor + identify_clusters() at catalog b=0.911 vs BP b=1.0; not re-run in primary pipeline."
+  },
+  "interpretation": "Equal N_series=27 does not prove candidate identity; global_series path is b-independent; upstream cluster labels differ when b changes.",
+  "script": "scripts/run_b_series_overlap.py"
+}

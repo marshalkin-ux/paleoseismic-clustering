@@ -153,8 +153,9 @@ def build(s):
         "using the Baiesi\u2013Paczuski metric eta with tectonic-path distance (Bird\u00a02003). "
         "The detector yields <b>47 algorithmic candidates</b> (27 modern); historical NOAA records "
         "(n=47) reported in Appendix A only. <b>Primary ETAS null</b> (literature H&amp;S 2003, "
-        "decoupled): mean\u224815.4, p_ETAS\u22640.001 \u2014 deviation from ETAS indicates "
-        "clustering the model does not fully explain; circum-Pacific; "
+        "decoupled): mean\u224815.4, p_ETAS\u22640.001 \u2014 deviation from literature ETAS "
+        "indicates clustering this null does not fully describe; spatial analysis of ETAS "
+        "residuals not conducted; not evidence for global series; circum-Pacific; "
         "<b>not</b> global chains beyond model scope (Sec. 5.4). GK mainshocks: N=27 unchanged. "
         "Global-series hypothesis <b>not supported</b> (Sec. 5.4\u20135.6). Permutation "
         "p=0.0001 (1/10,001) rejects temporal Poisson null only. Limitations \u2014 Sec. 5.6.",
@@ -257,7 +258,8 @@ def build(s):
     story.append(Paragraph(
         "b=1.0 — deliberate Baiesi &amp; Paczuski (2004) simplification; catalog b=0.911\u00b10.018 "
         "for M<sub>c</sub>/completeness and MC null only — <b>not</b> in the \u03b7 formula. "
-        "Zaliapin (2008): D\u2248b — \u03b7, \u03b7<sub>0</sub>, cluster shifts <b>not tested</b>.",
+        "Equal N=27 <b>does not prove</b> candidate identity (Jaccard=1.0); upstream clusters "
+        "at b=0.911 <b>not re-run</b> (~9.8% label mismatch).",
         s["caption"]
     ))
 
@@ -350,6 +352,7 @@ def build(s):
         ["Window", "10 yr", "6"],
         ["b in \u03b7", "1.0 (BP 2004)", "27"],
         ["b in \u03b7", "0.911 (catalog)", "27"],
+        ["b overlap (series sets)", "Jaccard=1.0; upstream ~9.8%", "27"],
         ["Declustering", "GK / ZBZ / none", "27 / 27 / 27"],
         ["min_events (strict)", "5 / 6 / 8", "27 / 27 / 27"],
         ["Catalog", "GK mainshocks only", "27"],

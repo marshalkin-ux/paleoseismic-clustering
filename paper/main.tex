@@ -41,9 +41,12 @@ the global multi-regional series hypothesis is \textbf{not confirmed}.
 \textbf{Primary ETAS null for hypothesis test} (Helmstetter \& Sornette 2003:
 $\mu=0.008$, $K=0.08$, \textbf{not coupled} to detector output) yields mean
 $\approx 15.4$ ($p_\mathrm{ETAS}\le 0.001$): $N_\mathrm{obs}=27$ \textbf{exceeds}
-local aftershock-only expectation --- deviation from ETAS indicates clustering
-the model does not fully explain; circum-Pacific concentration, possibly
-regional aftershocks, but not global chains beyond model scope
+literature ETAS expectation --- deviation from literature ETAS indicates clustering
+this null does not fully describe; spatial analysis of ETAS residuals was
+\textbf{not conducted}; the deviation is \textbf{not interpreted} as evidence for
+global series; circum-Pacific concentration, \textbf{possibly} regional aftershocks,
+catalog incompleteness, or detector liberalness (142 windows), but not global
+chains beyond model scope
 (Table~\ref{tab:etas_primary}, Table~\ref{tab:etas_decision}).
 A permutation test ($n = 10{,}000$) rejects a \textbf{global temporal Poisson null}
 ($p = 0.0001$, 1/10{,}001 permutations\footnote{Discrete permutation test:
@@ -63,7 +66,8 @@ Limitations --- \S\ref{sec:limitations}.
   \item \textbf{Primary ETAS null} (H\&S 2003, Table~\ref{tab:etas_primary}):
         mean $\approx 15.4$, $p_\mathrm{ETAS}\le 0.001$ --- $N_\mathrm{obs}=27$
         exceeds literature ETAS expectation; clustering not fully explained
-        by model; circum-Pacific, not global chains.
+        by model; ETAS residuals not analyzed; not evidence for global series;
+        circum-Pacific, not global chains.
   \item Permutation test $p = 0.0001$ (1/10{,}001) rejects \textbf{temporal Poisson}
         null only --- \textbf{not} proof of multi-regional global series.
   \item Tectonic distance \textbf{removed from primary pipeline} (98\% GC fallback);
@@ -285,8 +289,12 @@ null only) is \textbf{not} used in Eq.~\eqref{eq:eta}.
 \textbf{$b$ sensitivity at fixed detector gates}
 (\texttt{results/sensitivity\_b\_eta0.json}): $b=1.0$ and $b=0.911$ both yield
 $N_\mathrm{series}=27$ (2-yr window, mean GC $>1500$~km, $N \ge 4$).
-\textbf{Limitation:} upstream $\eta_0$/cluster membership via \texttt{identify\_clusters()}
-was \textbf{not} re-run at $b=0.911$ --- may affect GK/ZBZ declustering but not
+\textbf{Equal $N=27$ does not prove candidate identity:}
+\texttt{global\_series()} does not use $b$ (Jaccard of series event sets $=1.0$;
+\texttt{results/sensitivity\_b0911\_series\_overlap.json}).
+Upstream $\eta_0$/cluster membership via \texttt{identify\_clusters()}
+was \textbf{not} re-run at $b=0.911$ --- $\sim$9.8\% of events change cluster
+labels when $b$ changes; may affect GK/ZBZ declustering but not
 $N_\mathrm{obs}$ from \texttt{global\_series()}.
 
 The nearest neighbor of event~$j$ is the preceding event~$i^*$ that
@@ -440,7 +448,7 @@ literature ETAS benchmark.
 \textbf{Test} & \textbf{Null hypothesis} & \textbf{Interpretation} \\
 \hline
 Permutation ($n=10{,}000$) & Independent event times (fixed coordinates) & Rejects temporal independence; expected for aftershock catalogs; does \textbf{not} test global series \\
-ETAS literature ($n=1000$, H\&S 2003) & Local aftershock-only synthetics & $p_\mathrm{ETAS}\le 0.001$: $N_\mathrm{obs}=27 > \bar{N}\approx 15.4$; clustering not explained by ETAS; circum-Pacific; not global chains \\
+ETAS literature ($n=1000$, H\&S 2003) & Local aftershock-only synthetics & $p_\mathrm{ETAS}\le 0.001$: $N_\mathrm{obs}=27 > \bar{N}\approx 15.4$; clustering beyond literature ETAS; residuals not analyzed; not evidence for global series; circum-Pacific; not global chains \\
 Benjamini--Hochberg & --- & Post-hoc on 47 candidates; not a discovery claim \\
 \hline
 \end{tabular}
@@ -508,6 +516,14 @@ Catalog-matched calibration scripts (\texttt{scripts/calibrate\_etas.py},
 only} as a negative control (Appendix~\ref{app:wls_control}); they are
 \textbf{not} publication-grade spatial Ogata (1998) MLE
 (\texttt{docs/future\_work\_etas\_mle.md}).
+\paragraph{Why temporal literature ETAS (H\&S 2003) as a decoupled benchmark.}
+At global $M \ge 6.5$ scale, calibration is limited to \textbf{24 aftershock delays}
+after GK declustering; the pipeline has \textbf{no Ogata (1998) spatial kernel} ---
+only temporal branching with a 500~km cutoff.
+Full spatial MLE with confidence intervals remains future work
+(\texttt{docs/future\_work\_etas\_mle.md}).
+Literature H\&S 2003 is a \textbf{reasoned} decoupled benchmark for
+regional/global comparison, not merely a listed limitation.
 
 \subsection{ETAS-Based Null Model Validation}
 \label{subsec:etas}
@@ -563,7 +579,9 @@ Null model & $\mu$ & $K$ & Mean & $p_\mathrm{ETAS}$ & Interpretation \\
 \hline
 Literature (H\&S 2003) & 0.008 & 0.08 & $\approx 15.4$ & $\le 0.001$ &
   $N_\mathrm{obs}$ exceeds literature ETAS expectation; clustering not fully
-  explained by model; circum-Pacific, not global chains \\
+  explained by model; ETAS residuals not analyzed; not evidence for global
+  series; circum-Pacific; possible regional aftershocks/incompleteness/liberalness;
+  not global chains \\
 \hline
 \end{tabular}
 \end{table}
@@ -807,9 +825,12 @@ The permutation test rejects a \textbf{global temporal Poisson null}
 The \textbf{primary literature ETAS null} (H\&S 2003) yields
 $p_\mathrm{ETAS}\le 0.001$ (mean $\approx 15.4$, $N_\mathrm{obs}=27$):
 observed candidate count \textbf{significantly exceeds} local aftershock-only
-expectation --- deviation from ETAS indicates clustering the model does not
-fully explain; circum-Pacific concentration, possibly regional aftershocks,
-but not global chains beyond model scope.
+expectation --- deviation from literature ETAS indicates clustering this null
+does not fully describe; spatial analysis of ETAS residuals was \textbf{not
+conducted}; the deviation is \textbf{not interpreted} as evidence for global
+series; circum-Pacific concentration, \textbf{possibly} regional aftershocks,
+catalog incompleteness, or detector liberalness (142 windows), but not global
+chains beyond model scope.
 These test \textbf{different hypotheses}: non-Poissonian event times vs.\
 excess series count beyond locally clustered synthetic catalogs.
 Rejecting Poisson \textbf{$\neq$} evidence for teleseismic/global triggering.
@@ -871,10 +892,13 @@ standard regional/global values \textbf{not coupled} to detector output.
 When $p_\mathrm{ETAS}\le 0.001$ (mean $\approx 15.4$, $N_\mathrm{obs}=27$),
 the rejection is \textbf{statistically real}: $N_\mathrm{obs}=27$ significantly
 exceeds local aftershock-only ETAS expectation under H\&S 2003 parameters.
-Deviation from ETAS indicates clustering the model does not fully explain;
-spatial analysis shows concentration within the circum-Pacific belt, possibly
-reflecting regional aftershock sequences, but not global chains beyond model
-scope. Quantitative excess also reflects detector rules (mean GC $>1500$~km,
+Deviation from literature ETAS indicates clustering this null does not fully
+explain; spatial analysis of ETAS residuals was \textbf{not conducted}; the
+deviation is \textbf{not interpreted} as evidence for global series; spatial
+analysis of candidates shows concentration within the circum-Pacific belt,
+\textbf{possibly} reflecting regional aftershock sequences, catalog
+incompleteness, or detector liberalness (142 windows), but not global chains
+beyond model scope. Quantitative excess also reflects detector rules (mean GC $>1500$~km,
 $N\ge 4$) and \textbf{liberal exploratory search} (142 sliding windows before
 merge).
 
@@ -895,7 +919,8 @@ within the 2-yr sliding-window detector.
 \textbf{Null model} & \textbf{$p_\mathrm{ETAS}$} & \textbf{vs.\ $N_\mathrm{obs}=27$} & \textbf{Interpretation} \\
 \hline
 Literature H\&S 2003 (primary) & $\le 0.001$ & Exceeds (mean $\approx 15.4$) &
-  Clustering not explained by ETAS; circum-Pacific; possible regional aftershocks; not global chains \\
+  Clustering not explained by ETAS; residuals not analyzed; not evidence for
+  global series; circum-Pacific; possible regional aftershocks/incompleteness/liberalness; not global chains \\
 GK mainshocks only & --- & $N=27$ (unchanged) &
   Aftershock removal does not reduce series count \\
 \hline
@@ -1326,6 +1351,7 @@ significance claims.
 \label{app:wls_control}
 
 \noindent\textbf{Reproducibility demonstration only --- not used for hypothesis testing.}
+WLS-based catalog calibration is \textbf{invalid for inference}.
 Catalog-matched WLS calibration (\texttt{results/etas\_calibration.json}:
 $\mu \approx 0.103$, $K \approx 0.495$, $\alpha \approx 0.063$,
 $c \approx 10^{-4}$~day, $p \approx 1.36$) yields mean false series
