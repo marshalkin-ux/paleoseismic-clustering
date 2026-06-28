@@ -150,7 +150,7 @@ Following Baiesi & Paczuski (2004) and Zaliapin et al. (2008):
 | Distance | rij^1.6 (km) | Great-circle separation (primary pipeline) |
 | Magnitude | 10^(−b·mi) | Weighting by parent-event magnitude mi |
 
-**b = 1.0** and df = 1.6 follow Baiesi & Paczuski (2004) for cross-study comparability — deliberate convention, not catalog-calibrated. `find_nearest_neighbor` builds a causal NN forest (i* = argmin ηij). `identify_clusters()` applies η₀ from KDE valley of log₁₀(η) (Zaliapin & Ben-Zion, 2013); η₀ affects declustering labels only — **`global_series()` does not filter on η₀** (full counts in §4).
+**b = 1.0** and df = 1.6 follow Baiesi & Paczuski (2004) for cross-study comparability — deliberate convention, not catalog-calibrated. `find_nearest_neighbor` builds a causal NN forest (i* = argmin ηij). `identify_clusters()` applies η₀ from KDE valley of log₁₀(η) (Zaliapin & Ben-Zion, 2013); η₀ affects declustering labels only — **`global_series()` does not filter on η₀** (full counts in §4). Changing b in η re-runs upstream `identify_clusters()` labels only, not `global_series()` gates (full pipeline at b = 0.911 — §4.4, `sensitivity_b0911_full_pipeline.json`).
 
 ### 3.3 Detector (`global_series`, windows, merge, gates)
 
@@ -176,13 +176,13 @@ Complements §3.4 (`scripts/calibrate_etas_holdout.py` → `results/etas_holdout
 
 | Item | Specification |
 |------|---------------|
-| Train window | 1973–2000 GK mainshocks |
-| Train MLE | μ ≈ 0.095, K ≈ 10⁻⁴, α = 0, c = 0.001 d, p ≈ 1.93 |
-| Hold-out catalog | 2001–2026, M ≥ 6.5 |
+| Train window | 1973–2000 GK mainshocks (**1024** mainshocks) |
+| Train MLE | μ ≈ 0.095, K ≈ 10⁻⁴, α = 0, c = 0.001 d, p ≈ 1.93 — **train only** |
+| Hold-out catalog | 2001–2026, M ≥ 6.5 (**1010** events); parameters **fixed, no retraining** |
 | Detector | Δt = 2 yr, mean GC > 1500 km, N ≥ 4 (same as primary) |
 | Synthetics | n = 1000, seed = 42, max_total_events = 5000 |
 
-Partial **out-of-time** check — not spatial validation. Full validation numbers in §4.1.
+Temporal Ogata (1988) MLE is fit **only** on train GK mainshocks 1973–2000; train-calibrated parameters are applied to the 2001–2026 hold-out **without re-fitting** (`scripts/calibrate_etas_holdout.py` → `results/etas_holdout_validation.json`: N_obs = 13, mean = 13.0, p_ETAS = 1.0). Partial **out-of-time** check — not spatial validation. Full validation numbers in §4.1.
 
 ---
 
@@ -221,6 +221,8 @@ Hold-out train: **1024** GK mainshocks (1973–2000); hold-out catalog **1010** 
 | Zaliapin–Ben-Zion | 1 | 27 |
 | None | 0 | 27 |
 
+**N = 27 stability (Table 2).** At fixed gates (Δt = 2 yr, mean GC > 1500 km, N ≥ 4) the same event kernel survives the merge chain **142→47→27** under GK, ZBZ, and no declustering: Jaccard of **series event sets** vs GK baseline = 1.0, but Jaccard of **series membership** vs baseline = **0.32** for ZBZ/none (`series_stability_venn.json`) — declustering shifts upstream labels, not the series count. This reflects **liberal detector gates** and a shared event pool, **not** proof of a physically invariant “core 27.”
+
 **Other epochs (descriptive).** Early instrumental (1900–1972): 15 candidates, p = 0.007 (quality_score < 0.7 before 1960). Pre-1900[^pre1900]: 5 candidates, p = 0.46 — not used for significance claims.
 
 ### 4.2 Top-5 detector candidates (illustrative)
@@ -249,11 +251,12 @@ Elevated detector-candidate frequency in 1952–1965 and 2002–2016; spatial co
 | Window Δt | 1 / 2 / 5 / 10 yr | 53 / **27** / 11 / 6 | 0 / 1.0 / 0 / 0 |
 | Declustering | GK / ZBZ / none | 27 / 27 / 27 | 1.0 / 0.32 / 0.32 |
 | b in η | 1.0 / 0.911 | 27 / 27 | 1.0 / 1.0 |
+| b overlap (full pipeline) | Jaccard=1.0; upstream 8.2%‡ | 27 |
 | min_events | 5 / 6 / 8 | 27 / 27 / 27 | 1.0 |
 
-†Baseline: Δt = 2 yr, GK, b = 1.0, mean GC > 1500 km (`results/series_stability_venn.json`).
+†Baseline: Δt = 2 yr, GK, b = 1.0, mean GC > 1500 km (`results/series_stability_venn.json`). ‡**8.2%** = 165/2017 GK mainshocks whose **`identify_clusters()` cluster label** changes when b goes from 1.0 to 0.911 (full re-run GK → `identify_clusters()` → `global_series()`; `run_sensitivity_b0911_full.py` → `sensitivity_b0911_full_pipeline.json`).
 
-**b = 0.911 full pipeline** (`scripts/run_sensitivity_b0911_full.py` → `results/sensitivity_b0911_full_pipeline.json`): GK mainshocks → `identify_clusters()` → `global_series`. **N_series = 27** at both b = 1.0 and b = 0.911; Jaccard = 1.0 for series event sets; **8.2%** upstream cluster-label mismatch (165/2017 events). Equal N does **not** imply unchanged upstream structure — detector gates dominate.
+The row **b overlap (full pipeline)** reports a full pipeline re-run at b = 1.0 vs b = 0.911. **Jaccard = 1.0** means identical **series event sets** across the 27 detections — `global_series()` does not use b in η. **8.2%** upstream is the fraction of GK mainshocks whose **η-cluster label** changes at the `identify_clusters()` step; this is a different level from downstream series membership, so equal N = 27 and Jaccard = 1.0 do **not** prove unchanged upstream structure.
 
 **Stability interpretation.** N = 27 is **stable** across declustering and b at Δt = 2 yr (4/12 parameter configs yield N = 27). **Window width** dominates N_series (53 at 1 yr, 11 at 5 yr). The liberal detector sweeps nearly all GK mainshocks into at least one candidate window at short Δt; at Δt = 2 yr the count collapses to 27 — a **detector-artifact** stability, not proof of a physically invariant “core 27.”
 

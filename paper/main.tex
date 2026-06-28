@@ -273,15 +273,13 @@ The empirical Gutenberg--Richter $b = 0.911 \pm 0.018$ (Mc, completeness and Mon
 null only) is \textbf{not} used in Eq.~\eqref{eq:eta}.
 \citet{ZaliapinBenZion2008,ZaliapinBenZion2013} relate $d_f$ to catalog $b$ ($D \approx b$);
 \textbf{$b$ sensitivity at fixed detector gates}
-(\texttt{results/sensitivity\_b\_eta0.json}): $b=1.0$ and $b=0.911$ both yield
-$N_\mathrm{series}=27$ (2-yr window, mean GC $>1500$~km, $N \ge 4$).
+(\texttt{results/sensitivity\_b0911\_full\_pipeline.json}):
+full pipeline re-run at $b=1.0$ vs $b=0.911$ (GK $\to$
+\texttt{identify\_clusters()} $\to$ \texttt{global\_series()}) yields
+$N_\mathrm{series}=27$ both; Jaccard of series event sets $=1.0$.
 \textbf{Equal $N=27$ does not prove candidate identity:}
-\texttt{global\_series()} does not use $b$ (Jaccard of series event sets $=1.0$;
-\texttt{results/sensitivity\_b0911\_series\_overlap.json}).
-Upstream $\eta_0$/cluster membership via \texttt{identify\_clusters()}
-was \textbf{not} re-run at $b=0.911$ --- $\sim$9.8\% of events change cluster
-labels when $b$ changes; may affect GK/ZBZ declustering but not
-$N_\mathrm{obs}$ from \texttt{global\_series()}.
+\texttt{global\_series()} gates dominate; upstream cluster labels differ for
+\textbf{8.2\%} of events (165/2017) when $b$ changes in $\eta$.
 
 The nearest neighbor of event~$j$ is the preceding event~$i^*$ that
 minimises $\eta_{ij}$:
@@ -355,6 +353,14 @@ None & Sensitivity & 2{,}041 & 0 & 27 \\
 \hline
 \end{tabular}
 \end{table}
+
+\noindent\textbf{Stability of $N=27$ (Table~\ref{tab:gk_zbz}).}
+At fixed gates ($\Delta t = 2$~yr, mean GC $> 1500$~km, $N \ge 4$) the same
+event kernel survives merge \textbf{142 $\to$ 47 $\to$ 27} under GK, ZBZ, and
+no declustering (Jaccard of series \textbf{event sets} vs GK baseline $= 1.0$),
+but Jaccard of \textbf{series membership} vs baseline $= 0.32$ for ZBZ/none
+(\texttt{results/series\_stability\_venn.json}).
+This reflects \textbf{liberal detector gates}, not proof of physical robustness.
 
 \subsection{Series Detection}
 \label{subsec:series-detection}
@@ -599,11 +605,14 @@ available in this repository.
 
 To complement the \textbf{in-sample} primary test (\S\ref{subsec:etas-calibration}),
 we fit temporal MLE on GK mainshocks in \textbf{1973--2000} only
-(\texttt{scripts/calibrate\_etas\_holdout.py}) and validate $N_\mathrm{series}$ on the
-hold-out catalog \textbf{2001--2026} with train-calibrated parameters.
+(\texttt{scripts/calibrate\_etas\_holdout.py}; $n_\mathrm{train}=1024$ mainshocks)
+and validate $N_\mathrm{series}$ on the hold-out catalog \textbf{2001--2026}
+($n_\mathrm{holdout}=1010$ events) with \textbf{train-calibrated parameters
+applied without re-fitting}.
 Detector unchanged: $\Delta t = 2$~yr, mean pairwise GC $> 1500$~km, $N \ge 4$.
 We generate $n = 1000$ synthetic catalogs (seed~$= 42$;
-\texttt{results/etas\_holdout\_validation.json}).
+\texttt{results/etas\_holdout\_validation.json}: $N_\mathrm{obs}=13$,
+mean $= 13.0$, $p_\mathrm{ETAS}=1.0$).
 This is a \textbf{partial out-of-time} check, \textbf{not} full spatial validation.
 
 \subsection{ETAS-Based Null Model Validation}
@@ -1138,7 +1147,7 @@ GK/ZBZ \texttt{identify\_clusters()} &
 KDE valley of $\log_{10}\eta_\mathrm{NN}$ ($\eta_0 \approx 7.1\times 10^{-6}$);
 weak bimodality at global $M\ge 6.5$; \texttt{global\_series} skips $\eta_0$
 $\Rightarrow$ $N=27$ stable; mis-specified $\eta_0$ would shift GK/ZBZ labels only \\
-$b=1.0$ vs $0.911$ in $\eta$ & $\eta$ upstream & $N_\mathrm{series}=27$ both; cluster labels not re-run \\
+$b=1.0$ vs $0.911$ in $\eta$ & $\eta$ upstream & Full pipeline re-run: $N_\mathrm{series}=27$ both; 8.2\% upstream label mismatch \\
 No spatial Ogata MLE & ETAS null & Temporal MLE primary; spatial MLE future work \\
 142 windows + merge & Detector & Main source of liberalness \\
 Calibrated $p_\mathrm{ETAS}=1.0$ & ETAS test & No excess temporal clustering; spatial linkage not tested \\
@@ -1152,10 +1161,9 @@ scale, GK/ZBZ declustering labels could shift, but the reported series count
 $N_\mathrm{obs}=27$ is computed by \texttt{global\_series()}, which does
 \textbf{not} apply $\eta_0$ filtering; the main temporal-null conclusion is therefore
 stable to $\eta_0$ uncertainty on this path.
-Holding detector gates fixed, substituting catalog $b=0.911$ for the BP (2004)
-$b=1.0$ convention in $\eta$ also leaves $N_\mathrm{series}=27$ unchanged
-(\texttt{results/sensitivity\_b\_eta0.json}), but upstream cluster membership
-at $b=0.911$ was \textbf{not} re-verified.
+Holding detector gates fixed, a full upstream re-run at catalog $b=0.911$
+(\texttt{results/sensitivity\_b0911\_full\_pipeline.json}) leaves
+$N_\mathrm{series}=27$ unchanged but shifts cluster labels for 8.2\% of events.
 Without spatial Ogata (1998) MLE, the ETAS null uses temporal MLE on GK
 mainshocks.
 The 142 sliding-window candidates merged to 47 series are the dominant source
@@ -1168,8 +1176,9 @@ linkage among dispersed candidates was \textbf{not tested}.
       pre-1900, $p = 0.46$) --- not significant; not used for significance claims.
 \item \textbf{$\eta$ parameters:} $b=1.0$, $d_f=1.6$ --- BP (2004) convention;
       catalog $b=0.911$ used only for $M_c$/completeness and Monte Carlo null;
-      \textbf{$b=1.0$ vs $0.911$ $\to$ $N=27$} (\texttt{sensitivity\_b\_eta0.json});
-      upstream $\eta_0$/clusters at $b=0.911$ \textbf{not re-run}.
+      full pipeline at $b=0.911$ $\to$ $N_\mathrm{series}=27$, Jaccard $=1.0$,
+      8.2\% upstream label mismatch
+      (\texttt{sensitivity\_b0911\_full\_pipeline.json}).
 \item \textbf{$\eta_0$ scope:} affects GK/ZBZ \texttt{identify\_clusters()},
       \textbf{not} $N_\mathrm{obs}$=\texttt{global\_series()}; KDE at $M\ge 6.5$
       \textbf{not verified}; $\pm 20\%$ --- \texttt{not\_applied}, future work
@@ -1401,6 +1410,7 @@ Window & 5 yr & 11 \\
 Window & 10 yr & 6 \\
 $b$ in $\eta$ & 1.0 (BP 2004) & 27 \\
 $b$ in $\eta$ & 0.911 (catalog) & 27 \\
+$b$ overlap (full pipeline) & Jaccard$=1.0$; upstream 8.2\%$^{\ddagger}$ & 27 \\
 Declustering & GK / ZBZ / none & 27 / 27 / 27 \\
 min\_events (strict) & 5 / 6 / 8 & 27 / 27 / 27 \\
 Catalog & GK mainshocks only & 27 \\
@@ -1408,6 +1418,21 @@ $\eta_0 \pm 20\%$ & not\_applied & --- \\
 \hline
 \end{tabular}
 \end{table}
+
+\noindent$^{\ddagger}$\textbf{8.2\%} = 165/2017 GK mainshocks whose \texttt{identify\_clusters()}
+cluster label changes when $b$ goes from 1.0 to 0.911 (full re-run GK $\to$
+\texttt{identify\_clusters()} $\to$ \texttt{global\_series()};
+\texttt{results/sensitivity\_b0911\_full\_pipeline.json}).
+
+\medskip
+\noindent The row \emph{b overlap (full pipeline)} reports a full pipeline re-run at
+$b=1.0$ vs $b=0.911$.
+\textbf{Jaccard$=1.0$} means identical \textbf{series event sets} across the 27
+detections --- \texttt{global\_series()} does not use $b$ in $\eta$.
+\textbf{8.2\%} upstream is the fraction of GK mainshocks whose \textbf{$\eta$-cluster
+label} changes at \texttt{identify\_clusters()}; this is a different level from
+downstream series membership, so equal $N_\mathrm{series}=27$ and Jaccard$=1.0$ do
+\textbf{not} prove unchanged upstream structure.
 
 \paragraph{Experiment 3.5 --- Threshold calibration via injection.}
 Synthetic series of known length $N \in \{2,\ldots,7\}$ and zone span

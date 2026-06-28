@@ -404,9 +404,11 @@ def build(s):
     ))
     story.append(P(
         "b=1.0 — намеренное упрощение Baiesi &amp; Paczuski (2004); каталожное b=0.911±0.018 — "
-        "только Mc/полнота и MC-null, <b>не</b> в формуле η. Совпадение N=27 <b>не доказывает</b> "
-        "идентичность кандидатов (Jaccard=1,0; global_series не использует b); upstream-кластеры "
-        "при b=0,911 <b>не пересчитаны</b> (~9,8% смена меток).",
+        "только Mc/полнота и MC-null, <b>не</b> в формуле η. Полный конвейер при b=0,911 "
+        "(run_sensitivity_b0911_full.py): N=27, Jaccard=1,0; <b>8,2%</b> расхождение upstream "
+        "cluster-labels — ворота global_series доминируют. Изменение b пересчитывает только "
+        "upstream-метки <i>identify_clusters()</i>, не ворота <i>global_series()</i> "
+        "(sensitivity_b0911_full_pipeline.json).",
         s["caption"]
     ))
     story.append(Spacer(1, 0.1 * cm))
@@ -440,34 +442,28 @@ def build(s):
         "но алгоритмы назначают разные метки главных толчков (24 vs 1).",
         s["body"]
     ))
-    story += SSSEC("2.3.1 Спецификация алгоритмов", s)
+    story += SSSEC("2.3 Алгоритм детектирования", s)
     story.append(P(
         "GK: WINDOWS, интерполяция T(M)/R(M), убывание M; афтершоки [0,T], форшоки "
         "[\u2212T/2,0); гаверсинус. find_nearest_neighbor: argmin \u03b7, b=1.0, GC\u00a0км. "
         "identify_clusters: Union\u2013Find, \u03b7\u2080 KDE. global_series: used[], "
-        "окно [t<sub>i</sub>, t<sub>i</sub>+\u0394t), mean GC&gt;1500\u00a0км; merge 142\u219247.",
+        "окно [t<sub>i</sub>, t<sub>i</sub>+\u0394t), mean GC&gt;1500\u00a0км; merge 142\u219247. "
+        "<b>Ворота:</b> N\u22654; M\u22656.5; mean pairwise GC&gt;1500\u00a0km. "
+        "Число зон FE \u2014 только диагностика.",
         s["body"]
     ))
 
-    story += SSSEC("2.4 Критерии кластеризации и детектора", s)
-    for num, text in [
-        ("1.", "GK-декластеризация (основной) \u2192 главные толчки для \u03b7 NN-леса."),
-        ("2.", "\u03b7 NN-лес: b=1.0, r<sup>1.6</sup>; тектоника Bird 2003 (фолбэк 1.5\u00d7GC)."),
-        ("3.", "Скользящие окна 1, 2, 5\u00a0лет (шаг 1\u00a0год); merge 142\u219247."),
-        ("4.", "<b>Ворота детектора:</b> N\u22654; M\u22656.5; mean pairwise GC&gt;1500\u00a0km."),
-        ("5.", "Число зон FE \u2014 только диагностика (не критерий допуска)."),
-    ]:
-        story.append(P(f"<b>{num}</b>\u00a0\u00a0{text}", s["enum"]))
-
-    story += SSSEC("2.5 Порог η₀ и ETAS-null", s)
+    story += SSSEC("2.4 Порог η₀ и ETAS-null", s)
     story.append(P(
         "Порог η₀: KDE-долина log₁₀(η) (Zaliapin &amp; Ben-Zion 2013). "
         "<b>Первичная ETAS-null</b> — temporal MLE на GK mainshocks "
         "(calibrate_etas_mle.py). WLS — Supplementary S2. "
-        "Hold-out: train 1973–2000, hold-out 2001–2026 (calibrate_etas_holdout.py; n=1000, seed=42).",
+        "Hold-out: train 1973–2000 (1024 GK mainshocks), hold-out 2001–2026 (1010 событий); "
+        "MLE <b>только на train</b>, параметры фиксированы без дообучения "
+        "(calibrate_etas_holdout.py; N_obs=13, p=1,0).",
         s["body"]
     ))
-    story += SSSEC("2.6 Статистическая валидация", s)
+    story += SSSEC("2.5 Статистическая валидация", s)
     story.append(P(
         "<b>Заявление (permutation):</b> p=0,0001 отвергает <b>только</b> пуассоновские "
         "времена (Ogata, 1988); не подтверждает глобальные серии. "
@@ -535,7 +531,7 @@ def build(s):
         ["Окно", "10\u00a0лет", "6"],
         ["b в \u03b7", "1.0 (BP 2004)", "27"],
         ["b в \u03b7", "0.911 (каталог)", "27"],
-        ["b overlap (full pipeline)", "Jaccard=1,0; upstream 8,2%", "27"],
+        ["b overlap (full pipeline)", "Jaccard=1,0; upstream 8,2%\u2021", "27"],
         ["Декластеризация", "GK / ZBZ / none", "27 / 27 / 27"],
         ["min_events (strict)", "5 / 6 / 8", "27 / 27 / 27"],
         ["Каталог", "только GK-главные", "27"],
@@ -544,8 +540,29 @@ def build(s):
     story.append(build_pdf_table(sens_rows, [0.30, 0.52, 0.18], sens_w, s))
     story.append(P(
         "Таблица 2. Чувствительность N_series при фиксированных воротах детектора "
-        "(mean GC&gt;1500\u00a0км, N\u22654). Источники: sensitivity_*.json.",
+        "(mean GC&gt;1500\u00a0км, N\u22654). Источники: sensitivity_*.json. "
+        "\u2021<b>8,2%</b> = 165/2017 GK mainshocks, у которых меняется метка кластера "
+        "<i>identify_clusters()</i> при b=1,0\u21920,911 (полный конвейер; "
+        "sensitivity_b0911_full_pipeline.json).",
         s["caption"]
+    ))
+    story.append(P(
+        "Строка «b overlap (full pipeline)» — полный перезапуск GK \u2192 "
+        "<i>identify_clusters()</i> \u2192 <i>global_series()</i> при b=1,0 и 0,911. "
+        "<b>Jaccard=1,0</b> — идентичные <b>наборы событий</b> в 27 сериях: "
+        "<i>global_series()</i> не использует b в \u03b7. <b>8,2%</b> upstream — доля "
+        "GK mainshocks с изменившейся <b>меткой \u03b7-кластера</b> на шаге "
+        "<i>identify_clusters()</i>; это другой уровень, чем состав серий, поэтому "
+        "N=27 и Jaccard=1,0 не доказывают неизменность upstream-структуры.",
+        s["body_ni"]
+    ))
+    story.append(P(
+        "<b>Стабильность N=27.</b> При фиксированных воротах один и тот же набор событий "
+        "проходит merge 142\u219247\u219227 при GK/ZBZ/none (Jaccard наборов событий = 1,0; "
+        "Jaccard состава серий = 0,32 для ZBZ/none). Ширина окна доминирует "
+        "(53 при 1\u00a0г., 11 при 5\u00a0г.). Это артефакт либеральных ворот, "
+        "не физически инвариантное «ядро 27».",
+        s["body_ni"]
     ))
     story.append(Spacer(1, 0.2 * cm))
 
@@ -574,7 +591,7 @@ def build(s):
         [
             "b=1.0 vs 0.911",
             "\u03b7 upstream",
-            "N_series=27 оба; метки кластеров не пересчитаны",
+            "N_series=27 оба; 8,2% upstream label mismatch (full pipeline)",
         ],
         [
             "Нет spatial Ogata MLE",
@@ -600,8 +617,8 @@ def build(s):
     story.append(Spacer(1, 0.15 * cm))
     story.append(P(
         "<b>Анализ влияния.</b> N=27 считается через global_series() без фильтра \u03b7\u2080; "
-        "b=1,0 vs 0,911 при фиксированных воротах \u2192 N=27 в обоих случаях, но upstream-кластеры "
-        "при b=0,911 не пересчитаны. 142 скользящих окна \u2014 главный источник либеральности.",
+        "полный конвейер b=1,0 vs 0,911 \u2192 N=27, Jaccard=1,0, но 8,2% upstream label "
+        "mismatch. 142 скользящих окна \u2014 главный источник либеральности.",
         s["body_ni"]
     ))
 

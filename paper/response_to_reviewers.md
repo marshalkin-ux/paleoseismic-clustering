@@ -243,4 +243,66 @@ Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, тольк
 | Abstract minimal | **Done** |
 | Appendices → supplementary | **Done** |
 | Hold-out Methods + Results | **Done** |
+
+---
+
+## ROUND 5: «Супер-стабильность» N=27, b=0.911 full pipeline, hold-out spec, merge Methods
+
+**Замечание 1 (N=27 super-stability):** стабильность N=27 при GK/ZBZ/none и b=1.0/0.911 не доказывает физическое «ядро 27»; доминирует ширина окна Δt (53→27→11).
+
+**Исправлено:**
+- Матрица чувствительности `scripts/compute_series_stability.py` → `results/series_stability_venn.json`: при Δt=1/2/5 г. N_series = 53/**27**/11; при Δt=2 г. все 4 конфигурации (GK/ZBZ/none × b=1.0/0.911) дают N=27, но Jaccard **состава серий** vs baseline GK = **0,32** для ZBZ/none (Jaccard **наборов событий** = 1,0).
+- `results/sensitivity_declustering.json`: GK/ZBZ/none → N=27 при фиксированных воротах; merge **142→47→27**.
+- Полный upstream re-run `scripts/run_sensitivity_b0911_full.py` → `results/sensitivity_b0911_full_pipeline.json`: N=27, Jaccard=1,0, **8,2%** upstream label mismatch (165/2017) — ворота `global_series()` доминируют.
+- §4.1 Results (RU+EN+`main.tex`): абзац **после Таблицы 2** (декластеризация); §4.4 — полная таблица стабильности + интерпретация «detector-artifact, not core 27».
+
+**Замечание 2 (b=1.0 vs 0.911):** требовался полный пересчёт upstream, не только Jaccard при фиксированных воротах.
+
+**Исправлено:**
+- `run_sensitivity_b0911_full.py` задокументирован в §3.2/§4.4 (RU+EN), `main.tex` (η subsection, limitations table), PDF-генераторах.
+- Удалены формулировки «upstream не пересчитан» / «not re-run» — заменены на: full pipeline re-run, Jaccard=1,0, 8,2% label mismatch; equal N ≠ unchanged upstream structure.
+
+**Замечание 3 (merge §2.3.1 + §2.4):** дублирование спецификации алгоритма и критериев.
+
+**Исправлено:**
+- RU+EN markdown: единый §3.3 «Детектор (`global_series`, окна, merge, ворота)»; критерии — §2.3 канонический список.
+- PDF RU: §2.3.1 + §2.4 → **§2.3 Алгоритм детектирования**; PDF EN: algorithm spec + criteria → единый блок Detection algorithm.
+- `main.tex`: Declustering + Series Detection с `subsubsec:algo-spec` (без дублирующего §2.4 в markdown-структуре).
+
+**Замечание 4 (hold-out reproducibility):** Methods должны явно указывать train-only MLE без дообучения на hold-out.
+
+**Исправлено — §3.5 Methods (RU+EN+`main.tex` `subsec:holdout-methods`):**
+- ETAS temporal MLE калибруется **только** на train GK mainshocks **1973–2000** (n=**1024**).
+- Параметры **фиксируются** и применяются к hold-out **2001–2026** (n=**1010** событий) **без повторной калибровки**.
+- Детектор: Δt=2 г., mean GC>1500 км, N≥4; n=1000 synthetics, seed=42.
+- `scripts/calibrate_etas_holdout.py` → `results/etas_holdout_validation.json`: N_obs=**13**, mean=13,0, p_ETAS=1,0.
+
+**Замечание 5 (после Таблицы 2):** краткий абзац о стабильности N=27.
+
+**Исправлено:** абзац после таблицы декластеризации в §4.1 (RU+EN+`main.tex` после `tab:gk_zbz`) + после Table 2 в PDF-генераторах.
+
+| Пункт | Статус |
+|-------|--------|
+| N=27 stability data + interpretation | **Done** |
+| b=0.911 full pipeline documented | **Done** |
+| Merge algorithm sections | **Done** |
+| Hold-out train-only spec | **Done** |
+| Post-Table 2 paragraph | **Done** |
 | Discussion dedupe | **Done** |
+
+---
+
+## ROUND 5: Table 2 «upstream 8,2%» clarification
+
+**Замечание:** строка «b overlap (full pipeline)» (Jaccard=1,0; upstream 8,2%) не объяснена — кажется противоречивой.
+
+**Исправлено:**
+- §4.4 (RU+EN), `main.tex` Table~\ref{tab:sensitivity}, PDF-генераторы: сноска ‡/† и 2–3 предложения сразу после Таблицы 2 — **Jaccard=1,0** = идентичные **наборы событий** в 27 сериях (`global_series()` не использует b); **8,2%** = 165/2017 GK mainshocks с изменившейся **меткой кластера** `identify_clusters()` при b=1,0→0,911 (полный конвейер; `sensitivity_b0911_full_pipeline.json`).
+- §3.2 η-метрика (RU+EN): одна строка — b влияет на upstream-метки, не на ворота `global_series()`.
+- Исправлены устаревшие формулировки «конвейер не перезапускался» / «~9,8%» в EN PDF и ROUND 3.
+
+| Пункт | Статус |
+|-------|--------|
+| Table 2 footnote + post-table text | **Done** |
+| §3.2 b sensitivity scope | **Done** |
+| PDF generators synced | **Done** |

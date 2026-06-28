@@ -140,7 +140,7 @@ ZBZ — **только чувствительность** (`run_declustering_sen
 
 ### 3.2 η-метрика (Байеси–Пачуски)
 
-**ηij = tij · rij^1.6 · 10^(−b·mi)** — Baiesi & Paczuski (2004); **b = 1.0**, df = 1.6 — конвенция для сопоставимости. `find_nearest_neighbor` строит каузальный NN-лес; `identify_clusters()` применяет η₀ из KDE-долины log₁₀(η). η₀ влияет на метки декластеризации; **`global_series()` не фильтрует по η₀** (числа — §4).
+**ηij = tij · rij^1.6 · 10^(−b·mi)** — Baiesi & Paczuski (2004); **b = 1.0**, df = 1.6 — конвенция для сопоставимости. `find_nearest_neighbor` строит каузальный NN-лес; `identify_clusters()` применяет η₀ из KDE-долины log₁₀(η). η₀ влияет на метки декластеризации; **`global_series()` не фильтрует по η₀** (числа — §4). Изменение b в η пересчитывает только upstream-метки `identify_clusters()`, не ворота `global_series()` (полный конвейер при b=0,911 — §4.4, `sensitivity_b0911_full_pipeline.json`).
 
 ### 3.3 Детектор (`global_series`, окна, merge, ворота)
 
@@ -164,13 +164,13 @@ GK mainshocks → η NN-лес → окна 1/2/5 г. → merge → filter (N≥
 
 | Параметр | Спецификация |
 |----------|--------------|
-| Train | GK mainshocks 1973–2000 |
-| Train MLE | μ≈0,095, K≈10⁻⁴, α=0, c=0,001 сут., p≈1,93 |
-| Hold-out | 2001–2026, M≥6.5 |
-| Детектор | Δt=2 г., mean GC>1500 км, N≥4 |
+| Train | GK mainshocks 1973–2000 (**1024** mainshocks) |
+| Train MLE | μ≈0,095, K≈10⁻⁴, α=0, c=0,001 сут., p≈1,93 — **только train** |
+| Hold-out | 2001–2026, M≥6.5 (**1010** событий); параметры **фиксированы, без дообучения** |
+| Детектор | Δt=2 г., mean GC>1500 км, N≥4 (тот же, что primary) |
 | Синтетика | n=1000, seed=42, max_total_events=5000 |
 
-Частичная **out-of-time** проверка — не spatial validation. Числа — §4.1.
+Temporal Ogata (1988) MLE калибруется **исключительно** на train GK mainshocks 1973–2000; полученные параметры применяются к hold-out 2001–2026 **без повторной калибровки** (`scripts/calibrate_etas_holdout.py` → `results/etas_holdout_validation.json`: N_obs=13, mean=13,0, p_ETAS=1,0). Частичная **out-of-time** проверка — не spatial validation. Числа — §4.1.
 
 ---
 
@@ -209,6 +209,8 @@ Train hold-out: **1024** GK mainshocks (1973–2000); hold-out **1010** собы
 | Zaliapin–Ben-Zion | 1 | 27 |
 | None | 0 | 27 |
 
+**Стабильность N=27 (Таблица 2).** При фиксированных воротах (Δt=2 г., mean GC>1500 км, N≥4) один и тот же набор событий проходит цепочку merge **142→47→27** при GK, ZBZ и без декластеризации: Jaccard **наборов событий** серий vs baseline GK = 1,0, но Jaccard **состава серий** vs baseline = **0,32** для ZBZ/none (`series_stability_venn.json`) — декластеризация смещает upstream-метки, не число серий. Это следствие **либеральных ворот** детектора и общего ядра событий, а **не** доказательство физически инвариантного «ядра 27».
+
 **Другие эпохи (описательно).** Ранний инструментальный (1900–1972): 15 кандидатов, p=0,007 (quality_score<0,7 до 1960). До 1900[^pre1900]: 5 кандидатов, p=0,46 — не для заявлений о значимости.
 
 ### 4.2 Топ-5 кандидатов (иллюстративно)
@@ -237,10 +239,11 @@ Train hold-out: **1024** GK mainshocks (1973–2000); hold-out **1010** собы
 | Окно Δt | 1 / 2 / 5 / 10 лет | 53 / **27** / 11 / 6 | 0 / 1,0 / 0 / 0 |
 | Декластеризация | GK / ZBZ / none | 27 / 27 / 27 | 1,0 / 0,32 / 0,32 |
 | b в η | 1.0 / 0.911 | 27 / 27 | 1,0 / 1,0 |
+| b overlap (full pipeline) | Jaccard=1,0; upstream 8,2%‡ | 27 |
 
-†Baseline: Δt=2 г., GK, b=1.0 (`series_stability_venn.json`).
+†Baseline: Δt=2 г., GK, b=1.0 (`series_stability_venn.json`). ‡**8,2%** = 165/2017 GK mainshocks, у которых **метка кластера** `identify_clusters()` меняется при b=1,0→0,911 (полный перезапуск GK → `identify_clusters()` → `global_series()`; `run_sensitivity_b0911_full.py` → `sensitivity_b0911_full_pipeline.json`).
 
-**Полный конвейер b=0.911** (`run_sensitivity_b0911_full.py` → `sensitivity_b0911_full_pipeline.json`): GK → `identify_clusters()` → `global_series`. **N_series=27** при b=1.0 и 0.911; Jaccard=1,0; **8,2%** расхождение upstream cluster-labels (165/2017).
+Строка «b overlap (full pipeline)» отражает полный перезапуск конвейера при b=1,0 и b=0,911. **Jaccard=1,0** означает идентичные **наборы событий** в 27 сериях — `global_series()` не использует b в η. **8,2%** upstream — доля GK mainshocks, у которых меняется **метка η-кластера** на шаге `identify_clusters()`; это другой уровень, чем состав серий, поэтому равное N=27 и Jaccard=1,0 не доказывают неизменность upstream-структуры.
 
 **Интерпретация стабильности.** N=27 стабилен при декластеризации и b при Δt=2 г. (4/12 конфигураций). **Ширина окна** доминирует (53 при 1 г., 11 при 5 г.). Стабильность — артефакт либеральных ворот детектора, не физически инвариантное «ядро 27».
 

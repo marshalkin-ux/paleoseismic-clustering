@@ -272,8 +272,10 @@ def build(s):
     story.append(Paragraph(
         "b=1.0 — deliberate Baiesi &amp; Paczuski (2004) simplification; catalog b=0.911\u00b10.018 "
         "for M<sub>c</sub>/completeness and MC null only — <b>not</b> in the \u03b7 formula. "
-        "Equal N=27 <b>does not prove</b> candidate identity (Jaccard=1.0); upstream clusters "
-        "at b=0.911 <b>not re-run</b> (~9.8% label mismatch).",
+        "Full pipeline at b=0.911 (run_sensitivity_b0911_full.py): N=27, Jaccard=1.0; "
+        "<b>8.2%</b> upstream cluster-label mismatch — detector gates dominate. Changing b "
+        "re-runs upstream <i>identify_clusters()</i> labels only, not <i>global_series()</i> "
+        "gates (sensitivity_b0911_full_pipeline.json).",
         s["caption"]
     ))
 
@@ -298,33 +300,26 @@ def build(s):
         s["body"]
     ))
     story.append(Paragraph(
-        "<b>Algorithm specification (§3.4.1).</b> GK WINDOWS, T(M)/R(M) interpolation, "
+        "<b>Detection algorithm (§3.3).</b> GK WINDOWS, T(M)/R(M) interpolation, "
         "magnitude-descending; aftershocks [0,T], foreshocks [\u2212T/2,0); haversine. "
         "find_nearest_neighbor: causal argmin \u03b7, b=1.0, GC km. identify_clusters: "
-        "Union\u2013Find, \u03b7\u2080 KDE. global_series: used[] mask, mean GC&gt;1500 km; "
-        "merge 142\u219247 across epochs.",
+        "Union\u2013Find, \u03b7\u2080 KDE. global_series: used[] mask, window [t<sub>i</sub>, t<sub>i</sub>+\u0394t), "
+        "mean GC&gt;1500 km; merge 142\u219247. <b>Gates:</b> N\u22654; M\u22656.5; mean pairwise GC&gt;1500 km. "
+        "Flinn\u2013Engdahl zone count \u2014 diagnostic only.",
         s["body_ni"]
     ))
 
-    story += SSEC("2.4 Clustering and detector criteria", s)
-    for num, text in [
-        ("1.", "GK declustering (primary) \u2192 mainshocks for \u03b7 NN forest."),
-        ("2.", "\u03b7 NN forest: b=1.0, r<sup>1.6</sup>; tectonic Bird 2003 (1.5\u00d7 GC fallback)."),
-        ("3.", "Sliding windows 1, 2, 5 yr (1-yr step); merge 142\u219247."),
-        ("4.", "<b>Detector gate:</b> N\u22654; M\u22656.5; mean pairwise GC&gt;1500 km."),
-        ("5.", "Flinn\u2013Engdahl zone count \u2014 diagnostic only (not admission criterion)."),
-    ]:
-        story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
-
-    story += SSEC("2.5 Primary ETAS null", s)
+    story += SSEC("2.4 Primary ETAS null", s)
     story.append(Paragraph(
         "<b>Primary ETAS null</b> uses catalog-calibrated temporal MLE on GK mainshocks "
-        "(calibrate_etas_mle.py). Hold-out: train 1973\u20132000, hold-out 2001\u20132026 "
-        "(calibrate_etas_holdout.py; n=1000, seed=42). WLS \u2014 Supplementary S2 only.",
+        "(calibrate_etas_mle.py). Hold-out: train 1973\u20132000 (1024 GK mainshocks), "
+        "hold-out 2001\u20132026 (1010 events); MLE <b>train only</b>, parameters fixed "
+        "without retraining (calibrate_etas_holdout.py; N_obs=13, p=1.0). "
+        "WLS \u2014 Supplementary S2 only.",
         s["body"]
     ))
 
-    story += SSEC("2.6 Statistical validation", s)
+    story += SSEC("2.5 Statistical validation", s)
     story.append(Paragraph(
         "<b>Permutation statement:</b> p=0.0001 rejects <b>Poisson event times only</b> "
         "(Ogata 1988); does not confirm global series. ETAS \u2014 Sec. 4.1. "
@@ -388,7 +383,7 @@ def build(s):
         ["Window", "10 yr", "6"],
         ["b in \u03b7", "1.0 (BP 2004)", "27"],
         ["b in \u03b7", "0.911 (catalog)", "27"],
-        ["b overlap (series sets)", "Jaccard=1.0; upstream ~9.8%", "27"],
+        ["b overlap (full pipeline)", "Jaccard=1.0; upstream 8.2%\u2021", "27"],
         ["Declustering", "GK / ZBZ / none", "27 / 27 / 27"],
         ["min_events (strict)", "5 / 6 / 8", "27 / 27 / 27"],
         ["Catalog", "GK mainshocks only", "27"],
@@ -397,8 +392,30 @@ def build(s):
     story.append(build_pdf_table(sens_rows, [0.30, 0.52, 0.18], w, s))
     story.append(Paragraph(
         "Table 2. N_series sensitivity under fixed detector gates "
-        "(mean GC &gt; 1500 km, N \u2265 4). Sources: sensitivity_*.json.",
+        "(mean GC &gt; 1500 km, N \u2265 4). Sources: sensitivity_*.json. "
+        "\u2021<b>8.2%</b> = 165/2017 GK mainshocks whose <i>identify_clusters()</i> "
+        "cluster label changes when b goes from 1.0 to 0.911 (full pipeline; "
+        "sensitivity_b0911_full_pipeline.json).",
         s["caption"]
+    ))
+    story.append(Paragraph(
+        "The row <b>b overlap (full pipeline)</b> reports a full re-run GK \u2192 "
+        "<i>identify_clusters()</i> \u2192 <i>global_series()</i> at b = 1.0 vs 0.911. "
+        "<b>Jaccard = 1.0</b> means identical <b>series event sets</b> across 27 "
+        "detections --- <i>global_series()</i> does not use b in \u03b7. "
+        "<b>8.2%</b> upstream is the fraction of GK mainshocks whose "
+        "<b>\u03b7-cluster label</b> changes at <i>identify_clusters()</i>; this is a "
+        "different level from downstream series membership, so N = 27 and Jaccard = 1.0 "
+        "do <b>not</b> prove unchanged upstream structure.",
+        s["body_ni"]
+    ))
+    story.append(Paragraph(
+        "<b>N = 27 stability.</b> At fixed gates the same event kernel survives merge "
+        "142\u219247\u219227 under GK/ZBZ/none (Jaccard of event sets = 1.0; series "
+        "membership Jaccard = 0.32 for ZBZ/none). Window width dominates "
+        "(53 at 1 yr, 11 at 5 yr). Detector-artifact stability, not a physical "
+        "invariant \u201ccore 27.\u201d",
+        s["body_ni"]
     ))
     story.append(Spacer(1, 0.2 * cm))
 
@@ -428,7 +445,7 @@ def build(s):
         [
             "b = 1.0 vs 0.911 in \u03b7",
             "\u03b7 upstream",
-            "N_series = 27 both; cluster labels not re-run",
+            "N_series = 27 both; 8.2% upstream label mismatch (full pipeline)",
         ],
         [
             "No spatial Ogata MLE",
@@ -454,8 +471,8 @@ def build(s):
     story.append(Spacer(1, 0.15 * cm))
     story.append(Paragraph(
         "<b>Impact analysis.</b> N = 27 is computed by global_series() without \u03b7\u2080 "
-        "filtering; b = 1.0 vs 0.911 leaves N_series = 27 under fixed gates, but upstream "
-        "clusters at b = 0.911 were not re-verified. 142 sliding windows dominate detector "
+        "filtering; full pipeline b = 1.0 vs 0.911 leaves N_series = 27, Jaccard = 1.0, "
+        "but 8.2% upstream label mismatch. 142 sliding windows dominate detector "
         "liberalness.",
         s["body_ni"]
     ))
