@@ -7,6 +7,7 @@ from pathlib import Path
 
 from reportlab.lib.colors import HexColor, white
 from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.pdfmetrics import registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Paragraph, Table, TableStyle
 
@@ -132,6 +133,13 @@ def register_pdf_fonts() -> str:
             )
             pdfmetrics.registerFont(
                 TTFont("MainBI", str(bold_italic if bold_italic.is_file() else bold))
+            )
+            registerFontFamily(
+                "Main",
+                normal="Main",
+                bold="MainBold",
+                italic="MainItalic",
+                boldItalic="MainBI",
             )
             return str(regular)
 

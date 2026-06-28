@@ -37,11 +37,15 @@ TM = BM = 2.5 * cm
 
 # ── Formula box ───────────────────────────────────────────────────────────────
 class FormulaBox(Flowable):
-    def __init__(self, text, width=None, height=2.0 * cm):
+    def __init__(self, text, width=None, height=2.0 * cm, style=None):
         super().__init__()
         self.text = text
         self.box_w = width or (PAGE_W - LM - RM)
         self.height = height
+        self.style = style
+
+    def wrap(self, availWidth, availHeight):
+        return self.box_w, self.height
 
     def draw(self):
         c = self.canv
@@ -49,9 +53,14 @@ class FormulaBox(Flowable):
         c.setStrokeColor(ACCENT)
         c.setLineWidth(1.2)
         c.roundRect(0, 0, self.box_w, self.height, 5, fill=1, stroke=1)
-        c.setFillColor(DARK)
-        c.setFont("MainBold", 13)
-        c.drawCentredString(self.box_w / 2, self.height / 2 - 5, pdf_math_text(self.text))
+        if self.style is not None:
+            para = Paragraph(pdf_math_text(self.text), self.style)
+            pw, ph = para.wrap(self.box_w - 16, self.height)
+            para.drawOn(c, (self.box_w - pw) / 2, (self.height - ph) / 2)
+        else:
+            c.setFillColor(DARK)
+            c.setFont("MainBold", 13)
+            c.drawCentredString(self.box_w / 2, self.height / 2 - 5, pdf_math_text(self.text))
 
 
 # ── Page template ─────────────────────────────────────────────────────────────
@@ -126,6 +135,8 @@ def make_styles():
                                     textColor=TEXT, wordWrap="CJK", leading=11)
     s["tbl_wrap"] = ParagraphStyle("tbl_wrap", fontName="Main", fontSize=7,
                                     textColor=TEXT, wordWrap="CJK", leading=10)
+    s["formula"] = ParagraphStyle("formula", fontName="MainBold", fontSize=13,
+                                    textColor=DARK, alignment=TA_CENTER, leading=16)
     return s
 
 
@@ -344,8 +355,11 @@ def build(s):
         s["body"]
     ))
     story.append(Spacer(1, 0.15 * cm))
-    story.append(FormulaBox("b = 0.911 \u00b1 0.018  (n = 1688 событий)",
-                             PAGE_W - LM - RM))
+    story.append(FormulaBox(
+        "b = 0.911 \u00b1 0.018  (n = 1688 \u0441\u043e\u0431\u044b\u0442\u0438\u0439)",
+        PAGE_W - LM - RM,
+        style=s["formula"],
+    ))
     story.append(Spacer(1, 0.15 * cm))
 
     # --- 2. Методология ---
@@ -548,7 +562,8 @@ def build(s):
     story += SEC("4. Обсуждение и выводы", s)
     story.append(Paragraph(
         "<b>WLS-контроль (Прил.\u00a0B):</b> p_ETAS=1,0, mean=27=N_obs \u2014 coupling "
-        "illustration; не первичная null. Primary temporal MLE \u2014 \u00a73.6.",
+        "illustration; не первичная null. Primary temporal MLE \u2014 \u00a72.5\u20132.6 "
+        "\u0438 \u00a73.2.",
         s["body_ni"]
     ))
     story.append(Paragraph(
@@ -649,7 +664,7 @@ def build(s):
 
     story += SEC("ПРИЛОЖЕНИЕ B. НЕГАТИВНЫЙ КОНТРОЛЬ WLS (ВОСПРОИЗВОДИМОСТЬ)", s)
     story.append(Paragraph(
-        "<b>Только воспроизводимость \u2014 не inference.</b> "
+        "<b>\u0422\u043e\u043b\u044c\u043a\u043e \u0432\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u043c\u043e\u0441\u0442\u044c \u2014 \u043d\u0435 inference.</b> "
         "Каталог-калиброванная WLS (results/etas_calibration.json: "
         "\u03bc\u22480,103, K\u22480,495) даёт mean=27,0, p_ETAS=1,0 "
         "(n=1000, multiseed стабилен). <b>Артефакт связки детектор+калибровка</b> "
@@ -658,10 +673,10 @@ def build(s):
         s["body"]
     ))
     wls_rows = [
-        ["Компонент", "Метод"],
-        ["\u03bc (мю)", "GK mainshocks / T (замкнутая форма)"],
-        ["c, p", "Omori MLE, Nelder\u2013Mead на 24 задержках"],
-        ["K, \u03b1", "WLS (numpy.linalg.lstsq) на тех же 24 GK-афтершоках"],
+        ["\u041a\u043e\u043c\u043f\u043e\u043d\u0435\u043d\u0442", "\u041c\u0435\u0442\u043e\u0434"],
+        ["\u03bc (\u043c\u044e)", "GK mainshocks / T (\u0437\u0430\u043c\u043a\u043d\u0443\u0442\u0430\u044f \u0444\u043e\u0440\u043c\u0430)"],
+        ["c, p", "Omori MLE, Nelder\u2013Mead \u043d\u0430 24 \u0437\u0430\u0434\u0435\u0440\u0436\u043a\u0430\u0445"],
+        ["K, \u03b1", "WLS (numpy.linalg.lstsq) \u043d\u0430 \u0442\u0435\u0445 \u0436\u0435 24 GK-\u0430\u0444\u0442\u0435\u0440\u0448\u043e\u043a\u0430\u0445"],
     ]
     story.append(build_pdf_table(wls_rows, [0.22, 0.78], PAGE_W - LM - RM, s))
     story.append(Spacer(1, 0.15 * cm))
