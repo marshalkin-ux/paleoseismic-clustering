@@ -306,3 +306,45 @@ Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, тольк
 | Table 2 footnote + post-table text | **Done** |
 | §3.2 b sensitivity scope | **Done** |
 | PDF generators synced | **Done** |
+
+---
+
+## ROUND 6: Scope honesty — detection vs validation, demote permutation, FDR limit
+
+**Замечание 2.1 (title/intro mismatch):** заголовок обещает spatiotemporal clustering; валидация — temporal-only.
+
+**Исправлено (Option A — subtitle retained):**
+- **Abstract (RU+EN+main.tex):** «Title refers to detection geometry; inferential tests are temporal-only» / RU-эквивалент.
+- **Introduction (RU+EN+main.tex+PDF):** двухфазный дизайн — (1) detection: η + GC>1500 km; (2) validation: temporal ETAS + hold-out, **не** spatial linkage. Bird — только «explored early, excluded — Supplementary S1», не цель.
+- **Hypothesis table row (c):** «Not tested (spatial ETAS open)».
+- **index.html hero:** detection → validation tone; permutation убран из hero/results chip.
+
+**Замечание 2.2 (Bird):** «validation failed proves unsuitability» без benchmark.
+
+**Исправлено:**
+- Все claims «validation failed» / «unsuitable metric proved» удалены (grep clean).
+- **Introduction:** zero Bird-as-objective; **supplementary.md S1:** «preliminary idea, not validated»; excluded + no synthetic benchmark.
+- **generate_article_pdf.py:** удалён абзац «Провал валидации показывает непригодность».
+
+**Замечание 2.3 (Bonferroni / FDR):**
+
+**Исправлено:**
+- **§4.1 (RU+EN+main.tex):** explicit box — 142 windows → N=27 **NOT** multiplicity-corrected; Bonferroni α/142≈0.00035 vs p=0.0001; conclusion = **consistency with in-sample temporal ETAS**, not corrected significance; FDR 47 merged exploratory only.
+- **Conclusions (RU+EN):** no language implying corrected significance.
+
+**Замечание 2.4 (permutation in Table 3.1 / ETAS table):**
+
+**Исправлено:**
+- Permutation **removed** from §4.1 primary counts table (RU+EN+main.tex); ETAS table = **in-sample MLE + hold-out only**.
+- Hypothesis row (a) relabelled «Diagnostic (Methods)»; permutation one sentence in Methods §3.3 / main.tex `subsec:stat-tests`.
+- **tab:epochs** p-column → «Perm. p† (diagnostic)» footnote.
+
+| Пункт | Статус |
+|-------|--------|
+| Two-phase intro + abstract scope sentence | **Done** |
+| Bird failure claims removed | **Done** |
+| Multiplicity box §4.1 | **Done** |
+| Permutation demoted from Results table | **Done** |
+| index.html hero/results trim | **Done** |
+| take_home_message.md | **Done** |
+| PDF generators + verify_ru_pdf_cyrillic | **Done** |

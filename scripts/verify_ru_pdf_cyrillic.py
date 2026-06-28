@@ -11,14 +11,15 @@ import pypdf
 ROOT = Path(__file__).resolve().parent.parent
 PDF = ROOT / "paper" / "article_ru.pdf"
 
-# page index (0-based) -> substrings that must appear (round-5 layout)
+# page index (0-based) -> substrings that must appear (round-6 layout)
 CHECKS: dict[int, list[str]] = {
-    0: ["Временная ETAS-null", "согласован с", "in-sample temporal null"],
-    2: ["событий", "полноты"],
-    3: ["Jaccard", "Штраф", "identify_clusters"],
-    4: ["Bonferroni", "Валидация", "Сводная"],
-    5: ["Параметр", "upstream", "8,2%", "identify_clusters", "пуассоновские"],
-    6: ["Ограничение", "Supplementary"],
+    0: ["Временная ETAS-null", "in-sample temporal null", "валидация только temporal"],
+    2: ["Двухфазный", "spatial ETAS open"],
+    3: ["identify_clusters", "benchmark", "great-circle"],
+    4: ["permutation", "пуассоновские", "ETAS-null"],
+    5: ["Bonferroni", "скорректированы", "согласованность"],
+    6: ["corrected temporal significance", "Spatial linkage"],
+    7: ["Ограничение", "Supplementary", "paper/supplementary.md"],
 }
 
 

@@ -20,7 +20,7 @@
 
 ## Abstract
 
-**Analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041); Baiesi–Paczuski η detector (great-circle) yields **27 algorithmic candidates**. **Catalog-calibrated temporal ETAS:** **p_ETAS = 1.0** (consistent with in-sample null; full numbers — §4.1). Spatial component not modeled (§5). Pre-1900 NOAA records — Supplementary Material S3[^pre1900].
+**Analysis catalog of 4,267 unique M≥6.5 events**[^catalog-n] (modern window 1973–2026: 2,041); Baiesi–Paczuski η detector (great-circle) yields **27 algorithmic candidates**. **Catalog-calibrated temporal ETAS:** **p_ETAS = 1.0** (consistent with in-sample null; full numbers — §4.1). The title refers to **detection geometry** (η + GC >1500 km gates); **inferential tests are temporal-only**. Spatial component not modeled (§5). Pre-1900 NOAA records — Supplementary Material S3[^pre1900].
 
 [^catalog-n]: Canonical analysis N: **4,267** unique M≥6.5 after deduplication (±30 days, ≤50 km; ISC > USGS > NOAA; cf. Waldhauser & Schaff, 2008). **4,418** saved CSV rows include ~151 NOAA M<6.5 rows (provenance only).
 [^pre1900]: 47 pre-1900 NOAA records — `paper/supplementary.md` §S3; excluded from primary detector and ETAS calibration window (1973–2026).
@@ -35,9 +35,11 @@
 
 Large earthquakes are not independent in time. Michael (2011) tested whether global M≥7 clustering in 1995–2011 exceeds Poisson rate fluctuations. Shearer & Stark (2012) tested whether global M≥7 and M≥8 rates increased after the 2004 Sumatra earthquake. Both found no anomalous global clustering beyond standard null models, but neither tested multi-regional η-linkage structure at M≥6.5 with catalog-calibrated ETAS validation.
 
-**Objective.** Test whether physically meaningful multi-regional “global series” exist in the M≥6.5 catalog, with **primary inference on the modern window (1973–2026)**.
+**Two-phase design.** (1) **Detection phase** — spatiotemporal *candidate search*: Baiesi–Paczuski η nearest-neighbor forest plus sliding-window detector with spatial gates (mean great-circle > 1500 km, N ≥ 4, M ≥ 6.5). (2) **Validation phase** — *temporal-only* catalog-calibrated ETAS MLE plus hold-out split; this phase does **not** test whether geographically dispersed candidates form a physically linked global series (spatial Ogata, 1998 kernel — future work).
 
-**Scope.** We analyze **detector candidates** with spatial gates (mean GC > 1500 km) but **validate only temporal excess** vs catalog-calibrated ETAS; the spatial linkage hypothesis is **not tested**. We extend prior global rate tests with a complementary Baiesi–Paczuski η detector and temporal ETAS null (§3.7). Conclusions are limited to temporal clustering in detector windows; spatial linkage requires future spatial ETAS (Ogata, 1998).
+**Objective.** Bound what reproducible tests can establish about multi-regional “global series” in the M≥6.5 catalog, with **primary inference on the modern window (1973–2026)**.
+
+**Scope.** We report **detector candidates** from phase (1) and **temporal excess** vs catalog-calibrated ETAS from phase (2) only; spatial linkage is **not tested**. Bird (2003) tectonic distance was explored early and **excluded from primary analysis** (Supplementary S1). Conclusions are limited to temporal clustering in detector windows.
 
 **Contribution.** This work provides a **reproducible** global M≥6.5 pipeline under explicit **falsification** framing and **bounds of inference**: primary ETAS uses **in-sample** calibration on 1973–2026 GK mainshocks with the **same** detector; spatial long-range linkage is **not** tested. The value is methodology plus honest null-result bounds — **not** a discovery claim. We do **not** claim to have disproved global series as a physical phenomenon; we bound what the implemented tests can establish.
 
@@ -51,14 +53,14 @@ Four distinct statistical targets must not be conflated (table below; see also �
 
 | Test / hypothesis | H₀ (null) | H₁ (alternative) | Statistic | Result (modern) |
 |-------------------|-----------|------------------|-----------|-----------------|
-| **(a) Permutation** | Event times **independent** (Poisson process, fixed coordinates) | Times **dependent** (clustering) | mean log₁₀(η_NN); n = 10,000 | see **§4.1** |
+| **(a) Permutation (diagnostic)** | Event times **independent** (Poisson process, fixed coordinates) | Times **dependent** (clustering) | mean log₁₀(η_NN); n = 10,000 | **Diagnostic (Methods §3.3):** Poisson times rejected — expected with aftershocks |
 | **(b) ETAS-null (primary MLE)** | N_series ≤ **catalog-calibrated** temporal ETAS expectation (GK mainshocks) | N_series **exceeds** calibrated ETAS | series count in 1000 synthetic catalogs | see **§4.1** |
-| **(c) Global series** | **No** physically meaningful multi-regional series (no mechanism; liberal detector) | Teleseismic chains explainable by physics | detector + mechanism + null tests | **Not tested by temporal-only ETAS**; spatial null open |
+| **(c) Global series** | **No** physically meaningful multi-regional series (no mechanism; liberal detector) | Teleseismic chains explainable by physics | detector + mechanism + null tests | **Not tested (spatial ETAS open)** |
 | **(d) WLS coupling illustration**[^wls] | Detector--calibration artifact on same catalog | — | Supplementary S2 | **Not** primary null |
 
 [^wls]: Catalog-matched WLS excluded from primary pipeline; coupling illustration only — see `paper/supplementary.md` §S2.
 
-Permutation vs ETAS nuance — consolidated in Results (§4.1).
+Primary validation rows (b) only in §4.1; permutation (a) is a Methods diagnostic, not a detector significance claim.
 
 ---
 
@@ -162,7 +164,7 @@ Implementation: `src/analysis/clustering.py`, `pipeline_v2.py`. **Output = algor
 GK mainshocks → η NN forest → windows 1/2/5 yr → merge → filter (N≥4, mean GC>1500 km) → candidates
 ```
 
-Secondary tests: permutation (mean log₁₀ η_NN, n = 10,000); Benjamini–Hochberg post-hoc on merged candidates (not a discovery claim).
+**Permutation diagnostic (not primary validation):** mean log₁₀ η_NN, n = 10,000 — p = 0.0001 (1/10,001), z = −6.17; rejects Poisson event times only, expected for aftershock-bearing catalogs (Ogata, 1988); does not test teleseismic chains. Benjamini–Hochberg post-hoc on merged candidates — exploratory only, not a discovery claim.
 
 ### 3.4 ETAS calibration (temporal MLE, in-sample disclaimer)
 
@@ -197,7 +199,6 @@ Temporal Ogata (1988) MLE is fit **only** on train GK mainshocks 1973–2000; tr
 | N_series (merged, all epochs) | 47 |
 | N_series (modern) | **27** |
 | Window candidates before merge | 142 |
-| Permutation p (Methods §3.9) | 0.0001 (1/10,001); z = −6.17 |
 | ETAS parameters (MLE, full window) | μ ≈ 0.097, K ≈ 10⁻⁴, α ≈ 0.25 |
 
 **ETAS validation (canonical table):**
@@ -209,11 +210,11 @@ Temporal Ogata (1988) MLE is fit **only** on train GK mainshocks 1973–2000; tr
 
 Hold-out train: **1024** GK mainshocks (1973–2000); hold-out catalog **1010** events, span **25 yr** (`results/etas_holdout_validation.json`).
 
-> **Permutation vs ETAS — different hypotheses (not in abstract).** Permutation rejects **Poisson event times** (p = 0.0001), not teleseismic chains. ETAS — consistency with catalog-calibrated temporal null (table above), not proof of no anomalies. Hold-out is a partial out-of-time check (§3.8), not spatial validation. Spatial linkage was not modeled.
+Hold-out is a partial out-of-time check (§3.5), not spatial validation. Spatial linkage was not modeled. Permutation diagnostic — Methods §3.3 only.
+
+> **Multiple testing (discovery search).** The 27 modern series derive from **142 sliding-window candidates** (→ 47 merged across epochs). **N = 27 is NOT multiplicity-corrected** for that search. Bonferroni α/142 ≈ **0.00035** exceeds the global permutation p = **0.0001** (1/10,001), so window-level permutation significance **does not survive** family-wise correction. We report **consistency with the in-sample temporal ETAS null** (table above), **not** “significant temporal clustering after multiplicity correction.” FDR on 47 merged series (45/47 post-hoc at q = 0.05) is **exploratory only** — not a primary claim (`results/fdr_windows.json`).
 
 **Declustering sensitivity** (`results/sensitivity_declustering.json`): GK, ZBZ, and none all yield **N = 27** at fixed gates (2 yr, mean GC > 1500 km, N ≥ 4). `global_series()` gates dominate; declustering affects upstream labels, not series count — a **liberal-detector red flag**, not proof that declustering is immaterial in general.
-
-**Multiple testing (FDR).** The 27 modern series derive from a search over **142** sliding-window candidates (→ 47 merged across epochs). **FDR correction for this 142-window search was not applied** to the 27 modern count. A conservative Bonferroni threshold α/142 ≈ **0.00035** exceeds the global permutation p = **0.0001** (1/10,001), so the permutation rejection does not survive family-wise correction for all windows explored. Post-hoc Benjamini–Hochberg on **N = 47** merged-series p-values (45/47 at q = 0.05) is exploratory only and **does not** correct the 27 modern candidates for the window search — **not** a discovery claim (`results/fdr_windows.json`).
 
 | Method | Removed | N_series |
 |--------|--------:|---------:|
@@ -280,7 +281,7 @@ The permutation test addresses a **different** null (independent event times) an
 
 We present a reproducible global M≥6.5 pipeline combining Baiesi–Paczuski η detection with catalog-calibrated temporal ETAS validation under explicit falsification framing. Primary inference is limited to **temporal** clustering in detector windows on the modern catalog; spatial linkage remains an open question.
 
-The implemented tests do **not** support a discovery claim for physically validated multi-regional global series. The contribution is methodological transparency and honest null-result bounds — not confirmation or definitive rejection of long-range teleseismic coupling.
+The implemented tests do **not** support a discovery claim for physically validated multi-regional global series, and we do **not** claim multiplicity-corrected temporal significance. The contribution is methodological transparency and honest null-result bounds — consistency with catalog-calibrated temporal ETAS, not confirmation or definitive rejection of long-range teleseismic coupling.
 
 ---
 

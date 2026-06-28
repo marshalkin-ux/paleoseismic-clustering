@@ -161,6 +161,8 @@ def build(s):
         "(modern window 1973\u20132026: 2,041). Baiesi\u2013Paczuski \u03b7 detector yields "
         "<b>27 algorithmic candidates</b>. <b>Catalog-calibrated temporal ETAS:</b> "
         "<b>p_ETAS=1.0</b> (in-sample null; full numbers \u2014 Sec. 4.1). "
+        "The title refers to <b>detection geometry</b> (\u03b7 + GC&gt;1500 km gates); "
+        "<b>inferential tests are temporal-only</b>. "
         "Spatial component not modeled. Pre-1900 NOAA \u2014 Supplementary S3.",
         s["abstract"]
     ))
@@ -174,48 +176,35 @@ def build(s):
 
     story += SEC("1. INTRODUCTION", s)
     story.append(Paragraph(
-        "Large earthquakes do not occur as independent Poisson events. Following the "
-        "1992 Landers earthquake (M<sub>w</sub> 7.3), Hill et al. [1993] documented "
-        "remotely triggered seismicity at distances exceeding 1,000 km. Brodsky &amp; "
-        "Prejean [2006] showed that surface waves can initiate swarms in volcanic "
-        "systems thousands of kilometres away. The 2004 Sumatra\u2013Andaman earthquake "
-        "(M<sub>w</sub> 9.1) was followed by elevated activity in distant regions "
-        "[Pollitz et al., 1998; Freed &amp; Lin, 2001].",
+        "Large earthquakes are not independent in time. Michael [2011] and Shearer &amp; "
+        "Stark [2012] found no anomalous global M\u22657 clustering beyond standard null "
+        "models, but neither tested multi-regional \u03b7-linkage at M\u22656.5 with "
+        "catalog-calibrated ETAS validation.",
         s["body"]
     ))
     story.append(Paragraph(
-        "However, the systematic nature of such correlations remains debated. Michael "
-        "[2011] found that M\u22657 clustering in 1995\u20132011 is statistically "
-        "indistinguishable from random fluctuations. Shearer &amp; Stark [2012] "
-        "reported no increase in global M\u22657 and M\u22658 rates after the 2004 "
-        "Sumatra event. Kagan &amp; Jackson [1999] confirmed elevated probability of "
-        "paired events at short separation without resolving long-range links.",
+        "<b>Two-phase design.</b> (1) <b>Detection phase</b> \u2014 spatiotemporal "
+        "<i>candidate search</i>: Baiesi\u2013Paczuski \u03b7 NN forest plus sliding-window "
+        "detector (mean GC&gt;1500 km, N\u22654, M\u22656.5). "
+        "(2) <b>Validation phase</b> \u2014 <i>temporal-only</i> catalog-calibrated ETAS MLE "
+        "plus hold-out; does <b>not</b> test spatial linkage (Ogata 1998 spatial kernel "
+        "\u2014 future work).",
         s["body"]
     ))
     story.append(Paragraph(
-        "The ETAS model [Ogata, 1988] reproduces regional aftershock clustering but "
-        "does not encode inter-plate correlations. The Baiesi\u2013Paczuski [2004] "
-        "metric and Zaliapin\u2013Ben-Zion extensions [2008, 2013] provide objective "
-        "cluster detection but typically use Euclidean distance, ignoring lithospheric "
-        "connectivity.",
+        "<b>Objective.</b> Bound what reproducible tests can establish about multi-regional "
+        "global series in M\u22656.5 (1973\u20132026). "
+        "<b>Scope.</b> Phase (1) yields detector candidates; phase (2) reports temporal "
+        "excess vs catalog-calibrated ETAS only. Bird (2003) explored early, "
+        "<b>excluded from primary analysis</b> (Supplementary S1).",
         s["body"]
     ))
     story.append(Paragraph(
-        "<b>Objective.</b> Test (and if warranted, <b>falsify</b>) the hypothesis that "
-        "physically meaningful multi-regional global series exist, with "
-        "<b>primary inference on the modern window (1973\u20132026)</b>, using complementary "
-        "null tests (permutation vs ETAS) and explicit detector liberalness assessment. "
-        "<b>Scope.</b> We combine nearest-neighbor clustering with heuristic tectonic hint "
-        "and ETAS validation; this complements global rate tests "
-        "(Michael 2011; Shearer &amp; Stark 2012) with a different \u03b7-linkage statistic "
-        "but does not supersede their conclusions.",
-        s["body"]
-    ))
-    story.append(Paragraph(
-        "<b>§1.1 Research question.</b> Do physically meaningful multi-regional global "
-        "series exist in M\u22656.5 (1973\u20132026)? (a) Permutation \u2192 see Sec. 4.1. "
+        "<b>\u00a71.1 Research question.</b> Do physically meaningful multi-regional global "
+        "series exist in M\u22656.5 (1973\u20132026)? (a) Permutation (diagnostic): Poisson "
+        "times rejected \u2014 expected with aftershocks (Methods). "
         "(b) ETAS MLE \u2192 see Sec. 4.1. "
-        "(c) Global-series hypothesis: <b>not tested</b> by temporal-only ETAS. "
+        "(c) Global-series hypothesis: <b>not tested (spatial ETAS open)</b>. "
         "(d) WLS (Supplementary S2): coupling illustration, not primary null.",
         s["body_ni"]
     ))
@@ -305,7 +294,9 @@ def build(s):
         "find_nearest_neighbor: causal argmin \u03b7, b=1.0, GC km. identify_clusters: "
         "Union\u2013Find, \u03b7\u2080 KDE. global_series: used[] mask, window [t<sub>i</sub>, t<sub>i</sub>+\u0394t), "
         "mean GC&gt;1500 km; merge 142\u219247. <b>Gates:</b> N\u22654; M\u22656.5; mean pairwise GC&gt;1500 km. "
-        "Flinn\u2013Engdahl zone count \u2014 diagnostic only.",
+        "Flinn\u2013Engdahl zone count \u2014 diagnostic only. "
+        "<b>Permutation diagnostic (not primary validation):</b> p=0.0001 (1/10,001), z=-6.17; "
+        "rejects Poisson event times only (Ogata 1988). BH post-hoc \u2014 exploratory only.",
         s["body_ni"]
     ))
 
@@ -331,11 +322,10 @@ def build(s):
     story += SSEC("3.1 Identified series", s)
     story.append(Paragraph(
         "Full historical analysis yields <b>47 detector candidates</b> (not validated "
-        "global series): 27 modern "
-        "(p \u2264 0.0001), 15 early instrumental (p = 0.007; pre-1960 incompleteness "
-        "caveat), 5 historical candidates (<b>not significant</b>, p = 0.46; "
-        "47 M\u22656.5 events pre-1900). 142 cluster candidates before filtering. "
-        "<i>Interpretation \u2014 Sec. 4.</i>",
+        "global series): 27 modern, 15 early instrumental (quality caveat), "
+        "5 historical candidates (not significant, p=0.46). "
+        "142 cluster candidates before filtering. "
+        "Primary validation \u2014 ETAS table below only.",
         s["body"]
     ))
 
@@ -354,10 +344,11 @@ def build(s):
     ]
     story.append(build_pdf_table(etas_rows, [0.42, 0.18, 0.18, 0.22], w, s))
     story.append(Paragraph(
-        "Permutation: p = 0.0001 (1/10,001), z = -6.17. Hold-out \u2014 partial out-of-time "
-        "check, not spatial validation. <b>Multiple testing:</b> the 27 modern series were "
-        "<b>not</b> FDR-corrected for the 142-window search; Bonferroni \u03b1/142 \u2248 0.00035 "
-        "&gt; p = 0.0001. BH post-hoc on N=47 \u2014 not a discovery claim.",
+        "Hold-out \u2014 partial out-of-time check, not spatial validation. "
+        "<b>Multiple testing:</b> 27 modern from 142 sliding windows; "
+        "<b>NOT multiplicity-corrected</b>. Bonferroni \u03b1/142 \u2248 0.00035 &gt; "
+        "permutation p=0.0001. We report <b>consistency with in-sample temporal ETAS</b>, "
+        "not corrected temporal significance. BH on N=47 \u2014 exploratory only.",
         s["body_ni"]
     ))
 

@@ -1466,10 +1466,10 @@
     <div class="hero-tag">Исследование · Июнь 2026</div>
     <h1>Глобальные сейсмические серии</h1>
     <p class="hero-sub" style="font-size:1.05rem; color:var(--accent); margin-bottom:0.5rem;">
-      <em>Временная ETAS-null и hold-out валидация</em> — детекция с пространственными воротами (GC&gt;1500&nbsp;км); валидация только temporal, spatial linkage не тестировалась.
+      <em>Временная ETAS-null и hold-out валидация</em> — двухфазный дизайн: детекция (η + GC&gt;1500&nbsp;км) → валидация только temporal; spatial linkage не тестировалась.
     </p>
     <p class="hero-sub">
-      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг. Линейная структура IMRAD: <strong>все числа — §4.1 статьи</strong>. Пространственная связанность <strong>не тестировалась</strong>.
+      Статистический анализ M&nbsp;≥&nbsp;6.5 за 1973–2026 гг. Primary validation — in-sample ETAS + hold-out в <strong>§4.1</strong>. Permutation — диагностика Methods, не заявление о значимости.
     </p>
     <p class="hero-author">
       Автор: <span>Ярослав Маршалкин</span> &nbsp;·&nbsp; Июнь 2026<br>
@@ -2113,14 +2113,11 @@
             <p>
               Калиброванные синтетические каталоги ETAS (локальная кластеризация и афтершоки «как в жизни»)
               дают в среднем те же <strong>~27</strong> групп; p<sub>ETAS</sub>=&nbsp;<strong>1,0</strong> —
-              наблюдаемое число неотличимо от такого фона.
+              наблюдаемое число согласовано с in-sample temporal null (§4.1).
+              Поиск по <strong>142</strong> окнам не скорректирован за кратность: мы <em>не</em> заявляем
+              multiplicity-corrected temporal significance.
             </p>
-            <p>
-              Перестановочный тест (p&nbsp;=&nbsp;0,0001) отвергает лишь модель случайных пуассоновских
-              <em>времён</em> — ожидаемо для любого реального каталога с афтершоками.
-              Дополнительной глобальной структуры сверх локальной кластеризации данные не показывают.
-            </p>
-            <span class="plain-chip">p<sub>ETAS</sub>&nbsp;=&nbsp;1,0 · permutation Poisson only</span>
+            <span class="plain-chip">p<sub>ETAS</sub>&nbsp;=&nbsp;1,0 · in-sample + hold-out (§4.1)</span>
           </div>
         </details>
 

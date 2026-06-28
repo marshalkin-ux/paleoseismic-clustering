@@ -4,14 +4,14 @@ Extended diagnostics excluded from the primary pipeline (see main text one-line 
 
 ## S1. Bird (2003) tectonic-path heuristic
 
-The Bird (2003) plate-boundary model was tested as an alternative distance metric for η-linkage: shortest path along plate boundaries (Dijkstra) with 1.5× great-circle fallback when no path exists.
+**Preliminary idea, not validated in this work.** The Bird (2003) plate-boundary model was explored as an alternative distance metric for η-linkage: shortest path along plate boundaries (Dijkstra) with 1.5× great-circle fallback when no path exists.
 
 **Audit (`scripts/generate_grl_figures.py::fig_tectonic_vs_euclidean`, 4987 random pairs):**
 - **98%** of pairs use the 1.5× GC fallback (no usable tectonic path).
 - Median Δlog₁₀η = **+0.28** on random pairs (tectonic > GC for most samples due to fallback inflation).
 - Only **~2%** of boundary-proximal pairs use a real Dijkstra path.
 
-**Conclusion:** excluded from primary pipeline; no synthetic benchmark in this work; comparison deferred to supplementary material and future work. Primary analysis uses great-circle distance only.
+**Conclusion:** excluded from primary analysis; no synthetic benchmark (ROC/precision-recall) in this work — comparison deferred to supplementary material and future work. Primary analysis uses great-circle distance only.
 
 Figures: `figures/grl/fig05_tectonic_vs_euclidean.png`, `fig07_tectonic_path_usage.png`.
 
