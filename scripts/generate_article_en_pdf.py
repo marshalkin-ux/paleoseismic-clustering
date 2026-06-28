@@ -349,7 +349,7 @@ def build(s):
 
     story.append(build_top5_table(s, w, lang="en"))
     story.append(Paragraph(
-        "Table 1. Top-5 detector candidates (not ETAS-validated physical series).",
+        "Table 1. Raw detector candidates — NOT validated series; illustrative only.",
         s["caption"]
     ))
     story.append(Spacer(1, 0.2 * cm))
@@ -390,45 +390,18 @@ def build(s):
     ))
     story.append(Spacer(1, 0.2 * cm))
 
-    story += SEC("4. DISCUSSION", s)
+    story += SEC("4. DISCUSSION AND CONCLUSIONS", s)
     story.append(Paragraph(
-        "<b>WLS negative control (App.\u00a0B):</b> p_ETAS = 1.0, mean = 27 = N_obs \u2014 "
-        "detector\u2013calibration coupling; supports negative conclusion; WLS invalid for "
-        "inference; temporal MLE is primary null.",
-        s["body_ni"]
-    ))
-    story.append(Paragraph(
-        "The detector is <b>liberal</b>: primary MLE ETAS p_ETAS = 1.0, mean = 27, N = 27. "
-        "Bird tectonic heuristic excluded; failure shows unsuitability, not evidence "
-        "against global series. Compatible with Michael (2011) and Shearer &amp; Stark (2012).",
+        "<b>Temporal ETAS (primary):</b> no anomalous temporal clustering beyond the null "
+        "(Sec. 3.1: N_obs=27, mean=27.0, p_ETAS=1.0). Spatial linkage not tested. "
+        "Permutation rejects Poisson times only. Detector liberal (142 windows). "
+        "Bird/WLS — supplementary only.",
         s["body"]
     ))
 
-    story += SEC("5. CONCLUSIONS", s)
-    story.append(Paragraph(
-        "Primary ETAS-null (temporal MLE): mean = 27.0, p_ETAS = 1.0. "
-        "No anomalous temporal clustering beyond catalog-calibrated ETAS; "
-        "spatial linkage among remote events remains open. "
-        "WLS control: p = 1.0 \u2014 coupling illustration, not primary null. "
-        "Permutation rejects Poisson times only (Ogata 1988).",
-        s["body"]
-    ))
-    for num, text in [
-        ("1.", "Heuristic with tectonic hint: 98% GC fallback \u2014 failed hypothesis test."),
-        ("2.", "47 detector candidates indistinguishable from ETAS null; "
-               "\u0394CFS/dynamic stress \u2014 future work only."),
-    ]:
-        story.append(Paragraph(f"<b>{num}</b>&nbsp;&nbsp;{text}", s["enum"]))
-        story.append(Spacer(1, 0.1 * cm))
+    story.append(PageBreak())
 
-    story += SSEC("5.5 ETAS null limitations", s)
-    story.append(Paragraph(
-        "Primary null uses <b>temporal MLE on GK mainshocks</b>; WLS \u2014 Appendix B "
-        "(negative control). See Sec. 5.6.",
-        s["body"]
-    ))
-
-    story += SSEC("5.6 Limitations", s)
+    # === APPENDICES ==============================================================
     story.append(Paragraph(
         "<b>We used temporal ETAS only; the spatial component was not modeled; "
         "conclusions are strictly limited to temporal clustering.</b> "

@@ -85,3 +85,46 @@ Literature H&S (p≤0,001, mean≈15,4) — **invalid primary null**, тольк
 | p-value schizophrenia | **Fixed** — three-layer logic |
 | GK reproducibility tables | **Added** — code-accurate |
 | Temporal vs spatial scope | **Fixed** — modest conclusions |
+
+---
+
+## STRUCTURE §1: Сократить Introduction, убрать Bird/WLS из основного текста
+
+**Замечание:** избыточное введение с превью методологии; Bird и WLS повторяются в Methods/Results/Discussion.
+
+**Исправлено:**
+- **Introduction (RU+EN):** problem statement + Michael (2011) + Shearer & Stark (2012); убрано превью ETAS/BP/Hill.
+- **Bird:** одна строка в Methods; детали → `paper/supplementary.md` §S1.
+- **WLS:** одна строка в Methods; детали → `paper/supplementary.md` §S2 / Appendix B.
+- Сноски вместо цепочек «см. Приложение A/B».
+
+---
+
+## STRUCTURE §2: Консолидировать Results (§4)
+
+**Замечание:** числа размазаны по Methods/Results/Discussion.
+
+**Исправлено — единый блок §4.1 (modern window):**
+- Каталог: 4418 CSV → 4267 M≥6.5; ~151 M<6.5; 2041 modern.
+- N_series=27; permutation p=0.0001 (cross-ref Methods only).
+- Primary ETAS MLE: N_obs=27, mean=27.0, p_ETAS=1.0 — **полностью один раз**.
+- GK/ZBZ/none sensitivity + объяснение (`sensitivity_declustering.json`).
+- Table 1: «raw detector candidates, NOT validated series; illustrative only».
+
+---
+
+## STRUCTURE §3: Объединить Discussion + Conclusions
+
+**Исправлено:** §5 «Discussion and conclusions» — 4 лаконичных пункта; §6 удалён; дубли p_ETAS/N=27 убраны из Discussion.
+
+---
+
+## STRUCTURE §4: Permutation vs ETAS nuance
+
+**Исправлено:** один явный блок в Results (§4.1), **не в abstract**; разные гипотезы (Poisson times vs calibrated temporal null).
+
+---
+
+## STRUCTURE §5: GK/ZBZ/none все N=27
+
+**Исправлено:** честное объяснение — `global_series()` gates доминируют; декластеризация влияет на upstream labels; liberal-detector red flag; cite `results/sensitivity_declustering.json`.

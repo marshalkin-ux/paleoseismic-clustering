@@ -490,7 +490,7 @@ def build(s):
 
     story.append(build_top5_table(s, PAGE_W - LM - RM, lang="ru"))
     story.append(P(
-        "Таблица 1. Топ-5 кандидатов детектора (не ETAS-валидированные физические серии).",
+        "Таблица 1. Сырые кандидаты детектора — НЕ валидированные серии; только иллюстрация.",
         s["caption"]
     ))
     story.append(Spacer(1, 0.2 * cm))
@@ -557,47 +557,15 @@ def build(s):
 
     story += SEC("4. Обсуждение и выводы", s)
     story.append(P(
-        "<b>WLS-контроль (Прил.\u00a0B):</b> p_ETAS=1,0, mean=27=N_obs \u2014 coupling "
-        "illustration; не первичная null. Primary temporal MLE \u2014 \u00a72.5\u20132.6 "
-        "\u0438 \u00a73.2.",
-        s["body_ni"]
-    ))
-    story.append(P(
-        "<b>Вывод:</b> детектор либерален; primary MLE p_ETAS=1,0, N=27. "
-        "Нет аномалий временной кластеризации; spatial linkage не тестировалась. "
-        "Тектоника Bird исключена; провал \u2014 непригодность метрики.",
+        "<b>Temporal ETAS (primary):</b> нет аномалий временной кластеризации сверх null "
+        "(§3.1: N_obs=27, mean=27,0, p_ETAS=1,0). Spatial linkage не тестировалась. "
+        "Permutation — только пуассоновские времена. Детектор либерален (142 окна). "
+        "Bird/WLS — supplementary only.",
         s["body"]
     ))
     story.append(PageBreak())
 
-    # === CONCLUSIONS ===========================================================
-    story += SEC("5. Выводы", s)
-    story.append(P(
-        "Детектор <b>либерален</b>. Primary temporal MLE ETAS: mean=27,0, "
-        "p_ETAS=1,0 \u2014 нет аномалий временной кластеризации сверх calibrated null. "
-        "Spatial linkage не тестировалась. "
-        "WLS-контроль: p=1,0 \u2014 coupling illustration, не первичная null. "
-        "Permutation отвергает пуассоновские времена (Ogata, 1988).",
-        s["body"]
-    ))
-    conclusions = [
-        ("1.", "Эвристическая метрика с tectonic hint: 98% GC-фолбэк — "
-               "failed hypothesis test."),
-        ("2.", "47 кандидатов детектора неотличимы от ETAS-null; "
-               "\u0394CFS — future work."),
-    ]
-    for num, text in conclusions:
-        story.append(P(f"<b>{num}</b>\u00a0\u00a0{text}", s["enum"]))
-        story.append(Spacer(1, 0.1 * cm))
-
-    story += SSEC("5.5 Ограничения ETAS-null", s)
-    story.append(P(
-        "Первичная null \u2014 <b>temporal MLE на GK mainshocks</b>; WLS \u2014 Приложение B "
-        "(negative control). См. \u00a75.6.",
-        s["body"]
-    ))
-
-    story += SSEC("5.6 Ограничения", s)
+    # === APPENDICES ==============================================================
     story.append(P(
         "<b>Использована только temporal ETAS; пространственный компонент не моделировался; "
         "выводы строго ограничены временной кластеризацией.</b> "
