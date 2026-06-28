@@ -13,10 +13,10 @@ PDF = ROOT / "paper" / "article_ru.pdf"
 
 # page index (0-based) -> substrings that must appear (round-3 layout)
 CHECKS: dict[int, list[str]] = {
-    0: ["Временная ETAS-null", "in-sample temporal null"],
+    0: ["Временная ETAS-null", "согласован с", "in-sample temporal null"],
     2: ["событий", "полноты"],
     3: ["Jaccard", "Штраф", "Компонент"],
-    4: ["Bonferroni", "пуассоновские", "Split"],
+    4: ["Bonferroni", "пуассоновские", "Валидация"],
     5: ["Параметр", "Сводная", "чувствительности"],
     6: ["Ограничение", "Supplementary"],
 }

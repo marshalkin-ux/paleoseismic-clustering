@@ -498,11 +498,11 @@ def build(s):
 
     story += SSSEC("3.2 ETAS validation (§4.1 canonical)", s)
     etas_rows = [
-        ["Split", "N_obs", "mean", "p_ETAS"],
-        ["In-sample (1973\u20132026)", "27", "27,0", "1,0"],
-        ["Train-calibrated hold-out (2001\u20132026)", "13", "13,0", "1,0"],
+        ["Валидация", "Период", "N_obs", "mean", "p_ETAS"],
+        ["In-sample MLE", "1973\u20132026", "27", "27,0", "1,0"],
+        ["Hold-out", "2001\u20132026", "13", "13,0", "1,0"],
     ]
-    story.append(build_pdf_table(etas_rows, [0.42, 0.18, 0.18, 0.22], PAGE_W - LM - RM, s))
+    story.append(build_pdf_table(etas_rows, [0.28, 0.22, 0.14, 0.14, 0.14], PAGE_W - LM - RM, s))
     story.append(P(
         "Permutation: p=0,0001 (1/10,001), z=\u22126,17. Hold-out \u2014 partial out-of-time check, "
         "not spatial validation. <b>Множественные сравнения:</b> 27 modern <b>не</b> FDR-скорректированы "
@@ -535,7 +535,7 @@ def build(s):
         ["Окно", "10\u00a0лет", "6"],
         ["b в \u03b7", "1.0 (BP 2004)", "27"],
         ["b в \u03b7", "0.911 (каталог)", "27"],
-        ["b overlap (наборы серий)", "Jaccard=1,0; upstream ~9,8%", "27"],
+        ["b overlap (full pipeline)", "Jaccard=1,0; upstream 8,2%", "27"],
         ["Декластеризация", "GK / ZBZ / none", "27 / 27 / 27"],
         ["min_events (strict)", "5 / 6 / 8", "27 / 27 / 27"],
         ["Каталог", "только GK-главные", "27"],
